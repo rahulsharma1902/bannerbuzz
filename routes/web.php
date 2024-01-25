@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\ShapeController;
 Route::get('login',[AuthenticationController::class,'index'])->name('login');
 Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
 
- 
+Route::group(['middleware' =>['admin']],function(){
 Route::get('admin-dashboard',[AdminDashController::class,'index']);
 
 
@@ -61,7 +61,7 @@ Route::get('admin-dashboard/shape-edit/{slug}',[ShapeController::class,'edit']);
 Route::post('admin-dashboard/shape-editProcc',[ShapeController::class,'editProcc']);
 Route::post('admin-dashboard/shape-remove/{slug}',[ShapeController::class,'editProcc']);
 
-
+});
 
 // FRONT LAYOUT
 
