@@ -1,6 +1,9 @@
 .ck{
     height: 10rem;
 }
+em{
+  cursor: pointer;
+}
 .custom-file{
     position:relative;
     font-family:arial;

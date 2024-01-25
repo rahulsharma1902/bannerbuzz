@@ -26,10 +26,10 @@ class ShapeController extends Controller
         ]);
         
         try {
-            $background = new Shape;
-            $background->name = $request->name;
-            $background->slug = $request->slug;
-            $background->category_id = $request->category_id;
+            $shape = new Shape;
+            $shape->name = $request->name;
+            $shape->slug = $request->slug;
+            $shape->category_id = $request->category_id;
             
 
             if ($request->hasFile('image')) {
@@ -38,12 +38,12 @@ class ShapeController extends Controller
                 $featuredImageName = 'shapes_'.rand(0,1000).time().'.'.$extension;;
                 $featuredImage->move(public_path().'/ShapeImage/',$featuredImageName);
                 
-                $background->image = $featuredImageName;    
+                $shape->image = $featuredImageName;    
             }else{
                 return redirect()->back()->with('error','Image Not Found !');
             }
 
-            $background->save();
+            $shape->save();
             return redirect()->back()->with('success','Shapes added succefully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while adding the Shape.');

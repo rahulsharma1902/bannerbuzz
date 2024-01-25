@@ -8,6 +8,10 @@ use App\Http\Controllers\Admin\BackgroundController;
 use App\Http\Controllers\Front\CustomizeController;
 use App\Http\Controllers\Admin\ShapeCategoryController;
 use App\Http\Controllers\Admin\ShapeController;
+use App\Http\Controllers\Admin\ClipArtController;
+use App\Http\Controllers\Admin\ClipArtCategoryController;
+use App\Http\Controllers\Admin\TemplateCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +64,30 @@ Route::get('admin-dashboard/shape-view',[ShapeController::class,'index']);
 Route::get('admin-dashboard/shape-edit/{slug}',[ShapeController::class,'edit']);
 Route::post('admin-dashboard/shape-editProcc',[ShapeController::class,'editProcc']);
 Route::post('admin-dashboard/shape-remove/{slug}',[ShapeController::class,'editProcc']);
+
+
+
+// clip Art Category  ClipArtCategoryController  ClipArtController
+Route::get('admin-dashboard/clipart-category',[ClipArtCategoryController::class,'index']);
+Route::post('admin-dashboard/clipart-category/save',[ClipArtCategoryController::class,'save']);
+Route::post('admin-dashboard/clipart-category/remove',[ClipArtCategoryController::class,'remove']);
+
+// clipart
+Route::get('admin-dashboard/clipart-add',[ClipArtController::class,'add']);
+Route::post('admin-dashboard/clipart-addProcc',[ClipArtController::class,'addProcc']);
+
+Route::get('admin-dashboard/clipart-view',[ClipArtController::class,'index']);
+Route::get('admin-dashboard/clipart-edit/{slug}',[ClipArtController::class,'edit']);
+Route::post('admin-dashboard/clipart-editProcc',[ClipArtController::class,'editProcc']);
+Route::post('admin-dashboard/clipart-remove/{slug}',[ClipArtController::class,'editProcc']);
+
+
+
+// template Category  TemplateCategoryController  TemplateController
+Route::get('admin-dashboard/template-category',[TemplateCategoryController::class,'index']);
+Route::post('admin-dashboard/template-category/save',[TemplateCategoryController::class,'save']);
+Route::post('admin-dashboard/template-category/remove',[TemplateCategoryController::class,'remove']);
+
 
 });
 

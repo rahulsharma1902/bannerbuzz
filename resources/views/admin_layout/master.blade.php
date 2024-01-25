@@ -85,6 +85,41 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Clip Art</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/clipart-category') }}" class="nk-menu-link"><span class="nk-menu-text">Clipart Category</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/clipart-add') }}" class="nk-menu-link"><span class="nk-menu-text">Clipart Add</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/clipart-view') }}" class="nk-menu-link"><span class="nk-menu-text">Clipart View</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Template</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/template-category') }}" class="nk-menu-link"><span class="nk-menu-text">Template Category</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/template-add') }}" class="nk-menu-link"><span class="nk-menu-text">Create Template</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/template-view') }}" class="nk-menu-link"><span class="nk-menu-text">Template View</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
                                
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
