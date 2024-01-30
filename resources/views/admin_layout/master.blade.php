@@ -23,6 +23,10 @@
     <!-- slick slider cdn -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
+    <!-- ckeditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/42.0.0/classic/ckeditor.js"></script>
+
+
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
@@ -120,6 +124,41 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Product </span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/product-category') }}" class="nk-menu-link"><span class="nk-menu-text">Product Category</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/product-category-list') }}" class="nk-menu-link"><span class="nk-menu-text"> Category list</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/product-type') }}" class="nk-menu-link"><span class="nk-menu-text"> Product Type </span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Accessories </span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/product-accessories') }}" class="nk-menu-link"><span class="nk-menu-text">Product Accessories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/add-accessories') }}" class="nk-menu-link"><span class="nk-menu-text"> Add Accessories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/accessories-type') }}" class="nk-menu-link"><span class="nk-menu-text"> Accessories Type </span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                              
                                
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
@@ -345,6 +384,15 @@
         });
         </script>
         <!-- script make theme dark mode dinamic end: -->
+        
+        <!--ckeditor script -->
+        <script>
+              ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+        </script>
 </body>
 
 </html>
