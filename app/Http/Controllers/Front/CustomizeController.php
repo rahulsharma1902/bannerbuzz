@@ -21,6 +21,6 @@ class CustomizeController extends Controller
         // echo '<pre>';
         // print_r($templates);
         // die();
-        return view('front.coutumizerTest.index',compact('templates','backgrounds','backgrounds'));
+        return view('front.coutumizerTest.index',compact('templates','backgrounds','backgrounds','cliparts','shapes'));
     }
 }

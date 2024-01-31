@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ShapeController;
 use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
+use App\Http\Controllers\Admin\TemplateController;
 
 
 /*
@@ -89,6 +90,13 @@ Route::post('admin-dashboard/template-category/save',[TemplateCategoryController
 Route::post('admin-dashboard/template-category/remove',[TemplateCategoryController::class,'remove']);
 
 
+
+// template create 
+Route::get('admin-dashboard/template-add',[TemplateController::class,'add']);
+Route::post('admin-dashboard/template-addProcc',[TemplateController::class,'addProcc']);
+Route::get('admin-dashboard/template/{slug}',[TemplateController::class,'template']);
+
+Route::get('admin-dashboard/template-view',[TemplateController::class,'index']);
 });
 
 // FRONT LAYOUT

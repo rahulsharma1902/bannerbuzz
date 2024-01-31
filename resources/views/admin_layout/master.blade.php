@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
     <!-- Page Title  -->
-    <title>Pro-Graphx  || Admin Dashboard</title>
+    <title>Bannerbuzz  || Admin Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link rel="stylesheet" href="{{ asset('admin-theme/coustam.css?ver=3.1.2') }}">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('/admin-dashboard') }}" class="logo-link nk-sidebar-logo">
-                       <h4 class="text-light">Pro-Graphx</h4>
+                       <h4 class="text-light">Bannerbuzz</h4>
                             <!-- <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
                             <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark"> -->
                         </a>
