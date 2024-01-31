@@ -108,6 +108,8 @@ Route::get('admin-dashboard/product-type-remove/{id}',[ProductController::class,
 // product Accessories AccessoriesController
 Route::get('admin-dashboard/product-accessories',[AccessoriesController::class,'index']);
 Route::get('admin-dashboard/add-accessories/{slug?}',[AccessoriesController::class,'addAccessorie']);
+Route::post('admin-dashboard/add-accessories-procc',[AccessoriesController::class,'AccessoriesAddprocc']);
+Route::get('admin-dashboard/remove-product-accessories/{id}',[AccessoriesController::class,'removeAccessories']);
 
 // Accessories type AccessoriesController
 Route::get('admin-dashboard/accessories-type',[AccessoriesController::class,'AccessoriesType']);

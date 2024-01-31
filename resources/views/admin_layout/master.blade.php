@@ -131,10 +131,10 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/product-category') }}" class="nk-menu-link"><span class="nk-menu-text">Product Category</span></a>
+                                            <a href="{{ url('admin-dashboard/product-category-list') }}" class="nk-menu-link"><span class="nk-menu-text">Product Category</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/product-category-list') }}" class="nk-menu-link"><span class="nk-menu-text"> Category list</span></a>
+                                            <a href="{{ url('admin-dashboard/product-category') }}" class="nk-menu-link"><span class="nk-menu-text">Add Category </span></a>
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('admin-dashboard/product-type') }}" class="nk-menu-link"><span class="nk-menu-text"> Product Type </span></a>

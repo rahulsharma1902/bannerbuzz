@@ -63,7 +63,7 @@
     <div class="nk-block nk-block-lg my-4">
         <div class="nk-block-head">
             <div class="nk-block-head-content d-flex justify-content-between">
-                <h4 class="nk-block-title">Product Types</h4>
+                <h4 class="nk-block-title">Accessorie Types</h4>
                 <button class="btn btn-primary" id="addnew">Add New</button>
             </div>
         </div>
@@ -88,48 +88,49 @@
                     </tr>
                 </thead>
                 <tbody> <?php $a = 1; ?>
-                    @if($accessories_type)
-                    @foreach ($accessories_type as $type)
-                        <tr class="tb-tnx-item">
-                            <td class="tb-tnx-id">
-                                <a href="#"><span>{{ $a++ ?? '' }}</span></a>
-                            </td>
-                            <td class="tb-tnx-info">
-                                <div class="tb-tnx-desc">
-                                    <input type="text" data-id="{{ $type->id ?? '' }}"
-                                        class="titleName name{{ $type->id ?? '' }}" value="{{ $type->name ?? '' }}" disabled
-                                        style="border: none; background: transparent;" />
-                                </div>
-                            </td>
-                            <td class="tb-tnx-info">
-                                <div class="tb-tnx-desc">
-                                    <input type="text" data-id="{{ $type->slug ?? '' }}"
-                                        class="titleName name{{ $type->slug ?? '' }}" value="{{ $type->slug ?? '' }}" disabled
-                                        style="border: none; background: transparent;" />
-                                </div>
-                            </td>
+                    @if ($accessories_type)
+                        @foreach ($accessories_type as $type)
+                            <tr class="tb-tnx-item">
+                                <td class="tb-tnx-id">
+                                    <a href="#"><span>{{ $a++ ?? '' }}</span></a>
+                                </td>
+                                <td class="tb-tnx-info">
+                                    <div class="tb-tnx-desc">
+                                        <input type="text" data-id="{{ $type->id ?? '' }}"
+                                            class="titleName name{{ $type->id ?? '' }}" value="{{ $type->name ?? '' }}"
+                                            disabled style="border: none; background: transparent;" />
+                                    </div>
+                                </td>
+                                <td class="tb-tnx-info">
+                                    <div class="tb-tnx-desc">
+                                        <input type="text" data-id="{{ $type->slug ?? '' }}"
+                                            class="titleName name{{ $type->slug ?? '' }}" value="{{ $type->slug ?? '' }}"
+                                            disabled style="border: none; background: transparent;" />
+                                    </div>
+                                </td>
 
-                            <td class="tb-tnx-action">
-                                <div class="dropdown drop">
-                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                        data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                        <ul class="link-list-plain">
-                                            {{-- <li><a href="#"
+                                <td class="tb-tnx-action">
+                                    <div class="dropdown drop">
+                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
+                                            data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                            <ul class="link-list-plain">
+                                                {{-- <li><a href="#"
                                                     data-id ="{{ $type->id ?? '' }}"data-name="{{ $type->name ?? '' }}"
                                                     data-slug ="{{ $type->slug ?? '' }}" class="edit-category">Edit</a></li> --}}
-                                            <li><a href="{{ url('admin-dashboard/remove-accessorie-type/'.$type->id) }}" data-id ="{{ $type->id ?? '' }}"
-                                                    class="remove-category">Remove</a></li>
-                                        </ul>
+                                                <li><a href="{{ url('admin-dashboard/remove-accessorie-type/' . $type->id) }}"
+                                                        data-id ="{{ $type->id ?? '' }}" class="remove-category">Remove</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-@endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
-        </div><!-- .card-preview -->
+        </div>
     </div>
     <script>
         $(document).ready(function() {
@@ -145,14 +146,14 @@
         });
     </script>
     <script>
-        $('#addnew').click(function(){
+        $('#addnew').click(function() {
             $('#addnewcard').removeClass('d-none');
             $(this).hide();
-           
+
         });
-         $('.close').click(function(){
-                $('#addnewcard').addClass('d-none');
-                $('#addnew').show();
-            });
+        $('.close').click(function() {
+            $('#addnewcard').addClass('d-none');
+            $('#addnew').show();
+        });
     </script>
 @endsection

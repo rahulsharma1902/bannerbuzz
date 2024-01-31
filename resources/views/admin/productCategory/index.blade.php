@@ -28,9 +28,8 @@
                             </div>
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="slug">Slug</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="slug" class="form-control" id="slug"
+                                        <input type="hidden" name="slug" class="form-control" id="slug"
                                             value="{{ $category->slug ?? '' }}" placeholder="slug">
                                     </div>
                                     @error('slug')
