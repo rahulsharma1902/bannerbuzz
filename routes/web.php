@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccessoriesController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Front\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -128,5 +129,6 @@ Route::get('admin-dashboard/remove-accessorie-type/{id}',[AccessoriesController:
 
 // FRONT LAYOUT
 
-Route::get('/',[CustomizeController::class,'index']);
+// Route::get('/',[CustomizeController::class,'index']);
+Route::get('/',[DashboardController::class,'index']);
 

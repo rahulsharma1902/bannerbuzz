@@ -16,7 +16,7 @@ class ProductAccessories extends Model
 
     public function sizes()
     {
-        return $this->hasMany(ProductSize::class,'product_id','id');
+        return $this->hasMany(AccessoriesSize::class,'accessories_id','id');
     }
 
 }

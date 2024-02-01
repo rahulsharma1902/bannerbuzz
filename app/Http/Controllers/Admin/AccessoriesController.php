@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AccessoriesType;
 use App\Models\ProductAccessories;
-use App\Models\ProductSize;
+use App\Models\AccessoriesSize;
 use Illuminate\Http\Request;
 
 class AccessoriesController extends Controller
@@ -105,8 +105,8 @@ class AccessoriesController extends Controller
             } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
                 for ($i = 0; $i < count($request->width); $i++) {
-                    $product_size = new ProductSize();
-                    $product_size->product_id = $type->id;
+                    $product_size = new AccessoriesSize();
+                    $product_size->accessories_id = $type->id;
                     $product_size->size_type = $request->size_type;
                     $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
                     $product_size->size_unit = $request->size_unit;
@@ -116,8 +116,8 @@ class AccessoriesController extends Controller
 
             } else {
                 for ($i = 0; $i < count($request->sizeValue); $i++) {
-                    $product_size = new ProductSize();
-                    $product_size->product_id = $type->id;
+                    $product_size = new AccessoriesSize();
+                    $product_size->accessories_id = $type->id;
                     $product_size->size_type = $request->size_type;
                     $product_size->size_value = $request->sizeValue[$i];
                     $product_size->size_unit = $request->size_unit;
@@ -159,8 +159,8 @@ class AccessoriesController extends Controller
             } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
                 for ($i = 0; $i < count($request->width); $i++) {
-                    $product_size = new ProductSize();
-                    $product_size->product_id = $type->id;
+                    $product_size = new AccessoriesSize();
+                    $product_size->accessories_id = $type->id;
                     $product_size->size_type = $request->size_type;
                     $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
                     $product_size->size_unit = $request->size_unit;
@@ -170,8 +170,8 @@ class AccessoriesController extends Controller
 
             } else {
                 for ($i = 0; $i < count($request->sizeValue); $i++) {
-                    $product_size = new ProductSize();
-                    $product_size->product_id = $type->id;
+                    $product_size = new AccessoriesSize();
+                    $product_size->accessories_id = $type->id;
                     $product_size->size_type = $request->size_type;
                     $product_size->size_value = $request->sizeValue[$i];
                     $product_size->size_unit = $request->size_unit;
@@ -189,7 +189,7 @@ class AccessoriesController extends Controller
         $product = ProductAccessories::find($id);
         if ($product) {
             $product->delete();
-            $productSizes = ProductSize::where('product_id', $id)->get();
+            $productSizes = AccessoriesSize::where('product_id', $id)->get();
             if ($productSizes) {
                 foreach ($productSizes as $size) {
                     $size->delete();
