@@ -137,8 +137,8 @@
                                 <select name="avilable_sizes" class="form-control" id="avilable_sizes">
                                     @foreach ($product->sizes as $size)
                                     <option value="{{ $size->id ?? '' }}">{{ $size->size_value ?? '' }}</option>
-                                    <input type="hidden" name="sizes[]" value="{{ $size->size_value ?? '' }}">
-                                    <input type="hidden" name="price[]" value="{{ $size->price ?? '' }}">
+                                    {{-- <input type="hidden" name="sizes[]" value="{{ $size->size_value ?? '' }}">
+                                    <input type="hidden" name="price[]" value="{{ $size->price ?? '' }}"> --}}
                                     @endforeach
                                 </select>
                             @endif
