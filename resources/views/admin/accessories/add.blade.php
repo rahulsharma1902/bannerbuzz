@@ -62,8 +62,13 @@
                                     <label class="form-label" for="Printed">Printed</label>
                                     <div class="from-control-wrap">
                                         <select name="Printed" class="form-control" id="Printed">
-                                            <option value="yes" <?php echo $product->is_printed ?? '' === 'yes' ? 'selected' : ''; ?>>Yes</option>
-                                            <option value="no" <?php echo $product->is_printed ?? '' === 'no' ? 'selected' : ''; ?>>NO</option>
+                                            @if(@isset($product))
+                                            <option value="yes" <?php echo $product->is_printed  === 'yes' ? 'selected' : ''; ?>>Yes</option>
+                                            <option value="no" <?php echo $product->is_printed  === 'no' ? 'selected' : ''; ?>>NO</option>
+                                            @else
+                                            <option value="yes">NO</option>
+                                            <option value="no">NO</option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
@@ -83,10 +88,10 @@
                                 More</button>
                         </div>
                         @if (isset($product->images))
-                            <div class="col-lg-12 d-flex align-items-center">
+                            <div class="col-lg-12 d-flex align-items-center flex-wrap">
                                 <?php $images = json_decode($product->images); ?>
                                 @foreach ($images as $image)
-                                    <div class="col-lg-3 d-block">
+                                    <div class="col-lg-3 mb-3">
                                         <div class="form-group d-flex align-items-center" style="width: 10rem;">
                                             <img src="{{ asset('accessories_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
@@ -94,6 +99,9 @@
                                             <span><button onclick="removeImage(this)" class="btn btn-dark">X</button></span>
                                         </div>
                                     </div>
+                                    @if (($loop->iteration) % 4 == 0)
+                                    <div class="w-100"></div>
+                                @endif
                                 @endforeach
                             </div>
                         @endif
@@ -127,22 +135,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group " id="sizeDiv"></div>
-                            <div id="add-button" class="p-2"  style="display: none">
+                            <div class="form-group p-1 " id="sizeDiv"></div>
+                            <span id="add-button" class="" style="display: none">
                                 <a class="primary-link" onclick="addmore()">+Add more</a>
-                            </div>
+                            </span>
                         </div>
-                        <div class="col-lg-6 p-3">
+                        {{-- <div class="col-lg-6 p-3">
                             @if (isset($product))
                                 <select name="avilable_sizes" class="form-control" id="avilable_sizes">
                                     @foreach ($product->sizes as $size)
-                                    <option value="{{ $size->id ?? '' }}">{{ $size->size_value ?? '' }}</option>
-                                    {{-- <input type="hidden" name="sizes[]" value="{{ $size->size_value ?? '' }}">
-                                    <input type="hidden" name="price[]" value="{{ $size->price ?? '' }}"> --}}
+                                        <option value="{{ $size->id ?? '' }}">{{ $size->size_value ?? '' }}</option>
+                                        <input type="hidden" name="sizes[]" value="{{ $size->size_value ?? '' }}">
+                                        <input type="hidden" name="price[]" value="{{ $size->price ?? '' }}">
                                     @endforeach
                                 </select>
                             @endif
-                        </div>
+                        </div> --}}
                         <div class="col-lg-6 p-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
@@ -232,7 +240,7 @@
 
 
                 var sizeinputdiv = document.createElement('div');
-                sizeinputdiv.className = 'form-control-wrap p-2';
+                sizeinputdiv.className = 'form-control-wrap col-lg-6 d-flex p-2 align-items-center';
 
                 if (sizeType === 'wh') {
                     var width = document.createElement('input');
@@ -243,9 +251,13 @@
                     width.required = true;
                     sizeinputdiv.appendChild(width);
 
+                    var span = document.createElement('span');
+                    span.textContent = 'X';
+                    sizeinputdiv.appendChild(span);
+
                     var height = document.createElement('input');
                     height.type = 'text';
-                    height.className = 'form-control';
+                    height.className = 'form-control ';
                     height.name = 'height[]';
                     height.placeholder = 'height';
                     height.required = true;
@@ -270,6 +282,10 @@
                     diameter.placeholder = 'diameter';
                     diameter.required = true;
                     sizeinputdiv.appendChild(diameter);
+
+                    var span = document.createElement('span');
+                    span.textContent = 'X';
+                    sizeinputdiv.appendChild(span);
 
                     var height = document.createElement('input');
                     height.type = 'text';
@@ -315,7 +331,7 @@
 
 
             var sizeinputdiv = document.createElement('div');
-            sizeinputdiv.className = 'form-control-wrap p-2';
+            sizeinputdiv.className = 'form-control-wrap col-lg-6 d-flex p-2 align-items-center';
 
             if (sizeType === 'wh') {
                 var width = document.createElement('input');
@@ -325,6 +341,10 @@
                 width.placeholder = 'width';
                 width.required = true;
                 sizeinputdiv.appendChild(width);
+
+                var span = document.createElement('span');
+                span.textContent = 'X';
+                sizeinputdiv.appendChild(span);
 
                 var height = document.createElement('input');
                 height.type = 'text';
@@ -353,6 +373,10 @@
                 diameter.placeholder = 'diameter';
                 diameter.required = true;
                 sizeinputdiv.appendChild(diameter);
+
+                var span = document.createElement('span');
+                span.textContent = 'X';
+                sizeinputdiv.appendChild(span);
 
                 var height = document.createElement('input');
                 height.type = 'text';

@@ -70,10 +70,10 @@
                                 More</button>
                         </div>
                         @if (isset($category->images))
-                            <div class="col-lg-12 d-flex align-items-center">
+                            <div class="col-lg-12 d-flex align-items-center flex-wrap">
                                 <?php $images = json_decode($category->images); ?>
                                 @foreach ($images as $image)
-                                    <div class="col-lg-3 d-block">
+                                    <div class="col-lg-3 mb-3">
                                         <div class="form-group d-flex align-items-center" style="width: 10rem;">
                                             <img src="{{ asset('category_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
@@ -81,6 +81,9 @@
                                             <span><button onclick="removeImage(this)" class="btn btn-dark">X</button></span>
                                         </div>
                                     </div>
+                                    @if (($loop->iteration) % 4 == 0)
+                                    <div class="w-100"></div>
+                                @endif
                                 @endforeach
                             </div>
                         @endif

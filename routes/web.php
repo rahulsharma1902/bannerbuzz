@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccessoriesController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Front\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Admin\ShapeController;
 use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
+use App\Http\Controllers\Admin\TemplateController;
 
 
 /*
@@ -94,6 +96,13 @@ Route::post('admin-dashboard/template-category/save',[TemplateCategoryController
 Route::post('admin-dashboard/template-category/remove',[TemplateCategoryController::class,'remove']);
 
 
+
+// template create 
+Route::get('admin-dashboard/template-add',[TemplateController::class,'add']);
+Route::post('admin-dashboard/template-addProcc',[TemplateController::class,'addProcc']);
+Route::get('admin-dashboard/template/{slug}',[TemplateController::class,'template']);
+
+Route::get('admin-dashboard/template-view',[TemplateController::class,'index']);
 // Product Category productCategoryController 
 Route::get('admin-dashboard/product-category/{slug?}',[ProductCategoryController::class,'index']);
 Route::post('admin-dashboard/product-category-addProcc',[ProductCategoryController::class,'AddCategory']);
@@ -120,5 +129,6 @@ Route::get('admin-dashboard/remove-accessorie-type/{id}',[AccessoriesController:
 
 // FRONT LAYOUT
 
-Route::get('/',[CustomizeController::class,'index']);
+// Route::get('/',[CustomizeController::class,'index']);
+Route::get('/',[DashboardController::class,'index']);
 

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name');
+            $table->string('slug');
             $table->longText('templateData')->nullable();
             $table->string('template_image')->nullable();
+            $table->integer('category_id')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
