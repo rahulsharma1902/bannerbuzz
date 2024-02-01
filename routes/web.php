@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AccessoriesController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -30,6 +33,8 @@ use App\Http\Controllers\Admin\TemplateController;
 // });
 Route::get('login',[AuthenticationController::class,'index'])->name('login');
 Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
+Route::get('register',[AuthenticationController::class,'register']);
+Route::post('registerProcc',[AuthenticationController::class,'registerProcc']);
 
 Route::group(['middleware' =>['admin']],function(){
 Route::get('admin-dashboard',[AdminDashController::class,'index']);
@@ -97,6 +102,28 @@ Route::post('admin-dashboard/template-addProcc',[TemplateController::class,'addP
 Route::get('admin-dashboard/template/{slug}',[TemplateController::class,'template']);
 
 Route::get('admin-dashboard/template-view',[TemplateController::class,'index']);
+// Product Category productCategoryController 
+Route::get('admin-dashboard/product-category/{slug?}',[ProductCategoryController::class,'index']);
+Route::post('admin-dashboard/product-category-addProcc',[ProductCategoryController::class,'AddCategory']);
+Route::get('admin-dashboard/product-category-remove/{slug}',[ProductCategoryController::class,'DeleteCategory']);
+Route::get('admin-dashboard/product-category-list',[ProductCategoryController::class,'CategoryList']);
+
+// Product Type ProductController 
+Route::get('admin-dashboard/product-type',[ProductController::class,'ProductType']);
+Route::post('admin-dashboard/product-type-addProcc',[ProductController::class,'AddProductType']);
+Route::get('admin-dashboard/product-type-remove/{id}',[ProductController::class,'removeProductType']);
+
+// product Accessories AccessoriesController
+Route::get('admin-dashboard/product-accessories',[AccessoriesController::class,'index']);
+Route::get('admin-dashboard/add-accessories/{slug?}',[AccessoriesController::class,'addAccessorie']);
+Route::post('admin-dashboard/add-accessories-procc',[AccessoriesController::class,'AccessoriesAddprocc']);
+Route::get('admin-dashboard/remove-product-accessories/{id}',[AccessoriesController::class,'removeAccessories']);
+
+// Accessories type AccessoriesController
+Route::get('admin-dashboard/accessories-type',[AccessoriesController::class,'AccessoriesType']);
+Route::post('admin-dashboard/accessories-type-addProcc',[AccessoriesController::class,'AddAccessorieType']);
+Route::get('admin-dashboard/remove-accessorie-type/{id}',[AccessoriesController::class,'removeType']);
+
 });
 
 // FRONT LAYOUT
