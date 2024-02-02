@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccessoriesType;
+use App\Models\Product;
 use App\Models\ProductCategories;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
@@ -10,37 +12,19 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function ProductType()
+    public function index()
     {
+        $products = Product::all();
+        return view('admin.products.index',compact('products'));
+    }
+
+    public function addProduct($slug = null)
+    {
+        $product = Product::where('slug',$slug)->first();
         $categories = ProductCategories::all();
-        $product_type = ProductType::all();
-        return view('admin.product_type.index',compact('categories','product_type'));
+        $product_types = ProductType::all();
+        $accessories_type = AccessoriesType::all();
+        return view('admin.products.add',compact('product','categories','product_types','accessories_type'));
     }
 
-    public function AddProductType(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required|unique:product_types',
-            
-        ]);
-        $product_type = new ProductType();
-        $product_type->name = $request->name;
-        $product_type->slug = $request->slug;
-        $product_type->category_id = $request->category;
-        $product_type->save();
-
-        return redirect()->back()->with('success','product Type added successfully');
-    }
-
-    public function removeProductType($id)
-    {
-        $product_type = ProductType::find($id);
-        if($product_type) {
-            $product_type->delete();
-            return redirect()->back()->with('success','product Type deleted successfully');
-        } else {
-            return redirect()->back()->with('error','Invalid product type for deletion');
-        }
-    }
 }

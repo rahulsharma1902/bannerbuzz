@@ -53,9 +53,8 @@
                                 <button type="button" class="btn btn-primary  add-new d-none" id="add_new"><span>Add
                                         New</span></button>
                             </div>
+                        </form>
                     </div>
-                    </form>
-
                 </div>
             </div>
         </div>
@@ -134,7 +133,7 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('#name').on('keyup', function() {
+            $('#name').on('input', function() {
                 let name = $(this).val().toLowerCase();
                 let slug = name.replace(/\s+/g, "-");
                 slug = slug.replace(/\//g, "-");

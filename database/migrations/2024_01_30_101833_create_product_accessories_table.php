@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('images')->nullable();
             $table->string('is_printed')->nullable();
             $table->text('description')->nullable();
+            $table->text('price')->nullable();
+            $table->text('quantity')->nullable();
             $table->json('additional_info')->nullable();
             $table->integer('status')->default(true);
             $table->timestamps();

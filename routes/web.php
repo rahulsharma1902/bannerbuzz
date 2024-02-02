@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\AccessoriesController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Front\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -16,7 +15,7 @@ use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
-
+use App\Http\Controllers\Front\ViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,16 +102,21 @@ Route::post('admin-dashboard/template-addProcc',[TemplateController::class,'addP
 Route::get('admin-dashboard/template/{slug}',[TemplateController::class,'template']);
 
 Route::get('admin-dashboard/template-view',[TemplateController::class,'index']);
+
 // Product Category productCategoryController 
 Route::get('admin-dashboard/product-category/{slug?}',[ProductCategoryController::class,'index']);
 Route::post('admin-dashboard/product-category-addProcc',[ProductCategoryController::class,'AddCategory']);
 Route::get('admin-dashboard/product-category-remove/{slug}',[ProductCategoryController::class,'DeleteCategory']);
 Route::get('admin-dashboard/product-category-list',[ProductCategoryController::class,'CategoryList']);
 
-// Product Type ProductController 
-Route::get('admin-dashboard/product-type',[ProductController::class,'ProductType']);
-Route::post('admin-dashboard/product-type-addProcc',[ProductController::class,'AddProductType']);
-Route::get('admin-dashboard/product-type-remove/{id}',[ProductController::class,'removeProductType']);
+// Product Type ProductCategoryController 
+Route::get('admin-dashboard/product-type',[ProductCategoryController::class,'ProductType']);
+Route::post('admin-dashboard/product-type-addProcc',[ProductCategoryController::class,'AddProductType']);
+Route::get('admin-dashboard/product-type-remove/{id}',[ProductCategoryController::class,'removeProductType']);
+
+// Product routes ProductController
+Route::get('admin-dashboard/products',[ProductController::class,'index']);
+Route::get('admin-dashboard/add-product/{slug?}',[ProductController::class,'addProduct']);
 
 // product Accessories AccessoriesController
 Route::get('admin-dashboard/product-accessories',[AccessoriesController::class,'index']);
@@ -130,5 +134,6 @@ Route::get('admin-dashboard/remove-accessorie-type/{id}',[AccessoriesController:
 // FRONT LAYOUT
 
 // Route::get('/',[CustomizeController::class,'index']);
-Route::get('/',[DashboardController::class,'index']);
+Route::get('/',[ViewController::class,'index']);
+Route::get('/shop',[ViewController::class,'shop']);
 

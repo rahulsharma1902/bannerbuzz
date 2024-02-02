@@ -108,7 +108,7 @@
 <script>
 
 $(document).ready(function(){
-    $('#name').on('keyup', function(){
+    $('#name').on('input', function(){
         let name = $(this).val().toLowerCase();
         let slug = name.replace(/\s+/g, "-");
         slug = slug.replace(/\//g, "-");

@@ -17,7 +17,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name">Category Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="name" onload="convertToSlug(this.value)"
+                                        <input type="text" name="name" oninput="convertToSlug(this.value)" onload="convertToSlug(this.value)"
                                             onkeyup="convertToSlug(this.value)" class="form-control" id="name"
                                             value="{{ $category->name ?? '' }}" placeholder="Name">
                                     </div>

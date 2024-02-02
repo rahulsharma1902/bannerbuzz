@@ -16,7 +16,7 @@
                         <div class="d-flex">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Accessories Name</label>
+                                    <label class="form-label" for="name">Product Name</label>
                                     <div class="form-control-wrap">
                                         <input type="text" name="name" oninput="convertToSlug(this.value)"
                                             onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)"
@@ -69,6 +69,40 @@
                                             @else
                                                 <option value="yes">Yes</option>
                                                 <option value="no">NO</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="col-lg-6 p-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="parent-category"> Category</label>
+                                    <div class="from-control-wrap">
+                                        <select name="category_id" class="form-control" id="category">
+                                            @if (isset($categories))
+                                                @foreach ($categories as $cat)
+                                                    <option value="{{ $cat->id ?? '' }}"
+                                                        @if ($category !== null) @if ($category->parent_category == $cat->id) Selected @endif
+                                                        @endif> {{ $cat->name ?? '' }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 p-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="parent-category"> Product Type</label>
+                                    <div class="from-control-wrap">
+                                        <select name="product_type_id" class="form-control" id="product_type">
+                                            @if (isset($product_types))
+                                                @foreach ($product_types as $type)
+                                                    <option value="{{ $type->id ?? '' }}"
+                                                        @if ($product !== null) @if ($product->product_type_id == $type->id) Selected @endif
+                                                        @endif> {{ $type->name ?? '' }}</option>
+                                                @endforeach
                                             @endif
                                         </select>
                                     </div>

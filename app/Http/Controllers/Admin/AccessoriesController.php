@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccessoriesType;
+use App\Models\Entities;
 use App\Models\ProductAccessories;
 use App\Models\AccessoriesSize;
 use Illuminate\Http\Request;
@@ -18,9 +19,10 @@ class AccessoriesController extends Controller
 
     public function addAccessorie($slug = null)
     {
+        $entities = Entities::all();
         $product = ProductAccessories::where('slug', $slug)->first();
         $accessories_type = AccessoriesType::all();
-        return view('admin.accessories.add', compact('accessories_type', 'product'));
+        return view('admin.accessories.add', compact('accessories_type', 'product','entities'));
     }
 
     public function AccessoriesType()
@@ -33,7 +35,7 @@ class AccessoriesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'required|unique:accessories_types'
+            'slug' => 'required|unique:accessories_types,slug'
         ]);
 
         $type = new AccessoriesType();
@@ -69,12 +71,17 @@ class AccessoriesController extends Controller
 
     public function AccessoriesAddprocc(Request $request)
     {
+        // echo '<pre>';
+        // print_r($request->all());
+        // die();
+        // dd($request->all());
         if ($request->id) {
             $request->validate([
                 'name' => 'required',
-                'slug' => 'required',
+                'slug' => 'required|unique:product_accessories,id,'.$request->id,
                 // 'images' => 'required',
                 'accessorie_type' => 'required',
+                'default_price' => 'required|numeric'
             ]);
             $type = ProductAccessories::find($request->id);
             $type->name = $request->name;
@@ -82,6 +89,7 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->description;
+            $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -100,29 +108,31 @@ class AccessoriesController extends Controller
             }
             $type->save();
 
-            if ($request->size_type === 'none') {
+            if ($request->width !== null || $request->sizeValue !== null) {
+                if ($request->size_type === 'none') {
 
-            } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
+                } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
-                for ($i = 0; $i < count($request->width); $i++) {
-                    $product_size = new AccessoriesSize();
-                    $product_size->accessories_id = $type->id;
-                    $product_size->size_type = $request->size_type;
-                    $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
-                    $product_size->size_unit = $request->size_unit;
-                    $product_size->price = $request->price[$i];
-                    $product_size->save();
-                }
+                    for ($i = 0; $i < count($request->width); $i++) {
+                        $product_size = new AccessoriesSize();
+                        $product_size->accessories_id = $type->id;
+                        $product_size->size_type = $request->size_type;
+                        $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
+                        $product_size->size_unit = $request->size_unit;
+                        $product_size->price = $request->price[$i];
+                        $product_size->save();
+                    }
 
-            } else {
-                for ($i = 0; $i < count($request->sizeValue); $i++) {
-                    $product_size = new AccessoriesSize();
-                    $product_size->accessories_id = $type->id;
-                    $product_size->size_type = $request->size_type;
-                    $product_size->size_value = $request->sizeValue[$i];
-                    $product_size->size_unit = $request->size_unit;
-                    $product_size->price = $request->price[$i];
-                    $product_size->save();
+                } else {
+                    for ($i = 0; $i < count($request->sizeValue); $i++) {
+                        $product_size = new AccessoriesSize();
+                        $product_size->accessories_id = $type->id;
+                        $product_size->size_type = $request->size_type;
+                        $product_size->size_value = $request->sizeValue[$i];
+                        $product_size->size_unit = $request->size_unit;
+                        $product_size->price = $request->price[$i];
+                        $product_size->save();
+                    }
                 }
             }
 
@@ -130,9 +140,10 @@ class AccessoriesController extends Controller
         } else {
             $request->validate([
                 'name' => 'required',
-                'slug' => 'required',
+                'slug' => 'required|unique:product_accessories,slug',
                 'images' => 'required',
                 'accessorie_type' => 'required',
+                'default_price' => 'required|numeric'
             ]);
 
             $type = new ProductAccessories();
@@ -141,6 +152,7 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->description;
+            $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -154,32 +166,33 @@ class AccessoriesController extends Controller
             $type->images = json_encode($images);
             $type->save();
 
-            if ($request->size_type === 'none') {
+            if ($request->width !== null || $request->sizeValue !== null) {
+                if ($request->size_type === 'none') {
 
-            } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
+                } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
-                for ($i = 0; $i < count($request->width); $i++) {
-                    $product_size = new AccessoriesSize();
-                    $product_size->accessories_id = $type->id;
-                    $product_size->size_type = $request->size_type;
-                    $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
-                    $product_size->size_unit = $request->size_unit;
-                    $product_size->price = $request->price[$i];
-                    $product_size->save();
-                }
+                    for ($i = 0; $i < count($request->width); $i++) {
+                        $product_size = new AccessoriesSize();
+                        $product_size->accessories_id = $type->id;
+                        $product_size->size_type = $request->size_type;
+                        $product_size->size_value = $request->width[$i] . 'X' . $request->height[$i];
+                        $product_size->size_unit = $request->size_unit;
+                        $product_size->price = $request->price[$i];
+                        $product_size->save();
+                    }
 
-            } else {
-                for ($i = 0; $i < count($request->sizeValue); $i++) {
-                    $product_size = new AccessoriesSize();
-                    $product_size->accessories_id = $type->id;
-                    $product_size->size_type = $request->size_type;
-                    $product_size->size_value = $request->sizeValue[$i];
-                    $product_size->size_unit = $request->size_unit;
-                    $product_size->price = $request->price[$i];
-                    $product_size->save();
+                } else {
+                    for ($i = 0; $i < count($request->sizeValue); $i++) {
+                        $product_size = new AccessoriesSize();
+                        $product_size->accessories_id = $type->id;
+                        $product_size->size_type = $request->size_type;
+                        $product_size->size_value = $request->sizeValue[$i];
+                        $product_size->size_unit = $request->size_unit;
+                        $product_size->price = $request->price[$i];
+                        $product_size->save();
+                    }
                 }
             }
-
             return redirect()->back()->with('success', 'data added successfully');
         }
     }

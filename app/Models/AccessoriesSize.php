@@ -8,5 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class AccessoriesSize extends Model
 {
     use HasFactory;
-
 }
