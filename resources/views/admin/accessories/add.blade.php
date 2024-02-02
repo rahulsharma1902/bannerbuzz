@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-lg-6 p-3">
                             <div class="form-group" id="file-input">
                                 <label class="form-label" for="image">Image</label>
@@ -136,11 +136,11 @@
                                     </div>
                                 </div> --}}
                             </div>
-                            <div id="default_price" class="col-lg-6" style="padding-left: 1.5rem">
+                            <div id="default_price" class="col-lg-4" style="padding-left: 1.5rem">
                                 <div class="form-group">
                                     <label class="form-label" for="default_price"> Price</label>
-                                    <div class="form-control-wrap " >
-                                        <input type="text" name="default_price" class="form-control" 
+                                    <div class="form-control-wrap ">
+                                        <input type="text" name="default_price" class="form-control"
                                             value="{{ $product->price ?? '' }}" placeholder="Default Price">
                                     </div>
                                     @error('default_price')
@@ -155,7 +155,53 @@
                                 </span>
                             </div>
                         </div>
-
+                        <h5>Add Product Variation(optional)</h5>
+                        <div id="parent_div" class="col-lg-12 p-1 ">
+                            <div id="container_div" class="container_div form-group col-lg-12 d-flex">
+                                <div class="col-lg-3 p-2">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="variation_name[]"
+                                                class="variation_name form-control" id="variation_name"
+                                                placeholder="Enter Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 p-2">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <select name="entity_id[]" class="entity_id form-control" id="entity_id">
+                                                @if ($entities)
+                                                    @foreach ($entities as $entity)
+                                                        <option value="{{ $entity->id }}">{{ $entity->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="variation_value_div">
+                                    <div id="input_div" class="input_div form-group col-lg-12  d-flex">
+                                        <div class="form-control-wrap col-lg-6 p-2">
+                                            <input type="text" name="variation_value[]"
+                                                class="variation_value form-control" placeholder="Value">
+                                        </div>
+                                        <div class="form-control-wrap col-lg-6 p-2">
+                                            <input type="text" name="variation_price[]"
+                                                class="variation_price form-control" placeholder="Price">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-control-wrap col-lg-2" style="margin-left: 2rem">
+                                    <a class="primary-link" style="cursor: pointer" onclick="cloneInput(this)">Add
+                                        More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-control-wrap col-lg-3">
+                            <a class="btn btn-primary" style="cursor: pointer" onclick="cloneParentDiv()">Add
+                                More variation</a>
+                        </div>
                         <div class="col-lg-6 p-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
@@ -176,172 +222,71 @@
     <!-- </div> -->
 
     <script>
-
-        //:::::::::: converting slug :::::::::::::::::::::::::::::::::::::::://
+        //:::::::::::::: converting slug :::::::::::::::::::::::::::::::::://
         function convertToSlug(str) {
             str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
-                .toLowerCase();
-            str = str.replace(/^\s+|\s+$/gm, '');
-            str = str.replace(/\s+/g, '-');
-            $('#slug').val(str);
-        }
+            .toLowerCase();
+        str = str.replace(/^\s+|\s+$/gm, '');
+        str = str.replace(/\s+/g, '-');
+        $('#slug').val(str);
+    }
 
-        //:::::::::::::::: add input fields for image  :::::::::::::::::::::::://
-        function addFileInput() {
-            var container = document.getElementById('file-input');
+    //:::::::::::::::: add input fields for image  :::::::::::::::::::::::://
+    function addFileInput() {
+        var container = document.getElementById('file-input');
 
-            var inputdiv = document.createElement('div');
-            inputdiv.className = 'form-control-wrap p-2 d-flex align-items-center';
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.name = 'images[]';
-            input.className = 'form-control';
+        var inputdiv = document.createElement('div');
+        inputdiv.className = 'form-control-wrap p-2 d-flex align-items-center';
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.name = 'images[]';
+        input.className = 'form-control';
 
-            var button = document.createElement('button');
-            button.className = 'btn btn-dark';
-            button.textContent = 'X';
-            button.type = 'button';
-            button.onclick = function() {
-                remove(inputdiv);
-            };
+        var button = document.createElement('button');
+        button.className = 'btn btn-dark';
+        button.textContent = 'X';
+        button.type = 'button';
+        button.onclick = function() {
+            remove(inputdiv);
+        };
 
-            inputdiv.appendChild(input);
-            inputdiv.appendChild(button);
-            container.appendChild(inputdiv);
-        }
+        inputdiv.appendChild(input);
+        inputdiv.appendChild(button);
+        container.appendChild(inputdiv);
+    }
 
-        // removing image fields
-        function remove(element) {
-            element.parentNode.removeChild(element);
-        }
+    // removing image fields
+    function remove(element) {
+        element.parentNode.removeChild(element);
+    }
 
-        // removing image 
-        function removeImage(button) {
-            var parentDiv = button.parentNode.parentNode;
-            parentDiv.parentNode.removeChild(parentDiv);
-        }
-        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+    // removing image 
+    function removeImage(button) {
+        var parentDiv = button.parentNode.parentNode;
+        parentDiv.parentNode.removeChild(parentDiv);
+    }
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
-        //:::::::::::::::::::::: Creating input fields for size  :::::::::::::::::::::::::::::://
-        var sizeDataCreated = false;
+    //:::::::::::::::::::::: Creating input fields for size  :::::::::::::::::::::::::::::://
+    var sizeDataCreated = false;
 
-        function addSize() {
-            var sizeType = document.getElementById('size_type').value;
-            var sizeDiv = document.getElementById('sizeDiv');
-            var btn = document.getElementById('add-button');
-            var default_price = document.getElementById('default_price');
+    function addSize() {
+        var sizeType = document.getElementById('size_type').value;
+        var sizeDiv = document.getElementById('sizeDiv');
+        var btn = document.getElementById('add-button');
+        var default_price = document.getElementById('default_price');
 
-            if (!sizeDataCreated) {
-                default_price.style.display = 'none';
-                btn.style.display = 'block';
-                createSizeData();
-                sizeDataCreated = true;
-            } else {
-                var datadiv = document.getElementsByClassName('data-div');
-                var datadivArray = Array.from(datadiv);
-                datadivArray.forEach(function(element) {
-                    element.remove();
-                });
-                var valueDiv = document.createElement('div');
-                valueDiv.className = 'data-div form-group col-lg-12 d-flex align-items-center';
-                valueDiv.id = 'data-div';
-
-
-                var sizeinputdiv = document.createElement('div');
-                sizeinputdiv.className = 'form-control-wrap col-lg-5 d-flex p-1 align-items-center';
-
-                if (sizeType === 'wh') {
-                    var width = document.createElement('input');
-                    width.type = 'text';
-                    width.className = 'form-control';
-                    width.name = 'width[]';
-                    width.placeholder = 'width(ft)';
-                    width.required = true;
-                    sizeinputdiv.appendChild(width);
-
-                    var span = document.createElement('span');
-                    span.textContent = 'X';
-                    sizeinputdiv.appendChild(span);
-
-                    var height = document.createElement('input');
-                    height.type = 'text';
-                    height.className = 'form-control ';
-                    height.name = 'height[]';
-                    height.placeholder = 'height(ft)';
-                    height.required = true;
-
-                    sizeinputdiv.appendChild(height);
-                    valueDiv.appendChild(sizeinputdiv);
-                } else if (sizeType === 'length' || sizeType === 'Custom') {
-                    var sizeinput = document.createElement('input');
-                    sizeinput.type = 'text';
-                    sizeinput.className = 'form-control ml-3';
-                    sizeinput.name = 'sizeValue[]';
-                    sizeinput.placeholder = 'value (ft)';
-                    sizeinput.required = true;
-
-                    sizeinputdiv.appendChild(sizeinput);
-                    valueDiv.appendChild(sizeinputdiv);
-                } else if (sizeType === 'DH') {
-                    var diameter = document.createElement('input');
-                    diameter.type = 'text';
-                    diameter.className = 'form-control';
-                    diameter.name = 'width[]';
-                    diameter.placeholder = 'diameter (ft)';
-                    diameter.required = true;
-                    sizeinputdiv.appendChild(diameter);
-
-                    var span = document.createElement('span');
-                    span.textContent = 'X';
-                    sizeinputdiv.appendChild(span);
-
-                    var height = document.createElement('input');
-                    height.type = 'text';
-                    height.className = 'form-control';
-                    height.name = 'height[]';
-                    height.placeholder = 'height (ft)';
-                    height.required = true;
-
-                    sizeinputdiv.appendChild(height);
-                    valueDiv.appendChild(sizeinputdiv);
-                }
-
-                if (sizeType === 'none') {
-                    sizeDiv.appendChild(valueDiv);
-                    btn.style.display = 'none';
-                    default_price.style.display = 'block';
-                } else {
-                    default_price.style.display = 'none';
-                    btn.style.display = 'block';
-                    var pricediv = document.createElement('div');
-                    pricediv.className = 'form-control-wrap col-lg-3 p-1';
-
-                    var priceinput = document.createElement('input');
-                    priceinput.type = 'text';
-                    priceinput.className = 'form-control';
-                    priceinput.name = 'price[]';
-                    priceinput.placeholder = 'Enter Price';
-                    priceinput.required = true;
-                    pricediv.appendChild(priceinput);
-                    var removeLink = document.createElement('a');
-                    removeLink.className = 'primary-link d-block float-right';
-                    removeLink.textContent = 'Remove';
-                    removeLink.style.cursor = 'pointer';
-                    removeLink.onclick = function() {
-                        valueDiv.remove();
-                    };
-
-                    valueDiv.appendChild(pricediv);
-                    valueDiv.appendChild(removeLink);
-                    sizeDiv.appendChild(valueDiv);
-                }
-
-            }
-        }
-
-        function createSizeData() {
-            var sizeType = document.getElementById('size_type').value;
-            var sizeDiv = document.getElementById('sizeDiv');
+        if (!sizeDataCreated) {
+            default_price.style.display = 'none';
+            btn.style.display = 'block';
+            createSizeData();
+            sizeDataCreated = true;
+        } else {
+            var datadiv = document.getElementsByClassName('data-div');
+            var datadivArray = Array.from(datadiv);
+            datadivArray.forEach(function(element) {
+                element.remove();
+            });
             var valueDiv = document.createElement('div');
             valueDiv.className = 'data-div form-group col-lg-12 d-flex align-items-center';
             valueDiv.id = 'data-div';
@@ -365,7 +310,7 @@
 
                 var height = document.createElement('input');
                 height.type = 'text';
-                height.className = 'form-control';
+                height.className = 'form-control ';
                 height.name = 'height[]';
                 height.placeholder = 'height(ft)';
                 height.required = true;
@@ -377,7 +322,7 @@
                 sizeinput.type = 'text';
                 sizeinput.className = 'form-control ml-3';
                 sizeinput.name = 'sizeValue[]';
-                sizeinput.placeholder = 'Enter value(ft)';
+                sizeinput.placeholder = 'value (ft)';
                 sizeinput.required = true;
 
                 sizeinputdiv.appendChild(sizeinput);
@@ -387,7 +332,7 @@
                 diameter.type = 'text';
                 diameter.className = 'form-control';
                 diameter.name = 'width[]';
-                diameter.placeholder = 'diameter(ft)';
+                diameter.placeholder = 'diameter (ft)';
                 diameter.required = true;
                 sizeinputdiv.appendChild(diameter);
 
@@ -399,40 +344,263 @@
                 height.type = 'text';
                 height.className = 'form-control';
                 height.name = 'height[]';
-                height.placeholder = 'height(ft)';
+                height.placeholder = 'height (ft)';
                 height.required = true;
 
                 sizeinputdiv.appendChild(height);
                 valueDiv.appendChild(sizeinputdiv);
             }
-            var pricediv = document.createElement('div');
-            pricediv.className = 'form-control-wrap col-lg-3 p-1';
 
-            var priceinput = document.createElement('input');
-            priceinput.type = 'text';
-            priceinput.className = 'form-control';
-            priceinput.name = 'price[]';
-            priceinput.placeholder = 'Enter Price';
-            priceinput.required = true;
-            pricediv.appendChild(priceinput);
+            if (sizeType === 'none') {
+                sizeDiv.appendChild(valueDiv);
+                btn.style.display = 'none';
+                default_price.style.display = 'block';
+            } else {
+                default_price.style.display = 'none';
+                btn.style.display = 'block';
+                var pricediv = document.createElement('div');
+                pricediv.className = 'form-control-wrap col-lg-3 p-1';
 
-            var removeLink = document.createElement('a');
-            removeLink.className = 'primary-link d-block float-right ';
-            removeLink.textContent = 'Remove';
-            removeLink.style.cursor = 'pointer';
-            removeLink.onclick = function() {
-                valueDiv.remove();
-            };
+                var priceinput = document.createElement('input');
+                priceinput.type = 'text';
+                priceinput.className = 'form-control';
+                priceinput.name = 'price[]';
+                priceinput.placeholder = 'Enter Price';
+                priceinput.required = true;
+                pricediv.appendChild(priceinput);
+                var removeLink = document.createElement('a');
+                removeLink.className = 'primary-link d-block float-right';
+                removeLink.textContent = 'Remove';
+                removeLink.style.cursor = 'pointer';
+                removeLink.onclick = function() {
+                    valueDiv.remove();
+                };
 
-            valueDiv.appendChild(pricediv);
-            valueDiv.appendChild(removeLink);
-            sizeDiv.appendChild(valueDiv);
+                valueDiv.appendChild(pricediv);
+                valueDiv.appendChild(removeLink);
+                sizeDiv.appendChild(valueDiv);
+            }
 
         }
+    }
 
-        function addmore() {
-            createSizeData();
+    function createSizeData() {
+        var sizeType = document.getElementById('size_type').value;
+        var sizeDiv = document.getElementById('sizeDiv');
+        var valueDiv = document.createElement('div');
+        valueDiv.className = 'data-div form-group col-lg-12 d-flex align-items-center';
+        valueDiv.id = 'data-div';
+
+
+        var sizeinputdiv = document.createElement('div');
+        sizeinputdiv.className = 'form-control-wrap col-lg-5 d-flex p-1 align-items-center';
+
+        if (sizeType === 'wh') {
+            var width = document.createElement('input');
+            width.type = 'text';
+            width.className = 'form-control';
+            width.name = 'width[]';
+            width.placeholder = 'width(ft)';
+            width.required = true;
+            sizeinputdiv.appendChild(width);
+
+            var span = document.createElement('span');
+            span.textContent = 'X';
+            sizeinputdiv.appendChild(span);
+
+            var height = document.createElement('input');
+            height.type = 'text';
+            height.className = 'form-control';
+            height.name = 'height[]';
+            height.placeholder = 'height(ft)';
+            height.required = true;
+
+            sizeinputdiv.appendChild(height);
+            valueDiv.appendChild(sizeinputdiv);
+        } else if (sizeType === 'length' || sizeType === 'Custom') {
+            var sizeinput = document.createElement('input');
+            sizeinput.type = 'text';
+            sizeinput.className = 'form-control ml-3';
+            sizeinput.name = 'sizeValue[]';
+            sizeinput.placeholder = 'Enter value(ft)';
+            sizeinput.required = true;
+
+            sizeinputdiv.appendChild(sizeinput);
+            valueDiv.appendChild(sizeinputdiv);
+        } else if (sizeType === 'DH') {
+            var diameter = document.createElement('input');
+            diameter.type = 'text';
+            diameter.className = 'form-control';
+            diameter.name = 'width[]';
+            diameter.placeholder = 'diameter(ft)';
+            diameter.required = true;
+            sizeinputdiv.appendChild(diameter);
+
+            var span = document.createElement('span');
+            span.textContent = 'X';
+            sizeinputdiv.appendChild(span);
+
+            var height = document.createElement('input');
+            height.type = 'text';
+            height.className = 'form-control';
+            height.name = 'height[]';
+            height.placeholder = 'height(ft)';
+            height.required = true;
+
+            sizeinputdiv.appendChild(height);
+            valueDiv.appendChild(sizeinputdiv);
         }
-        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+        var pricediv = document.createElement('div');
+        pricediv.className = 'form-control-wrap col-lg-3 p-1';
+
+        var priceinput = document.createElement('input');
+        priceinput.type = 'text';
+        priceinput.className = 'form-control';
+        priceinput.name = 'price[]';
+        priceinput.placeholder = 'Enter Price';
+        priceinput.required = true;
+        pricediv.appendChild(priceinput);
+
+        var removeLink = document.createElement('a');
+        removeLink.className = 'primary-link d-block float-right ';
+        removeLink.textContent = 'Remove';
+        removeLink.style.cursor = 'pointer';
+        removeLink.onclick = function() {
+            valueDiv.remove();
+        };
+
+        valueDiv.appendChild(pricediv);
+        valueDiv.appendChild(removeLink);
+        sizeDiv.appendChild(valueDiv);
+
+    }
+
+    function addmore() {
+        createSizeData();
+    }
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+    //:::::::::::: Adding Variations ::::::::::::::::::::::://
+    function cloneInput(link) {
+        var closestDiv = link.closest('.container_div');
+
+        var InputDivcontainer = closestDiv.querySelector('.variation_value_div');
+        var originalInputDiv = document.querySelector('#input_div');
+
+        var clonedInputDiv = originalInputDiv.cloneNode(true);
+        clearInputFields(clonedInputDiv);
+
+        var removeInputLink = document.createElement('a');
+        removeInputLink.className = 'primary-link d-block float-right p-2 ';
+        removeInputLink.textContent = 'Remove';
+        removeInputLink.style.cursor = 'pointer';
+        removeInputLink.onclick = function() {
+            clonedInputDiv.remove();
+        };
+        clonedInputDiv.appendChild(removeInputLink);
+        InputDivcontainer.appendChild(clonedInputDiv);
+    }
+
+    function clearInputFields(container) {
+        var inputFields = container.querySelectorAll('input');
+        inputFields.forEach(function(input) {
+            input.value = '';
+        });
+    }
+
+    document.getElementById('parent_div').addEventListener('input', function(event) {
+        var target = event.target;
+
+        if (target.tagName === 'INPUT' && target.closest('.container_div')) {
+            var parentInput = target.closest('.container_div').querySelector('.variation_name');
+
+            updateNestedInputName(parentInput, 'variation_value', 'variation_price');
+        }
+    });
+
+    function cloneParentDiv() {
+        var htmlTemplate = `
+            <div id="container_div" class="container_div form-group col-lg-12 d-flex">
+                <div class="col-lg-3 p-2">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <input type="text" name="variation_name[]"  class="variation_name form-control" id="variation_name" placeholder="Enter Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 p-2">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <select name="entity_id[]" class="entity_id form-control" id="entity_id">
+                                @if ($entities)
+                                    @foreach ($entities as $entity)
+                                        <option value="{{ $entity->id }}">{{ $entity->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="variation_value_div">
+                    <div id="input_div" class="input_div form-group col-lg-12 d-flex">
+                        <div class="form-control-wrap col-lg-6 p-2">
+                            <input type="text" name="variation_value[]" class="variation_value form-control" placeholder="Value">
+                        </div>
+                        <div class="form-control-wrap col-lg-6 p-2">
+                            <input type="text" name="variation_price[]" class="variation_price form-control" placeholder="Price">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control-wrap col-lg-2" style="margin-left: 2rem">
+                    <a class="primary-link" style="cursor: pointer" onclick="cloneInput(this)">Add More</a>
+                </div>
+            </div>
+        `;
+
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlTemplate;
+
+            document.getElementById('parent_div').appendChild(tempDiv.firstElementChild);
+        }
+
+        function updateNestedInputName(parentInput, nestedInput1Class, nestedInput2Class) {
+            var parentInputValue = parentInput.value;
+
+            var containerDiv = parentInput.closest('.container_div');
+
+            var nestedInput1Elements = containerDiv.querySelectorAll('.' + nestedInput1Class);
+            var nestedInput2Elements = containerDiv.querySelectorAll('.' + nestedInput2Class);
+
+            nestedInput1Elements.forEach(function(nestedInput1) {
+                nestedInput1.name = parentInputValue + '_value[]';
+            });
+
+            nestedInput2Elements.forEach(function(nestedInput2) {
+                nestedInput2.name = parentInputValue + '_price[]';
+            });
+        }
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+            var inputs = document.querySelectorAll('.variation_name');
+            var values = new Set();
+
+            var duplicateFound = false;
+
+            inputs.forEach(function(input) {
+                var value = input.value.trim();
+
+                if (values.has(value) && value !== '') {
+                    // Duplicate value found
+                    duplicateFound = true;
+                    input.setCustomValidity('Duplicate value found');
+                } else {
+                    values.add(value);
+                    input.setCustomValidity('');
+                }
+            });
+
+            if (duplicateFound) {
+                console.error('Duplicate value found');
+            }
     </script>
 @endsection

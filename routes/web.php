@@ -117,6 +117,7 @@ Route::get('admin-dashboard/product-type-remove/{id}',[ProductCategoryController
 // Product routes ProductController
 Route::get('admin-dashboard/products',[ProductController::class,'index']);
 Route::get('admin-dashboard/add-product/{slug?}',[ProductController::class,'addProduct']);
+Route::post('admin-dashboard/add-product-procc',[ProductController::class,'addProcc']);
 
 // product Accessories AccessoriesController
 Route::get('admin-dashboard/product-accessories',[AccessoriesController::class,'index']);
