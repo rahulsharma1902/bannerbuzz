@@ -16,7 +16,8 @@ class ProductCategories extends Model
         'slug',
         'parent_category',
         'images',
-        'description'
+        'description',
+        'status'
     ];
     public function parent(){
         return $this->hasOne(ProductCategories::class,'id','parent_category');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AccessoriesType;
 use App\Models\AccessoriesVariations;
+use App\Models\AccessoriesVariationsData;
 use App\Models\Entities;
 use App\Models\ProductAccessories;
 use App\Models\AccessoriesSize;
@@ -22,6 +23,7 @@ class AccessoriesController extends Controller
     {
         $entities = Entities::all();
         $product = ProductAccessories::where('slug', $slug)->first();
+
         $accessories_type = AccessoriesType::all();
         return view('admin.accessories.add', compact('accessories_type', 'product', 'entities'));
     }
@@ -34,6 +36,7 @@ class AccessoriesController extends Controller
 
     public function AddAccessorieType(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:accessories_types,slug'
@@ -72,24 +75,19 @@ class AccessoriesController extends Controller
 
     public function AccessoriesAddprocc(Request $request)
     {
-        // echo '<pre>';
-        // print_r($request->all());
-        // die();
-        // dd($request->all());
+
         if ($request->id) {
             $request->validate([
                 'name' => 'required',
                 'slug' => 'required|unique:product_accessories,id,' . $request->id,
                 'accessorie_type' => 'required',
-                'default_price' => 'required|numeric'
             ]);
             $type = ProductAccessories::find($request->id);
             $type->name = $request->name;
             $type->slug = $request->slug;
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
-            $type->description = $request->description;
-            $type->price = $request->default_price;
+            $type->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -110,6 +108,7 @@ class AccessoriesController extends Controller
 
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
+                    $type->update(['price' => $request->default_price]);
 
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
@@ -140,17 +139,30 @@ class AccessoriesController extends Controller
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
-                    $price = $var_name . '_price';
-                    $value = $var_name . '_value';
+                    $var_price = $var_name . '_price';
+                    $var_value = $var_name . '_value';
+                    $var_images = $var_name . '_Images';
+                    $var_description = $var_name . '_description';
 
-                    for ($i = 0; $i < count($request->$price); $i++) {
-                        $variation = new AccessoriesVariations();
-                        $variation->name = $var_name;
-                        $variation->entity_id = $entity;
-                        $variation->accessories_id = $type->id;
-                        $variation->value = $request->$value[$i];
-                        $variation->price = $request->$price[$i];
-                        $variation->save();
+                    $variation = new AccessoriesVariations();
+                    $variation->name = $var_name;
+                    $variation->entity_id = $entity;
+                    $variation->accessories_id = $type->id;
+                    $variation->save();
+
+                    for ($i = 0; $i < count($request->$var_price); $i++) {
+                        $var_data = new AccessoriesVariationsData();
+                        $var_data->accessories_variation_id = $variation->id;
+                        $var_data->value = $request->$var_value[$i];
+                        $var_data->price = $request->$var_price[$i];
+                        $var_data->description = $request->$var_description[$i];
+                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                            $image = $request->file($var_images)[$i];
+                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                            $image->move(public_path() . '/accessories_Images/', $filename);
+                            $var_data->image = $filename;
+                        }
+                        $var_data->save();
                     }
                 }
             }
@@ -162,7 +174,6 @@ class AccessoriesController extends Controller
                 'slug' => 'required|unique:product_accessories,slug',
                 'images' => 'required',
                 'accessorie_type' => 'required',
-                'default_price' => 'required|numeric'
             ]);
 
             $type = new ProductAccessories();
@@ -170,8 +181,7 @@ class AccessoriesController extends Controller
             $type->slug = $request->slug;
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
-            $type->description = $request->description;
-            $type->price = $request->default_price;
+            $type->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -187,7 +197,7 @@ class AccessoriesController extends Controller
 
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
-
+                    $type->update(['price' => $request->default_price]);
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
                     for ($i = 0; $i < count($request->width); $i++) {
@@ -216,17 +226,30 @@ class AccessoriesController extends Controller
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
-                    $price = $var_name . '_price';
-                    $value = $var_name . '_value';
+                    $var_price = $var_name . '_price';
+                    $var_value = $var_name . '_value';
+                    $var_images = $var_name . '_Images';
+                    $var_description = $var_name . '_description';
 
-                    for ($i = 0; $i < count($request->$price); $i++) {
-                        $variation = new AccessoriesVariations();
-                        $variation->name = $var_name;
-                        $variation->entity_id = $entity;
-                        $variation->accessories_id = $type->id;
-                        $variation->value = $request->$value[$i];
-                        $variation->price = $request->$price[$i];
-                        $variation->save();
+                    $variation = new AccessoriesVariations();
+                    $variation->name = $var_name;
+                    $variation->entity_id = $entity;
+                    $variation->accessories_id = $type->id;
+                    $variation->save();
+
+                    for ($i = 0; $i < count($request->$var_price); $i++) {
+                        $var_data = new AccessoriesVariationsData();
+                        $var_data->accessories_variation_id = $variation->id;
+                        $var_data->value = $request->$var_value[$i];
+                        $var_data->price = $request->$var_price[$i];
+                        $var_data->description = $request->$var_description[$i];
+                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                            $image = $request->file($var_images)[$i];
+                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                            $image->move(public_path() . '/accessories_Images/', $filename);
+                            $var_data->image = $filename;
+                        }
+                        $var_data->save();
                     }
                 }
             }
@@ -239,15 +262,28 @@ class AccessoriesController extends Controller
         $product = ProductAccessories::find($id);
         if ($product) {
             $product->delete();
-            $productSizes = AccessoriesSize::where('product_id', $id)->get();
+            $productSizes = AccessoriesSize::where('accessories_id', $id)->get();
             if ($productSizes) {
                 foreach ($productSizes as $size) {
                     $size->delete();
+                }
+            }
+            $product_variation = AccessoriesVariations::where('accessories_id', $id)->get();
+            if ($product_variation) {
+                foreach ($product_variation as $var) {
+                    $var->delete();
                 }
             }
             return redirect()->back()->with('success', 'Product deleted successfully');
         } else {
             return redirect()->back()->with('error', 'Faild to deleted Product');
         }
+    }
+
+    public function editVariations($slug)
+    {
+        $product = ProductAccessories::where('slug',$slug)->first();
+        $entities = Entities::all();
+        return view('admin.accessories.edit_variation',compact('product','entities'));
     }
 }

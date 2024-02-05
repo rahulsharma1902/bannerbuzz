@@ -16,11 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('accessories_id')->nullable();
             $table->string('entity_id')->nullable();
-            $table->text('value')->nullable();
-            $table->text('price')->nullable();
-            $table->text('quantity')->nullable();
-            $table->string('image')->nullable();
-            $table->text('description')->nullable();
             $table->integer('status')->default(true);
             $table->timestamps();
         });

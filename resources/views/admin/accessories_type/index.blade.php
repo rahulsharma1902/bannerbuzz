@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="description">Description(optional*)</label>
                                 <div class="form-control-wrap">
-                                    <textarea name="description" class="form-control" id="description" placeholder="description....."></textarea>
+                                    <textarea name="description" class="description form-control" id="description" placeholder="description....."></textarea>
                                 </div>
                             </div>
                             {{-- <div class="form-group">

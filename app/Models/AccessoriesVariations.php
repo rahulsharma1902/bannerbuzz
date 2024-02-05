@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class AccessoriesVariations extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'entity_id',
+        'value',
+        'price',
+        'quantity',
+        'image',
+        'description',
+        'status'
+    ];
+
+    public function variationData(){
+        return $this->hasMany(AccessoriesVariationsData::class,'accessories_variation_id','id');
+    }
 }

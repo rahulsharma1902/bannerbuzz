@@ -87,11 +87,11 @@
                                 @endforeach
                             </div>
                         @endif
-                        <div class="col-lg-6 p-3">
+                        <div class="col-lg-10 p-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea name="description" class="form-control" id="description" placeholder="category description.....">{{ $category->description ?? '' }}</textarea>
+                                    <textarea name="description" class="description form-control" id="description" placeholder="category description.....">{{ $category->description ?? '' }}</textarea>
                                 </div>
                             </div>
                         </div>
