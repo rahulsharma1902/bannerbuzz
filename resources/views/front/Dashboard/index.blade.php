@@ -517,7 +517,7 @@
             </div>
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/multi_4.png') }}X">
+                    <img src="{{ url('/front/img/multi_4.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 02</h5>
@@ -719,7 +719,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="blgs_lt">
-                    <img src="img/blgs_dt_1.png">
+                    <img src="{{ url('/front/img/blgs_dt_1.png') }}">
                     <span>16 DEC, 2024</span>
                     <div class="blgs_lt_content">
                         <h4>Lorem Ipsum is simply dummy text of the printing </h4>
@@ -733,7 +733,7 @@
                 <ul class="blog_list">
                     <li>
                         <div class="blog_list_img">
-                            <img src="img/blgs_1.png">
+                            <img src="{{ url('/front/img/blgs_1.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -745,7 +745,7 @@
                     </li>
                     <li>
                         <div class="blog_list_img">
-                            <img src="img/blgs_2.png">
+                            <img src="{{ url('/front/img/blgs_2.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -757,7 +757,7 @@
                     </li>
                     <li>
                         <div class="blog_list_img">
-                            <img src="img/blgs_3.png">
+                            <img src="{{ url('/front/img/blgs_3.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -779,7 +779,7 @@
             <ul class="shipping">
                 <li>
                     <div class="ship-box">
-                        <img src="img/ways_4.svg" alt="">
+                        <img src="{{ url('/front/img/ways_4.svg') }}" alt="">
                         <div class="text">
                             <p>Best Price</p>
                             <span>Cre8ive Printer offers the industry’s best prices while using only the highest</span>
@@ -788,7 +788,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="img/ways_5.svg" alt="">
+                        <img src="{{ url('/front/img/ways_5.svg') }}" alt="">
                         <div class="text">
                             <p>Free Design Proof</p>
                             <span>Our industry-leading designers provide free proofs so you can be sure</span>
@@ -797,7 +797,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="img/ways_6.svg" alt="">
+                        <img src="{{ url('/front/img/ways_6.svg') }}" alt="">
                         <div class="text">
                             <p>Best Quality</p>
                             <span>If you’re not satisfied, we’re not satisfied. We’ll reprint or refund your order - guaranteed</span>

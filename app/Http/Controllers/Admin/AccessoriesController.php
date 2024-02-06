@@ -105,6 +105,17 @@ class AccessoriesController extends Controller
             }
             $type->save();
 
+            if($request->remove_size_id !== null){
+                $size_id = explode(',',$request->remove_size_id);
+                if($size_id){
+                    foreach($size_id as $id){
+                        $size = AccessoriesSize::find($id);
+                        if($size){
+                            $size->delete();
+                        }
+                    }
+                }
+            }
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
                     $type->update(['price' => $request->default_price]);

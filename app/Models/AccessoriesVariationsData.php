@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class AccessoriesVariationsData extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'value',
+        'price',
+        'quantity',
+        'image',
+        'description',
+        'status'
+    ];
 }

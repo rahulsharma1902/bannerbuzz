@@ -160,15 +160,7 @@
                                 @enderror
                                 <input type="hidden" name="size_unit" value="feet">
 
-                                {{-- <div class="form-group" id="Size_unit" style="display:none">
-                                    <br>
-                                    <label class="form-label" for="size_unit">select Size unit</label>
-                                    <div class="form-control-wrap">
-                                        <select name="size_unit" class="form-control" id="size_unit">
-                                            <option value="feet">feet</option>
-                                        </select>
-                                    </div>
-                                </div> --}}
+
                             </div>
                             <div id="default_price" class="col-lg-4" style="padding-left: 1.5rem">
                                 <div class="form-group">
@@ -189,6 +181,36 @@
                                 </span>
                             </div>
                         </div>
+                        @if($product !== null)
+                         @if($product->sizes)
+                            <div class="col-lg-6">
+                                <div class="Size_class form-control-wrap d-flex p-1">
+                                    <div class="col-lg-2">
+                                       <h6> Value</h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                       <h6> Price</h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6>Action</h6>
+                                    </div>
+                                </div>
+                                @foreach($product->sizes as $size)
+                                <div class="Size_class form-control-wrap d-flex p-1">
+                                    <div class="col-lg-2">
+                                        {{ $size->size_value.' ('. $size->size_unit.')'}}
+                                    </div>
+                                    <div class="col-lg-2">
+                                        {{ $size->price }}
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <i onclick="removeSize(this,{{ $size->id ?? '' }})" class="fas fa-trash-alt p-2"></i>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
+                        @endif
                         @if ($product === null)
                             <h5>Add Product Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
@@ -386,6 +408,7 @@
                                                 </div>
                                                 <input type="hidden" id="remove_variation_id" name="remove_variation_id" value="">
                                                 <input type="hidden" id="remove_variationData_id" name="remove_variationData_id" value="">
+                                                <input type="hidden" id="remove_size_id" name="remove_size_id" value="">
                                                 <div class="form-control-wrap col-lg-3">
                                                     <a class="btn btn-primary" style="cursor: pointer"
                                                         onclick="cloneParentDiv()">Add
@@ -675,6 +698,14 @@
     function addmore() {
         createSizeData();
     }
+
+    var productSizes = [];
+        function removeSize(icon, id) {
+            productSizes.push(id);
+            var containerDiv = icon.closest('.Size_class');
+            containerDiv.remove();
+            document.getElementById('remove_size_id').value = productSizes;
+        }
     //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
     //:::::::::::: Adding Variations ::::::::::::::::::::::://

@@ -12,11 +12,6 @@ class ProductVariations extends Model
     protected $fillable = [
         'name',
         'entity_id',
-        'value',
-        'price',
-        'quantity',
-        'image',
-        'description',
         'status'
     ];
 

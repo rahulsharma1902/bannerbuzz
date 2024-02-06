@@ -18,11 +18,15 @@ class Product extends Model
         'images',
         'description',
         'price',
+        'is_printed',
         'additional_info',
         'quantity',
         'status'
     ];
 
+    public function sizes(){
+        return $this->hasMany(ProductSize::class,'product_id','id');
+    }
     public function category(){
         return $this->hasOne(ProductCategories::class,'id','category_id');
     }
