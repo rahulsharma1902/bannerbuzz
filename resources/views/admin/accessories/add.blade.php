@@ -33,9 +33,6 @@
                                         <input type="hidden" name="slug" class="form-control" id="slug"
                                             value="{{ $product->slug ?? '' }}" placeholder="slug">
                                     </div>
-                                    @error('slug')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -184,7 +181,7 @@
                            @endif
                        @endif
                         @if ($product === null)
-                            <h5>Add Product Variation</h5>
+                            <h5>Add Accessories Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
                                 <div id="container_div" class="container_div form-group col-lg-12 ">
                                     <h6>Variation 1 </h6>
@@ -265,7 +262,7 @@
                                 <div class="card-inner">
                                     <div class="preview-block">
                                         <div class="d-flex justify-content-between">
-                                            <span class="preview-title-lg overline-title">Add Accessories Type</span>
+                                            <span class="preview-title-lg overline-title">Edit Accessories variation</span>
                                             <span class="close"><i class="fas fa-times"></i></span>
                                         </div>
                                         <div class="row gy-8">

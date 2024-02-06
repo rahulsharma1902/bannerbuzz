@@ -34,6 +34,9 @@ class ProductController extends Controller
 
     public function addProcc(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request);
+        // die();
         if ($request->id) {
             $request->validate([
                 'name' => 'required',
@@ -65,12 +68,12 @@ class ProductController extends Controller
             }
             $product->save();
 
-            if($request->remove_size_id !== null){
-                $size_id = explode(',',$request->remove_size_id);
-                if($size_id){
-                    foreach($size_id as $id){
+            if ($request->remove_size_id !== null) {
+                $size_id = explode(',', $request->remove_size_id);
+                if ($size_id) {
+                    foreach ($size_id as $id) {
                         $size = ProductSize::find($id);
-                        if($size){
+                        if ($size) {
                             $size->delete();
                         }
                     }
@@ -78,6 +81,7 @@ class ProductController extends Controller
             }
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
+                    $request->validate(['default_price' => 'required']);
                     $product->update(['price' => $request->default_price]);
 
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
@@ -105,14 +109,14 @@ class ProductController extends Controller
                 }
             }
 
-            if($request->remove_variation_id !== null){
-                $variations_id = explode(',',$request->remove_variation_id);
-                foreach($variations_id as $id){
+            if ($request->remove_variation_id !== null) {
+                $variations_id = explode(',', $request->remove_variation_id);
+                foreach ($variations_id as $id) {
                     $data = ProductVariations::find($id);
-                    if($data){
-                        $variations_data = ProductVariationsData::where('product_variation_id',$data->id)->get();
-                        if($variations_data){
-                            foreach($variations_data as $var_data){
+                    if ($data) {
+                        $variations_data = ProductVariationsData::where('product_variation_id', $data->id)->get();
+                        if ($variations_data) {
+                            foreach ($variations_data as $var_data) {
                                 $var_data->delete();
                             }
                         }
@@ -120,17 +124,18 @@ class ProductController extends Controller
                     }
                 }
             }
-            if($request->remove_variationData_id !== null){
-                $variationDatas_id = explode(',',$request->remove_variationData_id);
-                foreach($variationDatas_id as $id){
+            if ($request->remove_variationData_id !== null) {
+                $variationDatas_id = explode(',', $request->remove_variationData_id);
+                foreach ($variationDatas_id as $id) {
                     $data = ProductVariationsData::find($id);
-                    if($data){
+                    if ($data) {
                         $data->delete();
                     }
                 }
             }
-            if ($request->variation_name !== null) {
-                for ($a = 0; $a < count($request->variation_name); $a++) {
+
+            for ($a = 0; $a < count($request->variation_name); $a++) {
+                if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
                     $var_price = $var_name . '_price';
@@ -188,8 +193,8 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
             $request->validate([
-                'name' => 'required',
-                'slug' => 'required|unique:product_accessories,slug',
+                'name' => 'required|unique:products,name',
+                'slug' => 'required|unique:products,slug',
                 'images' => 'required',
             ]);
 
@@ -241,8 +246,8 @@ class ProductController extends Controller
                     }
                 }
             }
-            if ($request->variation_name !== null) {
-                for ($a = 0; $a < count($request->variation_name); $a++) {
+            for ($a = 0; $a < count($request->variation_name); $a++) {
+                if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
                     $price = $var_name . '_price';
@@ -257,18 +262,20 @@ class ProductController extends Controller
                     $variation->save();
 
                     for ($i = 0; $i < count($request->$price); $i++) {
-                        $var_data = new ProductVariationsData();
-                        $var_data->product_variation_id = $variation->id;
-                        $var_data->value = $request->$value[$i];
-                        $var_data->price = $request->$price[$i];
-                        $var_data->description = $request->$var_description[$i];
-                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                            $image = $request->file($var_images)[$i];
-                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                            $image->move(public_path() . '/product_Images/', $filename);
-                            $var_data->image = $filename;
+                        if ($request->$value[$i] !== null || $request->$price[$i] !== null) {
+                            $var_data = new ProductVariationsData();
+                            $var_data->product_variation_id = $variation->id;
+                            $var_data->value = $request->$value[$i];
+                            $var_data->price = $request->$price[$i];
+                            $var_data->description = $request->$var_description[$i];
+                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                $image = $request->file($var_images)[$i];
+                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                $image->move(public_path() . '/product_Images/', $filename);
+                                $var_data->image = $filename;
+                            }
+                            $var_data->save();
                         }
-                        $var_data->save();
                     }
                 }
             }
@@ -301,8 +308,8 @@ class ProductController extends Controller
 
     public function editVariations($slug)
     {
-        $product = Product::where('slug',$slug)->first();
+        $product = Product::where('slug', $slug)->first();
         $entities = Entities::all();
-        return view('admin.products.edit_variation',compact('product','entities'));
+        return view('admin.products.edit_variation', compact('product', 'entities'));
     }
 }

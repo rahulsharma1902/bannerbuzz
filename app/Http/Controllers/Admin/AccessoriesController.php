@@ -105,12 +105,12 @@ class AccessoriesController extends Controller
             }
             $type->save();
 
-            if($request->remove_size_id !== null){
-                $size_id = explode(',',$request->remove_size_id);
-                if($size_id){
-                    foreach($size_id as $id){
+            if ($request->remove_size_id !== null) {
+                $size_id = explode(',', $request->remove_size_id);
+                if ($size_id) {
+                    foreach ($size_id as $id) {
                         $size = AccessoriesSize::find($id);
-                        if($size){
+                        if ($size) {
                             $size->delete();
                         }
                     }
@@ -118,6 +118,7 @@ class AccessoriesController extends Controller
             }
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
+                    $request->validate(['default_price'=>'required']);
                     $type->update(['price' => $request->default_price]);
 
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
@@ -145,14 +146,14 @@ class AccessoriesController extends Controller
                 }
             }
 
-            if($request->remove_variation_id !== null){
-                $variations_id = explode(',',$request->remove_variation_id);
-                foreach($variations_id as $id){
+            if ($request->remove_variation_id !== null) {
+                $variations_id = explode(',', $request->remove_variation_id);
+                foreach ($variations_id as $id) {
                     $data = AccessoriesVariations::find($id);
-                    if($data){
-                        $variations_data = AccessoriesVariationsData::where('accessories_variation_id',$data->id)->get();
-                        if($variations_data){
-                            foreach($variations_data as $var_data){
+                    if ($data) {
+                        $variations_data = AccessoriesVariationsData::where('accessories_variation_id', $data->id)->get();
+                        if ($variations_data) {
+                            foreach ($variations_data as $var_data) {
                                 $var_data->delete();
                             }
                         }
@@ -160,17 +161,18 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-            if($request->remove_variationData_id !== null){
-                $variationDatas_id = explode(',',$request->remove_variationData_id);
-                foreach($variationDatas_id as $id){
+            if ($request->remove_variationData_id !== null) {
+                $variationDatas_id = explode(',', $request->remove_variationData_id);
+                foreach ($variationDatas_id as $id) {
                     $data = AccessoriesVariationsData::find($id);
-                    if($data){
+                    if ($data) {
                         $data->delete();
                     }
                 }
             }
-            if ($request->variation_name !== null) {
-                for ($a = 0; $a < count($request->variation_name); $a++) {
+
+            for ($a = 0; $a < count($request->variation_name); $a++) {
+                if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
                     $var_price = $var_name . '_price';
@@ -193,7 +195,7 @@ class AccessoriesController extends Controller
                     }
                     $var_data = AccessoriesVariationsData::where('accessories_variation_id', $variation->id)->get();
                     for ($i = 0; $i < count($request->$var_value); $i++) {
-                        if ($request->$var_value !== null) {
+                        if ($request->$var_value[$i] !== null) {
                             if (isset($var_data[$i])) {
                                 $var_data[$i]->accessories_variation_id = $variation->id;
                                 $var_data[$i]->value = $request->$var_value[$i];
@@ -229,7 +231,7 @@ class AccessoriesController extends Controller
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
             $request->validate([
-                'name' => 'required',
+                'name' => 'required|unique:product_accessories,name',
                 'slug' => 'required|unique:product_accessories,slug',
                 'images' => 'required',
                 'accessorie_type' => 'required',
@@ -256,6 +258,7 @@ class AccessoriesController extends Controller
 
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
+                    $request->validate(['default_price'=>'required']);
                     $type->update(['price' => $request->default_price]);
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
@@ -281,8 +284,8 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-            if ($request->variation_name !== null) {
-                for ($a = 0; $a < count($request->variation_name); $a++) {
+            for ($a = 0; $a < count($request->variation_name); $a++) {
+                if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
                     $var_price = $var_name . '_price';
@@ -297,18 +300,20 @@ class AccessoriesController extends Controller
                     $variation->save();
 
                     for ($i = 0; $i < count($request->$var_price); $i++) {
-                        $var_data = new AccessoriesVariationsData();
-                        $var_data->accessories_variation_id = $variation->id;
-                        $var_data->value = $request->$var_value[$i];
-                        $var_data->price = $request->$var_price[$i];
-                        $var_data->description = $request->$var_description[$i];
-                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                            $image = $request->file($var_images)[$i];
-                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                            $image->move(public_path() . '/accessories_Images/', $filename);
-                            $var_data->image = $filename;
+                        if ($request->$var_value[$i] !== null || $request->$var_price[$i] !== null) {
+                            $var_data = new AccessoriesVariationsData();
+                            $var_data->accessories_variation_id = $variation->id;
+                            $var_data->value = $request->$var_value[$i];
+                            $var_data->price = $request->$var_price[$i];
+                            $var_data->description = $request->$var_description[$i];
+                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                $image = $request->file($var_images)[$i];
+                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                $image->move(public_path() . '/accessories_Images/', $filename);
+                                $var_data->image = $filename;
+                            }
+                            $var_data->save();
                         }
-                        $var_data->save();
                     }
                 }
             }

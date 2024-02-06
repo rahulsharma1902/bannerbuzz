@@ -4,7 +4,7 @@
     <div class="card card-bordered h-100">
         <div class="card-inner">
             <div class="card-head">
-                <h5 class="card-title">{{ isset($product) ? 'Edit Accessories : ' . $product->name : 'Add Accessories' }}
+                <h5 class="card-title">{{ isset($product) ? 'Edit Product : ' . $product->name : 'Add Product' }}
                 </h5>
             </div>
             <div class="row ">
@@ -33,9 +33,6 @@
                                         <input type="hidden" name="slug" class="form-control" id="slug"
                                             value="{{ $product->slug ?? '' }}" placeholder="slug">
                                     </div>
-                                    @error('slug')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -115,7 +112,7 @@
                                 <div class="form-control-wrap p-2">
                                     <input type="file" name="images[]" class="form-control" id="image">
                                 </div>
-                                @error('image')
+                                @error('images')
                                     <span class="text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -167,7 +164,7 @@
                                     <label class="form-label" for="default_price"> Price</label>
                                     <div class="form-control-wrap ">
                                         <input type="text" name="default_price" class="form-control"
-                                            value="{{ $product->price ?? '' }}" placeholder="Default Price">
+                                            value="{{ $product->price ?? '' }}" placeholder="Default Price" required>
                                     </div>
                                     @error('default_price')
                                         <span class="text text-danger">{{ $message }}</span>
@@ -293,7 +290,7 @@
                                 <div class="card-inner">
                                     <div class="preview-block">
                                         <div class="d-flex justify-content-between">
-                                            <span class="preview-title-lg overline-title">Add Accessories Type</span>
+                                            <span class="preview-title-lg overline-title">Edit Product variation</span>
                                             <span class="close"><i class="fas fa-times"></i></span>
                                         </div>
                                         <div class="row gy-8">
