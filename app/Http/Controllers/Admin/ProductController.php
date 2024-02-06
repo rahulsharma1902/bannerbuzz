@@ -44,9 +44,9 @@ class ProductController extends Controller
             $product->slug = $request->slug;
             $product->category_id = $request->category_id;
             $product->product_type_id = $request->product_type_id;
-            $product->accessories_type = $request->accessorie_type;
-            // $product->is_printed = $request->Printed;
-            $product->description = $request->description;
+            $product->accessories_type_id = $request->accessorie_type;
+            $product->is_printed = $request->Printed;
+            $product->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -94,38 +94,86 @@ class ProductController extends Controller
                 }
             }
 
+            if($request->remove_variation_id !== null){
+                $variations_id = explode(',',$request->remove_variation_id);
+                foreach($variations_id as $id){
+                    $data = ProductVariations::find($id);
+                    if($data){
+                        $variations_data = ProductVariationsData::where('product_variation_id',$data->id)->get();
+                        if($variations_data){
+                            foreach($variations_data as $var_data){
+                                $var_data->delete();
+                            }
+                        }
+                        $data->delete();
+                    }
+                }
+            }
+            if($request->remove_variationData_id !== null){
+                $variationDatas_id = explode(',',$request->remove_variationData_id);
+                foreach($variationDatas_id as $id){
+                    $data = ProductVariationsData::find($id);
+                    if($data){
+                        $data->delete();
+                    }
+                }
+            }
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     $var_name = $request->variation_name[$a];
                     $entity = $request->entity_id[$a];
-                    $price = $var_name . '_price';
-                    $value = $var_name . '_value';
+                    $var_price = $var_name . '_price';
+                    $var_value = $var_name . '_value';
                     $var_images = $var_name . '_Images';
                     $var_description = $var_name . '_description';
 
-                    $variation = new ProductVariations();
-                    $variation->name = $var_name;
-                    $variation->entity_id = $entity;
-                    $variation->product_id = $product->id;
-                    $variation->save();
+                    $variation = ProductVariations::where('name', $var_name)->where('product_id', $request->id)->first();
+                    if ($variation) {
+                        $variation->name = $var_name;
+                        $variation->entity_id = $entity;
+                        $variation->product_id = $product->id;
+                        $variation->save();
+                    } else {
+                        $variation = new ProductVariations();
+                        $variation->name = $var_name;
+                        $variation->entity_id = $entity;
+                        $variation->product_id = $product->id;
+                        $variation->save();
+                    }
+                    $var_data = ProductVariationsData::where('product_variation_id', $variation->id)->get();
+                    for ($i = 0; $i < count($request->$var_value); $i++) {
+                        if ($request->$var_value !== null) {
+                            if (isset($var_data[$i])) {
+                                $var_data[$i]->product_variation_id = $variation->id;
+                                $var_data[$i]->value = $request->$var_value[$i];
+                                $var_data[$i]->price = $request->$var_price[$i];
+                                $var_data[$i]->description = $request->$var_description[$i];
+                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                    $image = $request->file($var_images)[$i];
+                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                    $image->move(public_path() . '/product_Images/', $filename);
+                                    $var_data[$i]->image = $filename;
+                                }
+                                $var_data[$i]->save();
+                            } else {
+                                $var_data = new ProductVariationsData();
+                                $var_data->product_variation_id = $variation->id;
+                                $var_data->value = $request->$var_value[$i];
+                                $var_data->price = $request->$var_price[$i];
+                                $var_data->description = $request->$var_description[$i];
+                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                    $image = $request->file($var_images)[$i];
+                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                    $image->move(public_path() . '/product_Images/', $filename);
+                                    $var_data->image = $filename;
+                                }
+                                $var_data->save();
+                            }
 
-                    for ($i = 0; $i < count($request->$price); $i++) {
-                        $var_data = new ProductVariationsData();
-                        $var_data->product_variation_id = $variation->id;
-                        $var_data->value = $request->$value[$i];
-                        $var_data->price = $request->$price[$i];
-                        $var_data->description = $request->$var_description[$i];
-                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                            $image = $request->file($var_images)[$i];
-                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                            $image->move(public_path() . '/product_Images/', $filename);
-                            $var_data->image = $filename;
                         }
-                        $var_data->save();
                     }
                 }
             }
-
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
             $request->validate([
@@ -140,9 +188,8 @@ class ProductController extends Controller
             $product->category_id = $request->category_id;
             $product->product_type_id = $request->product_type_id;
             $product->accessories_type_id = $request->accessorie_type;
-            // $product->is_printed = $request->Printed;
-            $product->description = $request->description;
-            $product->price = $request->default_price;
+            $product->is_printed = $request->Printed;
+            $product->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -158,7 +205,7 @@ class ProductController extends Controller
 
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
-
+                    $product->update(['price' => $request->default_price]);
                 } else if ($request->size_type === 'wh' || $request->size_type === 'DH') {
 
                     for ($i = 0; $i < count($request->width); $i++) {

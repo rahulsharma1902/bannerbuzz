@@ -19,4 +19,8 @@ class ProductVariations extends Model
         'description',
         'status'
     ];
+
+    public function variationData(){
+        return $this->hasMany(ProductVariationsData::class,'product_variation_id','id');
+    }
 }

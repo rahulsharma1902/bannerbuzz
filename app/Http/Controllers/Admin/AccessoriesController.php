@@ -75,7 +75,6 @@ class AccessoriesController extends Controller
 
     public function AccessoriesAddprocc(Request $request)
     {
-
         if ($request->id) {
             $request->validate([
                 'name' => 'required',
@@ -135,6 +134,30 @@ class AccessoriesController extends Controller
                 }
             }
 
+            if($request->remove_variation_id !== null){
+                $variations_id = explode(',',$request->remove_variation_id);
+                foreach($variations_id as $id){
+                    $data = AccessoriesVariations::find($id);
+                    if($data){
+                        $variations_data = AccessoriesVariationsData::where('accessories_variation_id',$data->id)->get();
+                        if($variations_data){
+                            foreach($variations_data as $var_data){
+                                $var_data->delete();
+                            }
+                        }
+                        $data->delete();
+                    }
+                }
+            }
+            if($request->remove_variationData_id !== null){
+                $variationDatas_id = explode(',',$request->remove_variationData_id);
+                foreach($variationDatas_id as $id){
+                    $data = AccessoriesVariationsData::find($id);
+                    if($data){
+                        $data->delete();
+                    }
+                }
+            }
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     $var_name = $request->variation_name[$a];
@@ -144,25 +167,50 @@ class AccessoriesController extends Controller
                     $var_images = $var_name . '_Images';
                     $var_description = $var_name . '_description';
 
-                    $variation = new AccessoriesVariations();
-                    $variation->name = $var_name;
-                    $variation->entity_id = $entity;
-                    $variation->accessories_id = $type->id;
-                    $variation->save();
+                    $variation = AccessoriesVariations::where('name', $var_name)->where('accessories_id', $request->id)->first();
+                    if ($variation) {
+                        $variation->name = $var_name;
+                        $variation->entity_id = $entity;
+                        $variation->accessories_id = $type->id;
+                        $variation->save();
+                    } else {
+                        $variation = new AccessoriesVariations();
+                        $variation->name = $var_name;
+                        $variation->entity_id = $entity;
+                        $variation->accessories_id = $type->id;
+                        $variation->save();
+                    }
+                    $var_data = AccessoriesVariationsData::where('accessories_variation_id', $variation->id)->get();
+                    for ($i = 0; $i < count($request->$var_value); $i++) {
+                        if ($request->$var_value !== null) {
+                            if (isset($var_data[$i])) {
+                                $var_data[$i]->accessories_variation_id = $variation->id;
+                                $var_data[$i]->value = $request->$var_value[$i];
+                                $var_data[$i]->price = $request->$var_price[$i];
+                                $var_data[$i]->description = $request->$var_description[$i];
+                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                    $image = $request->file($var_images)[$i];
+                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                    $image->move(public_path() . '/accessories_Images/', $filename);
+                                    $var_data[$i]->image = $filename;
+                                }
+                                $var_data[$i]->save();
+                            } else {
+                                $var_data = new AccessoriesVariationsData();
+                                $var_data->accessories_variation_id = $variation->id;
+                                $var_data->value = $request->$var_value[$i];
+                                $var_data->price = $request->$var_price[$i];
+                                $var_data->description = $request->$var_description[$i];
+                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                    $image = $request->file($var_images)[$i];
+                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                    $image->move(public_path() . '/accessories_Images/', $filename);
+                                    $var_data->image = $filename;
+                                }
+                                $var_data->save();
+                            }
 
-                    for ($i = 0; $i < count($request->$var_price); $i++) {
-                        $var_data = new AccessoriesVariationsData();
-                        $var_data->accessories_variation_id = $variation->id;
-                        $var_data->value = $request->$var_value[$i];
-                        $var_data->price = $request->$var_price[$i];
-                        $var_data->description = $request->$var_description[$i];
-                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                            $image = $request->file($var_images)[$i];
-                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                            $image->move(public_path() . '/accessories_Images/', $filename);
-                            $var_data->image = $filename;
                         }
-                        $var_data->save();
                     }
                 }
             }
@@ -282,8 +330,8 @@ class AccessoriesController extends Controller
 
     public function editVariations($slug)
     {
-        $product = ProductAccessories::where('slug',$slug)->first();
+        $product = ProductAccessories::where('slug', $slug)->first();
         $entities = Entities::all();
-        return view('admin.accessories.edit_variation',compact('product','entities'));
+        return view('admin.accessories.edit_variation', compact('product', 'entities'));
     }
 }

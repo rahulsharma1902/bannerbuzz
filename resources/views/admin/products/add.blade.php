@@ -128,11 +128,11 @@
                                 @foreach ($images as $image)
                                     <div class="col-lg-3 mb-3">
                                         <div class="form-group d-flex align-items-center" style="width: 10rem;">
-                                            <img src="{{ asset('accessories_Images') ?? '' }}/{{ $image ?? '' }}"
+                                            <img src="{{ asset('product_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
                                             <input type="hidden" name="existing_images[]" value="{{ $image }}">
-                                            <span><button onclick="removeImage(this)"
-                                                    class="btn btn-dark">X</button></span>
+                                            <span><i onclick="removeImage(this)"
+                                                    class="fas fa-trash-alt p-3" ></i></span>
                                         </div>
                                     </div>
                                     @if ($loop->iteration % 4 == 0)
@@ -189,83 +189,8 @@
                                 </span>
                             </div>
                         </div>
-                        @if ($product)
-                            @if ($product->variations !== null)
-                                <div class="form-group p-3">
-                                    <a href="{{ url('admin-dashboard/edit-product-variation/' . $product->slug) }}"
-                                        style="font-size: 20px">Edit variations</a>
-                                </div>
-                            @else
-                                <h5>Add Product Variation(optional)</h5>
-                                <div id="parent_div" class="col-lg-12 p-1 ">
-                                    <div id="container_div" class="container_div form-group col-lg-12 ">
-                                        <h6>Variation 1 </h6>
-                                        <div class="col-lg-12 d-flex">
-                                            <div class="col-lg-3 p-2">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" name="variation_name[]"
-                                                            class="variation_name form-control" id="variation_name"
-                                                            placeholder="Enter Name">
-                                                        <div class="error-message" style="color: red; display: none;">
-                                                            Duplicate
-                                                            value
-                                                            or invalid characters found</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 p-2">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <select name="entity_id[]" class="entity_id form-control"
-                                                            id="entity_id">
-                                                            @if ($entities)
-                                                                @foreach ($entities as $entity)
-                                                                    <option value="{{ $entity->id }}">
-                                                                        {{ $entity->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="variation_value_div">
-                                                <div id="input_div" class="input_div form-group col-lg-12  d-flex">
-                                                    <div class="form-control-wrap col-lg-2 p-2">
-                                                        <input type="text" name="variation_value[]"
-                                                            class="variation_value form-control" placeholder="Value">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-2 p-2">
-                                                        <input type="text" name="variation_price[]"
-                                                            class="variation_price form-control" placeholder="Price">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-3 p-2">
-                                                        <input type="file" name="variation_Images[]"
-                                                            class="variation_images form-control" placeholder="Value">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-4">
-                                                        <textarea name="variation_description[]" class="variation_description form-control" placeholder="About Product....."></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-control-wrap " style="margin-left: 2rem; float:right">
-                                                <a class="primary-link" style="cursor: pointer"
-                                                    onclick="cloneInput(this)">Add
-                                                    More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-control-wrap col-lg-3">
-                                    <a class="btn btn-primary" style="cursor: pointer" onclick="cloneParentDiv()">Add
-                                        More variation</a>
-                                </div>
-                            @endif
-                        @else
-                            <h5>Add Product Variation(optional)</h5>
+                        @if ($product === null)
+                            <h5>Add Product Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
                                 <div id="container_div" class="container_div form-group col-lg-12 ">
                                     <h6>Variation 1 </h6>
@@ -320,7 +245,7 @@
                                             </div>
                                         </div>
                                         <div class="form-control-wrap " style="margin-left: 2rem; float:right">
-                                            <a class="primary-link" style="cursor: pointer"
+                                            <a class="primary-link"  style="cursor: pointer"
                                                 onclick="cloneInput(this)">Add
                                                 More</a>
                                         </div>
@@ -334,26 +259,176 @@
                         @endif
                         <div class="col-lg-10 p-3">
                             <div class="form-group">
-                                <label class="form-label" for="description">Description</label>
+                                <label class="form-label" for="description">Product Description</label>
                                 <div class="form-control-wrap">
-                                    <textarea name="description" class="description form-control" id="description"
-                                        placeholder="category description.....">{{ $product->description ?? '' }}</textarea>
+                                    <textarea name="product_description" class="description form-control" id="product_description"
+                                        placeholder="About Product.....">{{ $product->description ?? '' }}</textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-3 text-center">
-                            <button type="submit"
-                                class="btn btn-lg btn-primary">{{ isset($product) ? ' Update' : ' Save' }}</button>
-                        </div>
-                    </form>
+                        @if ($product !== null)
+                            <div class="card card-bordered card-preview d-none" id="addnewcard">
+                                <div class="card-inner">
+                                    <div class="preview-block">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="preview-title-lg overline-title">Add Accessories Type</span>
+                                            <span class="close"><i class="fas fa-times"></i></span>
+                                        </div>
+                                        <div class="row gy-8">
+                                            <div class="col-sm-12">
+                                                <div id="parent_div" class="col-lg-12 p-1 ">
+                                                    @foreach ($product->variations as $variation)
+                                                        <div id="container_div"
+                                                            class="container_div form-group col-lg-12 ">
+                                                            <input type="hidden" name="product_variation_id"
+                                                                value="{{ $variation->id ?? '' }}">
+                                                            <h6>Variation {{ $loop->iteration }} </h6>
+                                                            <div class="col-lg-12 d-flex">
+                                                                <div class="col-lg-3 p-2">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <input type="text" name="variation_name[]"
+                                                                                class="variation_name form-control"
+                                                                                id="variation_name"
+                                                                                placeholder="Enter Name"
+                                                                                value="{{ $variation->name ?? '' }}">
+                                                                            <div class="error-message"
+                                                                                style="color: red; display: none;">
+                                                                                Duplicate
+                                                                                value
+                                                                                or invalid characters found</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 p-2">
+                                                                    <div class="form-group">
+                                                                        <div class="form-control-wrap">
+                                                                            <select name="entity_id[]"
+                                                                                class="entity_id form-control"
+                                                                                id="entity_id">
+                                                                                @if ($entities)
+                                                                                    @foreach ($entities as $entity)
+                                                                                        <option
+                                                                                            value="{{ $entity->id }}">
+                                                                                            {{ $entity->name }}
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 p-2">
+                                                                    <div class="form-group">
+                                                                        <i onclick="remove_variation(this,{{ $variation->id ?? '' }})"
+                                                                            class="fas fa-trash-alt"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="variation_value_div">
+                                                                    @if ($variation->variationData !== null)
+                                                                        @foreach ($variation->variationData as $data)
+                                                                            <div id="input_div"
+                                                                                class="input_div form-group col-lg-12  d-flex">
+                                                                                <div
+                                                                                    class="form-control-wrap col-lg-2 p-2">
+                                                                                    <input type="text"
+                                                                                        name="{{ $variation->name }}_value[]"
+                                                                                        class="variation_value form-control"
+                                                                                        placeholder="Value"
+                                                                                        value="{{ $data->value ?? '' }}"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="form-control-wrap col-lg-2 p-2">
+                                                                                    <input type="text"
+                                                                                        name="{{ $variation->name }}_price[]"
+                                                                                        class="variation_price form-control"
+                                                                                        placeholder="Price"
+                                                                                        value="{{ $data->price ?? '' }}"
+                                                                                        required>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="form-control-wrap col-lg-3 p-2">
+                                                                                    <input type="file"
+                                                                                        name="{{ $variation->name }}_Images[]"
+                                                                                        class="variation_images form-control"
+                                                                                        placeholder="Value">
+                                                                                    @if ($data->image)
+                                                                                        <img src="{{ url('/accessories_Images/' . $data->image ?? '') }}"
+                                                                                            alt="">
+                                                                                    @endif
+                                                                                </div>
+                                                                                <div class="form-control-wrap col-lg-4">
+                                                                                    <textarea name="{{ $variation->name }}_description[]" class="variation_description form-control"
+                                                                                        placeholder="About Product.....">{{ $data->description ?? '' }}</textarea>
+                                                                                </div>
+                                                                                <div class="col-lg-3 p-2">
+                                                                                    <div class="form-group">
+                                                                                        <i onclick="remove_variation_data(this,{{ $data->id ?? '' }})"
+                                                                                            class="variation_data_add fas fa-trash-alt"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+                                                                <div class="form-control-wrap "
+                                                                    style="margin-left: 2rem; float:right">
+                                                                    <a class="primary-link" data-name='' style="cursor: pointer"
+                                                                        onclick="cloneInput(this)">Add
+                                                                        More</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <input type="hidden" id="remove_variation_id" name="remove_variation_id" value="">
+                                                <input type="hidden" id="remove_variationData_id" name="remove_variationData_id" value="">
+                                                <div class="form-control-wrap col-lg-3">
+                                                    <a class="btn btn-primary" style="cursor: pointer"
+                                                        onclick="cloneParentDiv()">Add
+                                                        More variation</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nk-block nk-block-lg my-4">
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content d-flex justify-content-between">
+                                        <button type="button" class="btn btn-primary" id="addnew">Edit
+                                            Variations</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="form-group mt-3 text-center">
+                        <button type="submit"
+                            class="btn btn-lg btn-primary">{{ isset($product) ? ' Update' : ' Save' }}</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <!-- </div> -->
 
     <script>
-        //:::::::::: converting slug :::::::::::::::::::::::::::::::::::::::://
+        $('#addnew').click(function() {
+            $('#addnewcard').removeClass('d-none');
+            $(this).hide();
+
+        });
+        $('.close').click(function() {
+            $('#addnewcard').addClass('d-none');
+            $('#addnew').show();
+        });
+    </script>
+    <script>
+        //:::::::::::::: converting slug :::::::::::::::::::::::::::::::::://
         function convertToSlug(str) {
             str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
             .toLowerCase();
@@ -507,6 +582,7 @@
     }
 
     function createSizeData() {
+
         var sizeType = document.getElementById('size_type').value;
         var sizeDiv = document.getElementById('sizeDiv');
         var valueDiv = document.createElement('div');
@@ -604,21 +680,46 @@
     //:::::::::::: Adding Variations ::::::::::::::::::::::://
     function cloneInput(link) {
         var closestDiv = link.closest('.container_div');
+        var parentInput = closestDiv.querySelector('.variation_name').value;
 
         var InputDivcontainer = closestDiv.querySelector('.variation_value_div');
-        var originalInputDiv = document.querySelector('#input_div');
 
-        var clonedInputDiv = originalInputDiv.cloneNode(true);
-        clearInputFields(clonedInputDiv);
-
-        var removeInputLink = document.createElement('i');
-        removeInputLink.className = 'fas fa-trash-alt float-right p-2 ';
-        removeInputLink.style.cursor = 'pointer';
-        removeInputLink.onclick = function() {
-            clonedInputDiv.remove();
-        };
-        clonedInputDiv.appendChild(removeInputLink);
-        InputDivcontainer.appendChild(clonedInputDiv);
+        var newInputDiv = document.createElement('div');
+        newInputDiv.classList.add('input_div', 'form-group', 'col-lg-12', 'd-flex');
+        
+        var input1 = document.createElement('div');
+        input1.classList.add('form-control-wrap', 'col-lg-2', 'p-2');
+        input1.innerHTML = '<input type="text" name="'+parentInput+'_value[]" class="variation_value form-control" placeholder="Value" required>';
+        
+        var input2 = document.createElement('div');
+        input2.classList.add('form-control-wrap', 'col-lg-2', 'p-2');
+        input2.innerHTML = '<input type="text" name="'+parentInput+'_price[]" class="variation_price form-control" placeholder="Price" required>';
+        
+        var input3 = document.createElement('div');
+        input3.classList.add('form-control-wrap', 'col-lg-3', 'p-2');
+        input3.innerHTML = '<input type="file" name="'+parentInput+'_Images[]" class="variation_images form-control" placeholder="Value">';
+        
+        var input4 = document.createElement('div');
+        input4.classList.add('form-control-wrap', 'col-lg-4');
+        input4.innerHTML = '<textarea name="'+parentInput+'_description[]" class="variation_description form-control" placeholder="About Product....."></textarea>';
+        
+        var input5 = document.createElement('div');
+        input5.classList.add('col-lg-3', 'p-2');
+        input5.innerHTML = '<div class="form-group"><i onclick="removeNewInput(this)" class="fas fa-trash-alt"></i></div>';
+        
+        newInputDiv.appendChild(input1);
+        newInputDiv.appendChild(input2);
+        newInputDiv.appendChild(input3);
+        newInputDiv.appendChild(input4);
+        newInputDiv.appendChild(input5);
+        
+        InputDivcontainer.appendChild(newInputDiv);
+        initializeEditors(newInputDiv);
+    }
+    
+    function removeNewInput(icon) {
+        var inputDiv = icon.closest('.input_div');
+        inputDiv.remove();
     }
 
     function clearInputFields(container) {
@@ -635,77 +736,77 @@
             var parentInput = target.closest('.container_div').querySelector('.variation_name');
 
             updateNestedInputName(parentInput, 'variation_value', 'variation_price', 'variation_images',
-                'variation_description');
+                'variation_description','variation_data_add');
         }
     });
     var divCounter = 1;
 
     function cloneParentDiv() {
         divCounter++;
-        var htmlTemplate = `
-                                                                <div id="container_div" class="container_div form-group col-lg-12 ">
-                                                                    <h6>Variation ${divCounter} </h6>
-                                                                    <div class="col-lg-12 d-flex">
-                                                                        <div class="col-lg-3 p-2">
-                                                                            <div class="form-group">
-                                                                                <div class="form-control-wrap">
-                                                                                    <input type="text" name="variation_name[]"
-                                                                                        class="variation_name form-control" id="variation_name"
-                                                                                        placeholder="Enter Name">
-                                                                                    <div class="error-message" style="color: red; display: none;">Duplicate
-                                                                                        value
-                                                                                        or invalid characters found</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-3 p-2">
-                                                                            <div class="form-group">
-                                                                                <div class="form-control-wrap">
-                                                                                    <select name="entity_id[]" class="entity_id form-control" id="entity_id">
-                                                                                        @if ($entities)
-                                                                                            @foreach ($entities as $entity)
-                                                                                                <option value="{{ $entity->id }}">{{ $entity->name }}
-                                                                                                </option>
-                                                                                            @endforeach
-                                                                                        @endif
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-3 p-2">
-                                                                            <div class="form-group">
-                                                                                <i style="cursor:pointer;" onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-12">
-                                                                        <div class="variation_value_div">
-                                                                            <div id="input_div" class="input_div form-group col-lg-12  d-flex">
-                                                                                <div class="form-control-wrap col-lg-2 p-2">
-                                                                                    <input type="text" name="variation_value[]"
-                                                                                        class="variation_value form-control" placeholder="Value">
-                                                                                </div>
-                                                                                <div class="form-control-wrap col-lg-2 p-2">
-                                                                                    <input type="text" name="variation_price[]"
-                                                                                        class="variation_price form-control" placeholder="Price">
-                                                                                </div>
-                                                                                <div class="form-control-wrap col-lg-3 p-2">
-                                                                                    <input type="file" name="variation_Images[]"
-                                                                                        class="variation_images form-control" placeholder="Value">
-                                                                                </div>
-                                                                                <div class="form-control-wrap col-lg-4">
-                                                                                    <textarea name="variation_description[]" class="variation_description form-control" 
-                                                                                        placeholder="About Product....."></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-control-wrap " style="margin-left: 2rem; float:right">
-                                                                            <a class="primary-link" style="cursor: pointer" onclick="cloneInput(this)">Add
-                                                                                More</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                        `;
+        var htmlTemplate = `<div id="container_div" class="container_div form-group col-lg-12 ">
+                                    <h6>Variation ${divCounter} </h6>
+                                    <div class="col-lg-12 d-flex">
+                                        <div class="col-lg-3 p-2">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="text" name="variation_name[]"
+                                                        class="variation_name form-control" id="variation_name"
+                                                            placeholder="Enter Name">
+                                                    <div class="error-message" style="color: red; display: none;">Duplicate
+                                                            value
+                                                        or invalid characters found</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 p-2">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <select name="entity_id[]" class="entity_id form-control" id="entity_id">
+                                                        @if ($entities)
+                                                            @foreach ($entities as $entity)
+                                                                <option value="{{ $entity->id }}">{{ $entity->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 p-2">
+                                            <div class="form-group">
+                                                <i onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="variation_value_div">
+                                            <div id="input_div" class="input_div form-group col-lg-12  d-flex">
+                                                <div class="form-control-wrap col-lg-2 p-2">
+                                                    <input type="text" name="variation_value[]"
+                                                        class="variation_value form-control" placeholder="Value">
+                                                </div>
+                                                <div class="form-control-wrap col-lg-2 p-2">
+                                                    <input type="text" name="variation_price[]"
+                                                         class="variation_price form-control" placeholder="Price">
+                                                </div>
+                                                <div class="form-control-wrap col-lg-3 p-2">
+                                                   <input type="file" name="variation_Images[]"
+                                                        class="variation_value form-control" placeholder="Value">
+                                                </div>
+                                                <div class="form-control-wrap col-lg-4">
+                                                    <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
+                                                        placeholder="About Product....."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-control-wrap " style="margin-left: 2rem; float:right">
+                                              <a class="primary-link" style="cursor: pointer" onclick="cloneInput(this)">Add
+                                                  More</a>
+                                         </div>
+                                    </div>
+                            </div>`;
+                            
+                                                                                            
+                                                                                                   
 
             var tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlTemplate;
@@ -715,15 +816,28 @@
             initializeEditors(clonedElement);
 
         }
-
-        function remove_variation(icon) {
+        var variationIDs = [];
+        function remove_variation(icon, id) {
+            variationIDs.push(id);
+            console.log(variationIDs);
             var containerDiv = icon.closest('.container_div');
             containerDiv.remove();
+            document.getElementById('remove_variation_id').value = variationIDs;
         }
+        
 
-        //::::::::::::::::: updating name :::::::::::::::::::::::::::::::://
+        var variationDataIDs = [];
+        function remove_variation_data(icon,id){
+            variationDataIDs.push(id);
+            console.log(variationDataIDs);
+            var containerDiv = icon.closest('.input_div');
+            containerDiv.remove();
+            document.getElementById('remove_variationData_id').value = variationDataIDs;
+        }
+       
+
         function updateNestedInputName(parentInput, nestedInput1Class, nestedInput2Class, nestedInput3Class,
-            nestedInput4Class) {
+            nestedInput4Class,addMore) {
             var parentInputValue = parentInput.value;
 
             var containerDiv = parentInput.closest('.container_div');
@@ -732,6 +846,7 @@
             var nestedInput2Elements = containerDiv.querySelectorAll('.' + nestedInput2Class);
             var nestedInput3Elements = containerDiv.querySelectorAll('.' + nestedInput3Class);
             var nestedInput4Elements = containerDiv.querySelectorAll('.' + nestedInput4Class);
+            var addMoredata = containerDiv.querySelectorAll('.' + addMore);
 
             nestedInput1Elements.forEach(function(nestedInput1) {
                 nestedInput1.name = parentInputValue + '_value[]';
@@ -748,16 +863,20 @@
             nestedInput4Elements.forEach(function(nestedInput4) {
                 nestedInput4.name = parentInputValue + '_description[]';
             });
+
+            addMoredata.forEach(function(adddata) {
+                adddata.setAttribute('data-name', parentInputValue)
+            });
         }
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
-        //:::::::::::::::: input Validation :::::::::::::::::::::::::::::::::::://
         document.getElementById('parent_div').addEventListener('input', function(event) {
             var target = event.target;
 
             if (target.tagName === 'INPUT' && target.classList.contains('variation_name')) {
                 validateInputs();
             }
+
         });
 
         function validateInputs() {

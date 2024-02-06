@@ -119,14 +119,12 @@ Route::get('admin-dashboard/products',[ProductController::class,'index']);
 Route::get('admin-dashboard/add-product/{slug?}',[ProductController::class,'addProduct']);
 Route::post('admin-dashboard/add-product-procc',[ProductController::class,'addProcc']);
 Route::get('admin-dashboard/remove-product/{id}',[ProductController::class,'removeProduct']);
-Route::get('admin-dashboard/edit-product-variation/{slug}',[AccessoriesController::class,'editVariations']);
 
 // product Accessories AccessoriesController
 Route::get('admin-dashboard/product-accessories',[AccessoriesController::class,'index']);
 Route::get('admin-dashboard/add-accessories/{slug?}',[AccessoriesController::class,'addAccessorie']);
 Route::post('admin-dashboard/add-accessories-procc',[AccessoriesController::class,'AccessoriesAddprocc']);
 Route::get('admin-dashboard/remove-product-accessories/{id}',[AccessoriesController::class,'removeAccessories']);
-Route::get('admin-dashboard/edit-accessories-variation/{slug}',[AccessoriesController::class,'editVariations']);
 
 // Accessories type AccessoriesController
 Route::get('admin-dashboard/accessories-type',[AccessoriesController::class,'AccessoriesType']);
