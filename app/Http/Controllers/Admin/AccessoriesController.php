@@ -39,9 +39,21 @@ class AccessoriesController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'slug' => 'required|unique:accessories_types,slug'
+            'slug' => 'required|unique:accessories_types,slug',
+            
         ]);
-
+        if ($request->images !== null) {
+            $request->validate(
+                [
+                    'images' => 'required',
+                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                ],
+                [
+                    'images.*.image' => 'The file must be an image.',
+                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                ]
+            );
+        }
         $type = new AccessoriesType();
         $type->name = $request->name;
         $type->slug = $request->slug;
@@ -81,16 +93,27 @@ class AccessoriesController extends Controller
                 'name' => 'required|unique:product_accessories,name,' . $request->id,
                 'slug' => 'required|unique:product_accessories,slug,' . $request->id,
                 'accessorie_type' => 'required',
+                'default_price' => 'required|numeric'
             ]);
+            if ($request->images !== null) {
+                $request->validate(
+                    [
+                        'images' => 'required',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    ],
+                    [
+                        'images.*.image' => 'The file must be an image.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    ]
+                );
+            }
             $type = ProductAccessories::find($request->id);
             $type->name = $request->name;
             $type->slug = $request->slug;
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
-            if ($request->default_price !== null) {
-                $type->price = $request->default_price;
-            }
+            $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -206,14 +229,14 @@ class AccessoriesController extends Controller
                                             $var_data[$i]->value = $request->$var_value[$i];
                                             $var_data[$i]->price = $request->$var_price[$i];
                                             $var_data[$i]->description = $request->$var_description[$i];
-                                            if(isset($request->$var_images[$i])){
-                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                                $image = $request->file($var_images)[$i];
-                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                                $image->move(public_path() . '/accessories_Images/', $filename);
-                                                $var_data[$i]->image = $filename;
+                                            if (isset($request->$var_images[$i])) {
+                                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                    $image = $request->file($var_images)[$i];
+                                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                    $image->move(public_path() . '/accessories_Images/', $filename);
+                                                    $var_data[$i]->image = $filename;
+                                                }
                                             }
-                                        }
                                             $var_data[$i]->save();
                                         } else {
                                             $var_data = new AccessoriesVariationsData();
@@ -221,14 +244,14 @@ class AccessoriesController extends Controller
                                             $var_data->value = $request->$var_value[$i];
                                             $var_data->price = $request->$var_price[$i];
                                             $var_data->description = $request->$var_description[$i];
-                                            if(isset($request->$var_images[$i])){
-                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                                $image = $request->file($var_images)[$i];
-                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                                $image->move(public_path() . '/accessories_Images/', $filename);
-                                                $var_data->image = $filename;
+                                            if (isset($request->$var_images[$i])) {
+                                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                    $image = $request->file($var_images)[$i];
+                                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                    $image->move(public_path() . '/accessories_Images/', $filename);
+                                                    $var_data->image = $filename;
+                                                }
                                             }
-                                        }
                                             $var_data->save();
                                         }
 
@@ -245,7 +268,12 @@ class AccessoriesController extends Controller
                 'name' => 'required|unique:product_accessories,name',
                 'slug' => 'required|unique:product_accessories,slug',
                 'images' => 'required',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
                 'accessorie_type' => 'required',
+                'default_price' => 'required|numeric'
+            ], [
+                'images.*.image' => 'The file must be an image.',
+                'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
             ]);
 
             $type = new ProductAccessories();
@@ -254,9 +282,7 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
-            if ($request->default_price !== null) {
-                $type->price = $request->default_price;
-            }
+            $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -309,7 +335,7 @@ class AccessoriesController extends Controller
                         $images[] = $request->var_images;
                         if ($request->$value !== null) {
                             if ($request->$value[$a] !== null) {
-                              
+
                                 $variation = new AccessoriesVariations();
                                 $variation->name = $var_name;
                                 $variation->entity_id = $entity;
@@ -323,14 +349,14 @@ class AccessoriesController extends Controller
                                         $var_data->value = $request->$value[$i];
                                         $var_data->price = $request->$price[$i];
                                         $var_data->description = $request->$var_description[$i];
-                                        if(isset($request->$var_images[$i])){
-                                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                            $image = $request->file($var_images)[$i];
-                                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                            $image->move(public_path() . '/accessories_Images/', $filename);
-                                            $var_data->image = $filename;
+                                        if (isset($request->$var_images[$i])) {
+                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                $image = $request->file($var_images)[$i];
+                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                $image->move(public_path() . '/accessories_Images/', $filename);
+                                                $var_data->image = $filename;
+                                            }
                                         }
-                                    }
                                         $var_data->save();
                                     }
                                 }

@@ -52,8 +52,8 @@
                                         </select>
                                     </div>
                                     @error('accessorie_type')
-                                    <span class="text text-danger">{{ $message }}</span>
-                                @enderror
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6 p-3">
@@ -73,18 +73,32 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 p-3">
-                            <div class="form-group" id="file-input">
-                                <label class="form-label" for="image">Image</label>
-                                <div class="form-control-wrap p-2">
-                                    <input type="file" name="images[]" class="form-control" id="image">
+                        <div class="d-flex">
+                            <div class="col-lg-6 p-3">
+                                <div class="form-group" id="file-input">
+                                    <label class="form-label" for="image">Image</label>
+                                    <div class="form-control-wrap p-2">
+                                        <input type="file" name="images[]" class="form-control" id="image">
+                                    </div>
+                                    @error('images')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                @error('images')
-                                    <span class="text text-danger">{{ $message }}</span>
-                                @enderror
+                                <button type="button" onclick="addFileInput()" class="btn btn-primary" id="add-image">Add
+                                    More</button>
                             </div>
-                            <button type="button" onclick="addFileInput()" class="btn btn-primary" id="add-image">Add
-                                More</button>
+                            <div id="default_price" class="col-lg-5 p-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="default_price"> Price</label>
+                                    <div class="form-control-wrap ">
+                                        <input type="text" name="default_price" id="price" class="form-control"
+                                            value="{{ $product->price ?? '' }}" placeholder="Default Price" required>
+                                    </div>
+                                    @error('default_price')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         @if (isset($product->images))
                             <div class="col-lg-12 d-flex align-items-center flex-wrap">
@@ -95,7 +109,8 @@
                                             <img src="{{ asset('accessories_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
                                             <input type="hidden" name="existing_images[]" value="{{ $image }}">
-                                            <span><i style="cursor: pointer" onclick="removeImage(this)" class="fas fa-trash-alt p-3"></i></span>
+                                            <span><i style="cursor: pointer" onclick="removeImage(this)"
+                                                    class="fas fa-trash-alt p-3"></i></span>
                                         </div>
                                     </div>
                                     @if ($loop->iteration % 4 == 0)
@@ -123,18 +138,7 @@
                                 @enderror
                                 <input type="hidden" name="size_unit" value="feet">
                             </div>
-                            <div id="default_price" class="col-lg-4" style="padding-left: 1.5rem">
-                                <div class="form-group">
-                                    <label class="form-label" for="default_price"> Price</label>
-                                    <div class="form-control-wrap ">
-                                        <input type="text" name="default_price" id="price" class="form-control"
-                                            value="{{ $product->price ?? '' }}" placeholder="Default Price" required>
-                                    </div>
-                                    @error('default_price')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="form-group col-lg-8 " id="sizeDiv">
                                 <span id="add-button" class="text-right"
                                     style="display: none; cursor: pointer; float:right;">
@@ -165,7 +169,8 @@
                                                 {{ $size->price }}
                                             </div>
                                             <div class="col-lg-2">
-                                                <i style="cursor: pointer" onclick="removeSize(this,{{ $size->id ?? '' }})"
+                                                <i style="cursor: pointer"
+                                                    onclick="removeSize(this,{{ $size->id ?? '' }})"
                                                     class="fas fa-trash-alt p-2"></i>
                                             </div>
                                         </div>
@@ -353,7 +358,8 @@
                                                                                     </div>
                                                                                     <div class="col-lg-3 p-2">
                                                                                         <div class="form-group">
-                                                                                            <i style="cursor: pointer" onclick="remove_variation_data(this,{{ $data->id ?? '' }})"
+                                                                                            <i style="cursor: pointer"
+                                                                                                onclick="remove_variation_data(this,{{ $data->id ?? '' }})"
                                                                                                 class="variation_data_add fas fa-trash-alt"></i>
                                                                                         </div>
                                                                                     </div>
@@ -471,12 +477,9 @@
         var sizeType = document.getElementById('size_type').value;
         var sizeDiv = document.getElementById('sizeDiv');
         var btn = document.getElementById('add-button');
-        var default_price = document.getElementById('default_price');
-        var price = document.getElementById('price');
+
 
         if (!sizeDataCreated) {
-            default_price.style.display = 'none';
-            price.removeAttribute('required');
             btn.style.display = 'block';
             createSizeData();
             sizeDataCreated = true;
@@ -496,7 +499,7 @@
 
             if (sizeType === 'wh') {
                 var width = document.createElement('input');
-                width.type = 'text';
+                width.type = 'number';
                 width.className = 'form-control';
                 width.name = 'width[]';
                 width.placeholder = 'width(ft)';
@@ -508,7 +511,7 @@
                 sizeinputdiv.appendChild(span);
 
                 var height = document.createElement('input');
-                height.type = 'text';
+                height.type = 'number';
                 height.className = 'form-control ';
                 height.name = 'height[]';
                 height.placeholder = 'height(ft)';
@@ -518,7 +521,11 @@
                 valueDiv.appendChild(sizeinputdiv);
             } else if (sizeType === 'length' || sizeType === 'Custom') {
                 var sizeinput = document.createElement('input');
-                sizeinput.type = 'text';
+                if (sizeType === 'length') {
+                    sizeinput.type = 'number';
+                } else {
+                    sizeinput.type = 'text';
+                }
                 sizeinput.className = 'form-control ml-3';
                 sizeinput.name = 'sizeValue[]';
                 sizeinput.placeholder = 'value (ft)';
@@ -528,7 +535,7 @@
                 valueDiv.appendChild(sizeinputdiv);
             } else if (sizeType === 'DH') {
                 var diameter = document.createElement('input');
-                diameter.type = 'text';
+                diameter.type = 'number';
                 diameter.className = 'form-control';
                 diameter.name = 'width[]';
                 diameter.placeholder = 'diameter (ft)';
@@ -540,7 +547,7 @@
                 sizeinputdiv.appendChild(span);
 
                 var height = document.createElement('input');
-                height.type = 'text';
+                height.type = 'number';
                 height.className = 'form-control';
                 height.name = 'height[]';
                 height.placeholder = 'height (ft)';
@@ -553,11 +560,7 @@
             if (sizeType === 'none') {
                 sizeDiv.appendChild(valueDiv);
                 btn.style.display = 'none';
-                default_price.style.display = 'block';
-                price.required = true;
             } else {
-                default_price.style.display = 'none';
-                price.removeAttribute('required');
                 btn.style.display = 'block';
                 var pricediv = document.createElement('div');
                 pricediv.className = 'form-control-wrap col-lg-3 p-1';
@@ -591,7 +594,7 @@
 
         if (sizeType === 'wh') {
             var width = document.createElement('input');
-            width.type = 'text';
+            width.type = 'number';
             width.className = 'form-control';
             width.name = 'width[]';
             width.placeholder = 'width(ft)';
@@ -603,7 +606,7 @@
             sizeinputdiv.appendChild(span);
 
             var height = document.createElement('input');
-            height.type = 'text';
+            height.type = 'number';
             height.className = 'form-control';
             height.name = 'height[]';
             height.placeholder = 'height(ft)';
@@ -613,7 +616,11 @@
             valueDiv.appendChild(sizeinputdiv);
         } else if (sizeType === 'length' || sizeType === 'Custom') {
             var sizeinput = document.createElement('input');
-            sizeinput.type = 'text';
+            if (sizeType === 'length') {
+                sizeinput.type = 'number';
+            } else {
+                sizeinput.type = 'text';
+            }
             sizeinput.className = 'form-control ml-3';
             sizeinput.name = 'sizeValue[]';
             sizeinput.placeholder = 'Enter value(ft)';
@@ -623,7 +630,7 @@
             valueDiv.appendChild(sizeinputdiv);
         } else if (sizeType === 'DH') {
             var diameter = document.createElement('input');
-            diameter.type = 'text';
+            diameter.type = 'number';
             diameter.className = 'form-control';
             diameter.name = 'width[]';
             diameter.placeholder = 'diameter(ft)';
@@ -635,7 +642,7 @@
             sizeinputdiv.appendChild(span);
 
             var height = document.createElement('input');
-            height.type = 'text';
+            height.type = 'number';
             height.className = 'form-control';
             height.name = 'height[]';
             height.placeholder = 'height(ft)';
@@ -754,66 +761,66 @@
     function cloneParentDiv() {
         divCounter++;
         var htmlTemplate = `<div id="container_div" class="container_div form-group col-lg-12 ">
-                                        <h6>Variation ${divCounter} </h6>
-                                        <div class="col-lg-12 d-flex">
-                                            <div class="col-lg-3 p-2">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" name="variation_name[]"
-                                                            class="variation_name form-control" id="variation_name"
-                                                                placeholder="Enter Name">
-                                                        <div class="error-message" style="color: red; display: none;">Duplicate
-                                                                value
-                                                            or invalid characters found</div>
+                                                    <h6>Variation ${divCounter} </h6>
+                                                    <div class="col-lg-12 d-flex">
+                                                        <div class="col-lg-3 p-2">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" name="variation_name[]"
+                                                                        class="variation_name form-control" id="variation_name"
+                                                                            placeholder="Enter Name">
+                                                                    <div class="error-message" style="color: red; display: none;">Duplicate
+                                                                            value
+                                                                        or invalid characters found</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 p-2">
+                                                            <div class="form-group">
+                                                                <div class="form-control-wrap">
+                                                                    <select name="entity_id[]" class="entity_id form-control" id="entity_id">
+                                                                        @if ($entities)
+                                                                            @foreach ($entities as $entity)
+                                                                                <option value="{{ $entity->id }}">{{ $entity->name }}</option>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 p-2">
+                                                            <div class="form-group">
+                                                                <i style="cursor:pointer;" onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 p-2">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <select name="entity_id[]" class="entity_id form-control" id="entity_id">
-                                                            @if ($entities)
-                                                                @foreach ($entities as $entity)
-                                                                    <option value="{{ $entity->id }}">{{ $entity->name }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                    <div class="col-lg-12">
+                                                        <div class="variation_value_div">
+                                                            <div id="input_div" class="input_div form-group col-lg-12  d-flex">
+                                                                <div class="form-control-wrap col-lg-2 p-2">
+                                                                    <input type="text" name="variation_value[]"
+                                                                        class="variation_value form-control" placeholder="Value">
+                                                                </div>
+                                                                <div class="form-control-wrap col-lg-2 p-2">
+                                                                    <input type="text" name="variation_price[]"
+                                                                         class="variation_price form-control" placeholder="Price">
+                                                                </div>
+                                                                <div class="form-control-wrap col-lg-3 p-2">
+                                                                   <input type="file" name="variation_Images[]"
+                                                                        class="variation_value form-control" placeholder="Value">
+                                                                </div>
+                                                                <div class="form-control-wrap col-lg-4">
+                                                                    <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
+                                                                        placeholder="About Product....."></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-control-wrap " style="margin-left: 2rem; float:right">
+                                                              <a class="primary-link" style="cursor: pointer;" onclick="cloneInput(this)">Add
+                                                                  More</a>
+                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 p-2">
-                                                <div class="form-group">
-                                                    <i style="cursor:pointer;" onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="variation_value_div">
-                                                <div id="input_div" class="input_div form-group col-lg-12  d-flex">
-                                                    <div class="form-control-wrap col-lg-2 p-2">
-                                                        <input type="text" name="variation_value[]"
-                                                            class="variation_value form-control" placeholder="Value">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-2 p-2">
-                                                        <input type="text" name="variation_price[]"
-                                                             class="variation_price form-control" placeholder="Price">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-3 p-2">
-                                                       <input type="file" name="variation_Images[]"
-                                                            class="variation_value form-control" placeholder="Value">
-                                                    </div>
-                                                    <div class="form-control-wrap col-lg-4">
-                                                        <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
-                                                            placeholder="About Product....."></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-control-wrap " style="margin-left: 2rem; float:right">
-                                                  <a class="primary-link" style="cursor: pointer;" onclick="cloneInput(this)">Add
-                                                      More</a>
-                                             </div>
-                                        </div>
-                                </div>`;
+                                            </div>`;
 
 
 

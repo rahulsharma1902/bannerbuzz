@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('parent_category')->nullable();
             $table->json('images')->nullable();
             $table->text('description')->nullable();
+            $table->integer('display_on')->default(false);
             $table->integer('status')->default(true);
             $table->timestamps();
         });

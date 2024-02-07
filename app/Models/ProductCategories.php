@@ -17,6 +17,7 @@ class ProductCategories extends Model
         'parent_category',
         'images',
         'description',
+        'display_on',
         'status'
     ];
     public function parent(){

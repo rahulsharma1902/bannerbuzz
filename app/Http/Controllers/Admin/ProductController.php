@@ -38,11 +38,25 @@ class ProductController extends Controller
         // print_r($request->all());
         // die();
         if ($request->id) {
+
             $request->validate([
                 'name' => 'required|unique:products,name,' . $request->id,
                 'slug' => 'required|unique:products,slug,' . $request->id,
                 'category_id' => 'required',
+                'default_price' => 'required|numeric'
             ]);
+            if ($request->images !== null) {
+                $request->validate(
+                    [
+                        'images' => 'required',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    ],
+                    [
+                        'images.*.image' => 'The file must be an image.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    ]
+                );
+            }
             $product = Product::find($request->id);
             $product->name = $request->name;
             $product->slug = $request->slug;
@@ -51,9 +65,7 @@ class ProductController extends Controller
             $product->accessories_type_id = $request->accessorie_type;
             $product->is_printed = $request->Printed;
             $product->description = $request->product_description;
-            if ($request->default_price !== null) {
-                $product->price = $request->default_price;
-            }
+            $product->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -169,14 +181,14 @@ class ProductController extends Controller
                                             $var_data[$i]->value = $request->$var_value[$i];
                                             $var_data[$i]->price = $request->$var_price[$i];
                                             $var_data[$i]->description = $request->$var_description[$i];
-                                            if(isset($request->$var_images[$i])){
-                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                                $image = $request->file($var_images)[$i];
-                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                                $image->move(public_path() . '/product_Images/', $filename);
-                                                $var_data[$i]->image = $filename;
+                                            if (isset($request->$var_images[$i])) {
+                                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                    $image = $request->file($var_images)[$i];
+                                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                    $image->move(public_path() . '/product_Images/', $filename);
+                                                    $var_data[$i]->image = $filename;
+                                                }
                                             }
-                                        }
                                             $var_data[$i]->save();
                                         } else {
                                             $var_data = new ProductVariationsData();
@@ -184,14 +196,14 @@ class ProductController extends Controller
                                             $var_data->value = $request->$var_value[$i];
                                             $var_data->price = $request->$var_price[$i];
                                             $var_data->description = $request->$var_description[$i];
-                                            if(isset($request->$var_images[$i])){
-                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                                $image = $request->file($var_images)[$i];
-                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                                $image->move(public_path() . '/product_Images/', $filename);
-                                                $var_data->image = $filename;
+                                            if (isset($request->$var_images[$i])) {
+                                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                    $image = $request->file($var_images)[$i];
+                                                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                    $image->move(public_path() . '/product_Images/', $filename);
+                                                    $var_data->image = $filename;
+                                                }
                                             }
-                                        }
                                             $var_data->save();
                                         }
 
@@ -204,12 +216,20 @@ class ProductController extends Controller
             }
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
-            $request->validate([
-                'name' => 'required|unique:products,name',
-                'slug' => 'required|unique:products,slug',
-                'images' => 'required',
-                'category_id' => 'required',
-            ]);
+            $request->validate(
+                [
+                    'name' => 'required|unique:products,name',
+                    'slug' => 'required|unique:products,slug',
+                    'images' => 'required',
+                    'images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
+                    'category_id' => 'required',
+                    'default_price' => 'required|numeric'
+                ],
+                [
+                    'images.*.image' => 'The file must be an image.',
+                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                ]
+            );
 
             $product = new Product();
             $product->name = $request->name;
@@ -218,9 +238,7 @@ class ProductController extends Controller
             $product->product_type_id = $request->product_type_id;
             $product->accessories_type_id = $request->accessorie_type;
             $product->is_printed = $request->Printed;
-            if ($request->default_price !== null) {
-                $product->price = $request->default_price;
-            }
+            $product->price = $request->default_price;
             $product->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
@@ -274,7 +292,7 @@ class ProductController extends Controller
                         $images[] = $request->var_images;
                         if ($request->$value !== null) {
                             if ($request->$value[$a] !== null) {
-                              
+
                                 $variation = new ProductVariations();
                                 $variation->name = $var_name;
                                 $variation->entity_id = $entity;
@@ -288,14 +306,14 @@ class ProductController extends Controller
                                         $var_data->value = $request->$value[$i];
                                         $var_data->price = $request->$price[$i];
                                         $var_data->description = $request->$var_description[$i];
-                                        if(isset($request->$var_images[$i])){
-                                        if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                            $image = $request->file($var_images)[$i];
-                                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                                            $image->move(public_path() . '/product_Images/', $filename);
-                                            $var_data->image = $filename;
+                                        if (isset($request->$var_images[$i])) {
+                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                                $image = $request->file($var_images)[$i];
+                                                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                                                $image->move(public_path() . '/product_Images/', $filename);
+                                                $var_data->image = $filename;
+                                            }
                                         }
-                                    }
                                         $var_data->save();
                                     }
                                 }
@@ -321,9 +339,9 @@ class ProductController extends Controller
             $product_variation = ProductVariations::where('product_id', $id)->get();
             if ($product_variation) {
                 foreach ($product_variation as $var) {
-                    $var_data = ProductVariationsData::where('product_variation_id',$var->id)->get();
-                    if($var_data){
-                        foreach($var_data as $data){
+                    $var_data = ProductVariationsData::where('product_variation_id', $var->id)->get();
+                    if ($var_data) {
+                        foreach ($var_data as $data) {
                             $data->delete();
                         }
                     }
