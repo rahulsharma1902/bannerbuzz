@@ -32,9 +32,6 @@
                                         <input type="hidden" name="slug" class="form-control" id="slug"
                                             value="{{ $category->slug ?? '' }}" placeholder="slug">
                                     </div>
-                                    @error('slug')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -78,7 +75,7 @@
                                             <img src="{{ asset('category_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
                                             <input type="hidden" name="existing_images[]" value="{{ $image }}">
-                                            <span><button onclick="removeImage(this)" class="btn btn-dark">X</button></span>
+                                            <span><i onclick="removeImage(this)" style="cursor: pointer" class="fas fa-trash-alt p-2"></i></span>
                                         </div>
                                     </div>
                                     @if (($loop->iteration) % 4 == 0)
@@ -125,10 +122,9 @@
             input.name = 'images[]';
             input.className = 'form-control';
 
-            var button = document.createElement('button');
-            button.className = 'btn btn-dark';
-            button.textContent = 'X';
-            button.type = 'button';
+            var button = document.createElement('i');
+            button.className = 'fas fa-trash-alt p-2';
+            button.style.cursor = 'pointer';
             button.onclick = function() {
                 remove(inputdiv);
             };

@@ -22,11 +22,13 @@ class ProductCategoryController extends Controller
 
     public function AddCategory(Request $request)
     {
-        // dd($request->all());
+        // echo "<pre>";
+        // print_r($request->all());
+        // die();
         if ($request->id) {
             $request->validate([
-                'name' => 'required',
-                'slug' => 'required|unique:product_categories,id,' . $request->id,
+                'name' => 'required|unique:product_categories,name,'.$request->id,
+                'slug' => 'required|unique:product_categories,slug,'.$request->id,
             ]);
 
             $category = ProductCategories::find($request->id);
@@ -55,8 +57,8 @@ class ProductCategoryController extends Controller
             return redirect()->back()->with('success', 'Successfully Updated category');
         } else {
             $request->validate([
-                'name' => 'required',
-                'slug' => 'required|unique:product_categories',
+                'name' => 'required|unique:product_categories,name',
+                'slug' => 'required|unique:product_categories,slug',
             ]);
 
             $category = new ProductCategories();
