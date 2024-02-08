@@ -12,7 +12,7 @@
     <!-- Fav Icon  -->
     <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
     <!-- Page Title  -->
-    <title>Bannerbuzz || Admin Dashboard</title>
+    <title>Cre*ive || Admin Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link rel="stylesheet" href="{{ asset('admin-theme/coustam.css?ver=3.1.2') }}">
