@@ -734,7 +734,7 @@
     //:::::::::::: Adding Variations ::::::::::::::::::::::://
     function cloneInput(link) {
         var closestDiv = link.closest('.container_div');
-        var parentInput = closestDiv.querySelector('.variation_name').value;
+        var parentInput = closestDiv.querySelector('.variation_name').value.trim().replace(/\s+/g, '_');
 
         var InputDivcontainer = closestDiv.querySelector('.variation_value_div');
 
@@ -774,18 +774,6 @@
 
         InputDivcontainer.appendChild(newInputDiv);
         initializeEditors(newInputDiv);
-    }
-
-    function removeNewInput(icon) {
-        var inputDiv = icon.closest('.input_div');
-        inputDiv.remove();
-    }
-
-    function clearInputFields(container) {
-        var inputFields = container.querySelectorAll('input', 'textarea');
-        inputFields.forEach(function(input) {
-            input.value = '';
-        });
     }
 
     document.getElementById('parent_div').addEventListener('input', function(event) {
@@ -849,7 +837,7 @@
                                                             </div>
                                                             <div class="form-control-wrap col-lg-3 p-2">
                                                                <input type="file" name="variation_Images[]"
-                                                                    class="variation_value form-control" placeholder="Value">
+                                                                    class="variation_images form-control" placeholder="Value">
                                                             </div>
                                                             <div class="form-control-wrap col-lg-4">
                                                                 <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
@@ -899,7 +887,7 @@
 
         function updateNestedInputName(parentInput, nestedInput1Class, nestedInput2Class, nestedInput3Class,
             nestedInput4Class, addMore) {
-            var parentInputValue = parentInput.value;
+            var parentInputValue = parentInput.value.trim().replace(/\s+/g, '_');
 
             var containerDiv = parentInput.closest('.container_div');
 
@@ -974,7 +962,7 @@
             }
 
             function isValidCharacters(value) {
-                return /^[a-zA-Z_]+$/.test(value);
+                return /^[a-zA-Z\s_]+$/.test(value);
             }
         }
     </script>

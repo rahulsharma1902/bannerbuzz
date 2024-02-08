@@ -34,9 +34,7 @@ class ProductController extends Controller
 
     public function addProcc(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die();
+
         if ($request->id) {
 
             $request->validate([
@@ -151,18 +149,17 @@ class ProductController extends Controller
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     if ($request->variation_name[$a] !== null) {
-                        $var_name = $request->variation_name[$a];
+                      $var_name =  preg_replace('/\s+/', '_', $request->variation_name[$a]);
                         $entity = $request->entity_id[$a];
                         $var_price = $var_name . '_price';
                         $var_value = $var_name . '_value';
                         $var_images = $var_name . '_Images';
                         $var_description = $var_name . '_description';
 
-                        $variation = ProductVariations::where('name', $var_name)->where('product_id', $request->id)->first();
+                        $variation = ProductVariations::where('name', $request->variation_name[$a])->where('product_id', $request->id)->first();
                         if ($request->$var_value !== null) {
-                            if ($request->$var_value[$a] !== null) {
                                 if ($variation) {
-                                    $variation->name = $var_name;
+                                    $variation->name = $request->variation_name[$a];
                                     $variation->entity_id = $entity;
                                     $variation->product_id = $product->id;
                                     $variation->save();
@@ -210,7 +207,6 @@ class ProductController extends Controller
                                     }
                                 }
                             }
-                        }
                     }
                 }
             }
@@ -283,18 +279,15 @@ class ProductController extends Controller
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     if ($request->variation_name[$a] !== null) {
-                        $var_name = $request->variation_name[$a];
+                        $var_name =  preg_replace('/\s+/', '_', $request->variation_name[$a]);
                         $entity = $request->entity_id[$a];
                         $price = $var_name . '_price';
                         $value = $var_name . '_value';
                         $var_images = $var_name . '_Images';
                         $var_description = $var_name . '_description';
-                        $images[] = $request->var_images;
                         if ($request->$value !== null) {
-                            if ($request->$value[$a] !== null) {
-
                                 $variation = new ProductVariations();
-                                $variation->name = $var_name;
+                                $variation->name = $request->variation_name[$a];
                                 $variation->entity_id = $entity;
                                 $variation->product_id = $product->id;
                                 $variation->save();
@@ -307,7 +300,7 @@ class ProductController extends Controller
                                         $var_data->price = $request->$price[$i];
                                         $var_data->description = $request->$var_description[$i];
                                         if (isset($request->$var_images[$i])) {
-                                            if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                            if ( $request->file($var_images)[$i]->isValid()) {
                                                 $image = $request->file($var_images)[$i];
                                                 $filename = $request->title . rand(0, 100) . '.' . $image->extension();
                                                 $image->move(public_path() . '/product_Images/', $filename);
@@ -317,7 +310,6 @@ class ProductController extends Controller
                                         $var_data->save();
                                     }
                                 }
-                            }
                         }
                     }
                 }
