@@ -421,11 +421,4 @@ class AccessoriesController extends Controller
             return redirect()->back()->with('error', 'Faild to deleted Product');
         }
     }
-
-    public function editVariations($slug)
-    {
-        $product = ProductAccessories::where('slug', $slug)->first();
-        $entities = Entities::all();
-        return view('admin.accessories.edit_variation', compact('product', 'entities'));
-    }
 }

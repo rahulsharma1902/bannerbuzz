@@ -31,7 +31,7 @@
                                 <label class="form-label" for="parent-category">Category</label>
                                 <div class="from-control-wrap">
                                     <select name="category" class="form-control" id="parent-category">
-                                        <option value="">--NONE--</option>
+                                        <!-- <option value="">--NONE--</option> -->
                                         @if (isset($categories))
                                             @foreach ($categories as $cat)
                                                 <option value="{{ $cat->id ?? '' }}"
