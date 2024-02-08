@@ -5,8 +5,6 @@
         <div class="nk-block-head-content">
             <h4 class="nk-block-title">Products </h4>
         </div>
-        <div>
-        </div>
     </div>
     <div class="card card-bordered card-preview">
         <div class="card-inner">

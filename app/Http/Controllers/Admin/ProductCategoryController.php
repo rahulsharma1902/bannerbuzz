@@ -22,13 +22,26 @@ class ProductCategoryController extends Controller
 
     public function AddCategory(Request $request)
     {
-        // dd($request->all());
+        // echo "<pre>";
+        // print_r($request->all());
+        // die();
         if ($request->id) {
             $request->validate([
-                'name' => 'required',
-                'slug' => 'required|unique:product_categories,id,' . $request->id,
+                'name' => 'required|unique:product_categories,name,' . $request->id,
+                'slug' => 'required|unique:product_categories,slug,' . $request->id,
             ]);
-
+            if ($request->images !== null) {
+                $request->validate(
+                    [
+                        'images' => 'required',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    ],
+                    [
+                        'images.*.image' => 'The file must be an image.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    ]
+                );
+            }
             $category = ProductCategories::find($request->id);
             $category->name = $request->name;
             $category->slug = $request->slug;
@@ -55,10 +68,21 @@ class ProductCategoryController extends Controller
             return redirect()->back()->with('success', 'Successfully Updated category');
         } else {
             $request->validate([
-                'name' => 'required',
-                'slug' => 'required|unique:product_categories',
+                'name' => 'required|unique:product_categories,name',
+                'slug' => 'required|unique:product_categories,slug',
             ]);
-
+            if ($request->images !== null) {
+                $request->validate(
+                    [
+                        'images' => 'required',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    ],
+                    [
+                        'images.*.image' => 'The file must be an image.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    ]
+                );
+            }
             $category = new ProductCategories();
             $category->name = $request->name;
             $category->slug = $request->slug;
@@ -102,9 +126,10 @@ class ProductCategoryController extends Controller
 
     public function CategoryList()
     {
-        $categories = ProductCategories::with('parent')->get();
+        $parent_categories = ProductCategories::whereNull('parent_category')->get();
+        $categories = ProductCategories::whereNotNull('parent_category')->get();
 
-        return view('admin.productCategory.List', compact('categories'));
+        return view('admin.productCategory.List', compact('categories', 'parent_categories'));
     }
 
 
@@ -140,6 +165,26 @@ class ProductCategoryController extends Controller
             return redirect()->back()->with('success', 'product Type deleted successfully');
         } else {
             return redirect()->back()->with('error', 'Invalid product type for deletion');
+        }
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $id = $request->input('id');
+        if ($id !== null) {
+            $category = ProductCategories::find($id);
+            if ($category) {
+                if ($category->display_on === 1) {
+                    $category->update(['display_on' => false]);
+                } else {
+                    $category->update(['display_on' => true]);
+                }
+                return response()->json('success');
+            } else {
+                return response()->json('fail');
+            }
+        } else {
+            return response()->json('fail');
         }
     }
 }

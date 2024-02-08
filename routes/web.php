@@ -108,6 +108,7 @@ Route::get('admin-dashboard/product-category/{slug?}',[ProductCategoryController
 Route::post('admin-dashboard/product-category-addProcc',[ProductCategoryController::class,'AddCategory']);
 Route::get('admin-dashboard/product-category-remove/{slug}',[ProductCategoryController::class,'DeleteCategory']);
 Route::get('admin-dashboard/product-category-list',[ProductCategoryController::class,'CategoryList']);
+Route::post('admin-dashboard/change-status',[ProductCategoryController::class,'changeStatus']);
 
 // Product Type ProductCategoryController 
 Route::get('admin-dashboard/product-type',[ProductCategoryController::class,'ProductType']);
