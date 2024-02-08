@@ -48,7 +48,7 @@ class ProductController extends Controller
             $product->category_id = $request->category_id;
             $product->product_type_id = $request->product_type_id;
             $product->accessories_type_id = $request->accessorie_type;
-            $product->is_printed = $request->Printed;
+            // $product->is_printed = $request->Printed;
             $product->description = $request->product_description;
             $images = [];
             if ($request->images !== null) {
@@ -133,7 +133,7 @@ class ProductController extends Controller
                     }
                 }
             }
-
+            if($request->variation_name !== null){
             for ($a = 0; $a < count($request->variation_name); $a++) {
                 if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
@@ -190,6 +190,7 @@ class ProductController extends Controller
                     }
                 }
             }
+        }
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
             $request->validate([
@@ -204,8 +205,11 @@ class ProductController extends Controller
             $product->category_id = $request->category_id;
             $product->product_type_id = $request->product_type_id;
             $product->accessories_type_id = $request->accessorie_type;
-            $product->is_printed = $request->Printed;
+            // $product->is_printed = $request->Printed;
             $product->description = $request->product_description;
+            if($request->default_price !== null){
+                $product->price = $request->default_price;
+            }
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -246,6 +250,7 @@ class ProductController extends Controller
                     }
                 }
             }
+            if($request->variation_name !== null){
             for ($a = 0; $a < count($request->variation_name); $a++) {
                 if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
@@ -279,6 +284,7 @@ class ProductController extends Controller
                     }
                 }
             }
+        }
             return redirect()->back()->with('success', 'data added successfully');
         }
     }

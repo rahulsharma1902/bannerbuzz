@@ -87,6 +87,9 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
+            if($request->default_price !== null){
+                $product->price = $request->default_price;
+            }
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -170,7 +173,7 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-
+            if($request->variation_name !== null){
             for ($a = 0; $a < count($request->variation_name); $a++) {
                 if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
@@ -227,6 +230,7 @@ class AccessoriesController extends Controller
                     }
                 }
             }
+        }
 
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
@@ -243,6 +247,9 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
+            if($request->default_price !== null){
+                $product->price = $request->default_price;
+            }
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -284,6 +291,7 @@ class AccessoriesController extends Controller
                     }
                 }
             }
+            if($request->variation_name !== null){
             for ($a = 0; $a < count($request->variation_name); $a++) {
                 if ($request->variation_name[$a] !== null) {
                     $var_name = $request->variation_name[$a];
@@ -317,6 +325,7 @@ class AccessoriesController extends Controller
                     }
                 }
             }
+        }
             return redirect()->back()->with('success', 'data added successfully');
         }
     }
