@@ -113,13 +113,9 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
-<<<<<<< HEAD
             if($request->default_price !== null){
                 $product->price = $request->default_price;
             }
-=======
-            $type->price = $request->default_price;
->>>>>>> 4be251178d25fc76f5d66c3e5590086ed1e11122
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -202,7 +198,6 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-<<<<<<< HEAD
             if($request->variation_name !== null){
             for ($a = 0; $a < count($request->variation_name); $a++) {
                 if ($request->variation_name[$a] !== null) {
@@ -241,25 +236,6 @@ class AccessoriesController extends Controller
                                     $var_data[$i]->image = $filename;
                                 }
                                 $var_data[$i]->save();
-=======
-            if ($request->variation_name !== null) {
-                for ($a = 0; $a < count($request->variation_name); $a++) {
-                    if ($request->variation_name[$a] !== null) {
-                        $var_name = preg_replace('/\s+/', '_', $request->variation_name[$a]);
-                        $entity = $request->entity_id[$a];
-                        $var_price = $var_name . '_price';
-                        $var_value = $var_name . '_value';
-                        $var_images = $var_name . '_Images';
-                        $var_description = $var_name . '_description';
-
-                        $variation = AccessoriesVariations::where('name', $var_name)->where('accessories_id', $request->id)->first();
-                        if ($request->$var_value !== null) {
-                            if ($variation) {
-                                $variation->name = $request->variation_name[$a];
-                                $variation->entity_id = $entity;
-                                $variation->accessories_id = $type->id;
-                                $variation->save();
->>>>>>> 4be251178d25fc76f5d66c3e5590086ed1e11122
                             } else {
                                 $variation = new AccessoriesVariations();
                                 $variation->name = $var_name;
@@ -307,11 +283,8 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-<<<<<<< HEAD
-        }
+  
 
-=======
->>>>>>> 4be251178d25fc76f5d66c3e5590086ed1e11122
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
             $request->validate([
@@ -332,13 +305,10 @@ class AccessoriesController extends Controller
             $type->accessories_type = $request->accessorie_type;
             $type->is_printed = $request->Printed;
             $type->description = $request->product_description;
-<<<<<<< HEAD
             if($request->default_price !== null){
                 $product->price = $request->default_price;
             }
-=======
             $type->price = $request->default_price;
->>>>>>> 4be251178d25fc76f5d66c3e5590086ed1e11122
             $images = [];
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
@@ -379,17 +349,6 @@ class AccessoriesController extends Controller
                     }
                 }
             }
-<<<<<<< HEAD
-            if($request->variation_name !== null){
-            for ($a = 0; $a < count($request->variation_name); $a++) {
-                if ($request->variation_name[$a] !== null) {
-                    $var_name = $request->variation_name[$a];
-                    $entity = $request->entity_id[$a];
-                    $var_price = $var_name . '_price';
-                    $var_value = $var_name . '_value';
-                    $var_images = $var_name . '_Images';
-                    $var_description = $var_name . '_description';
-=======
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     if ($request->variation_name[$a] !== null) {
@@ -400,7 +359,6 @@ class AccessoriesController extends Controller
                         $var_images = $var_name . '_Images';
                         $var_description = $var_name . '_description';
                         if ($request->$value !== null) {
->>>>>>> 4be251178d25fc76f5d66c3e5590086ed1e11122
 
                             $variation = new AccessoriesVariations();
                             $variation->name = $request->variation_name[$a];
