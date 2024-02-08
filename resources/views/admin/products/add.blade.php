@@ -96,6 +96,7 @@
                                     <label class="form-label" for="parent-category"> Product Type</label>
                                     <div class="from-control-wrap">
                                         <select name="product_type_id" class="form-control" id="product_type">
+                                        <option value="">--NONE--</option>
                                             @if (isset($product_types))
                                                 @foreach ($product_types as $type)
                                                     <option value="{{ $type->id ?? '' }}"
@@ -388,7 +389,7 @@
                                                                                             class="variation_images form-control"
                                                                                             placeholder="Value">
                                                                                         @if ($data->image)
-                                                                                            <img src="{{ url('/product_Images/' . $data->image ?? '') }}"
+                                                                                            <img src="{{ asset('product_Images') ?? '' }}/{{ $data->image ?? '' }}"
                                                                                                 alt="">
                                                                                         @endif
                                                                                     </div>

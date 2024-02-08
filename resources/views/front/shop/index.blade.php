@@ -7,7 +7,7 @@
                 <ul class="shipping">
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/some.svg')}}" alt="" />
+                            <img src="{{ asset('front/img/some.svg')}}" alt="" />
                             <div class="text">
                                 <p>Same Day Shipping</p>
                                 <span>on selected products</span>
@@ -16,7 +16,7 @@
                     </li>
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/priority.svg')}}" alt="" />
+                            <img src="{{ asset('front/img/priority.svg')}}" alt="" />
                             <div class="text">
                                 <p>Priority Shipping</p>
                                 <span>on all the orders</span>
@@ -25,7 +25,7 @@
                     </li>
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/free.svg')}}" alt="" />
+                            <img src="{{ asset('front/img/free.svg')}}" alt="" />
                             <div class="text">
                                 <p>Free Shipping</p>
                                 <span>on order above $99.00</span>
@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div class="banner-img">
-                <img src="{{ url('/front/img/banner_shop.png')}}" alt="" />
+                <img src="{{ asset('front/img/banner_shop.png')}}" alt="" />
             </div>
         </div>
     </div>
@@ -177,7 +177,7 @@
                     <div class="shop_rtl busines_slider">
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_3.png')}}" />
+                                <img src="{{ asset('front/img/shop_3.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -197,7 +197,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_4.png')}}" />
+                                <img src="{{ asset('front/img/shop_4.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -217,7 +217,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_5.png')}}" />
+                                <img src="{{ asset('front/img/shop_5.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -237,7 +237,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_6.png')}}" />
+                                <img src="{{ asset('front/img/shop_6.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -257,7 +257,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_7.png')}}" />
+                                <img src="{{ asset('front/img/shop_7.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -277,7 +277,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_8.png')}}" />
+                                <img src="{{ asset('front/img/shop_8.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -297,7 +297,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_9.png')}}" />
+                                <img src="{{ asset('front/img/shop_9.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -317,7 +317,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_10.png')}}" />
+                                <img src="{{ asset('front/img/shop_10.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -337,7 +337,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_11.png')}}" />
+                                <img src="{{ asset('front/img/shop_11.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -357,7 +357,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_12.png')}}" />
+                                <img src="{{ asset('front/img/shop_12.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -377,7 +377,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_13.png')}}" />
+                                <img src="{{ asset('front/img/shop_13.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>
@@ -397,7 +397,7 @@
                         </div>
                         <div class="card">
                             <div class="busines_img">
-                                <img src="{{ url('/front/img/shop_14.png')}}" />
+                                <img src="{{ asset('front/img/shop_14.png')}}" />
                                 <div class="cust_btn_wreap">
                                     <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                                 </div>

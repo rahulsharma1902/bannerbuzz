@@ -30,8 +30,8 @@
     referrerpolicy="no-referrer"
     />
 
-    <link rel="stylesheet" href="{{ url('/front/css/style.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('/front/css/responsive.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
     <title>Home page</title>
 </head>
 <body>
@@ -54,26 +54,26 @@
                     <ul>
                         <li>
                             <a href="javascript:void(0)">
-                                <img src="{{ url('/front/img/track.svg') }}" alt="" />
+                                <img src="{{ asset('front/img/track.svg') }}" alt="" />
                                 <span>Order Tracking</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)">
-                                <img src="{{ url('/front/img/account.svg') }}" alt="" />
+                                <img src="{{ asset('front/img/account.svg') }}" alt="" />
                                 <span>Account</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)">
-                                <img src="{{ url('/front/img/item.svg') }}" alt="" />
+                                <img src="{{ asset('front/img/item.svg') }}" alt="" />
                                 <span>Item(s) <span style="color: #dc288a;">$0.00</span></span>
                             </a>
                         </li>
                         <li>
                             <div class="btn-group">
                                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ url('/front/img/country.svg') }}" alt="" />
+                                    <img src="{{ asset('front/img/country.svg') }}" alt="" />
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg') }}" alt="" /> IND</button></li>
@@ -94,7 +94,7 @@
                         <span class="bars bar2 navbar-toggler-icon"></span>
                         <span class="bars bar3 navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="{{ url('/front/img/clogo.svg')}}" alt="" /></a>
+                    <a class="navbar-brand" href="#"><img src="{{ asset('front/img/clogo.svg')}}" alt="" /></a>
                     <div class="search_wrapper">
                         <div class="dropdown">
                             <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,7 +117,7 @@
                             <li>
                                 <a href="javascript:void(0)">
                                     <div class="con-img">
-                                        <img src="{{ url('/front/img/chat.svg')}}" alt="" />
+                                        <img src="{{ asset('front/img/chat.svg')}}" alt="" />
                                     </div>
                                     <span>Chat Now</span>
                                 </a>
@@ -125,7 +125,7 @@
                             <li>
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ url('/front/img/call.svg')}}" alt="" />
+                                        <img src="{{ asset('front/img/call.svg')}}" alt="" />
                                     </div>
                                     <span>
                                         Call Us <br />
@@ -138,14 +138,14 @@
                             <li>
                                 <a href="javascript:void(0)">
                                     <div class="con-img">
-                                        <img src="{{ url('/front/img/account.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/account.svg')}}" alt="">
                                     </div>
                                 </a>
                             </li>
                             <li>
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ url('/front/img/item.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/item.svg')}}" alt="">
                                     </div>
                                 </a>
                             </li>
@@ -185,18 +185,18 @@
                             <div class="navbar_text_mb">
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ url('/front/img/call.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/call.svg')}}" alt="">
                                     </div>
                                     <span>012345678910</span>
                                 </a>
                                 <div class="btn-group">
                                     <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{ url('/front/img/country.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/country.svg')}}" alt="">
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg')}}" alt=""> IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg')}}" alt=""> IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg')}}" alt=""> IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
                                     </ul>
                                 </div>
                             </div>
@@ -366,7 +366,7 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="card_imgs">
-                            <img src="{{ url('/front/img/card_img.png')}}">
+                            <img src="{{ asset('front/img/card_img.png')}}">
                         </div>
                     </div>
                 </div>
@@ -401,6 +401,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <script src="{{ url('/front/js/script.js')}}"></script>
+    <script src="{{ asset('front/js/script.js')}}"></script>
 </body>
 </html>
