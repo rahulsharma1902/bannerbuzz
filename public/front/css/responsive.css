@@ -157,6 +157,25 @@
 	header .search_wrapper {
 		max-width: 700px;
 	}
+	.counter-wrapper .counter-block {
+		padding: 0px 80px;
+	}
+	.loyal-content .reasons .rsn {
+		flex-basis: 33%;
+	}
+	.counter-wrapper .counter li span {
+		font-size: 35px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body p {
+		font-size: 20px;
+		line-height: 1.4;
+	}
+	.shopgp__text.shop_lyt_txt ul li .shop_code_copn a {
+		padding: 15px 30px;
+	}
+	.site_rvw .tab-content .testimonial-para {
+		padding: 35px 40px;
+	}
 }
 
 @media only screen and (max-width: 1199px) {
@@ -175,13 +194,92 @@
 		gap: 20px;
 	}
 	.footer_grid {
-		margin-right: 30px;
-		padding-right: 30px;
+		/*margin-right: 30px;
+		padding-right: 30px;*/
 		gap: 30px;
 	}	
 	.shop_rtl {
 		grid-template-columns: repeat(2,1fr);
 		gap: 20px;
+	}
+	.blog-content .blog-block {
+		padding-left: 20px;
+	}
+	.blog-content .blog-blocks {
+		margin-bottom: 35px;
+	}
+	.blog-content .blog-blocks .posts li a {
+		gap: 15px;
+		padding-bottom: 10px;
+		margin-top: 25px;
+	}
+	.blog-content .blogs p:first-child {
+		font-size: 14px;
+	}
+	.blog-content .news-block {
+		padding: 20px;
+	}
+	.create-content {
+		padding: 70px 100px;
+	}
+	.story-txt {
+		padding-left: 50px;
+	}
+	.counter-wrapper .counter-block {
+		padding: 0px 50px;
+		margin-top: 40px;
+	}
+	.counter-wrapper {
+		margin-top: 50px;
+	}
+	.empowering-content p {
+		max-width: 800px;
+		font-size: 18px;
+	}
+	.p_100 {
+		padding: 70px 0px;
+	}
+	.ways_hd h3 {
+		padding: 25px 65px;
+	}
+	.ways_hd ul.shipping {
+		padding: 90px 40px 40px 40px!important;
+	}
+	.view_wrapper .view_hd h2 {
+		margin-bottom: 30px;
+	}
+	.accordion_wrapper .accordion-item .accordion-button {
+		padding: 35px 25px 35px 35px;
+	}
+	.paginetion_wreap ul {
+		padding-top: 70px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body h5 {
+		font-size: 30px;
+		font-weight: 700;
+		line-height: normal;
+		text-align: start;
+	}
+	.shopgp__text.shop_lyt_txt ul li .shop_code_copn a {
+		padding: 10px 15px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card {
+		background-color: transparent;
+		flex-direction: row;
+		align-items: center;
+		gap: 35px;
+	}
+	.footer_contnt ul li {
+		margin-top: 25px;
+	}
+	.site_rvw .tab-content .testimonial-para {
+		padding: 30px;
+	}
+	.loved-prdct_content .prev-arrow.slick-arrow {
+		left: -17px;
+	}
+	.loved-prdct_content .next-arrow.slick-arrow {
+		right: -17px;
 	}
 }
 
@@ -208,7 +306,7 @@
 		padding: 70px 0px;
 	}
 	header button.navbar-toggler {
-		display: grid;
+		display: grid!important;
 		padding: 0;
 		background: transparent;
 		outline: none !important;
@@ -354,15 +452,11 @@
 		float: right;
 		position: relative;
 	}
-	.toggle_sub_menu li span.sub_txt_icon::after {
-		position: absolute;
+	.toggle_sub_menu li span.sub_txt_icon i::before {
 		content: '\f068';
 		font-family: 'FontAwesome';
-		top: 0;
-		left: 0;
 		background-color: #000;
 	}
-
 	.toggle_sub_menu li .toggle_sub_txt {
 		color: #fff;
 		font-weight: 500;
@@ -472,6 +566,185 @@
 		height: 35px;
 		background-size: 35px;
 	}
+	.blog-content .blog-block {
+		padding-left: 0px;
+		margin-top: 50px;
+	}
+	.blog-content .blog-blocks .posts li a {
+		padding-bottom: 8px;
+		margin-top: 15px;
+	}
+	.blog-content .blog-blocks .about h6 {
+		max-width: 500px;
+	}
+	.blog-content .category-link li a {
+		font-size: 16px;
+		padding: 12px 0px;
+	}
+	.blog-detail p {
+		font-size: 16px;
+		margin-bottom: 10px;
+	}
+	.blog-detail .blog-list {
+		padding-top: 20px;
+	}
+	.blog-detail .blog-list li {
+		padding: 5px 0px;
+	}
+	.blog-content .social-links {
+		margin-bottom: 30px;
+	}
+	.create-content {
+		padding: 50px 60px;
+	}
+	.counter-wrapper .counter li span {
+		font-size: 28px;
+	}
+	.counter-wrapper .counter-block {
+		padding: 0px 35px;
+		margin-top: 30px;
+	}
+	.counter-wrapper {
+		margin-top: 30px;
+	}
+	.story-content .overflow-text p {
+		font-size: 18px;
+		line-height: 1.2;
+	}
+	.story-content .overflow-text {
+		padding: 10px;
+		right: -25px;
+		bottom: 20px;
+	}
+	.story-txt {
+		padding-left: 30px;
+	}
+	.empowering-content p {
+		font-size: 15px;
+	}
+	.busine_select {
+		margin: 40px 0;
+	}
+	header .search_wrapper .search_block form.srch_txt {
+		padding: 10px 15px;
+	}
+	.ways_hd ul.shipping {
+		padding: 85px 35px 35px 35px!important;
+	}
+	.ways_hd ul.shipping li .ship-box {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
+	.ways_hd ul.shipping li .ship-box .text p {
+		text-align: center;
+	}
+	.footer_contnt ul li {
+		margin-top: 25px;
+	}
+	.footer_contact {
+		padding-top: 60px;
+	}
+	.footer_bt {
+		padding: 25px 0;
+	}
+	.vinyl_wrapper.viny_new {
+		padding-top: 20px;
+		padding-bottom: 60px;
+	}
+	.privacy_txt {
+		margin-top: 40px;
+	}
+	.accordion_wrapper .accordion-item:not(:last-child) {
+		margin-bottom: 35px;
+	}
+	.custom-sec.shop_size.shop_nw .custom-content .select-box {
+		flex-direction: column;
+	}
+	.shop_size .custom-content {
+		padding: 50px 0;
+	}
+	.filter_wreap .accordion-item .accordion-body p {
+		margin-bottom: 0;
+	}
+	.accordion_wrapper .accordion-item .accordion-body p {
+		margin: 0;
+		padding: 0 60px 35px 35px;
+	}
+	.footer_grid {
+		gap: 20px!important;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card {
+		flex-direction: column;
+	}
+	.shopgp__text.shop_lyt_txt .shop_code_copn {
+		display: flex;
+		flex-direction: column-reverse;
+		text-align: center;
+		justify-content: space-between;
+		width: 45%;
+		gap: 15px;
+	}
+	.shopgp__text.shop_lyt_txt ul li {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body {
+		padding: 0;
+		text-align: center;
+	}
+	.shopgp__text.shop_lyt_txt ul li {
+		padding: 20px;
+	}
+	header .dropdown-toggle::after {
+		right: -10px;
+	}
+	.navbar_nav_mb .dropdown-toggle::after {
+		color: #fff;
+		font-size: 14px;
+		top: 3px;
+	}
+	.site_rvw .tab-content .review_grid {
+		display: flex;
+		gap: 30px;
+		flex-direction: column;
+	}
+	.site_rvw .tab-content {
+		margin-top: 70px;
+	}
+	.up_artwrk_sec .upwrk_data {
+		flex-direction: column;
+	}
+	.up_artwrk_sec .upwrk_data .mid_txt::after {
+		position: absolute;
+		content: '';
+		width: 318px;
+		height: 1px;
+		left: 50%;
+		top: 50%;
+		background-color: #1B1B1B;
+		z-index: -1;
+		transform: translate(-50%);
+	}
+	.up_artwrk_sec .upwrk_data {
+		gap: 30px;
+	}
+	.navbar_text_mb button.btn {
+		padding: 0 15px 0 0;
+	}
+	.navbar_nav_mb ul.dropdown-menu {
+		margin: 0;
+	}
+	.navbar_nav_mb ul.dropdown-menu button {
+		padding: 5px 10px;
+		font-size: 12px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
 }
 
 @media only screen and (max-width: 767px) {
@@ -575,6 +848,91 @@
 	header nav.navbar .navbar-collapse {
 		left: -50%;
 		width: 50%;
+	}
+	.blog-img img {
+		width: 100%;
+	}
+	.banner-content .banner-head .shipping {
+		padding: 20px 0;
+	} 
+	.ways_hd ul.shipping {
+		padding: 60px 30px 30px 30px!important;
+	}
+	.vinyl_wrapper.viny_new {
+		padding-bottom: 50px;
+	}
+	.privacy_txt {
+		margin-top: 35px;
+	}
+	.shop_top .shop_size_txt {
+		margin: 0;
+		gap: 10px;
+	}
+	.shop_top .shop_size_txt span.dwn_arw {
+		margin-left: 0px;
+	}
+	.shop_size .custom-content {
+		padding: 60px 0;
+	}
+	.shop_ltr .filter_wreap .accordion {
+		padding: 60px 30px 40px;
+	}
+	.custom-sec .select_wrap .form-select {
+		padding: 12px 5px!important;
+	}
+	.vinyl_wrapper {
+		padding: 60px 0;
+	}
+	.vinyl_wrapper nav.breadcrumb_wreap {
+		margin-bottom: 20px;
+	}
+	.filter_wreap .accordion-item .accordion-body {
+		padding: 10px 0 0;
+	}
+	.accordion_wrapper .accordion-item .accordion-body p {
+		margin: 0;
+		padding: 0 60px 35px 35px;
+	}
+	.paginetion_wreap ul li a {
+		width: 40px;
+		height: 40px;
+		font-size: 14px;
+	}
+	.shop_gp_list .hd_text {
+		margin-bottom: 50px;
+	}
+	.custmr_revw .view_content .view_all {
+		margin-top: 40px;
+	}
+	.site_rvw .tab-content {
+		margin-top: 60px;
+	}
+	.view_wrapper.custmr_revw .view_content h2 {
+		margin-bottom: 20px;
+	}
+	.review_wrapper .site_rvw .revw_buttn a {
+		padding: 14px 20px;
+	}
+	.footer_contnt ul li {
+		margin-top: 20px;
+	}
+	footer .card_imgs {
+		padding: 40px 0;
+	}
+	.footer_bt {
+		padding: 20px 0;
+	}
+	.footer_top_rt input {
+		padding: 15px;
+	}
+	.up_artwrk_sec .upwrk_files {
+		padding: 40px;
+	}
+	.busines_slider .card {
+	    margin: 0 15px;
+	}
+	.arrivals_wreap .card {
+	    margin: 0 15px;
 	}
 }
 
@@ -729,8 +1087,8 @@
 		min-width: 30px;
 		padding: 5px;
 	}
-	header .search_block .form-control {
-		padding: 10px;
+	header .search_wrapper .search_block form.srch_txt {
+		padding: 5px;
 	}
 	header .search_wrapper .dropdown {
 		width: 50%;
@@ -747,5 +1105,101 @@
 	}
 	header ul.pro_headr_mb {
 		gap: 8px;
+	}
+	.paginetion_wreap ul {
+		padding-top: 25px !important;
+	}
+	.cta {
+		font-size: 14px;
+		padding: 16px 30px;
+	}
+	.arrivals_progress {
+		margin-top: 30px;
+	}
+	.busines_img {
+		flex-direction: column;
+	}
+	.arrivals_wreap .card .busines_img img {
+		max-width: 100%;
+	}
+
+	.busines_slider .card .busines_img img {
+		max-width: 70px;
+		width: 100%;
+	}
+	.card_imgs {
+		padding: 40px 0;
+	}
+	header .search_wrapper .dropdown a {
+		font-size: 10px!important;
+	}
+	header .search_content {
+		gap: 5px!important;
+	}
+	header .search_block .form-control {
+		font-size: 12px;
+	}
+	.privacy_content h2 {
+		font-size: 40px;
+	}
+	.shop_top {
+		flex-direction: column;
+		gap: 15px;
+	}
+	.busines_slider .card {
+		padding: 12px 12px 20px;
+	}
+	.busines_slider .card .card-body p {
+		margin: 10px 0 0!important;
+	}
+	.filter_wreap .accordion-item .accordion-body {
+		padding: 15px 0 0;
+	}
+	.accordion_wrapper .accordion-item .accordion-button {
+		padding: 30px 20px 30px 35px;
+	}
+	.paginetion_wreap ul {
+		padding-top: 45px;
+	}
+	.shop_size_txt {
+		gap: 15px;
+		justify-content: center;
+		margin-top: 30px;
+		flex-direction: column;
+	}
+	.shop_size .custom-content {
+		padding: 50px 0;
+	}
+	.footer_contact {
+		padding-top: 40px!important;
+	}
+	.light_dark {
+		padding: 15px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .shopgp_img {
+		min-width: 330px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body span {
+		font-size: 16px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body p {
+		font-size: 18px;
+	}
+	.shop_gp_list .hd_text p {
+		font-size: 16px;
+		line-height: 1.4;
+	}
+	.shopgp__text.shop_lyt_txt .shop_code_copn {
+		width: 55%;
+	}
+	.review_wrapper .site_rvw .revw_buttn a {
+		padding: 14px 8px;
+	}
+	.site_rvw ul li button.nav-link {
+		padding: 10px;
+	}
+	form.footer_top_rt {
+		flex-direction: column;
+		gap: 15px!important;
 	}
 }

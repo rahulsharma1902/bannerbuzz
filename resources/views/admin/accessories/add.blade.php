@@ -298,13 +298,14 @@
                                                                                     class="entity_id form-control"
                                                                                     id="entity_id">
                                                                                     @if ($entities)
-                                                                                        @foreach ($entities as $entity)
-                                                                                            <option
-                                                                                                value="{{ $entity->id }}">
-                                                                                                {{ $entity->name }}
-                                                                                            </option>
-                                                                                        @endforeach
-                                                                                    @endif
+                                                                                    @foreach ($entities as $entity)
+                                                                                        <option
+                                                                                            value="{{ $entity->id }}" @if ($variation !== null) @if ($variation->entity_id == $entity->id) Selected @endif
+                                                                                            @endif>
+                                                                                            {{ $entity->name }}
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                @endif
                                                                                 </select>
                                                                             </div>
                                                                         </div>

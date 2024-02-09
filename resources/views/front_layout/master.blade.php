@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
-    integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
-    integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/css/custom1.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
     <title>Home page</title>
 </head>
+
 <body>
 
     <header>
@@ -72,13 +65,21 @@
                         </li>
                         <li>
                             <div class="btn-group">
-                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     <img src="{{ asset('front/img/country.svg') }}" alt="" />
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg') }}" alt="" /> IND</button></li>
-                                    <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg')}}" alt="" /> IND</button></li>
-                                    <li><button class="dropdown-item" type="button"><img src="{{ url('/front/img/country.svg')}}" alt="" /> IND</button></li>
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ url('/front/img/country.svg') }}" alt="" /> IND</button>
+                                    </li>
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ url('/front/img/country.svg') }}" alt="" /> IND</button>
+                                    </li>
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ url('/front/img/country.svg') }}" alt="" />
+                                            IND</button>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -89,21 +90,28 @@
         <div class="search-wrap">
             <div class="container-fluid">
                 <div class="search_content">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class="bars bar1 navbar-toggler-icon"></span>
                         <span class="bars bar2 navbar-toggler-icon"></span>
                         <span class="bars bar3 navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="{{ asset('front/img/clogo.svg')}}" alt="" /></a>
+                    <a class="navbar-brand" href="#"><img src="{{ asset('front/img/clogo.svg') }}"
+                            alt="" /></a>
                     <div class="search_wrapper">
                         <div class="dropdown">
-                            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 All Category
                             </a>
+                            <?php $categories = App\Models\ProductCategories::class::whereNull('parent_category')->get();  ?>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                @if ($categories)
+                                    @foreach ($categories as $category)
+                                        <li><a class="dropdown-item" href="">{{ $category->name }}</a></li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                         <div class="search_block">
@@ -117,7 +125,7 @@
                             <li>
                                 <a href="javascript:void(0)">
                                     <div class="con-img">
-                                        <img src="{{ asset('front/img/chat.svg')}}" alt="" />
+                                        <img src="{{ asset('front/img/chat.svg') }}" alt="" />
                                     </div>
                                     <span>Chat Now</span>
                                 </a>
@@ -125,7 +133,7 @@
                             <li>
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ asset('front/img/call.svg')}}" alt="" />
+                                        <img src="{{ asset('front/img/call.svg') }}" alt="" />
                                     </div>
                                     <span>
                                         Call Us <br />
@@ -138,14 +146,14 @@
                             <li>
                                 <a href="javascript:void(0)">
                                     <div class="con-img">
-                                        <img src="{{ asset('front/img/account.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/account.svg') }}" alt="">
                                     </div>
                                 </a>
                             </li>
                             <li>
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ asset('front/img/item.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/item.svg') }}" alt="">
                                     </div>
                                 </a>
                             </li>
@@ -159,10 +167,17 @@
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Banners</a>
-                            </li>
-                            <li class="nav-item">
+                            @if ($categories)
+                                @foreach ($categories as $category)
+                                    @if ($category->display_on == 1)
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page"
+                                                href="#">{{ $category->name }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endif
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="#">Board Printing</a>
                             </li>
                             <li class="nav-item">
@@ -173,7 +188,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Marketing Material</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
                             </li>
@@ -185,33 +200,51 @@
                             <div class="navbar_text_mb">
                                 <a href="tel:012345678910">
                                     <div class="con-img">
-                                        <img src="{{ asset('front/img/call.svg')}}" alt="">
+                                        <img src="{{ asset('front/img/call.svg') }}" alt="">
                                     </div>
                                     <span>012345678910</span>
                                 </a>
                                 <div class="btn-group">
-                                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{ asset('front/img/country.svg')}}" alt="">
+                                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <img src="{{ asset('front/img/country.svg') }}" alt="">
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img src="{{ asset('front/img/country.svg')}}" alt=""> IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img
+                                                    src="{{ asset('front/img/country.svg') }}" alt="">
+                                                IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img
+                                                    src="{{ asset('front/img/country.svg') }}" alt="">
+                                                IND</button></li>
+                                        <li><button class="dropdown-item" type="button"><img
+                                                    src="{{ asset('front/img/country.svg') }}" alt="">
+                                                IND</button></li>
                                     </ul>
                                 </div>
                             </div>
                             <ul class="toggle_sub_menu">
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Banners</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb active">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
+                                @if ($categories)
+                                    @foreach ($categories as $category)
+                                        @if ($category->display_on == 1)
+                                            <li>
+                                                <a class="toggle_sub_txt" aria-current="page"
+                                                    href="#">{{ $category->name }}</a>
+                                                <span><i class="fa-solid fa-plus"></i></span>
+                                                <div class="submuenu_mb active">
+                                                    <ul>
+                                                        @if ($category->subCategories)
+                                                            @foreach ($category->subCategories as $sub_cat)
+                                                                <li><a href="#">{{ $sub_cat->name }}</a></li>
+                                                            @endforeach
+                                                        @endif
+                                                        {{-- <li><a href="#">lorem ipsum</a></li> --}}
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                @endif
+                                {{-- <li>
                                     <a class="toggle_sub_txt" aria-current="page" href="#">Board Printing</a>
                                     <span><i class="fa-solid fa-plus"></i></span>
                                     <div class="submuenu_mb">
@@ -242,7 +275,8 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Marketing Material</a>
+                                    <a class="toggle_sub_txt" aria-current="page" href="#">Marketing
+                                        Material</a>
                                     <span><i class="fa-solid fa-plus"></i></span>
                                     <div class="submuenu_mb">
                                         <ul>
@@ -270,7 +304,7 @@
                                             <li><a href="#">lorem ipsum</a></li>
                                         </ul>
                                     </div>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
@@ -279,11 +313,11 @@
             </nav>
         </div>
     </header>
-  
+
 
     @yield('content')
-  
-    
+
+
     <footer>
         <div class="footer_top">
             <div class="container">
@@ -357,7 +391,8 @@
                                     Las Vegas, NV 89117
                                 </li>
                                 <li><span>Phone:</span> <a href="tel:0 123 4567 890">0 123 4567 890</a></li>
-                                <li><span>Email:</span> <a href="mailto:contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></li>
+                                <li><span>Email:</span> <a
+                                        href="mailto:contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -366,7 +401,7 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="card_imgs">
-                            <img src="{{ asset('front/img/card_img.png')}}">
+                            <img src="{{ asset('front/img/card_img.png') }}">
                         </div>
                     </div>
                 </div>
@@ -385,22 +420,77 @@
         </div>
     </footer>
 
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
-    integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 
-    <script src="{{ asset('front/js/script.js')}}"></script>
+    <script src="{{ asset('front/js/script.js') }}"></script>
+    <script>
+        // counter
+        var counted = 0;
+        $(window).scroll(function() {
+
+            var oTop = $('.counter').offset().top - window.innerHeight;
+            if (counted == 0 && $(window).scrollTop() > oTop) {
+                $('.count').each(function() {
+                    var $this = $(this),
+                        countTo = $this.attr('data-count');
+                    $({
+                        countNum: $this.text()
+                    }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum);
+                        }
+
+                    });
+                });
+                counted = 1;
+            }
+
+        });
+        // brand-slider
+        $(document).ready(function() {
+            $('.brand-slider').slick({
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: false,
+                speed: 500,
+                dots: false,
+                autoplay: true,
+                responsive: [{
+                        breakpoint: 1199,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 1
+                        }
+                    },
+                    {
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
 </body>
+
 </html>

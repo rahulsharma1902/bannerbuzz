@@ -341,7 +341,8 @@
                                                                                     @if ($entities)
                                                                                         @foreach ($entities as $entity)
                                                                                             <option
-                                                                                                value="{{ $entity->id }}">
+                                                                                                value="{{ $entity->id }}" @if ($variation !== null) @if ($variation->entity_id == $entity->id) Selected @endif
+                                                                                                @endif>
                                                                                                 {{ $entity->name }}
                                                                                             </option>
                                                                                         @endforeach
