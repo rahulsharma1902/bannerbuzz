@@ -68,7 +68,7 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a
-                                                        href="{{ url('admin-dashboard/template-edit') ?? '' }}/{{ $template->slug ?? ''}}"><em
+                                                        href="{{ url('admin-dashboard/template') ?? '' }}/{{ $template->slug ?? ''}}"><em
                                                             class="icon ni ni-eye"></em><span>Edit</span></a></li>
                                                 <li><a class="delete"
                                                         link="{{ url('admin-dashboard/template-remove') ?? '' }}/{{ $template->slug ?? ''}}"><em

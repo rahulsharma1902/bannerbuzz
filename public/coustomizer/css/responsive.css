@@ -1,0 +1,77 @@
+@media only screen and (min-width: 1599px) {
+    .container-fluid {
+        max-width: 100%;
+        padding: 0px 60px;
+    }
+    .container {
+        max-width: 1470px;
+    }
+}
+
+@media only screen and (max-width: 1599px) {
+    body {
+        font-size: 15px;
+        line-height: 24px;
+    }
+    h2 {
+        font-size: 35px;
+        line-height: 42px;
+    }
+    h3 {
+        font-size: 32px;
+    }
+    h4 {
+        font-size: 25px;
+    }
+    h6 {
+        font-size: 16px;
+        letter-spacing: 0.34px;
+    }
+    .p_100 {
+        padding: 80px 0px;
+    }
+    ul.custom_size li.option .customsize-wrapper input {
+        padding: 17px;
+        width: 70px;
+    }
+    ul.custom_size {
+        gap: 10px;
+    }
+}
+@media only screen and (max-width: 1499px) {
+    ul.custom_size li.option .customsize-wrapper input {
+        width: 60px;
+        padding: 10px;
+    }
+    ul.custom_size li.option select {
+        padding: 10px;
+    }
+    .templ_imgs ul li {
+        width: 45%;
+        /* margin-bottom: 20px; */
+    }
+}
+@media only screen and (max-width: 1399px) {
+    .cta {
+        padding: 15px 40px;
+    }
+    .design-ryt-vw .ftr-size-price .ftr-size-lft p {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+    ul.custom_size li.option .customsize-wrapper input {
+        width: 60px;
+        padding: 10px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+}
+
+@media only screen and (max-width: 767px) {
+}
+
+@media only screen and (max-width: 575px) {
+}

@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Register | Bannerbuzz</title>
+    <title>Register | Cre8ive</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css')}}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css') }}">

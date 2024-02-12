@@ -1,59 +1,134 @@
-@extends('front_layout/index')
-@section('content')
-<section class="design-edit">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+            integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+            integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+            integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/responsive.css" />
+        <title>Design online</title>
+    </head>
+    <body>
+        <header class="header_wrap">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><img src="./img/new_create_logo.png" class="img-fluid" alt="" /></a>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                        <!--   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            </li>
+                        </ul> -->
+                        <div class="button-group">
+                            <button data-title="Undo" data-placement="bottom" class="spride-svg btnundo is-disabled bottom" id="undo" disabled="disabled" aria-label="Undo">
+                                <span class="menu-text"><img src="./img/undo.png" class="img-fluid" alt="" /></span>
+                            </button>
+                            <button data-title="Redo" data-placement="bottom" class="spride-svg btnredo is-disabled bottom" id="redo" disabled="disabled" aria-label="Redo">
+                                <span class="menu-text"><img src="./img/redo.png" class="img-fluid" alt="" /></span>
+                            </button>
+                            <div class="button-group trash-box">
+                                <button id="trash" data-title="Trash" data-placement="bottom" class="spride-svg btntrash bottom" aria-label="Trash">
+                                    <span class="menu-text"><img src="./img/delete-img.png" class="img-fluid" alt="" /></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hd_ryt_buttn">
+                            <a hef="#" class="btn cta">Continue</a>
+                            <a hef="#" class="btn cta btn-pnk">Proceed & Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <section class="design-edit">
             <div class="row">
                 <div class="col-lg-9">
                     <div class="design-tabs">
                         <div class="nw-rw1 d-flex align-items-start">
                             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                                    <img src="{{ asset('coustomizer/img/template.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/template.png" class="img-fluid" alt=".." />
                                     <p>Template</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/text.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/text.png" class="img-fluid" alt=".." />
                                     <p>Text</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/background.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/background.png" class="img-fluid" alt=".." />
                                     <p>Background</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/shapes.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/shapes.png" class="img-fluid" alt=".." />
                                     <p>Shapes</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-clip-tab" data-bs-toggle="pill" data-bs-target="#v-pills-clip" type="button" role="tab" aria-controls="v-pills-clip" aria-selected="true">
-                                    <img src="{{ asset('coustomizer/img/clip-part.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/clip-part.png" class="img-fluid" alt=".." />
                                     <p>Clipart</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-upld-tab" data-bs-toggle="pill" data-bs-target="#v-pills-upld" type="button" role="tab" aria-controls="v-pills-upld" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/upld-f.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/upld-f.png" class="img-fluid" alt=".." />
                                     <p>Uploads</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-desgn-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desgn" type="button" role="tab" aria-controls="v-pills-desgn" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/design.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/design.png" class="img-fluid" alt=".." />
                                     <p>Design Comments</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-quick-tab" data-bs-toggle="pill" data-bs-target="#v-pills-quick" type="button" role="tab" aria-controls="v-pills-quick" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/quick-hlp.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/quick-hlp.png" class="img-fluid" alt=".." />
                                     <p>Quick Help</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-lyr-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lyr" type="button" role="tab" aria-controls="v-pills-lyr" aria-selected="false">
-                                    <img src="{{ asset('coustomizer/img/layers.png') ?? '' }}" class="img-fluid" alt=".." />
+                                    <img src="./img/layers.png" class="img-fluid" alt=".." />
                                     <p>Layers</p>
                                 </button>
 
                                 <button class="nav-link" id="v-pills-myd-tab" data-bs-toggle="pill" data-bs-target="#v-pills-myd" type="button" role="tab" aria-controls="v-pills-myd" aria-selected="false">
                                     <a class="btn" data-bs-toggle="modal" href="#modal" role="button">
-                                        <img src="{{ asset('coustomizer/img/myd.png') ?? '' }}" class="img-fluid" alt=".." />
+                                        <img src="./img/myd.png" class="img-fluid" alt=".." />
                                         <p>My Design</p>
                                     </a>
                                 </button>
@@ -89,22 +164,22 @@
                                         </div>
                                         <div class="templ_imgs">
                                             <ul class="list-unstyled m-0">
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img2.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img3.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img4.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img5.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img6.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img7.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img8.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img1.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img2.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img3.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img4.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img5.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img6.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img7.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img8.png" class="img-fluid" alt="" /></li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img9.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img9.png" class="img-fluid" alt="" />
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img10.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img10.png" class="img-fluid" alt="" />
                                                 </li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img11.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img12.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img11.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img12.png" class="img-fluid" alt="" /></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -177,22 +252,22 @@
                                                 <p>Note: Please click on image to set as background</p>
                                             </div>
                                             <ul class="list-unstyled m-0">
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img2.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img3.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img4.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img5.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img6.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img7.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img8.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img1.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img2.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img3.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img4.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img5.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img6.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img7.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img8.png" class="img-fluid" alt="" /></li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img9.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img9.png" class="img-fluid" alt="" />
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img10.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img10.png" class="img-fluid" alt="" />
                                                 </li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img11.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img12.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img11.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img12.png" class="img-fluid" alt="" /></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -224,22 +299,22 @@
                                             </div>
 
                                             <ul class="list-unstyled m-0">
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img1.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img2.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img3.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img4.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img5.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img6.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img7.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img8.png" class="img-fluid" alt="" /></li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img9.png" class="img-fluid" alt="" />
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img10.png" class="img-fluid" alt="" />
                                                 </li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img11.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img12.png" class="img-fluid" alt="" /></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -325,22 +400,22 @@
                                                 <p>Note: Please click on image to set as background</p>
                                             </div>
                                             <ul class="list-unstyled m-0">
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img1.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img2.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img3.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img4.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img5.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img6.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img7.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img8.png" class="img-fluid" alt="" /></li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img9.png" class="img-fluid" alt="" />
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" />
+                                                    <img src="./img/t-img10.png" class="img-fluid" alt="" />
                                                 </li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
-                                                <li><img src="{{ asset('coustomizer/img/t-img1.png') ?? '' }}" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img11.png" class="img-fluid" alt="" /></li>
+                                                <li><img src="./img/t-img12.png" class="img-fluid" alt="" /></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -481,7 +556,7 @@
                                                     <div class="loginBox d-flex">
                                                         <div class="loginLeftBox">
                                                             <div class="imageBox">
-                                                                <img src="{{ asset('coustomizer/img/my_des.svg') ?? '' }}" alt="" />
+                                                                <img src="./img/my_des.svg" alt="" />
                                                             </div>
                                                         </div>
 
@@ -558,13 +633,13 @@
                                                                 <div class="socialContent">
                                                                     <ul class="signinLinks">
                                                                         <li>
-                                                                            <button class="linkButton googlePlus"><img src="{{ asset('coustomizer/img/google.svg') ?? '' }}" /></button>
+                                                                            <button class="linkButton googlePlus"><img src="./img/google.svg" /></button>
                                                                         </li>
                                                                         <li>
-                                                                            <a class="linkButton facebook"><img src="{{ asset('coustomizer/img/facebook.svg') ?? '' }}" alt="Facebook" /></a>
+                                                                            <a class="linkButton facebook"><img src="./img/facebook.svg" alt="Facebook" /></a>
                                                                         </li>
                                                                         <li>
-                                                                            <a class="linkButton amazone"><img src="{{ asset('coustomizer/img/amazone.svg') ?? '' }}" alt="Amazon" /></a>
+                                                                            <a class="linkButton amazone"><img src="./img/amazone.svg" alt="Amazon" /></a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -646,7 +721,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="{{ asset('coustomizer/img/canva.png') ?? '' }}" class="img-fluid" alt="" />
+                                <img src="./img/canva.png" class="img-fluid" alt="" />
                             </div>
                         </div>
                     </div>
@@ -655,7 +730,7 @@
                     <div class="design-ryt-vw">
                         <div class="ryt-logo-img">
                             <div class="cusm-lgo">
-                                <img src="{{ asset('coustomizer/img/custom-vinyl.png') ?? '' }}" class="img-fluid" alt=".." />
+                                <img src="./img/custom-vinyl.png" class="img-fluid" alt=".." />
                             </div>
                             <h6>Custom Vinyl Banners</h6>
                         </div>
@@ -701,20 +776,20 @@
                             <div class="editing-lnks">
                                 <ul class="list-unstyled m-0">
                                     <li>
-                                        <span><img src="{{ asset('coustomizer/img/prevw.png') ?? '' }}" class="img-fluid" alt=".." /></span>
+                                        <span><img src="./img/prevw.png" class="img-fluid" alt=".." /></span>
                                     </li>
                                     <li>
-                                        <span><img src="{{ asset('coustomizer/img/share.png') ?? '' }}" class="img-fluid" alt=".." /></span>
+                                        <span><img src="./img/share.png" class="img-fluid" alt=".." /></span>
                                     </li>
                                     <li>
-                                        <span><img src="{{ asset('coustomizer/img/itlic.png') ?? '' }}" class="img-fluid" alt=".." /></span>
+                                        <span><img src="./img/itlic.png" class="img-fluid" alt=".." /></span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="togls_buttn">
                                 <ul class="list-unstyled m-0">
                                     <li>
-                                        <span><img src="{{ asset('coustomizer/img/chat.png') ?? '' }}" class="img-fluid" alt=".." /></span>
+                                        <span><img src="./img/chat.png" class="img-fluid" alt=".." /></span>
                                     </li>
                                     <li>
                                         <label class="switch">
@@ -729,4 +804,23 @@
                 </div>
             </div>
         </section>
-@endsection
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+            integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
