@@ -158,9 +158,16 @@ Route::get('admin-dashboard/remove-blog/{id}',[BlogController::class,'removeBlog
 
 // web view Routes ViewController
 Route::get('/',[ViewController::class,'index']);
-Route::get('shop',[ViewController::class,'shop']);
+Route::get('shop/{slug}',[ViewController::class,'shop']);
 Route::get('about-us',[ViewController::class,'aboutUs']);
 Route::get('contact-us',[ViewController::class,'contactUs']);
 Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
-Route::get('blogs',[ViewController::class,'blogs']);
+Route::get('blogs/{slug?}',[ViewController::class,'blogs']);
+Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
+Route::get('details/{slug}',[ViewController::class,'ProductDetails']);
+
+// ajex to fetch products
+Route::get('categories/{parent_id}/children', [ViewController::class,'getChildCategories']);
+Route::get('/categories/{category_id}/products', [ViewController::class, 'getCategoryProducts']);
+
 

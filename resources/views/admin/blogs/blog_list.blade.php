@@ -20,7 +20,7 @@
                             </div>
                         </th>
                         <th class="nk-tb-col"><span class="sub-text">Blog Name</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Slug</span></th>
+                        {{-- <th class="nk-tb-col"><span class="sub-text">Slug</span></th> --}}
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Category</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-end">
                             Action
@@ -40,24 +40,15 @@
                         </td>
                         <td class="nk-tb-col">
                             <div class="user-card">
-                                <div class="user-avatar bg-dark d-none d-sm-flex">
-                                    @foreach (json_decode($blog->image) as $index =>$image)
-                                    @if ($index == 0)
-                                        <img height="50px" width="50px"
-                                            src="{{ asset('blog_Images') }}/{{ $image }}">
-                                    @break
-                                @endif
-                            @endforeach
-                                </div>
                                 <div class="user-info">
-                                    <span class="tb-lead">{{ $blog->name ?? '' }}</span>
+                                    <span class="tb-lead">{{ $blog->title ?? '' }}</span>
 
                                 </div>
                             </div>
                         </td>
-                        <td class="nk-tb-col tb-col-mb">
+                        {{-- <td class="nk-tb-col tb-col-mb">
                             <span class="tb-amount">{{ $blog->slug ?? '' }}</span>
-                        </td>
+                        </td> --}}
 
                         <td class="nk-tb-col tb-col-md">
                             <span class="tb-amount">{{ $blog->category->name ?? '' }}</span>
@@ -75,7 +66,7 @@
                                                         href="{{ url('admin-dashboard/add-blog') ?? '' }}/{{ $blog->slug ?? ''}}"><em
                                                             class="icon ni ni-eye"></em><span>Edit</span></a></li>
                                                 <li><a class="delete"
-                                                        link="{{ url('admin-dashboard/remove-blog') ?? '' }}/{{ $blog->id ?? ''}}"><em
+                                                    href="{{ url('admin-dashboard/remove-blog') ?? '' }}/{{ $blog->id ?? ''}}"><em
                                                             class="icon ni ni-focus"></em><span>Remove</span></a></li>
                                             </ul>
                                         </div>

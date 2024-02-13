@@ -7,8 +7,7 @@
             </div>
             <div class="row ">
                 <div class="col-lg-12">
-                    <form action="{{ url('admin-dashboard/add-blog-procc') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="{{ url('admin-dashboard/add-blog-procc') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{ $blog->id ?? '' }}">
                         <div class="d-flex">
@@ -25,8 +24,8 @@
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                     @error('slug')
-                                    <span class="text text-danger">{{ $message }}</span>
-                                @enderror
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6 p-3">
@@ -41,10 +40,11 @@
                                             <input type="text" name="sub_title" class="form-control" id="sub_title"
                                                 value="{{ $blog->sub_title ?? '' }}" placeholder="Sub title">
                                         </div>
+                                        @error('sub_title')
+                                            <span class="text text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    @error('sub_title')
-                                        <span class="text text-danger">{{ $message }}</span>
-                                    @enderror
+
                                 </div>
                             </div>
                         </div>
@@ -70,32 +70,21 @@
                             <div class="form-group" id="file-input">
                                 <label class="form-label" for="image">Image</label>
                                 <div class="form-control-wrap p-2">
-                                    <input type="file" name="images[]" class="form-control" id="image">
+                                    <input type="file" name="image" class="form-control" id="image">
                                 </div>
-                                @error('images')
+                                @error('image')
                                     <span class="text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button type="button" onclick="addFileInput()" class="btn btn-primary" id="add-image">Add
-                                More</button>
                         </div>
-                        @if (isset($category->images))
+                        @if (isset($blog->image))
                             <div class="col-lg-12 d-flex align-items-center flex-wrap">
-                                <?php $images = json_decode($category->images); ?>
-                                @foreach ($images as $image)
-                                    <div class="col-lg-3 mb-3">
-                                        <div class="form-group d-flex align-items-center" style="width: 10rem;">
-                                            <img src="{{ asset('blog_Images') ?? '' }}/{{ $image ?? '' }}"
-                                                alt="">
-                                            <input type="hidden" name="existing_images[]" value="{{ $image }}">
-                                            <span><i onclick="removeImage(this)" style="cursor: pointer"
-                                                    class="fas fa-trash-alt p-2"></i></span>
-                                        </div>
+                                <div class="col-lg-3 mb-3">
+                                    <div class="form-group d-flex align-items-center" style="width: 10rem;">
+                                        <img src="{{ asset('blog_Images') ?? '' }}/{{ $blog->image ?? '' }}"
+                                            alt="">
                                     </div>
-                                    @if ($loop->iteration % 4 == 0)
-                                        <div class="w-100"></div>
-                                    @endif
-                                @endforeach
+                                </div>
                             </div>
                         @endif
                         <div class="col-lg-10 p-3">
@@ -104,6 +93,9 @@
                                 <div class="form-control-wrap">
                                     <textarea name="short_description" class="description form-control" id="short_description"
                                         placeholder="short description.....">{{ $blog->short_description ?? '' }}</textarea>
+                                    @error('short_description')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -112,6 +104,9 @@
                                 <label class="form-label" for="description">Description</label>
                                 <div class="form-control-wrap">
                                     <textarea name="description" class="description form-control" id="description" placeholder="description.....">{{ $blog->description ?? '' }}</textarea>
+                                    @error('description')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -133,39 +128,6 @@
             str = str.replace(/^\s+|\s+$/gm, '');
             str = str.replace(/\s+/g, '-');
             $('#slug').val(str);
-        }
-
-        function addFileInput() {
-            var container = document.getElementById('file-input');
-
-            var inputdiv = document.createElement('div');
-            inputdiv.className = 'form-control-wrap p-2 d-flex align-items-center';
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.name = 'images[]';
-            input.className = 'form-control';
-
-            var button = document.createElement('i');
-            button.className = 'fas fa-trash-alt p-2';
-            button.style.cursor = 'pointer';
-            button.onclick = function() {
-                remove(inputdiv);
-            };
-
-
-
-            inputdiv.appendChild(input);
-            inputdiv.appendChild(button);
-            container.appendChild(inputdiv);
-        }
-
-        function remove(element) {
-            element.parentNode.removeChild(element);
-        }
-
-        function removeImage(button) {
-            var parentDiv = button.parentNode.parentNode;
-            parentDiv.parentNode.removeChild(parentDiv);
         }
     </script>
 @endsection

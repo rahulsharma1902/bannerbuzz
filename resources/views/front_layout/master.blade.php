@@ -21,8 +21,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}" />
-    <link rel="stylesheet" href="{{ asset('front/css/custom1.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
     <title>Home page</title>
 </head>
@@ -109,7 +107,11 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 @if ($categories)
                                     @foreach ($categories as $category)
-                                        <li><a class="dropdown-item" href="">{{ $category->name }}</a></li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ url('shop') }}/{{ $category->slug }}">{{ $category->name }}</a>
+
+                                        </li>
                                     @endforeach
                                 @endif
                             </ul>
@@ -172,325 +174,322 @@
                                     @if ($category->display_on == 1)
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page"
-                                                href="#">{{ $category->name }}</a>
+                                                href="{{ url('shop') }}/{{ $category->slug }}">{{ $category->name }}</a>
+                                            @if ($category->subCategories->isNotEmpty())
+                                                <div class="submuenu__wreap">
+                                                    <ul class="submuenu_text">
+                                                        @foreach ($category->subCategories as $sub_category)
+                                                            <li>
+                                                                <a
+                                                                    href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
+                                                                <span><i class="fa-solid fa-chevron-right"></i></span>
+                                                                @if ($sub_category->subCategories->isNotEmpty() || $sub_category->products->isNotEmpty())
+                                                                    @if ($sub_category->subCategories->isNotEmpty())
+                                                                        <div class="menuLevel3">
+                                                                            <div class="menuLevel_txt">
+                                                                                <ul>
+                                                                                    @foreach ($sub_category->subCategories as $cat)
+                                                                                        <li><a style="color: #dc288a;font-size:15px"
+                                                                                                href="{{ url('shop') }}/{{ $cat->slug }}">{{ $cat->name }}</a>
+                                                                                            <ul>
+                                                                                                @foreach ($cat->products as $product)
+                                                                                                    <li><a
+                                                                                                            href="{{ url('details') }}/{{ $product->slug }}">{{ $product->name }}</a>
+                                                                                                    </li>
+                                                                                                @endforeach
+                                                                                            </ul>
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                                <div class="menuLevel_img">
+                                                                                    @foreach (json_decode($category->images) as $index => $image)
+                                                                                        @if ($index == 0)
+                                                                                            <img width="100%"
+                                                                                                height="100%"
+                                                                                                src="{{ asset('category_Images') }}/{{ $image }}">
+                                                                                        @break
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                @elseif ($sub_category->products->isNotEmpty())
+                                                                    <div class="menuLevel3">
+                                                                        <div class="menuLevel_txt">
+                                                                            <ul>
+                                                                                @foreach ($sub_category->products as $product)
+                                                                                    <li><a
+                                                                                            href="#">{{ $product->name }}</a>
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @else
+                                            @if ($category->products->isNotEmpty())
+                                                <div class="submuenu__wreap">
+                                                    <ul class="submuenu_text">
+                                                        @foreach ($category->products as $product)
+                                                            <li><a href="#">{{ $product->name }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/about-us') }}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('contact-us') }}">Contact Us</a>
+                        </li>
+                    </ul>
+                    <div class="navbar_nav_mb">
+                        <div class="navbar_text_mb">
+                            <a href="tel:012345678910">
+                                <div class="con-img">
+                                    <img src="{{ asset('front/img/call.svg') }}" alt="">
+                                </div>
+                                <span>012345678910</span>
+                            </a>
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img src="{{ asset('front/img/country.svg') }}" alt="">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ asset('front/img/country.svg') }}" alt="">
+                                            IND</button></li>
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ asset('front/img/country.svg') }}" alt="">
+                                            IND</button></li>
+                                    <li><button class="dropdown-item" type="button"><img
+                                                src="{{ asset('front/img/country.svg') }}" alt="">
+                                            IND</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="toggle_sub_menu">
+                            @if ($categories)
+                                @foreach ($categories as $category)
+                                    @if ($category->display_on == 1)
+                                        <li>
+                                            <a class="toggle_sub_txt" aria-current="page"
+                                                href="{{ url('shop') }}/{{ $category->slug }}">{{ $category->name }}</a>
+                                            <span><i class="fa-solid fa-plus"></i></span>
+                                            <div class="submuenu_mb active">
+                                                <ul>
+                                                    @if ($category->subCategories)
+                                                        @foreach ($category->subCategories as $sub_cat)
+                                                            <li><a
+                                                                    href="{{ url('shop') }}/{{ $sub_cat->slug }}">{{ $sub_cat->name }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </div>
                                         </li>
                                     @endif
                                 @endforeach
                             @endif
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="#">Board Printing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Poster Printing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Signs & Stickers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Marketing Material</a>
-                            </li> --}}
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact Us</a>
-                            </li>
                         </ul>
-                        <div class="navbar_nav_mb">
-                            <div class="navbar_text_mb">
-                                <a href="tel:012345678910">
-                                    <div class="con-img">
-                                        <img src="{{ asset('front/img/call.svg') }}" alt="">
-                                    </div>
-                                    <span>012345678910</span>
-                                </a>
-                                <div class="btn-group">
-                                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <img src="{{ asset('front/img/country.svg') }}" alt="">
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><button class="dropdown-item" type="button"><img
-                                                    src="{{ asset('front/img/country.svg') }}" alt="">
-                                                IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img
-                                                    src="{{ asset('front/img/country.svg') }}" alt="">
-                                                IND</button></li>
-                                        <li><button class="dropdown-item" type="button"><img
-                                                    src="{{ asset('front/img/country.svg') }}" alt="">
-                                                IND</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <ul class="toggle_sub_menu">
+                    </div>
+                </div>
+                <div class="toggle_hide_mb"></div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+@yield('content')
+
+
+<footer>
+    <div class="footer_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="footer_top_lr">
+                        <h5>Subscribe to our newsletter and get 20% OFF on Your First Order + Free Shipping.</h5>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <form class="footer_top_rt">
+                        <input type="search" name="" placeholder="Your email address">
+                        <a href="#" class="btn light_dark">Subscribe</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer_wreap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="footer_grid">
+                        <div class="footer_contnt">
+                            <h6>Category</h6>
+                            <ul>
                                 @if ($categories)
                                     @foreach ($categories as $category)
-                                        @if ($category->display_on == 1)
-                                            <li>
-                                                <a class="toggle_sub_txt" aria-current="page"
-                                                    href="#">{{ $category->name }}</a>
-                                                <span><i class="fa-solid fa-plus"></i></span>
-                                                <div class="submuenu_mb active">
-                                                    <ul>
-                                                        @if ($category->subCategories)
-                                                            @foreach ($category->subCategories as $sub_cat)
-                                                                <li><a href="#">{{ $sub_cat->name }}</a></li>
-                                                            @endforeach
-                                                        @endif
-                                                        {{-- <li><a href="#">lorem ipsum</a></li> --}}
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        @endif
+                                        <li><a
+                                                href="{{ url('shop') }}/{{ $category->slug }}">{{ $category->name }}</a>
+                                        </li>
                                     @endforeach
                                 @endif
-                                {{-- <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Board Printing</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Poster Printing</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Signs & Stickers</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Marketing
-                                        Material</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">About</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="toggle_sub_txt" aria-current="page" href="#">Contact Us</a>
-                                    <span><i class="fa-solid fa-plus"></i></span>
-                                    <div class="submuenu_mb">
-                                        <ul>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                            <li><a href="#">lorem ipsum</a></li>
-                                        </ul>
-                                    </div>
-                                </li> --}}
                             </ul>
                         </div>
-                    </div>
-                    <div class="toggle_hide_mb"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-
-    @yield('content')
-
-
-    <footer>
-        <div class="footer_top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="footer_top_lr">
-                            <h5>Subscribe to our newsletter and get 20% OFF on Your First Order + Free Shipping.</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <form class="footer_top_rt">
-                            <input type="search" name="" placeholder="Your email address">
-                            <a href="#" class="btn light_dark">Subscribe</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer_wreap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="footer_grid">
-                            <div class="footer_contnt">
-                                <h6>Category</h6>
-                                <ul>
-                                    <li><a href="#">Flags</a></li>
-                                    <li><a href="#">Vinyl Banners</a></li>
-                                    <li><a href="#">Canopies</a></li>
-                                    <li><a href="#">Pop-Up Banner Display</a></li>
-                                    <li><a href="#">Step and Repeat Displays</a></li>
-                                </ul>
-                            </div>
-                            <div class="footer_contnt">
-                                <h6>Information</h6>
-                                <ul>
-                                    <li><a href="#">Order Tracking</a></li>
-                                    <li><a href="#">Customer Reviews</a></li>
-                                    <li><a href="#">Special Offers</a></li>
-                                    <li><a href="#">Sitemap</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Safety Signs & Banners</a></li>
-                                </ul>
-                            </div>
-                            <div class="footer_contnt">
-                                <h6>Information</h6>
-                                <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Contact us</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Terms of Use</a></li>
-                                </ul>
-                            </div>
-                            <div class="footer_contnt">
-                                <h6>Follow on</h6>
-                                <ul>
-                                    <li><a href="#"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
-                                    <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-                                    <li><a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="footer_contnt footer_contact">
-                            <h6>Contact Information</h6>
+                        <div class="footer_contnt">
+                            <h6>Information</h6>
                             <ul>
-                                <li>
-                                    <span>Address:</span>
-                                    8975 W Charleston Blvd. Suite 190
-                                    Las Vegas, NV 89117
-                                </li>
-                                <li><span>Phone:</span> <a href="tel:0 123 4567 890">0 123 4567 890</a></li>
-                                <li><span>Email:</span> <a
-                                        href="mailto:contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></li>
+                                <li><a href="#">Order Tracking</a></li>
+                                <li><a href="#">Customer Reviews</a></li>
+                                <li><a href="#">Special Offers</a></li>
+                                <li><a href="#">Sitemap</a></li>
+                                <li><a href="{{ url('/blogs') }}">Blog</a></li>
+                                <li><a href="#">Safety Signs & Banners</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer_contnt">
+                            <h6>Information</h6>
+                            <ul>
+                                <li><a href="{{ url('about-us') }}">About Us</a></li>
+                                <li><a href="{{ url('contact-us') }}">Contact us</a></li>
+                                <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer_contnt">
+                            <h6>Follow on</h6>
+                            <ul>
+                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
+                                <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                                <li><a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="footer_bord"></div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer_contnt footer_contact">
+                        <h6>Contact Information</h6>
+                        <ul>
+                            <li>
+                                <span>Address:</span>
+                                8975 W Charleston Blvd. Suite 190
+                                Las Vegas, NV 89117
+                            </li>
+                            <li><span>Phone:</span> <a href="tel:0 123 4567 890">0 123 4567 890</a></li>
+                            <li><span>Email:</span> <a
+                                    href="mailto:contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></li>
+                        </ul>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="card_imgs">
-                            <img src="{{ asset('front/img/card_img.png') }}">
-                        </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="footer_bord"></div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card_imgs">
+                        <img src="{{ asset('front/img/card_img.png') }}">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer_bt">
-            <div class="container">
-                <div class="footer_bt_lt">
-                    <p class="m-0">© 2024 Cre8ive Printer, All rights reserved.</p>
-                </div>
-                <ul class="footer_bt_rt">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                </ul>
+    </div>
+    <div class="footer_bt">
+        <div class="container">
+            <div class="footer_bt_lt">
+                <p class="m-0">© 2024 Cre8ive Printer, All rights reserved.</p>
             </div>
+            <ul class="footer_bt_rt">
+                <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
-        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+    integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
 
-    <script src="{{ asset('front/js/script.js') }}"></script>
-    <script>
-        // counter
-        var counted = 0;
-        $(window).scroll(function() {
+<script src="{{ asset('front/js/script.js') }}"></script>
+<script>
+    // counter
+    var counted = 0;
+    $(window).scroll(function() {
 
-            var oTop = $('.counter').offset().top - window.innerHeight;
-            if (counted == 0 && $(window).scrollTop() > oTop) {
-                $('.count').each(function() {
-                    var $this = $(this),
-                        countTo = $this.attr('data-count');
-                    $({
-                        countNum: $this.text()
-                    }).animate({
-                        countNum: countTo
-                    }, {
-                        duration: 2000,
-                        easing: 'swing',
-                        step: function() {
-                            $this.text(Math.floor(this.countNum));
-                        },
-                        complete: function() {
-                            $this.text(this.countNum);
-                        }
+        var oTop = $('.counter').offset().top - window.innerHeight;
+        if (counted == 0 && $(window).scrollTop() > oTop) {
+            $('.count').each(function() {
+                var $this = $(this),
+                    countTo = $this.attr('data-count');
+                $({
+                    countNum: $this.text()
+                }).animate({
+                    countNum: countTo
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function() {
+                        $this.text(Math.floor(this.countNum));
+                    },
+                    complete: function() {
+                        $this.text(this.countNum);
+                    }
 
-                    });
                 });
-                counted = 1;
-            }
-
-        });
-        // brand-slider
-        $(document).ready(function() {
-            $('.brand-slider').slick({
-                infinite: true,
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                arrows: false,
-                speed: 500,
-                dots: false,
-                autoplay: true,
-                responsive: [{
-                        breakpoint: 1199,
-                        settings: {
-                            slidesToShow: 4,
-                            slidesToScroll: 1
-                        }
-                    },
-                    {
-                        breakpoint: 991,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 1
-                        }
-                    },
-                ]
             });
+            counted = 1;
+        }
+
+    });
+    // brand-slider
+    $(document).ready(function() {
+        $('.brand-slider').slick({
+            infinite: true,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            arrows: false,
+            speed: 500,
+            dots: false,
+            autoplay: true,
+            responsive: [{
+                    breakpoint: 1199,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 991,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1
+                    }
+                },
+            ]
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>

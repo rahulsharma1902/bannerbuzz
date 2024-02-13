@@ -68,18 +68,13 @@ class BlogController extends Controller
 
     public function addBlogProcc(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die();
         if ($request->id) {
             $request->validate(
                 [
                     'title' => 'required',
                     'slug' => 'required|unique:blogs,slug,' . $request->id,
                     'sub_title' => 'required',
-                    'images' => 'required',
                     'blog_category_id' => 'required',
-                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
                     'short_description' => 'required',
                     'description' => 'required'
                 ],
@@ -87,15 +82,15 @@ class BlogController extends Controller
                     'slug.unique' => 'This Name is already taken'
                 ]
             );
-            if ($request->images !== null) {
+            if ($request->image !== null) {
                 $request->validate(
                     [
-                        'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'image' => 'required',
+                        'image.*' => 'required|image|mimes:jpeg,png,jpg,svg',
                     ],
                     [
-                        'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'image.*.image' => 'The file must be an image.',
+                        'image.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
                     ]
                 );
             }
@@ -109,26 +104,17 @@ class BlogController extends Controller
                 $blog->blog_category_id = $request->blog_category_id;
                 $blog->short_description = $request->short_description;
                 $blog->description = $request->description;
-                $images = [];
-                if ($request->images !== null) {
-                    foreach ($request->images as $image) {
-                        if ($image->isValid()) {
-                            $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                            $image->move(public_path() . '/blog_Images/', $filename);
-                            $images[] = $filename;
-                        }
-                    }
+                if ($request->hasFile('image')) {
+                    $image = $request->image;
+                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                    $image->move(public_path() . '/blog_Images/', $filename);
+                    $blog->image = $filename;
                 }
-                if ($request->existing_images) {
-                    $updatedImages = array_merge($request->existing_images, $images);
-                    $blog->images = json_encode($updatedImages);
-                } else {
-                    $blog->images = json_encode($images);
-                }
+
                 $blog->save();
-                return redirect()->back()->with('success','blog updated successfully');
+                return redirect()->back()->with('success', 'blog updated successfully');
             } else {
-                return redirect()->back()->with('error','something went wrong');
+                return redirect()->back()->with('error', 'something went wrong');
             }
         } else {
             $request->validate(
@@ -136,16 +122,17 @@ class BlogController extends Controller
                     'title' => 'required',
                     'slug' => 'required|unique:blogs,slug',
                     'sub_title' => 'required',
-                    'images' => 'required',
+                    'image' => 'required',
                     'blog_category_id' => 'required',
-                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    'image.*' => 'required|image|mimes:jpeg,png,jpg,svg',
                     'short_description' => 'required',
                     'description' => 'required'
                 ],
                 [
-                    'images.*.image' => 'The file must be an image.',
-                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    'image.*.image' => 'The file must be an image.',
+                    'image.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
                     'slug.unique' => 'This Name is already taken',
+                    'slug.required' => '',
                 ]
             );
 
@@ -156,19 +143,30 @@ class BlogController extends Controller
             $blog->blog_category_id = $request->blog_category_id;
             $blog->short_description = $request->short_description;
             $blog->description = $request->description;
-            $images = [];
-            if ($request->images !== null) {
-                foreach ($request->images as $image) {
-                    if ($image->isValid()) {
-                        $filename = $request->title . rand(0, 100) . '.' . $image->extension();
-                        $image->move(public_path() . '/blog_Images/', $filename);
-                        $images[] = $filename;
-                    }
-                }
+            if ($request->hasFile('image')) {
+                $image = $request->image;
+                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                $image->move(public_path() . '/blog_Images/', $filename);
+                $blog->image = $filename;
             }
-            $blog->image = json_encode($images);
-            $blog->save();
-            return redirect()->back()->with('success','blog added successfully');
+        }
+        $blog->save();
+        return redirect()->back()->with('success', 'blog added successfully');
+    }
+
+
+    public function removeBlog($id)
+    {
+        if ($id) {
+            $blog = Blogs::find($id);
+            if ($blog) {
+                $blog->delete();
+                return redirect()->back()->with('success', 'blog deleted successfully');
+            } else {
+                return redirect()->back()->with('error', 'something went wrong');
+            }
+        } else {
+            return redirect()->back()->with('error', 'something went wrong');
         }
     }
 }

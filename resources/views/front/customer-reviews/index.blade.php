@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="banner-content">
                 <div class="banner-img">
-                    <img src="img/spcl_off_ban.png" alt="" />
+                    <img src="{{ asset('front/img/spcl_off_ban.png') }}" alt="" />
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     You’ve showered all your love—and how! It sure is a proud moment to know 99.4% of you are happy with the hard work we’re putting in. But our heart aches for the 0.6% who we couldn’t give a happy experience. Our only request to you is, please do get in touch whenever you’re stuck, or need assistance. Our team is all ears! Give us a call, email us, or post a review. We’re absolutely devoted to reach 100% customer satisfaction and 100% smiles.
                 </p>
                 <div class="view_all">
-                    <img src="img/view_logo.png">
+                    <img src="{{ asset('front/img/view_logo.png') }}">
                     <ul>
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star"></i>
@@ -64,7 +64,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_1.png">
+                                        <img src="{{ asset('front/img/view_1.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Jerry C. Prentice</h6>
@@ -85,7 +85,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_2.png">
+                                        <img src="{{ asset('front/img/view_2.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Ruth D. Grinnell</h6>
@@ -106,7 +106,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_3.png">
+                                        <img src="{{ asset('front/img/view_3.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Orlando R. Bean</h6>
@@ -127,7 +127,7 @@
                              <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_1.png">
+                                        <img src="{{ asset('front/img/view_1.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Jerry C. Prentice</h6>
@@ -148,7 +148,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_2.png">
+                                        <img src="{{ asset('front/img/view_2.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Ruth D. Grinnell</h6>
@@ -169,7 +169,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_3.png">
+                                        <img src="{{ asset('front/img/view_3.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Orlando R. Bean</h6>
@@ -190,7 +190,7 @@
                              <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_1.png">
+                                        <img src="{{ asset('front/img/view_1.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Jerry C. Prentice</h6>
@@ -211,7 +211,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_2.png">
+                                        <img src="{{ asset('front/img/view_2.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Ruth D. Grinnell</h6>
@@ -232,7 +232,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_3.png">
+                                        <img src="{{ asset('front/img/view_3.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Orlando R. Bean</h6>
@@ -253,7 +253,7 @@
                              <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_1.png">
+                                        <img src="{{ asset('front/img/view_1.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Jerry C. Prentice</h6>
@@ -274,7 +274,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_2.png">
+                                        <img src="{{ url('front/img/view_2.png') }}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Ruth D. Grinnell</h6>
@@ -295,7 +295,7 @@
                             <div class="testimonial-para">
                                 <div class="test_view">
                                     <div class="test_img">
-                                        <img src="img/view_3.png">
+                                        <img src="{{ asset('front/img/view_3.png')}}">
                                     </div>
                                     <div class="test_hd">
                                         <h6>Orlando R. Bean</h6>
