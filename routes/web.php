@@ -169,5 +169,6 @@ Route::get('details/{slug}',[ViewController::class,'ProductDetails']);
 // ajex to fetch products
 Route::get('categories/{parent_id}/children', [ViewController::class,'getChildCategories']);
 Route::get('/categories/{category_id}/products', [ViewController::class, 'getCategoryProducts']);
+Route::get('product/{id}/sizes',[ViewController::class,'getsizes']);
 
 

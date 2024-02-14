@@ -22,6 +22,9 @@
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
+    {{-- jquery CDN --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>Home page</title>
 </head>
 
@@ -218,7 +221,7 @@
                                                                             <ul>
                                                                                 @foreach ($sub_category->products as $product)
                                                                                     <li><a
-                                                                                            href="#">{{ $product->name }}</a>
+                                                                                        href="{{ url('details') }}/{{ $product->slug }}">{{ $product->name }}</a>
                                                                                     </li>
                                                                                 @endforeach
                                                                             </ul>
@@ -235,7 +238,7 @@
                                                 <div class="submuenu__wreap">
                                                     <ul class="submuenu_text">
                                                         @foreach ($category->products as $product)
-                                                            <li><a href="#">{{ $product->name }}</a>
+                                                            <li><a  href="{{ url('details') }}/{{ $product->slug }}">{{ $product->name }}</a>
                                                             </li>
                                                         @endforeach
                                                     </ul>

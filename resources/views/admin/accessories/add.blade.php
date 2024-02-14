@@ -187,13 +187,14 @@
                                         <div class="col-lg-3 p-2">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" name="variation_name[]"
+                                                    <input type="text"  name="variation_name[]"
                                                         class="variation_name form-control" id="variation_name"
                                                         placeholder="Enter Name">
+                                                    <input type="hidden" name="var_slug[]" class="var_slug">
                                                     <div class="error-message" style="color: red; display: none;">
                                                         Duplicate
                                                         value
-                                                        or invalid characters found</div>
+                                                        found</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -283,11 +284,12 @@
                                                                                     id="variation_name"
                                                                                     placeholder="Enter Name"
                                                                                     value="{{ $variation->name ?? '' }}">
+                                                                                    <input type="hidden" name="var_slug[]" class="var_slug" value="{{ $variation->var_slug ?? '' }}">
                                                                                 <div class="error-message"
                                                                                     style="color: red; display: none;">
                                                                                     Duplicate
                                                                                     value
-                                                                                    or invalid characters found</div>
+                                                                                     found</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -326,7 +328,7 @@
                                                                                     <div
                                                                                         class="form-control-wrap col-lg-2 p-2">
                                                                                         <input type="text"
-                                                                                            name="{{ $variation->name }}_value[]"
+                                                                                            name="{{ $variation->var_slug }}_value[]"
                                                                                             class="variation_value form-control"
                                                                                             placeholder="Value"
                                                                                             value="{{ $data->value ?? '' }}"
@@ -335,7 +337,7 @@
                                                                                     <div
                                                                                         class="form-control-wrap col-lg-2 p-2">
                                                                                         <input type="text"
-                                                                                            name="{{ $variation->name }}_price[]"
+                                                                                            name="{{ $variation->var_slug }}_price[]"
                                                                                             class="variation_price form-control"
                                                                                             placeholder="Price"
                                                                                             value="{{ $data->price ?? '' }}"
@@ -344,7 +346,7 @@
                                                                                     <div
                                                                                         class="form-control-wrap col-lg-3 p-2">
                                                                                         <input type="file"
-                                                                                            name="{{ $variation->name }}_Images[]"
+                                                                                            name="{{ $variation->var_slug }}_Images[]"
                                                                                             class="variation_images form-control"
                                                                                             placeholder="Value">
                                                                                         @if ($data->image)
@@ -354,7 +356,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="form-control-wrap col-lg-4">
-                                                                                        <textarea name="{{ $variation->name }}_description[]" class="variation_description form-control"
+                                                                                        <textarea name="{{ $variation->var_slug }}_description[]" class="variation_description form-control"
                                                                                             placeholder="About Product.....">{{ $data->description ?? '' }}</textarea>
                                                                                     </div>
                                                                                     <div class="col-lg-3 p-2">
@@ -693,7 +695,7 @@
     //:::::::::::: Adding Variations ::::::::::::::::::::::://
     function cloneInput(link) {
         var closestDiv = link.closest('.container_div');
-        var parentInput = closestDiv.querySelector('.variation_name').value;
+        var parentInput = closestDiv.querySelector('.var_slug').value;
 
         var InputDivcontainer = closestDiv.querySelector('.variation_value_div');
 
@@ -747,16 +749,75 @@
         });
     }
 
+    $(document).ready(function() {
+    $('.variation_name').on('input', function() {
+
+        var variationName = $(this).val();
+        var slug = generateSlug(variationName);
+        $(this).closest('div').find('.var_slug').val(slug);
+        console.log("hello");
+    });
+
+    function generateSlug(text) {
+        return text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    }
+});
+
     document.getElementById('parent_div').addEventListener('input', function(event) {
         var target = event.target;
 
         if (target.tagName === 'INPUT' && target.closest('.container_div')) {
             var parentInput = target.closest('.container_div').querySelector('.variation_name');
+            var slugInput = target.closest('.container_div').querySelector('.var_slug');
+            convertslug(parentInput,slugInput);
 
-            updateNestedInputName(parentInput, 'variation_value', 'variation_price', 'variation_images',
+            updateNestedInputName(slugInput , 'variation_value', 'variation_price', 'variation_images',
                 'variation_description', 'variation_data_add');
         }
     });
+
+    function convertslug(parentInput,slugInput){
+        str = parentInput.value;
+        str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
+            .toLowerCase();
+        str = str.replace(/^\s+|\s+$/gm, '');
+        str = str.replace(/\s+/g, '_');
+        slugInput.value = str;
+
+    }
+    function updateNestedInputName(slugInput, nestedInput1Class, nestedInput2Class, nestedInput3Class,
+            nestedInput4Class, addMore) {
+            var parentInputValue = slugInput.value;
+
+            var containerDiv = slugInput.closest('.container_div');
+
+            var nestedInput1Elements = containerDiv.querySelectorAll('.' + nestedInput1Class);
+            var nestedInput2Elements = containerDiv.querySelectorAll('.' + nestedInput2Class);
+            var nestedInput3Elements = containerDiv.querySelectorAll('.' + nestedInput3Class);
+            var nestedInput4Elements = containerDiv.querySelectorAll('.' + nestedInput4Class);
+            var addMoredata = containerDiv.querySelectorAll('.' + addMore);
+
+            nestedInput1Elements.forEach(function(nestedInput1) {
+                nestedInput1.name = parentInputValue + '_value[]';
+            });
+
+            nestedInput2Elements.forEach(function(nestedInput2) {
+                nestedInput2.name = parentInputValue + '_price[]';
+            });
+
+            nestedInput3Elements.forEach(function(nestedInput3) {
+                nestedInput3.name = parentInputValue + '_Images[]';
+            });
+
+            nestedInput4Elements.forEach(function(nestedInput4) {
+                nestedInput4.name = parentInputValue + '_description[]';
+            });
+
+            addMoredata.forEach(function(adddata) {
+                adddata.setAttribute('data-name', parentInputValue)
+            });
+        }
+
     var divCounter = 1;
 
     function cloneParentDiv() {
@@ -768,11 +829,12 @@
                                                             <div class="form-group">
                                                                 <div class="form-control-wrap">
                                                                     <input type="text" name="variation_name[]"
-                                                                        class="variation_name form-control" id="variation_name"
+                                                                        class="variation_name form-control"  id="variation_name"
                                                                             placeholder="Enter Name">
+                                                                    <input type="hidden" name="var_slug[]" class="var_slug">
                                                                     <div class="error-message" style="color: red; display: none;">Duplicate
                                                                             value
-                                                                        or invalid characters found</div>
+                                                                         found</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -856,38 +918,7 @@
         }
 
 
-        function updateNestedInputName(parentInput, nestedInput1Class, nestedInput2Class, nestedInput3Class,
-            nestedInput4Class, addMore) {
-            var parentInputValue = parentInput.valuetrim().replace(/\s+/g, '_');
-
-            var containerDiv = parentInput.closest('.container_div');
-
-            var nestedInput1Elements = containerDiv.querySelectorAll('.' + nestedInput1Class);
-            var nestedInput2Elements = containerDiv.querySelectorAll('.' + nestedInput2Class);
-            var nestedInput3Elements = containerDiv.querySelectorAll('.' + nestedInput3Class);
-            var nestedInput4Elements = containerDiv.querySelectorAll('.' + nestedInput4Class);
-            var addMoredata = containerDiv.querySelectorAll('.' + addMore);
-
-            nestedInput1Elements.forEach(function(nestedInput1) {
-                nestedInput1.name = parentInputValue + '_value[]';
-            });
-
-            nestedInput2Elements.forEach(function(nestedInput2) {
-                nestedInput2.name = parentInputValue + '_price[]';
-            });
-
-            nestedInput3Elements.forEach(function(nestedInput3) {
-                nestedInput3.name = parentInputValue + '_Images[]';
-            });
-
-            nestedInput4Elements.forEach(function(nestedInput4) {
-                nestedInput4.name = parentInputValue + '_description[]';
-            });
-
-            addMoredata.forEach(function(adddata) {
-                adddata.setAttribute('data-name', parentInputValue)
-            });
-        }
+       
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
         document.getElementById('parent_div').addEventListener('input', function(event) {
@@ -914,12 +945,8 @@
                 }
 
                 if (values.has(value)) {
-                    // Duplicate value found
                     duplicateFound = true;
                     input.setCustomValidity('Duplicate value found');
-                    input.nextElementSibling.style.display = 'block';
-                } else if (!isValidCharacters(value)) {
-                    input.setCustomValidity('Invalid characters found');
                     input.nextElementSibling.style.display = 'block';
                 } else {
                     values.add(value);
@@ -932,9 +959,6 @@
                 console.error('Duplicate value found');
             }
 
-            function isValidCharacters(value) {
-                return /^[a-zA-Z\s_]+$/.test(value);
-            }
         }
     </script>
 @endsection

@@ -15,9 +15,9 @@ class ViewController extends Controller
     public function index()
     {
         $product_categories = ProductCategories::whereNull('parent_category')->get();
-        $child_category = ProductCategories::whereNotNull('parent_category')->get();
         $products = Product::latest()->where('status', true)->take(10)->get();
-        return view('front.Dashboard.index', compact('product_categories', 'products','child_category'));
+        $blogs = Blogs::latest()->where('status', true)->take(4)->get();
+        return view('front.Dashboard.index', compact('product_categories', 'products','blogs'));
     }
 
     public function shop($slug)
@@ -36,7 +36,7 @@ class ViewController extends Controller
     public function ProductDetails($slug)
     {
         $product = Product::where('slug',$slug)->first();
-        $related_product = Product::where('category_id',$product->category->id)->get();
+        $related_product = Product::where('category_id',$product->category->id)->where('id' ,'!=',$product->id)->get();
         return view('front.shop.product_details',compact('product','related_product'));
     }
 
@@ -90,5 +90,10 @@ class ViewController extends Controller
     {
         $products = Product::where('category_id', $category_id)->get();
         return response()->json($products);
+    }
+
+    public function getsizes($id){
+        $product = Product::find($id);
+        return response()->json($product->sizes);
     }
 }

@@ -152,22 +152,24 @@ class ProductController extends Controller
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     if ($request->variation_name[$a] !== null) {
-                        $var_name = preg_replace('/\s+/', '_', $request->variation_name[$a]);
+                        $var_name = $request->var_slug[$a];
                         $entity = $request->entity_id[$a];
                         $var_price = $var_name . '_price';
                         $var_value = $var_name . '_value';
                         $var_images = $var_name . '_Images';
                         $var_description = $var_name . '_description';
 
-                        $variation = ProductVariations::where('name', $var_name)->where('product_id', $request->id)->first();
+                        $variation = ProductVariations::where('var_slug', $var_name)->where('product_id', $request->id)->first();
                         if ($variation) {
                             $variation->name = $request->variation_name[$a];
+                            $variation->var_slug = $request->var_slug[$a];
                             $variation->entity_id = $entity;
                             $variation->product_id = $product->id;
                             $variation->save();
                         } else {
                             $variation = new ProductVariations();
                             $variation->name = $request->variation_name[$a];
+                            $variation->var_slug = $request->var_slug[$a];
                             $variation->entity_id = $entity;
                             $variation->product_id = $product->id;
                             $variation->save();
@@ -175,18 +177,18 @@ class ProductController extends Controller
                         $var_data = ProductVariationsData::where('product_variation_id', $variation->id)->get();
                         for ($i = 0; $i < count($request->$var_value); $i++) {
                             if ($request->$var_value !== null) {
-                                if ($variation) {
-                                    $variation->name = $request->variation_name[$a];
-                                    $variation->entity_id = $entity;
-                                    $variation->product_id = $product->id;
-                                    $variation->save();
-                                } else {
-                                    $variation = new ProductVariations();
-                                    $variation->name = $request->variation_name[$a];
-                                    $variation->entity_id = $entity;
-                                    $variation->product_id = $product->id;
-                                    $variation->save();
-                                }
+                                // if ($variation) {
+                                //     $variation->name = $request->variation_name[$a];
+                                //     $variation->entity_id = $entity;
+                                //     $variation->product_id = $product->id;
+                                //     $variation->save();
+                                // } else {
+                                //     $variation = new ProductVariations();
+                                //     $variation->name = $request->variation_name[$a];
+                                //     $variation->entity_id = $entity;
+                                //     $variation->product_id = $product->id;
+                                //     $variation->save();
+                                // }
                                 for ($i = 0; $i < count($request->$var_value); $i++) {
                                     if ($request->$var_value[$i] !== null) {
                                         if (isset($var_data[$i])) {
@@ -299,7 +301,7 @@ class ProductController extends Controller
             if ($request->variation_name !== null) {
                 for ($a = 0; $a < count($request->variation_name); $a++) {
                     if ($request->variation_name[$a] !== null) {
-                        $var_name = preg_replace('/\s+/', '_', $request->variation_name[$a]);
+                        $var_name = $request->var_slug[$a];
                         $entity = $request->entity_id[$a];
                         $price = $var_name . '_price';
                         $value = $var_name . '_value';
@@ -308,6 +310,7 @@ class ProductController extends Controller
                         if ($request->$value !== null) {
                             $variation = new ProductVariations();
                             $variation->name = $request->variation_name[$a];
+                            $variation->var_slug = $request->var_slug[$a];
                             $variation->entity_id = $entity;
                             $variation->product_id = $product->id;
                             $variation->save();

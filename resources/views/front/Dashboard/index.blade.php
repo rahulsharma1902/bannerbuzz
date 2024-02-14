@@ -154,22 +154,17 @@
                 <div class="select-box">
                     <h6>Select Your Product</h6>
                     <div class="select_wrap">
-                        <select class="form-select" id="parent_category" name="parent_category" 
+                        <select class="form-select" id="parent_category" data-slug="" name="parent_category" 
                             aria-label="Default select example">
                             @if ($product_categories)
                                 @foreach ($product_categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option data-slug="{{ $category->slug }}" value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
                     <div class="select_wrap">
                         <select class="form-select" data-id="" id="child_category" name="child_category" aria-label="Default select example">
-
-                            <option selected>Board printing</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
                         </select>
                     </div>
                 </div>
@@ -182,86 +177,6 @@
                     </div>
                 </div>
                 <div id="product_container" class="busines_slider busi_slider d-flex">
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_1.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 01</h5>
-                            <div class="star_wreap">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <span>9’321</span>
-                            </div>
-                            <p>Starts at: <span>$187.00</span></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_2.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 02</h5>
-                            <div class="star_wreap">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <span>9’321</span>
-                            </div>
-                            <p>Starts at: <span>$187.00</span></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_3.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 03</h5>
-                            <div class="star_wreap">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <span>9’321</span>
-                            </div>
-                            <p>Starts at: <span>$187.00</span></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_4.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 04</h5>
-                            <div class="star_wreap">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <span>9’321</span>
-                            </div>
-                            <p>Starts at: <span>$187.00</span></p>
-                        </div>
-                    </div>
                     <div class="card">
                         <div class="busines_img">
                             <img src="{{ asset('front/img/busin_3.png') }}">
@@ -284,7 +199,7 @@
                     </div>
                 </div>
                 <div class="busines_btn">
-                    <a href="#" class="btn cta">View All</a>
+                    <a href="" id="view_all" class="btn cta">View All</a>
                 </div>
             </div>
         </div>
@@ -346,7 +261,7 @@
                                 @endforeach
                             </div>
                             <div class="card-body">
-                                <p>{{ $category->name }}</p>
+                                <p><a style="color: rgb(235, 65, 93)" href="{{ url('shop') }}/{{ $category->slug }}">{{ $category->name }}</a></p>
                             </div>
                         </div>
                     @endforeach
@@ -452,11 +367,11 @@
         <div class="arrivals_slider">
             @if ($products)
                 @foreach ($products as $product)
-                    <div class="card">
+                    <div class="card" >
                         <div class="busines_img">
                             @foreach (json_decode($product->images) as $index => $image)
                                 @if ($index == 0)
-                                    <img width="250px" height="160px"
+                                    <img 
                                         src="{{ asset('product_Images') }}/{{ $image }}">
                                 @endif
                             @endforeach
@@ -526,36 +441,6 @@
                     @endif
                 @endforeach
             @endif
-            {{-- <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
-                <div class="multi_shop_txt">
-                    <h5>Exhibition Backdrops</h5>
-                    <p>Starting at <strong>$30.41</strong></p>
-                    <a href="#" class="btn btn_dark">Explore Now</a>
-                </div>
-                <div class="multi_shop_img">
-                    <a href="#"><img src="{{ asset('front/img/multi_2.png') }}"></a>
-                </div>
-            </div>
-            <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
-                <div class="multi_shop_img">
-                    <a href="#"><img src="{{ asset('front/img/multi_3.png') }}"></a>
-                </div>
-                <div class="multi_shop_txt">
-                    <h5>Banners</h5>
-                    <p>Starting at <strong>$1.90</strong></p>
-                    <a href="#" class="btn btn_dark">Explore Now</a>
-                </div>
-            </div>
-            <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
-                <div class="multi_shop_img">
-                    <a href="#"><img src="{{ asset('front/img/multi_4.png') }}"></a>
-                </div>
-                <div class="multi_shop_txt">
-                    <h5>Banners</h5>
-                    <p>Starting at <strong>$1.90</strong></p>
-                    <a href="#" class="btn btn_dark">Explore Now</a>
-                </div>
-            </div> --}}
         </div>
     </div>
 </section>
@@ -679,71 +564,52 @@
         </div>
     </div>
 </section>
-
+@if($blogs->isNotEmpty())
 <section class="blgs_wrapper">
     <div class="container">
         <div class="blgs_hd">
             <h2>Check out our Blog For Printing Tips & Suggestions</h2>
         </div>
         <div class="row">
-            <div class="col-lg-6">
-                <div class="blgs_lt">
-                    <img src="{{ asset('front/img/blgs_dt_1.png') }}">
-                    <span>16 DEC, 2024</span>
-                    <div class="blgs_lt_content">
-                        <h4>Lorem Ipsum is simply dummy text of the printing </h4>
-                        <p>
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                            unknown printer took a galley of type and scrambled it to make a type specimen book. It has
-                            survived not only five centuries.
-                        </p>
+            @foreach ($blogs as  $key => $blog)
+                @if($key == 0)
+                <div class="col-lg-6">
+                    <div class="blgs_lt">
+                        <img width="500px" height="500px" src="{{ asset('blog_Images') }}/{{ $blog->image }}">
+                        <span class="d-block">{{ $blog->created_at->format('F jS, Y') }}</span>
+                        <div class="blgs_lt_content">
+                            <h4>{{ $blog->title }} </h4>
+                            <?php $short_des = substr($blog->short_description, 0, 250); ?>
+                            <p class=""><?php echo $short_des ?>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <ul class="blog_list">
-                    <li>
-                        <div class="blog_list_img">
-                            <img src="{{ asset('front/img/blgs_1.png') }}">
-                        </div>
-                        <div class="blog_list_txt">
-                            <span>12 DEC, 2024</span>
-                            <h6>Lorem Ipsum is simply dummy text of the printing </h6>
-                            <p>
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                            </p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="blog_list_img">
-                            <img src="{{ asset('front/img/blgs_2.png') }}">
-                        </div>
-                        <div class="blog_list_txt">
-                            <span>12 DEC, 2024</span>
-                            <h6>Lorem Ipsum is simply dummy text of the printing </h6>
-                            <p>
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                            </p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="blog_list_img">
-                            <img src="{{ asset('front/img/blgs_3.png') }}">
-                        </div>
-                        <div class="blog_list_txt">
-                            <span>12 DEC, 2024</span>
-                            <h6>Lorem Ipsum is simply dummy text of the printing </h6>
-                            <p>
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                            </p>
-                        </div>
-                    </li>
+                <div class="col-lg-6">
+                    <ul class="blog_list">
+                        @else
+                        <li>
+                            <div class="blog_list_img">
+                                <img width="250px" height="200px" src="{{ asset('blog_Images') }}/{{ $blog->image }}">
+                            </div>
+                            <div class="blog_list_txt">
+                                <span>{{ $blog->created_at->format('F jS, Y') }}</span>
+                                <h6>{{ $blog->title }} </h6>
+                                <?php $short_des = substr($blog->short_description, 0, 100); ?>
+                                 <p class=""><?php echo $short_des ?>
+                                </p>
+                            </div>
+                        </li>
+                        @endif
+            @endforeach
+            
+                    
                 </ul>
             </div>
         </div>
     </div>
 </section>
-
+@endif
 <section class="best_price p_100 pb-0">
     <div class="container">
         <div class="ways_hd">
@@ -780,7 +646,6 @@
         </div>
     </div>
 </section>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
     function updateChildCategories(parentId) {
@@ -817,7 +682,7 @@
                 $.each(products, function(index, product) {
                     var Images =JSON.parse(product.images);
                     console.log(Images);
-                    var cardHtml = `<div class="card">
+                    var cardHtml = `<div class="card col-lg-3">
                         <div class="busines_img">
                             <img width="150px" height="160px" src="{{ asset('product_Images') }}/${Images[0]}">
                             <div class="cust_btn_wreap">
@@ -852,14 +717,18 @@
     });
     $('#parent_category').on('change', function() {
         var parentId = $(this).val();
+        var selectedOption = this.options[this.selectedIndex];
+        var selectedSlug = selectedOption.getAttribute('data-slug');
+        var url = "{{ url('shop') }}/" + selectedSlug;
+        $('#view_all').attr('href' , url);
         updateChildCategories(parentId);
     });
 
-    var defaultParentId = 1; 
-    var defaultChildId = 1;
+    var defaultParentId = "{{ $product_categories->first()->id }}"; 
+    var defaulturl = "{{ url('shop') }}/" + "{{ $product_categories->first()->slug }}";
+    $('#view_all').attr('href' , defaulturl);
     updateChildCategories(defaultParentId);
     $('#parent_category').val(defaultParentId);
-    $('#child_category').val(defaultChildId);
 });
 </script>
 @endsection

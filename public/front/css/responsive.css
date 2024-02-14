@@ -13,6 +13,9 @@
 		font-size: 15px;
 		line-height: 24px;
 	}
+	h1 {
+		font-size: 70px;
+	}
 	h2 {
 		font-size: 35px;
 		line-height: 42px;
@@ -160,9 +163,6 @@
 	.counter-wrapper .counter-block {
 		padding: 0px 80px;
 	}
-	.loyal-content .reasons .rsn {
-		flex-basis: 33%;
-	}
 	.counter-wrapper .counter li span {
 		font-size: 35px;
 	}
@@ -176,9 +176,96 @@
 	.site_rvw .tab-content .testimonial-para {
 		padding: 35px 40px;
 	}
+	.paginetion_wreap ul {
+		padding-top: 50px;
+	}
+	.banner-content h2 {
+		font-size: 60px;
+		line-height: normal;
+	}
+	.banner-content p {
+		font-size: 18px;
+	}
+	.banner-content {
+		padding: 80px;
+	}
+	.get-lft-info .get-lnks p {
+		gap: 15px;
+	}
+	.get-lft-info .get-lnks p a {
+		font-size: 18px;
+	}
+	.get_in_sec .get-in-content {
+		padding: 20px 20px 20px 60px;
+	}
+	.shopgp__text ul li:not(:last-child) {
+		margin-bottom: 30px;
+	}
+	.shopgp__text ul li .card .card-body h5 {
+		font-size: 32px;
+	}
+	.shopgp__text ul li .card .card-body span {
+		font-size: 16px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body p {
+		font-size: 18px;
+	}
+	.privacy_txt li img {
+		max-width: 20px;
+	}
+	.shop_dt_list {
+		padding: 25px 20px 25px 40px;
+	}
+	.shop_dt_list ul li {
+		width: 42%;
+	}
+	.shop_dt_ship p {
+		font-size: 13px;
+		padding: 10px;
+	}
+	.shop_dt_note p {
+		font-size: 14px;
+	}
+	.shop_dt_group .form-label {
+		font-size: 14px;
+	}
+	.shop_dt_cst form .form-select {
+		font-size: 14px;
+	}
+	.shp_dt_art {
+		padding: 20px 10px;
+	}
+	.descript_wrapper .nav .nav-link {
+		font-size: 16px;
+		padding: 15px 28px;
+	}
+	.related_content {
+		padding: 30px;
+	}
+	.related_content::before, .related_content::after {
+		width: 20px;
+	}
+	.shp_dt_art p span {
+		font-size: 16px;
+	}
+	.shp_dt_art p strong {
+		font-size: 18px;
+	}
+	.shp_dt_art p {
+		font-size: 20px;
+	}
+	.related_slider::after {
+		margin-right: 30px;
+	}
+	.related_slider::before {
+		margin-left: 30px;
+	}
 }
 
 @media only screen and (max-width: 1199px) {
+	h1 {
+		font-size: 60px;
+	}
 	.our_best_grid {
 		grid-template-columns: repeat(4,1fr);
 		gap: 20px;
@@ -280,6 +367,37 @@
 	}
 	.loved-prdct_content .next-arrow.slick-arrow {
 		right: -17px;
+	}
+	.up_artwrk_sec .upwrk_data {
+		gap: 30px;
+	}
+	.loyal-content .reasons .rsn {
+		padding: 15px;
+	}
+	.loyal-content .reasons {
+		gap: 10px;
+	}
+	.banner_inner_text {
+		max-width: 65%;
+	}
+	.shopgp__text ul li .card .shopgp_img {
+		min-width: 350px;
+		min-height: 250px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body h5 {
+		font-size: 28px;
+	}
+	.shopgp__text ul li .card .card-body span {
+		font-size: 15px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body p {
+		font-size: 16px;
+	}
+	.descript_wreap {
+		margin-top: 30px;
+	}
+	.related_slider {
+		overflow: hidden;
 	}
 }
 
@@ -401,7 +519,7 @@
 	.navbar .navbar-collapse.collapsing {
 		height: auto !important;
 	}
-	.collapse:not(.show) {
+	header .collapse:not(.show) {
 		display: block !important;
 	}
 	.toggle_hide_mb {
@@ -579,7 +697,6 @@
 	}
 	.blog-content .category-link li a {
 		font-size: 16px;
-		padding: 12px 0px;
 	}
 	.blog-detail p {
 		font-size: 16px;
@@ -661,6 +778,7 @@
 	}
 	.custom-sec.shop_size.shop_nw .custom-content .select-box {
 		flex-direction: column;
+		background-color: transparent;
 	}
 	.shop_size .custom-content {
 		padding: 50px 0;
@@ -745,9 +863,95 @@
 		align-items: center;
 		gap: 8px;
 	}
+	.banner-content .banner-img img {
+		border-radius: 10px;
+	}	
+	.filter_wreap .accordion-item {
+		padding: 22px 0;
+	}
+	.filter_wreap .accordion-item .accordion-button {
+		font-size: 16px;
+	}
+	.shop_size_txt p {
+		font-size: 22px;
+	}
+	.shop_size_txt p strong, .shop_size_txt p span {
+		font-size: 16px;
+	}
+	.shop_rtl .card {
+		margin: 0 !important;
+	}
+	.massage_wreap {
+		bottom: 20px;
+		right: 20px;
+	}
+	.massage_wreap a img {
+		max-width: 45px;
+	}
+	.banner-content {
+		padding: 50px;
+	}
+	.banner-content h2 {
+		font-size: 45px;
+	}
+	.banner-content p {
+		font-size: 15px;
+		line-height: normal;
+		width: 50%;
+	}
+	.loyal-content .reasons {
+		display: grid;
+		grid-template-columns: repeat(2,1fr);
+		gap: 15px;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw div#v-pills-tabContent {
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw {
+		flex-direction: column;
+		gap: 30px;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw button {
+		max-width: 100%;
+		width: auto;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw .nav {
+		width: 100%;
+	}
+	.get_in_sec .get-in-content {
+		padding: 30px;
+	}
+	.get_in_sec .get-in-content .row {
+		gap: 30px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card {
+		width: 100%;
+	}
+	.shopgp__text ul li .card .shopgp_img {
+		min-width: 100%;
+		min-height: 300px;
+	}
+	.privacy_txt li {
+		align-items: start;
+	}
+	.shop_dt_img {
+		margin-bottom: 50px;
+	}
+	.shop_dt_img {
+		margin-bottom: 50px;
+	}
+	.shp_dt_art {
+		margin-top: 50px;
+	}
 }
 
 @media only screen and (max-width: 767px) {
+	h1 {
+		font-size: 50px;
+		line-height: normal;
+	}
 	.p_100 {
 		padding: 60px 0px;
 	}
@@ -929,14 +1133,88 @@
 		padding: 40px;
 	}
 	.busines_slider .card {
-	    margin: 0 15px;
+		margin: 0 15px;
 	}
 	.arrivals_wreap .card {
-	    margin: 0 15px;
+		margin: 0 15px;
+	}
+	.accordion_wrapper .accordion-item .accordion-button {
+		padding: 25px 20px 25px 20px;
+		font-size: 18px;
+	}
+	.accordion_wrapper .accordion-item .accordion-button::after {
+		width: 30px;
+		height: 30px;
+		background-size: 30px;
+	}
+	.accordion_wrapper .accordion-item .accordion-body p {
+		padding: 0 66px 30px 20px;
+	}
+	.banner-content {
+		padding: 30px;
+	}
+	.banner-content h2 {
+		font-size: 35px;
+	}
+	.banner-content p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	.create-content {
+		padding: 40px;
+	}
+	.story-txt {
+		padding-left: 15px;
+		padding-top: 30px;
+	}
+	.counter-wrapper {
+		flex-direction: column;
+		gap: 0;
+	}
+	.counter-wrapper .counter-block {
+		margin: 0;
+		width: 100%;
+		padding: 0;
+		border: 0;
+	}
+	.counter-wrapper .counter-block:not(:last-child) {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	}
+	.counter-wrapper .counter-block:first-child {
+		margin-top: 20px;
+	}
+	.empowering-content .brand img {
+		max-width: 130px;
+	}
+	.imagine-content .imagine-card {
+		flex-direction: column;
+		margin-top: 30px;
+	}
+	.imagine-content .imagine-card .card {
+		width: 100%;
+	}
+	.story-content .overflow-text {
+		bottom: 0;
+		left: 15px;
+		right: 15px;
+		width: auto;
+		max-width: 100%;
+	}
+	.story-content .overflow-text p {
+		max-width: 100%;
+	}
+	.privacy_content h2 {
+		font-size: 35px;
 	}
 }
 
 @media only screen and (max-width: 575px) {
+	h1 {
+		font-size: 40px;
+	}
 	h2 {
 		font-size: 28px;
 		line-height: normal;
@@ -946,6 +1224,9 @@
 	}
 	h4 {
 		font-size: 20px;
+	}
+	h5 {
+		font-size: 18px;
 	}
 	h6 {
 		font-size: 14px;
@@ -968,7 +1249,7 @@
 		flex-direction: column;
 	}
 	.busines_slider .card .busines_img {
-		min-height: 220px;
+		min-height: 180px;
 	}
 	.busines_btn {
 		margin-top: 30px;
@@ -1122,9 +1403,8 @@
 	.arrivals_wreap .card .busines_img img {
 		max-width: 100%;
 	}
-
 	.busines_slider .card .busines_img img {
-		max-width: 70px;
+		max-width: 100px;
 		width: 100%;
 	}
 	.card_imgs {
@@ -1138,9 +1418,6 @@
 	}
 	header .search_block .form-control {
 		font-size: 12px;
-	}
-	.privacy_content h2 {
-		font-size: 40px;
 	}
 	.shop_top {
 		flex-direction: column;
@@ -1156,7 +1433,7 @@
 		padding: 15px 0 0;
 	}
 	.accordion_wrapper .accordion-item .accordion-button {
-		padding: 30px 20px 30px 35px;
+		padding: 30px 20px 30px 20px;
 	}
 	.paginetion_wreap ul {
 		padding-top: 45px;
@@ -1176,14 +1453,14 @@
 	.light_dark {
 		padding: 15px;
 	}
-	.shopgp__text.shop_lyt_txt ul li .card .shopgp_img {
-		min-width: 330px;
-	}
 	.shopgp__text.shop_lyt_txt ul li .card .card-body span {
-		font-size: 16px;
+		font-size: 15px;
 	}
-	.shopgp__text.shop_lyt_txt ul li .card .card-body p {
-		font-size: 18px;
+	.shopgp__text.shop_lyt_txt ul li .card {
+		gap: 30px;
+	}
+	.shopgp__text.shop_lyt_txt ul li .card .card-body h5 {
+		font-size: 26px;
 	}
 	.shop_gp_list .hd_text p {
 		font-size: 16px;
@@ -1201,5 +1478,152 @@
 	form.footer_top_rt {
 		flex-direction: column;
 		gap: 15px!important;
+	}
+	.shop_rtl {
+		gap: 10px;
+	}
+	.up_artwrk_sec .upwrk_data .mid_txt p {
+		width: 50px;
+		height: 50px;
+		margin: 0;
+		font-size: 12px;
+	}
+	.breadcrumb_wreap ol .breadcrumb-item {
+		font-size: 14px;
+	}	
+	.blog-content .blog-blocks .posts li a h6 {
+		line-height: normal;
+	}
+	.blog-content .blog-blocks .posts li {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	}
+	.blog-content .category-link li {
+		margin: 20px 0 0;
+	}
+	.blog-content .news-block {
+		border-radius: 10px;
+	}
+	header .topbar-content span {
+		font-size: 12px;
+	}
+	header .topbar i {
+		font-size: 16px;
+	}
+	.blog-detail p,
+	.blog-detail .blog-list li {
+		font-size: 15px;
+		line-height: 1.4;
+	}
+	.banner-content {
+		padding: 30px 20px;
+	}
+	.banner-content p {
+		width: 100%;
+	}
+	.banner-content h2 {
+		font-size: 32px;
+	}
+	.create-content {
+		padding: 20px;
+	}
+	.story-content h2 {
+		margin-bottom: 20px;
+	}
+	.empowering-content .brand img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.brand-slider .brand {
+		padding: 0 15px;
+	}
+	.banner_inner_text {
+		max-width: 100%;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw .upld-lnk {
+		margin-top: 10px;
+	}
+	.inquiry_sec .inquiry_content .inquiry-form .form_rw .upld-lnk a {
+		padding: 16px 40px;
+	}
+	.get-lft-info .get-lnks p a {
+		font-size: 16px;
+	}
+	.get_in_sec .get-in-content {
+		padding: 20px;
+	}
+	.ways_hd ul.shipping {
+		padding: 0 0 50px !important;
+	}
+	.order_track_sec .form_info {
+		padding: 20px;
+	}
+	.site_rvw .tab-content .review_grid {
+		gap: 20px;
+	}
+	.b_text {
+		font-size: 16px;
+		line-height: normal;
+	}
+	.custmr_revw .view_content .view_all img {
+		max-width: 100px;
+	}
+	.review_wrapper .site_rvw .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+		padding-bottom: 25px;
+	}
+	.site_rvw .tab-content .testimonial-para {
+		padding: 20px;
+	}
+	.site_rvw .tab-content {
+		margin-top: 40px;
+	}
+	.privacy_txt h5 {
+		font-size: 22px;
+		margin-bottom: 16px;
+	}
+	.privacy_txt li img {
+		max-width: 18px;
+	}
+	.vinyl_wrapper {
+		padding: 30px 0;
+	}
+	.shop_dt_list ul li {
+		width: 100%;
+	}
+	.shop_dt_list {
+		padding: 20px 20px 20px 35px;
+	}
+	.shop_dt_cst form .form-select {
+		font-size: 13px;
+	}
+	.shop_dt_group {
+		flex-direction: column;
+	}
+	.shop_dt_group .form-label {
+		width: 100%;
+		margin-bottom: 4px;
+	}
+	.shop_dt_cst form .form-select {
+		width: 100%;
+	}
+	.shp_dt_art p span {
+		font-size: 14px;
+	}
+	.shp_dt_art p {
+		font-size: 16px;
+	}
+	.descript_wrapper .nav .nav-link {
+		font-size: 14px;
+		padding: 12px 25px;
+	}
+	.related_content {
+		padding: 15px;
+	}
+	.template_wrapper .busines_slider .card .busines_img img {
+		max-width: none;
+	}
+	.template_slider .slick-list {
+		padding-bottom: 40px;
 	}
 }

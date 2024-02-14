@@ -1875,7 +1875,7 @@ input:focus-visible {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    padding: 130px 0 160px 130px;
+    /* padding: 130px 0 160px 130px; */
     border-radius: 25px;
 }
 .banner-content h2 {

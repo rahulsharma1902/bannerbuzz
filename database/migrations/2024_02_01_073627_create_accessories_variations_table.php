@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('accessories_variations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('accessories_id')->nullable();
             $table->string('entity_id')->nullable();
             $table->integer('status')->default(true);
