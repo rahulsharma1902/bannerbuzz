@@ -575,7 +575,7 @@
                 @if($key == 0)
                 <div class="col-lg-6">
                     <div class="blgs_lt">
-                        <img width="500px" height="500px" src="{{ asset('blog_Images') }}/{{ $blog->image }}">
+                        <img width="100%" src="{{ asset('blog_Images') }}/{{ $blog->image }}">
                         <span class="d-block">{{ $blog->created_at->format('F jS, Y') }}</span>
                         <div class="blgs_lt_content">
                             <h4>{{ $blog->title }} </h4>

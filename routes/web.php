@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AccessoriesController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Front\ShopController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -158,17 +159,18 @@ Route::get('admin-dashboard/remove-blog/{id}',[BlogController::class,'removeBlog
 
 // web view Routes ViewController
 Route::get('/',[ViewController::class,'index']);
-Route::get('shop/{slug}',[ViewController::class,'shop']);
 Route::get('about-us',[ViewController::class,'aboutUs']);
 Route::get('contact-us',[ViewController::class,'contactUs']);
 Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
 Route::get('blogs/{slug?}',[ViewController::class,'blogs']);
 Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
-Route::get('details/{slug}',[ViewController::class,'ProductDetails']);
 
-// ajex to fetch products
-Route::get('categories/{parent_id}/children', [ViewController::class,'getChildCategories']);
-Route::get('/categories/{category_id}/products', [ViewController::class, 'getCategoryProducts']);
-Route::get('product/{id}/sizes',[ViewController::class,'getsizes']);
+// products and shop controller ShopController
+Route::get('shop/{slug}',[ShopController::class,'shop']);
+Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
+Route::get('categories/{parent_id}/children', [ShopController::class,'getChildCategories']);
+Route::get('/categories/{category_id}/products', [ShopController::class, 'getCategoryProducts']);
+Route::get('product/{id}/sizes',[ShopController::class,'getsizes']);
+Route::post('custom-product',[ShopController::class,'CustomProduct']);
 
 

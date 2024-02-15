@@ -118,7 +118,11 @@ class ProductController extends Controller
                         $product_size->product_id = $product->id;
                         $product_size->size_type = $request->size_type;
                         $product_size->size_value = $request->sizeValue[$i];
-                        $product_size->size_unit = $request->size_unit;
+                        if($request->size_type == 'Custom'){
+
+                        } else {
+                            $product_size->size_unit = $request->size_unit;
+                        }
                         $product_size->price = $request->price[$i];
                         $product_size->save();
                     }
@@ -292,7 +296,11 @@ class ProductController extends Controller
                         $product_size->product_id = $product->id;
                         $product_size->size_type = $request->size_type;
                         $product_size->size_value = $request->sizeValue[$i];
-                        $product_size->size_unit = $request->size_unit;
+                        if($request->size_type == 'Custom'){
+
+                        } else {
+                            $product_size->size_unit = $request->size_unit;
+                        }
                         $product_size->price = $request->price[$i];
                         $product_size->save();
                     }

@@ -41,6 +41,7 @@
                         <div class="shop_dt_cst">
                             <div class="shop_dt_view">
                                 <h3>{{ $product->name }}</h3>
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <p>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
@@ -74,29 +75,38 @@
                                 @if ($product->sizes->isNotEmpty())
                                     <div class="shop_dt_fm">
                                         <div class="shop_dt_size">
-                                            <select id="inputState" class="form-select">
+                                            <select id="select_size" name="product_size" class="form-select">
                                                 @foreach ($product->sizes as $size)
-                                                    <option value="{{ $size->size_value }}">{{ $size->size_value }}</option>
+                                                    <option data-id="{{ $size->id }}" data-price="{{ $size->price }}"
+                                                        value="{{ $size->size_value }}">{{ $size->size_value }}</option>
                                                 @endforeach
                                             </select>
-                                            <select id="inputState" class="form-select">
-                                                <option selected>Ft</option>
-                                                <option>inch</option>
-                                            </select>
-                                            <input type="number" id="inputState" name="quantity" placeholder="Qty"
-                                                class="form-select">
+                                            @if ($product->sizes->first()->size_type != 'Custom')
+                                                <select id="size_unit" name="size_unit" class="form-select">
+                                                    <option value="Ft" selected>Ft</option>
+                                                    <option value="In">inch</option>
+                                                    <option value="Cm">Cm</option>
+                                                    <option value="Mm">Mm</option>
+                                                </select>
+                                            @endif
+                                            <input type="number" value="1" id="product_quantity" name="quantity"
+                                                placeholder="Qty" class="form-select">
                                         </div>
                                     </div>
                                 @endif
                                 @if ($product->variations->isNotEmpty())
                                     @foreach ($product->variations as $variation)
-                                        <div class="shop_dt_fm">
+                                        <div class="variation_div shop_dt_fm">
                                             <div class="shop_dt_group">
                                                 <label class="form-label">{{ $variation->name }}:</label>
                                                 @if ($variation->variationData->isNotEmpty())
-                                                    <select class="form-select">
+                                                    <select name="{{ $variation->var_slug }}"
+                                                        class="product_variation form-select">
                                                         @foreach ($variation->variationData as $data)
-                                                            <option value="{{ $data->value }}">{{ $data->value }}</option>
+                                                            <option data-id="{{ $data->id }}"
+                                                                data-price="{{ $data->price }}"
+                                                                value="{{ $data->value }}">{{ $data->value }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 @endif
@@ -104,99 +114,25 @@
                                         </div>
                                     @endforeach
                                 @endif
-                                {{-- <div class="shop_dt_fm">
-                                    <div class="shop_dt_size">
-                                        <select id="inputState" class="form-select">
-                                            <option selected>Size (W X H)</option>
-                                            <option>lorem</option>
-                                        </select>
-                                        <select id="inputState" class="form-select">
-                                            <option selected>Ft</option>
-                                            <option>lorem</option>
-                                        </select>
-                                        <select id="inputState" class="form-select">
-                                            <option selected>Qty </option>
-                                            <option>lorem</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="shop_dt_note">
-                                    <p><strong>Note:</strong> Discount not applicable on special size 3' X 2'</p>
-                                </div>
-                                <div class="shop_dt_fm">
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Two Sided:</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Upgrade to Premium:</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Hanging Options:</label>
-                                        <select class="form-select">
-                                            <option selected>No Grommets</option>
-                                            <option>yes Grommets</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Lamination:</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Upgrade to Premium:</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Wind Flaps:</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Pantone + Color Bridge Coated (optional)</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Add Accessories (optional)</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                    <div class="shop_dt_group">
-                                        <label class="form-label">Specific Instructions (optional)</label>
-                                        <select class="form-select">
-                                            <option selected>No</option>
-                                            <option>yes</option>
-                                        </select>
-                                    </div>
-                                </div> --}}
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="shp_dt_art">
                             <p>
-                                <span>£{{ $product->price + 10 }}</span>
-                                <strong>£{{ $product->price }}</strong>
-                                (Incl. VAT)
+                                @if ($product->sizes->isNotEmpty())
+                                    <span id="product_price_main">£{{ $product->sizes->first()->price + 10 }}</span>
+                                    <strong id="product_price">£{{ $product->sizes->first()->price }}</strong>
+                                    (Incl. VAT)
+                                    <input type="hidden" id="product_price_input" name="product_price"
+                                        value="{{ $product->sizes->first()->price }}">
+                                @else
+                                    <span id="product_price_main">£{{ $product->price + 10 }}</span>
+                                    <strong id="product_price">£{{ $product->price }}</strong>
+                                    (Incl. VAT)
+                                    <input type="hidden" id="product_price_input" name="product_price"
+                                        value="{{ $product->price }}">
+                                @endif
                             </p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault"
@@ -422,4 +358,159 @@
             @endif
         </div>
     </section>
+    <script>
+        $(document).ready(function() {
+            var size_prices = [];
+            size_prices.push({
+                value: {{ $product->sizes->first()->id }},
+                price: {{ $product->sizes->first()->price }}
+            });
+            console.log(size_prices);
+            $('#select_size').on('change', function() {
+
+                var totalPrice = parseFloat($('#product_price_input').val());
+                var size_value = $(this).val();
+
+                var selectedOption = this.options[this.selectedIndex];
+                var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+                var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+
+                var previousPrice = size_prices.reduce(function(total, item) {
+                    return total + item.price;
+                }, 0);
+                size_prices = [];
+                totalPrice -= previousPrice;
+                size_prices.push({
+                    value: selectedid,
+                    price: selectedprice
+                });
+
+                totalPrice += selectedprice;
+
+                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5));
+                $('#product_price').text('$' + totalPrice);
+                $('#product_price_input').val(totalPrice);
+            });
+
+            $('#product_quantity').on('change', function() {
+                var value = $(this).val();
+                if (value < 1 || value > 999) {
+                    value = 1;
+                    $('#product_quantity').val(1);
+                }
+                var price = $('#product_price_input').val();
+                $('#product_price_main').text('$' + (parseFloat(price) + 5) * value);
+                $('#product_price').text('$' + value * price);
+            });
+
+            // converting size units
+            $('#size_unit').on('change', function() {
+                var unit_value = $(this).val();
+                var productID = "{{ $product->id }}";
+                var selectedSize = $('#select_size').val();
+                updateSize(productID, unit_value, selectedSize);
+            });
+
+            function updateSize(id, value, selectedSize) {
+                $.ajax({
+                    url: '/product/' + id + '/sizes',
+                    type: 'GET',
+                    success: function(data) {
+                        var sizeSelect = $('#select_size');
+                        if (data.length > 0) {
+                            sizeSelect.show();
+                            sizeSelect.empty();
+                            if (value == 'In') {
+                                unit_value = 12;
+                            } else if (value == 'Cm') {
+                                unit_value = 30;
+                            } else if (value == 'Mm') {
+                                unit_value = 304;
+                            } else if (value == 'Ft') {
+                                unit_value = 1;
+                            }
+                            $.each(data, function(index, size) {
+                                if (size.size_type == 'wh' || size.size_type == 'DH') {
+                                    if (selectedSize == size.size_value) {
+                                        size_values = size.size_value.split('X');
+                                        sizeSelect.append('<option selected data-sizeType="' +
+                                            size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            +parseFloat(size_values[0]) * unit_value +
+                                            ' X ' +
+                                            parseFloat(size_values[1]) * unit_value +
+                                            '</option>');
+                                    } else {
+                                        size_values = size.size_value.split('X');
+                                        sizeSelect.append('<option data-sizeType="' + size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            +parseFloat(size_values[0]) * unit_value +
+                                            ' X ' +
+                                            parseFloat(size_values[1]) * unit_value +
+                                            '</option>');
+                                    }
+
+                                } else {
+                                    if (selectedSize == size.size_value) {
+                                        sizeSelect.append('<option selected data-sizeType="' +
+                                            size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            parseFloat(size.size_value) * unit_value +
+                                            '</option>');
+                                    } else {
+                                        sizeSelect.append('<option data-sizeType="' + size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            parseFloat(size.size_value) * unit_value +
+                                            '</option>');
+                                    }
+                                }
+                            });
+                        } else {
+                            sizeSelect.hide();
+                        }
+                    },
+                });
+            }
+
+            // adding and removing variation data 
+            var selectedOptions = [];
+            $('.product_variation').on('change', function() {
+                var totalPrice = parseFloat($('#product_price_input').val());
+                var selectElement = $(this);
+
+                // adding price
+                selectElement.find('option:selected').each(function() {
+                    var option = $(this).get(0);
+                    var price = parseFloat(option.dataset.price);
+                    selectedOptions.push({
+                        value: option.dataset.id,
+                        price: price
+                    });
+                    totalPrice += price;
+                });
+
+                // removing or changing price
+                selectElement.find('option').each(function() {
+                    var option = $(this).get(0);
+                    if (!$(option).is(':selected')) {
+                        var valueToRemove = option.dataset.id;
+                        var index = selectedOptions.findIndex(item => item.value === valueToRemove);
+                        while (index !== -1) {
+                            totalPrice -= selectedOptions[index].price;
+                            selectedOptions.splice(index, 1);
+                            index = selectedOptions.findIndex(item => item.value === valueToRemove);
+                        }
+                    }
+                });
+                $('#product_price_input').val(totalPrice.toFixed(2));
+                var value = $('#product_quantity').val();
+                $('#product_price_main').text('$' + (totalPrice + 5) * value);
+                $('#product_price').text('$' + value * totalPrice);
+            });
+        });
+    </script>
 @endsection

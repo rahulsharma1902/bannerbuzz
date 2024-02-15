@@ -749,20 +749,6 @@
         });
     }
 
-    $(document).ready(function() {
-    $('.variation_name').on('input', function() {
-
-        var variationName = $(this).val();
-        var slug = generateSlug(variationName);
-        $(this).closest('div').find('.var_slug').val(slug);
-        console.log("hello");
-    });
-
-    function generateSlug(text) {
-        return text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
-    }
-});
-
     document.getElementById('parent_div').addEventListener('input', function(event) {
         var target = event.target;
 
