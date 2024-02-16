@@ -5,18 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategories;
 use App\Models\ProductType;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
     public function index($slug = null)
     {
-        if ($slug) {
-            $categories = ProductCategories::where('slug', '!=', $slug)->get();
+        $category = ProductCategories::where('slug', $slug)->first();
+        if ($category) {
+            if($category->parent_category === null){
+               $categories = ProductCategories::where('slug', '!=', $slug)->whereNull('parent_category')->get();
+            } else {
+               $categories = ProductCategories::where('slug', '!=', $slug)->get();
+            }
         } else {
             $categories = ProductCategories::all();
         }
-        $category = ProductCategories::where('slug', $slug)->first();
+       
         return view('admin.productCategory.index', compact('categories', 'category'));
     }
 
@@ -113,7 +119,7 @@ class ProductCategoryController extends Controller
             if ($category) {
                 $childCategories = ProductCategories::where('parent_category', $category->id)->get();
                 foreach ($childCategories as $childCategory) {
-                    $childCategory->delete();
+                    $childCategory->update(['parent_category' => null]);
                 }
                 $category->delete();
                 return redirect()->back()->with('success', 'Category has been removed');
@@ -161,6 +167,12 @@ class ProductCategoryController extends Controller
     {
         $product_type = ProductType::find($id);
         if ($product_type) {
+            $products = Product::where('product_type_id',$id)->get();
+            if($products){
+                foreach($products as $product){
+                    $product->update(['product_type_id'=> null]);
+                }
+            }
             $product_type->delete();
             return redirect()->back()->with('success', 'product Type deleted successfully');
         } else {

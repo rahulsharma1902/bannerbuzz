@@ -347,7 +347,7 @@
                                                                                             class="variation_images form-control"
                                                                                             placeholder="Value">
                                                                                         @if ($data->image)
-                                                                                            <img src="{{ url('/accessories_Images/' . $data->image ?? '') }}"
+                                                                                            <img src="{{ asset('accessories_Images') ?? '' }}/{{ $data->image ?? '' }}"
                                                                                                 alt="">
                                                                                         @endif
                                                                                     </div>

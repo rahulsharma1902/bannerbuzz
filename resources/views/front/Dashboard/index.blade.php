@@ -7,7 +7,7 @@
                 <ul class="shipping">
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/some.svg')}}" alt="" />
+                            <img src="{{ asset('/front/img/some.svg')}}" alt="" />
                             <div class="text">
                                 <p>Same Day Shipping</p>
                                 <span>on selected products</span>
@@ -16,7 +16,7 @@
                     </li>
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/priority.svg')}}" alt="" />
+                            <img src="{{ asset('/front/img/priority.svg')}}" alt="" />
                             <div class="text">
                                 <p>Priority Shipping</p>
                                 <span>on all the orders</span>
@@ -25,7 +25,7 @@
                     </li>
                     <li>
                         <div class="ship-box">
-                            <img src="{{ url('/front/img/free.svg')}}" alt="" />
+                            <img src="{{ asset('/front/img/free.svg')}}" alt="" />
                             <div class="text">
                                 <p>Free Shipping</p>
                                 <span>on order above $99.00</span>
@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div class="banner-img">
-                <img src="{{ url('/front/img/crea8bann.png')}}" alt="" />
+                <img src="{{ asset('/front/img/crea8bann.png')}}" alt="" />
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                 <div class="card">
                     <div class="card-wrap">
                         <div class="card-img">
-                            <img src="{{ url('/front/img/cardprdt1.png')}}" alt="" />
+                            <img src="{{ asset('/front/img/cardprdt1.png')}}" alt="" />
                         </div>
                         <div class="card-body">
                             <p>Lorem Ipsum is simply dummy text of the printing</p>
@@ -73,7 +73,7 @@
                 <div class="card">
                     <div class="card-wrap">
                         <div class="card-img">
-                            <img src="{{ url('/front/img/cardprdt2.png')}}" alt="" />
+                            <img src="{{ asset('/front/img/cardprdt2.png')}}" alt="" />
                         </div>
                         <div class="card-body">
                             <p>Lorem Ipsum is simply dummy text of the printing</p>
@@ -97,7 +97,7 @@
                 <div class="card">
                     <div class="card-wrap">
                         <div class="card-img">
-                            <img src="{{ url('/front/img/cardprdt3.png')}}" alt="" />
+                            <img src="{{ asset('/front/img/cardprdt3.png')}}" alt="" />
                         </div>
                         <div class="card-body">
                             <p>Lorem Ipsum is simply dummy text of the printing</p>
@@ -121,7 +121,7 @@
                 <div class="card">
                     <div class="card-wrap">
                         <div class="card-img">
-                            <img src="{{ url('/front/img/cardprdt1.png')}}" alt="" />
+                            <img src="{{ asset('/front/img/cardprdt1.png')}}" alt="" />
                         </div>
                         <div class="card-body">
                             <p>Lorem Ipsum is simply dummy text of the printing</p>
@@ -181,7 +181,7 @@
             <div class="busines_slider busi_slider">
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_1.png')}}">
+                        <img src="{{ asset('/front/img/busin_1.png')}}">
                     </div>
                     <div class="card-body">
                         <h5>Product Name 01</h5>
@@ -198,7 +198,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_2.png')}}">
+                        <img src="{{ asset('/front/img/busin_2.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
@@ -218,7 +218,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_3.png')}}">
+                        <img src="{{ asset('/front/img/busin_3.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_4.png')}}">
+                        <img src="{{ asset('/front/img/busin_4.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
@@ -258,7 +258,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_3.png')}}">
+                        <img src="{{ asset('/front/img/busin_3.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
@@ -291,7 +291,7 @@
             <ul class="shipping">
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_1.svg')}}">
+                        <img src="{{ asset('/front/img/ways_1.svg')}}">
                         <div class="text">
                             <p>Design Template</p>
                             <span>Professionally Designed</span>
@@ -300,7 +300,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_2.svg')}}">
+                        <img src="{{ asset('/front/img/ways_2.svg')}}">
                         <div class="text">
                             <p>Upload Artwork</p>
                             <span>Perfect Print</span>
@@ -309,7 +309,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_3.svg')}}">
+                        <img src="{{ asset('/front/img/ways_3.svg')}}">
                         <div class="text">
                             <p>Hire a Designer</p>
                             <span>Starts @ £9.99</span>
@@ -329,7 +329,7 @@
             <div class="our_best_grid">
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_1.png')}}">
+                        <img src="{{ asset('/front/img/our_best_1.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Window Signs</p>
@@ -337,7 +337,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_2.png')}}">
+                        <img src="{{ asset('/front/img/our_best_2.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Flags</p>
@@ -345,7 +345,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_3.png')}}">
+                        <img src="{{ asset('/front/img/our_best_3.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Vinyl Banners</p>
@@ -353,7 +353,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_4.png')}}">
+                        <img src="{{ asset('/front/img/our_best_4.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Letters & Numbers</p>
@@ -361,7 +361,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_5.png')}}">
+                        <img src="{{ asset('/front/img/our_best_5.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Marketing Materials</p>
@@ -369,7 +369,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_6.png')}}">
+                        <img src="{{ asset('/front/img/our_best_6.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Car Signs</p>
@@ -377,7 +377,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_7.png')}}">
+                        <img src="{{ asset('/front/img/our_best_7.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Banner Stands</p>
@@ -385,7 +385,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_8.png')}}">
+                        <img src="{{ asset('/front/img/our_best_8.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Clothing</p>
@@ -393,7 +393,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_9.png')}}">
+                        <img src="{{ asset('/front/img/our_best_9.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Surface Decals</p>
@@ -401,7 +401,7 @@
                 </div>
                 <div class="card">
                     <div class="our_best_img">
-                        <img src="{{ url('/front/img/our_best_10.png')}}">
+                        <img src="{{ asset('/front/img/our_best_10.png')}}">
                     </div>
                     <div class="card-body">
                         <p>Gazebo Tents</p>
@@ -411,12 +411,12 @@
             <ul class="shop_wreap">
                 <li>
                     <a href="#">
-                        <img src="{{ url('/front/img/shop_1.svg')}}">
+                        <img src="{{ asset('/front/img/shop_1.svg')}}">
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="{{ url('/front/img/shop_2.svg')}}">
+                        <img src="{{ asset('/front/img/shop_2.svg')}}">
                     </a>
                 </li>
             </ul>
@@ -434,7 +434,7 @@
             <div class="busines_slider">
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_1.png')}}">
+                        <img src="{{ asset('/front/img/busin_1.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn">Customize </a>
                         </div>
@@ -446,7 +446,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_2.png')}}">
+                        <img src="{{ asset('/front/img/busin_2.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn">Customize </a>
                         </div>
@@ -458,7 +458,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_3.png')}}">
+                        <img src="{{ asset('/front/img/busin_3.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn">Customize </a>
                         </div>
@@ -470,7 +470,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_4.png')}}">
+                        <img src="{{ asset('/front/img/busin_4.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn">Customize </a>
                         </div>
@@ -482,7 +482,7 @@
                 </div>
                 <div class="card">
                     <div class="busines_img">
-                        <img src="{{ url('/front/img/busin_2.png')}}">
+                        <img src="{{ asset('/front/img/busin_2.png')}}">
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn">Customize </a>
                         </div>
@@ -508,7 +508,7 @@
         <div class="arrivals_slider">
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/arrivals_1.png') }}">
+                    <img src="{{ asset('/front/img/arrivals_1.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 01</h5>
@@ -517,7 +517,7 @@
             </div>
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/multi_4.png') }}">
+                    <img src="{{ asset('/front/img/multi_4.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 02</h5>
@@ -526,7 +526,7 @@
             </div>
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/arrivals_3.png') }}">
+                    <img src="{{ asset('/front/img/arrivals_3.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 03</h5>
@@ -535,7 +535,7 @@
             </div>
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/arrivals_4.png') }}">
+                    <img src="{{ asset('/front/img/arrivals_4.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 04</h5>
@@ -544,7 +544,7 @@
             </div>
             <div class="card">
                 <div class="busines_img">
-                    <img src="{{ url('/front/img/arrivals_3.png') }}">
+                    <img src="{{ asset('/front/img/arrivals_3.png') }}">
                 </div>
                 <div class="card-body">
                     <h5>Product Name 03</h5>
@@ -568,7 +568,7 @@
                     <a href="#" class="btn btn_dark">Explore Now</a>
                 </div>
                 <div class="multi_shop_img">
-                    <a href="#"><img src="{{ url('/front/img/multi_1.png') }}"></a>
+                    <a href="#"><img src="{{ asset('/front/img/multi_1.png') }}"></a>
                 </div>
             </div>
             <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
@@ -578,12 +578,12 @@
                     <a href="#" class="btn btn_dark">Explore Now</a>
                 </div>
                 <div class="multi_shop_img">
-                    <a href="#"><img src="{{ url('/front/img/multi_2.png') }}"></a>
+                    <a href="#"><img src="{{ asset('/front/img/multi_2.png') }}"></a>
                 </div>
             </div>
             <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
                 <div class="multi_shop_img">
-                    <a href="#"><img src="{{ url('/front/img/multi_3.png') }}"></a>
+                    <a href="#"><img src="{{ asset('/front/img/multi_3.png') }}"></a>
                 </div>
                 <div class="multi_shop_txt">
                     <h5>Banners</h5>
@@ -593,7 +593,7 @@
             </div>
             <div class="multi_shop_cont" style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
                 <div class="multi_shop_img">
-                    <a href="#"><img src="{{ url('/front/img/multi_4.png') }}"></a>
+                    <a href="#"><img src="{{ asset('/front/img/multi_4.png') }}"></a>
                 </div>
                 <div class="multi_shop_txt">
                     <h5>Banners</h5>
@@ -614,7 +614,7 @@
             <div class="testimonial-para">
                 <div class="test_view">
                     <div class="test_img">
-                        <img src="{{ url('/front/img/view_1.png') }}">
+                        <img src="{{ asset('/front/img/view_1.png') }}">
                     </div>
                     <div class="test_hd">
                         <h6>Jerry C. Prentice</h6>
@@ -635,7 +635,7 @@
             <div class="testimonial-para">
                 <div class="test_view">
                     <div class="test_img">
-                        <img src="{{ url('/front/img/view_2.png') }}">
+                        <img src="{{ asset('/front/img/view_2.png') }}">
                     </div>
                     <div class="test_hd">
                         <h6>Ruth D. Grinnell</h6>
@@ -656,7 +656,7 @@
             <div class="testimonial-para">
                 <div class="test_view">
                     <div class="test_img">
-                        <img src="{{ url('/front/img/view_3.png') }}">
+                        <img src="{{ asset('/front/img/view_3.png') }}">
                     </div>
                     <div class="test_hd">
                         <h6>Orlando R. Bean</h6>
@@ -677,7 +677,7 @@
             <div class="testimonial-para">
                 <div class="test_view">
                     <div class="test_img">
-                        <img src="{{ url('/front/img/view_1.png') }}">
+                        <img src="{{ asset('/front/img/view_1.png') }}">
                     </div>
                     <div class="test_hd">
                         <h6>Jerry C. Prentice</h6>
@@ -719,7 +719,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="blgs_lt">
-                    <img src="{{ url('/front/img/blgs_dt_1.png') }}">
+                    <img src="{{ asset('/front/img/blgs_dt_1.png') }}">
                     <span>16 DEC, 2024</span>
                     <div class="blgs_lt_content">
                         <h4>Lorem Ipsum is simply dummy text of the printing </h4>
@@ -733,7 +733,7 @@
                 <ul class="blog_list">
                     <li>
                         <div class="blog_list_img">
-                            <img src="{{ url('/front/img/blgs_1.png') }}">
+                            <img src="{{ asset('/front/img/blgs_1.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -745,7 +745,7 @@
                     </li>
                     <li>
                         <div class="blog_list_img">
-                            <img src="{{ url('/front/img/blgs_2.png') }}">
+                            <img src="{{ asset('/front/img/blgs_2.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -757,7 +757,7 @@
                     </li>
                     <li>
                         <div class="blog_list_img">
-                            <img src="{{ url('/front/img/blgs_3.png') }}">
+                            <img src="{{ asset('/front/img/blgs_3.png') }}">
                         </div>
                         <div class="blog_list_txt">
                             <span>12 DEC, 2024</span>
@@ -779,7 +779,7 @@
             <ul class="shipping">
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_4.svg') }}" alt="">
+                        <img src="{{ asset('/front/img/ways_4.svg') }}" alt="">
                         <div class="text">
                             <p>Best Price</p>
                             <span>Cre8ive Printer offers the industry’s best prices while using only the highest</span>
@@ -788,7 +788,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_5.svg') }}" alt="">
+                        <img src="{{ asset('/front/img/ways_5.svg') }}" alt="">
                         <div class="text">
                             <p>Free Design Proof</p>
                             <span>Our industry-leading designers provide free proofs so you can be sure</span>
@@ -797,7 +797,7 @@
                 </li>
                 <li>
                     <div class="ship-box">
-                        <img src="{{ url('/front/img/ways_6.svg') }}" alt="">
+                        <img src="{{ asset('/front/img/ways_6.svg') }}" alt="">
                         <div class="text">
                             <p>Best Quality</p>
                             <span>If you’re not satisfied, we’re not satisfied. We’ll reprint or refund your order - guaranteed</span>

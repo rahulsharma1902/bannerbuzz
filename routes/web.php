@@ -39,6 +39,11 @@ Route::post('registerProcc',[AuthenticationController::class,'registerProcc']);
 Route::group(['middleware' =>['admin']],function(){
 Route::get('admin-dashboard',[AdminDashController::class,'index']);
 
+// profile settings 
+Route::get('admin-dashboard/setting',[AdminDashController::class,'profile']);
+Route::post('admin-dashboard/update-profile-procc',[AdminDashController::class,'ProfileUpdateProcc']);
+Route::post('admin-dashboard/change-password-procc',[AdminDashController::class,'updatePasswordProcc']);
+
 
 // BackGroung Category
 Route::get('admin-dashboard/background-category',[BackgroundCategoryController::class,'index']);
