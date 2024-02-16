@@ -659,7 +659,6 @@
         <script>
             $(document).ready(function() {
                 function updateChildCategories(parentId) {
-                    console.log("Parent ID: ", parentId);
                     $.ajax({
                         url: '/categories/' + parentId + '/children',
                         type: 'GET',
@@ -692,7 +691,6 @@
                             productList.empty();
                             $.each(products, function(index, product) {
                                 var Images = JSON.parse(product.images);
-                                console.log(Images);
                                 var cardHtml = `<div class="card col-lg-3">
                         <div class="busines_img">
                             <img width="150px" height="160px" src="{{ asset('product_Images') }}/${Images[0]}">

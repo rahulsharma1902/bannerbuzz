@@ -5,8 +5,7 @@
         <div class="">
             <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                    {!! Breadcrumbs::render('contact-us') !!}
                 </ol>
             </nav>
         </div>
@@ -50,31 +49,32 @@
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <h5>Inquiry Form</h5>
-                            <form action="/action_page.php">
+                            <form action="{{ url('/send-mail') }}" method="Post">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" id="fname" placeholder="First Name" name="First Name" required />
+                                            <input type="text" class="form-control form-control-lg" id="fname" placeholder="First Name" name="name" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" placeholder="Phone Number" name="Member" />
+                                            <input type="text" name="number" class="form-control form-control-lg" placeholder="Phone Number" name="Member" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" placeholder="Your Email" name="Email" required />
+                                            <input type="text" class="form-control form-control-lg" placeholder="Your Email" name="email" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" placeholder="Company Name" name="Company Name" />
+                                            <input type="text" class="form-control form-control-lg" placeholder="Company Name" name="company_name" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="upld-lnk"><a href="#" class="btn light_dark">Submit</a></div>
+                                <div class="upld-lnk"><button type="submit" class="btn light_dark">Submit</button></div>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
