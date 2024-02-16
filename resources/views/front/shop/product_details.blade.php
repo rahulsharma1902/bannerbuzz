@@ -15,7 +15,7 @@
             </div>
         </div>
     </section>
-    @if ($product)
+    @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0">
             <div class="container">
                 <div class="row">
@@ -40,8 +40,8 @@
                     <div class="col-lg-6">
                         <div class="shop_dt_cst">
                             <div class="shop_dt_view">
-                                <h3>{{ $product->name }}</h3>
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <h3>{{ $product->name ?? '' }}</h3>
+                                <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
                                 <p>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
@@ -72,9 +72,9 @@
                                     checkout.</p>
                             </div>
                             <form>
-                                @if ($product->sizes->isNotEmpty())
-                                    <div class="shop_dt_fm">
-                                        <div class="shop_dt_size">
+                                <div class="shop_dt_fm">
+                                    <div class="shop_dt_size">
+                                        @if ($product->sizes->isNotEmpty())
                                             <select id="select_size" name="product_size" class="form-select">
                                                 @foreach ($product->sizes as $size)
                                                     <option data-id="{{ $size->id }}" data-price="{{ $size->price }}"
@@ -89,11 +89,12 @@
                                                     <option value="Mm">Mm</option>
                                                 </select>
                                             @endif
-                                            <input type="number" value="1" id="product_quantity" name="quantity"
-                                                placeholder="Qty" class="form-select">
-                                        </div>
+                                        @endif
+                                        <label for="product_quantity">Qty:</label>
+                                        <input type="number" value="1" id="product_quantity" name="quantity"
+                                            placeholder="Qty" class="form-select">
                                     </div>
-                                @endif
+                                </div>
                                 @if ($product->variations->isNotEmpty())
                                     @foreach ($product->variations as $variation)
                                         <div class="variation_div shop_dt_fm">
@@ -335,7 +336,7 @@
                                         @endif
                                     @endforeach
                                     <div class="cust_btn_wreap">
-                                        <a href="{{ url('details') }}/{{ $product->slug }}" class="btn cust_btn"
+                                        <a href="{{ url('details') }}/{{ $product->slug ?? '' }}" class="btn cust_btn"
                                             tabindex="0">Customize </a>
                                     </div>
                                 </div>
@@ -349,7 +350,7 @@
                                         <i class="fa-solid fa-star"></i>
                                         <span>9’321</span>
                                     </div>
-                                    <p>Starts at: <span>${{ $product->price }}</span></p>
+                                    <p>Starts at: <span>${{ $product->price ?? '' }}</span></p>
                                 </div>
                             </div>
                         @endforeach
@@ -361,15 +362,18 @@
     <script>
         $(document).ready(function() {
             var size_prices = [];
-            size_prices.push({
-                value: {{ $product->sizes->first()->id }},
-                price: {{ $product->sizes->first()->price }}
-            });
-            console.log(size_prices);
+            @if ($product->sizes->isNotEmpty())
+                size_prices.push({
+                    value: {{ $product->sizes->first()->id }},
+                    price: {{ $product->sizes->first()->price }}
+                });
+                console.log(size_prices);
+            @endif
             $('#select_size').on('change', function() {
 
                 var totalPrice = parseFloat($('#product_price_input').val());
                 var size_value = $(this).val();
+                var Qty = parseFloat($('#product_quantity').val());
 
                 var selectedOption = this.options[this.selectedIndex];
                 var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
@@ -387,8 +391,8 @@
 
                 totalPrice += selectedprice;
 
-                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5));
-                $('#product_price').text('$' + totalPrice);
+                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5)*Qty);
+                $('#product_price').text('$' + totalPrice *Qty);
                 $('#product_price_input').val(totalPrice);
             });
 

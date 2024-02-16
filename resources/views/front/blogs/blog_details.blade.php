@@ -60,16 +60,16 @@
                                 <h5>Related Posts</h5>
                                 <div class="posts">
                                     <ul>
-                                        @if ($related_blogs)
+                                        @if ($related_blogs->isNotEmpty())
                                             @foreach ($related_blogs as $r_blog)
                                             @if($r_blog->id != $blog->id )
                                                 <li>
-                                                    <a href="{{ url('blog') }}/{{ $r_blog->slug }}">
+                                                    <a href="{{ url('blog') }}/{{ $r_blog->slug ?? '' }}">
                                                         <img width="50px"
-                                                            src="{{ asset('blog_Images') }}/{{ $r_blog->image }}"
-                                                            alt="{{ $r_blog->slug }}" />
+                                                            src="{{ asset('blog_Images') }}/{{ $r_blog->image ?? ''}}"
+                                                            alt="{{ $r_blog->slug ?? ''}}" />
                                                         <h6>
-                                                            {{ $r_blog->title }}
+                                                            {{ $r_blog->title ?? ''}}
                                                         </h6>
                                                     </a>
                                                 </li>
@@ -127,12 +127,12 @@
                             <div class="blog-blocks">
                                 <h5>Categories</h5>
                                 <ul class="category-link">
-                                    @if ($blog_category)
+                                    @if ($blog_category->isNotEmpty())
                                         @foreach ($blog_category as $category)
                                             <?php $posts = count($category->blogs); ?>
                                             @if($posts != 0)
                                             <li><a
-                                                    href="{{ url('blogs/'.$category->slug) }}">{{ $category->name }}<span>({{ $posts }})</span></a>
+                                                    href="{{ url('blogs/'.$category->slug ?? '') }}">{{ $category->name ?? '' }}<span>({{ $posts }})</span></a>
                                             </li>
                                             @endif
                                         @endforeach
