@@ -58,51 +58,52 @@
             </div>
         </div>
     </section>
-<form action="{{ url('custom-product') }}" method="post">
-    @csrf
-    <section class="custom-sec shop_size">
-        <div class="container">
-            <div class="custom-content" style="background-color: #141414;">
-                <h3>Start Your Order</h3>
-                <div class="select-box">
-                    <div class="select_wrap">
-                        <select id="product_select" name="product_id" class="form-select"
-                            aria-label="Default select example">
-                            @if ($products)
-                                @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="select_wrap">
-                        <select id="select_size" class="form-select" name="product_size" aria-label="Default select example">
+    <form action="{{ url('custom-product') }}" method="post">
+        @csrf
+        <section class="custom-sec shop_size">
+            <div class="container">
+                <div class="custom-content" style="background-color: #141414;">
+                    <h3>Start Your Order</h3>
+                    <div class="select-box">
+                        <div class="select_wrap">
+                            <select id="product_select" name="product_id" class="form-select"
+                                aria-label="Default select example">
+                                @if ($products)
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="select_wrap">
+                            <select id="select_size" class="form-select" name="product_size"
+                                aria-label="Default select example">
 
-                        </select>
+                            </select>
+                        </div>
+                        <div class="select_wrap" id="size_unit_div">
+                            <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
+                                <option selected value="Ft">Ft</option>
+                                <option value="In">In</option>
+                                <option value="Mm">Mm</option>
+                                <option value="Cm">Cm</option>
+                            </select>
+                        </div>
+                        <div class="select_wrap">
+                            <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                value="1" class="form-select" aria-label="Default select example">
+                        </div>
                     </div>
-                    <div class="select_wrap" id="size_unit_div">
-                        <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
-                            <option selected value="Ft">Ft</option>
-                            <option value="In">In</option>
-                            <option value="Mm">Mm</option>
-                            <option value="Cm">Cm</option>
-                        </select>
-                    </div>
-                    <div class="select_wrap">
-                        <input type="number" min="1" max="999" id="product_qty" name="quantity" value="1"
-                            class="form-select" aria-label="Default select example">
-                    </div>
-                </div>
-                <div class="shop_size_txt">
-                    <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
-                            id="size_price">$11.75</strong></p>
+                    <div class="shop_size_txt">
+                        <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
+                                id="size_price">$11.75</strong></p>
                         <input type="hidden" id="product_price" name="product_price" value="">
-                    <button type="submit" class="btn light_dark">Buy Now</button>
+                        <button type="button" class="btn light_dark">Buy Now</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</form>
+        </section>
+    </form>
     <section id="accordionExample">
         <div class="shop_wrapper p_100">
             <div class="container">
@@ -131,8 +132,8 @@
                                         Categories
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                    data-bs-parent="#accordionExample">
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <ul>
                                             @if ($category->subCategories)
@@ -347,20 +348,22 @@
             $('#product_select').on('change', function() {
                 var Id = $(this).val();
                 var selectedOption = this.options[this.selectedIndex];
-                $("#size_unit option").prop("selected", function () {
-                  return this.defaultSelected;
-                  });
+                $("#size_unit option").prop("selected", function() {
+                    return this.defaultSelected;
+                });
                 GetProductSizes(Id);
             });
 
             $('#product_qty').on('change', function() {
                 var value = $(this).val();
-                var old_price = $('#size_price').data('price');
+                var sizeSelect = $('#select_size');
+                var selectedOption = sizeSelect.find('option:selected');
+                var selectedprice = parseFloat(selectedOption.data('price'));
                 if (value < 1 || value > 999) {
                     value = 1;
                     $('#product_qty').val(1);
                 }
-                var newPrice = parseFloat(old_price) * parseFloat(value);
+                var newPrice = parseFloat(selectedprice) * parseFloat(value);
                 $('#product_price').val(newPrice);
                 $('#size_price').text('$' + newPrice);
                 $('#size_price').attr('data-price', newPrice);
@@ -371,15 +374,17 @@
                 var unit_value = $(this).val();
                 var productID = $('#product_select').val();
                 var selectedSize = $('#select_size').val();
-                updateSize(productID, unit_value,selectedSize);
+                updateSize(productID, unit_value, selectedSize);
             });
 
-            function updateSize(id, value,selectedSize) {
+            function updateSize(id, value, selectedSize) {
                 $.ajax({
                     url: '/product/' + id + '/sizes',
                     type: 'GET',
                     success: function(data) {
                         var sizeSelect = $('#select_size');
+                        var selectedOption = sizeSelect.find('option:selected');
+                        var selectedprice = parseFloat(selectedOption.data('price'));
                         if (data.length > 0) {
                             sizeSelect.show();
                             sizeSelect.empty();
@@ -389,55 +394,57 @@
                                 $('#size_unit_div').hide();
                             }
                             var qty = parseFloat($('#product_qty').val());
-                            $('#product_price').val(price * qty);
-                            $('#size_price').text('$' + price * qty);
-                            $('#size_price').attr('data-price', price * qty);
-                            $('#main_price').text('$' + (price + 10) * qty);
+                            $('#product_price').val(selectedprice * qty);
+                            $('#size_price').text('$' + selectedprice * qty);
+                            $('#size_price').attr('data-price', selectedprice * qty);
+                            $('#main_price').text('$' + (selectedprice* qty + 10) );
                             if (value == 'In') {
-                                    unit_value = 12;
-                                }
-                                else if(value == 'Cm') {
-                                    unit_value = 30;
-                                }
-                                else if(value == 'Mm') {
-                                    unit_value = 304;
-                                } else if(value == 'Ft'){
-                                    unit_value = 1;
-                                }
+                                unit_value = 12;
+                            } else if (value == 'Cm') {
+                                unit_value = 30;
+                            } else if (value == 'Mm') {
+                                unit_value = 304;
+                            } else if (value == 'Ft') {
+                                unit_value = 1;
+                            }
                             $.each(data, function(index, size) {
-                                
+
                                 if (size.size_type == 'wh' || size.size_type == 'DH') {
-                                    if(selectedSize == size.size_value){
+                                    if (selectedSize == size.size_value) {
                                         size_values = size.size_value.split('X');
-                                    sizeSelect.append('<option selected data-sizeType="' + size
-                                        .size_type + '" data-price="' + size.price +
-                                        '" value="' + size.size_value + '">' +
-                                        +parseFloat(size_values[0]) * unit_value + ' X ' +
-                                        parseFloat(size_values[1]) * unit_value +
-                                        '</option>');
+                                        sizeSelect.append('<option selected data-sizeType="' +
+                                            size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            +parseFloat(size_values[0]) * unit_value +
+                                            ' X ' +
+                                            parseFloat(size_values[1]) * unit_value +
+                                            '</option>');
                                     } else {
                                         size_values = size.size_value.split('X');
-                                         sizeSelect.append('<option data-sizeType="' + size
-                                        .size_type + '" data-price="' + size.price +
-                                        '" value="' + size.size_value + '">' +
-                                        +parseFloat(size_values[0]) * unit_value + ' X ' +
-                                        parseFloat(size_values[1]) * unit_value +
-                                        '</option>');
+                                        sizeSelect.append('<option data-sizeType="' + size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            +parseFloat(size_values[0]) * unit_value +
+                                            ' X ' +
+                                            parseFloat(size_values[1]) * unit_value +
+                                            '</option>');
                                     }
-                                   
+
                                 } else {
-                                    if(selectedSize == size.size_value){
-                                        sizeSelect.append('<option selected data-sizeType="' + size
-                                        .size_type + '" data-price="' + size.price +
-                                        '" value="' + size.size_value + '">' +
-                                        parseFloat(size.size_value) * unit_value +
-                                        '</option>');
-                                    }else {
-                                    sizeSelect.append('<option data-sizeType="' + size
-                                        .size_type + '" data-price="' + size.price +
-                                        '" value="' + size.size_value + '">' +
-                                        parseFloat(size.size_value) * unit_value +
-                                        '</option>');
+                                    if (selectedSize == size.size_value) {
+                                        sizeSelect.append('<option selected data-sizeType="' +
+                                            size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            parseFloat(size.size_value) * unit_value +
+                                            '</option>');
+                                    } else {
+                                        sizeSelect.append('<option data-sizeType="' + size
+                                            .size_type + '" data-price="' + size.price +
+                                            '" value="' + size.size_value + '">' +
+                                            parseFloat(size.size_value) * unit_value +
+                                            '</option>');
                                     }
                                 }
                             });
