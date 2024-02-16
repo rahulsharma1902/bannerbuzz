@@ -646,6 +646,7 @@
         </div>
     </div>
 </section>
+@if($products)
 <script>
     $(document).ready(function() {
     function updateChildCategories(parentId) {
@@ -731,4 +732,5 @@
     $('#parent_category').val(defaultParentId);
 });
 </script>
+@endif
 @endsection
