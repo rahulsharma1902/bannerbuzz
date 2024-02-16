@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <div id="product_container" class="busines_slider busi_slider d-flex">
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="busines_img">
                             <img src="{{ asset('front/img/busin_3.png') }}">
                             <div class="cust_btn_wreap">
@@ -196,7 +196,7 @@
                             </div>
                             <p>Starts at: <span>$187.00</span></p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="busines_btn">
                     <a href="" id="view_all" class="btn cta">View All</a>
@@ -646,6 +646,7 @@
         </div>
     </div>
 </section>
+@if($product_categories->isNotEmpty())
 <script>
     $(document).ready(function() {
     function updateChildCategories(parentId) {
@@ -731,4 +732,5 @@
     $('#parent_category').val(defaultParentId);
 });
 </script>
+@endif
 @endsection

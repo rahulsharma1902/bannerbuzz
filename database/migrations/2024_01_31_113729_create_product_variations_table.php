@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_variations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('var_slug');
             $table->string('product_id')->nullable();
             $table->string('entity_id')->nullable();
             $table->integer('status')->default(true);
