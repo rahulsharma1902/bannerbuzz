@@ -12,16 +12,16 @@
                                         <div class="col-md-6 pb-5">
                                             <div class="blog">
                                                 <div class="blog-img">
-                                                    <img src="{{ asset('blog_Images') }}/{{ $blog->image }}"
+                                                    <img src="{{ asset('blog_Images') }}/{{ $blog->image ?? ''}}"
                                                         alt="">
                                                 </div>
                                                 <div class="blog-body">
                                                     <p><span>Cre8ivePrinter</span>-
                                                         {{ $blog->created_at->format('F jS,Y') }}</p>
-                                                    <h4>{{ $blog->title }}</h4>
+                                                    <h4>{{ $blog->title ?? '' }}</h4>
                                                     <p>
                                                         {{ substr(strip_tags($blog->short_description), 0, 150) }}
-                                                        <a href="{{ url('blog') }}/{{ $blog->slug }}">Read
+                                                        <a href="{{ url('blog') }}/{{ $blog->slug ?? ''}}">Read
                                                         More</a></p>
                                                 </div>
                                             
@@ -59,15 +59,15 @@
                                 <h5>Related Posts</h5>
                                 <div class="posts">
                                     <ul>
-                                        @if ($blogs)
+                                        @if ($blogs->isNotEmpty())
                                             @php $counter = 0; @endphp
                                             @foreach ($blogs as $blog)
                                                 @if ($counter < 5)
                                                     <li><a href="javascript:void">
                                                             <img width="50px"
-                                                                src="{{ asset('blog_Images') }}/{{ $blog->image }}"
+                                                                src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}"
                                                                 alt="">
-                                                            <h6>{{ $blog->title }}</h6>
+                                                            <h6>{{ $blog->title ?? ''}}</h6>
                                                         </a></li>
                                                 @endif
                                                 @php $counter++; @endphp
@@ -89,12 +89,12 @@
                             <div class="blog-blocks">
                                 <h5>Categories</h5>
                                 <ul class="category-link">
-                                    @if ($blog_category)
+                                    @if ($blog_category->isNotEmpty())
                                         @foreach ($blog_category as $category)
                                             <?php $posts = count($category->blogs); ?>
                                             @if ($posts != 0)
                                                 <li><a
-                                                        href="{{ url('blogs/' . $category->slug) }}">{{ $category->name }}<span>({{ $posts }})</span></a>
+                                                        href="{{ url('blogs/' . $category->slug ?? '') }}">{{ $category->name ?? '' }}<span>({{ $posts }})</span></a>
                                                 </li>
                                             @endif
                                         @endforeach
