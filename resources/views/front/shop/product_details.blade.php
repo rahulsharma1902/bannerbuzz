@@ -101,7 +101,7 @@
                                             <div class="shop_dt_group">
                                                 <label class="form-label">{{ $variation->name }}:</label>
                                                 @if ($variation->variationData->isNotEmpty())
-                                                <?php $variation_price[]=$variation->variationData->first()->price; ?>
+                                                    <?php $variation_price[] = $variation->variationData->first()->price ?? '0'; ?>
                                                     <select name="{{ $variation->var_slug }}"
                                                         class="product_variation form-select">
                                                         @foreach ($variation->variationData as $data)
@@ -111,10 +111,14 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                @else
+                                                    <?php $variation_price = []; ?>
                                                 @endif
                                             </div>
                                         </div>
                                     @endforeach
+                                @else
+                                    <?php $variation_price = []; ?>
                                 @endif
                             </form>
                         </div>
@@ -123,14 +127,18 @@
                         <div class="shp_dt_art">
                             <p>
                                 @if ($product->sizes->isNotEmpty())
-                                    <span id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span>
-                                    <strong id="product_price">£{{ $product->sizes->first()->price + array_sum($variation_price)}}</strong>
+                                    <span
+                                        id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span>
+                                    <strong
+                                        id="product_price">£{{ $product->sizes->first()->price + array_sum($variation_price) }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->sizes->first()->price }}">
                                 @else
-                                    <span id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price)}}</span>
-                                    <strong id="product_price">£{{ $product->price + array_sum($variation_price)}}</strong>
+                                    <span
+                                        id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price) }}</span>
+                                    <strong
+                                        id="product_price">£{{ $product->price + array_sum($variation_price) }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->price }}">
@@ -368,7 +376,6 @@
                     value: {{ $product->sizes->first()->id }},
                     price: {{ $product->sizes->first()->price }}
                 });
-                console.log(size_prices);
             @endif
             $('#select_size').on('change', function() {
 
@@ -392,8 +399,8 @@
 
                 totalPrice += selectedprice;
 
-                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5)*Qty);
-                $('#product_price').text('$' + totalPrice *Qty);
+                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5) * Qty);
+                $('#product_price').text('$' + totalPrice * Qty);
                 $('#product_price_input').val(totalPrice);
             });
 
@@ -418,7 +425,7 @@
 
             function updateSize(id, value, selectedSize) {
                 $.ajax({
-                    url: '/product/' + id + '/sizes',
+                    url: "{{ url('/product/sizes/') }}" +"/" + id,
                     type: 'GET',
                     success: function(data) {
                         var sizeSelect = $('#select_size');

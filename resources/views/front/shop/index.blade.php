@@ -312,7 +312,7 @@
             $(document).ready(function() {
                 function GetProductSizes(Id) {
                     $.ajax({
-                        url: '/product/' + Id + '/sizes',
+                        url: "{{ url('/product/sizes/') }}" +"/" + id,
                         type: 'GET',
                         success: function(data) {
                             var sizeSelect = $('#select_size');
@@ -395,7 +395,7 @@
 
                 function updateSize(id, value, selectedSize) {
                     $.ajax({
-                        url: '/product/' + id + '/sizes',
+                        url: "{{ url('/product/sizes/') }}" +"/" + id,
                         type: 'GET',
                         success: function(data) {
                             var sizeSelect = $('#select_size');
