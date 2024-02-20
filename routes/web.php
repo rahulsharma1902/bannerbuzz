@@ -167,16 +167,24 @@ Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
 
 // products and shop controller ShopController
 Route::get('shop/{slug}',[ShopController::class,'shop'])->name('shop');
-Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
-Route::get('categories/{parent_id}/children', [ShopController::class,'getChildCategories']);
-Route::get('/categories/{category_id}/products', [ShopController::class, 'getCategoryProducts']);
-Route::get('product/{id}/sizes',[ShopController::class,'getsizes']);
+Route::get('details/{slug}',[ShopController::class,'ProductDetails'])->name('product');
+Route::get('categories/children/{parent_id}', [ShopController::class,'getChildCategories']);
+Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
+Route::get('product/sizes/{id}',[ShopController::class,'getsizes']);
 Route::post('custom-product',[ShopController::class,'CustomProduct']);
 
 // accessories Routes ShopController
 Route::get('accessories',[ShopController::class,'accessories']);
+Route::get('accessories/{slug}',[ShopController::class,'AccessoriesDetails']);
+Route::get('accessories/sizes/{id}',[ShopController::class,'getaccessoriessizes']);
+
 
 // testing mail
 Route::post('send-mail',[ShopController::class,'sendMail']);
+
+// fallback route 
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
 
 

@@ -660,7 +660,7 @@
             $(document).ready(function() {
                 function updateChildCategories(parentId) {
                     $.ajax({
-                        url: '/categories/' + parentId + '/children',
+                        url: "{{ url('/categories/children') }}" + "/" + parentId ,
                         type: 'GET',
                         success: function(data) {
                             var childSelect = $('#child_category');
@@ -676,6 +676,7 @@
                                 });
                             } else {
                                 childSelect.hide();
+                                console.log("main");
                                 getProductsForCategory(parentId);
                             }
                         },
@@ -684,7 +685,7 @@
 
                 function getProductsForCategory(categoryId) {
                     $.ajax({
-                        url: '/categories/' + categoryId + '/products',
+                        url: "{{ url('/categories/products') }}"+"/" + categoryId,
                         type: 'GET',
                         success: function(products) {
                             var productList = $('#product_container');

@@ -4,7 +4,7 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('product',$product) !!}
+                    {!! Breadcrumbs::render('accessories.product',$product) !!}
                 </nav>
             </div>
         </div>
@@ -18,13 +18,13 @@
                             @foreach (json_decode($product->images) as $index => $image)
                                 @if ($index == 0)
                                     <div class="shop_dt_img_inner">
-                                        <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                        <img src="{{ asset('accessories_Images') }}/{{ $image }}">
                                     </div>
                                     <ul>
                                     @else
                                         <li>
                                             <img width="130px" height="60px"
-                                                src="{{ asset('product_Images') }}/{{ $image }}">
+                                                src="{{ asset('accessories_Images') }}/{{ $image }}">
                                         </li>
                                 @endif
                             @endforeach
@@ -121,16 +121,16 @@
                         <div class="shp_dt_art">
                             <p>
                                 @if ($product->sizes->isNotEmpty())
-                                    <del><span
-                                        id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span></del>
+                                    <span
+                                        id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span>
                                     <strong
                                         id="product_price">£{{ $product->sizes->first()->price + array_sum($variation_price) }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->sizes->first()->price }}">
                                 @else
-                                <del> <span
-                                        id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price) }}</span></del>
+                                    <span
+                                        id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price) }}</span>
                                     <strong
                                         id="product_price">£{{ $product->price + array_sum($variation_price) }}</strong>
                                     (Incl. VAT)
@@ -335,11 +335,11 @@
                                 <div class="busines_img">
                                     @foreach (json_decode($r_product->images) as $key => $image)
                                         @if ($key == 0)
-                                            <img src="{{ asset('product_Images') }}/{{ $image }}" />
+                                            <img src="{{ asset('accessories_Images') }}/{{ $image }}" />
                                         @endif
                                     @endforeach
                                     <div class="cust_btn_wreap">
-                                        <a href="{{ url('details') }}/{{ $r_product->slug ?? '' }}" class="btn cust_btn"
+                                        <a href="{{ url('accessories') }}/{{ $r_product->slug ?? '' }}" class="btn cust_btn"
                                             tabindex="0">Customize </a>
                                     </div>
                                 </div>
@@ -413,16 +413,18 @@
             $('#size_unit').on('change', function() {
                 var unit_value = $(this).val();
                 var productID = "{{ $product->id }}";
+                console.log(productID);
                 var selectedSize = $('#select_size').val();
                 updateSize(productID, unit_value, selectedSize);
             });
 
             function updateSize(id, value, selectedSize) {
                 $.ajax({
-                    url: "{{ url('/product/sizes/') }}" +"/" + id,
+                    url: "{{ url('/accessories/sizes/') }}" +"/" + id,
                     type: 'GET',
                     success: function(data) {
                         var sizeSelect = $('#select_size');
+                        console.log(data);
                         if (data.length > 0) {
                             sizeSelect.show();
                             sizeSelect.empty();
@@ -476,6 +478,7 @@
                                 }
                             });
                         } else {
+                            console.log('none');
                             sizeSelect.hide();
                         }
                     },

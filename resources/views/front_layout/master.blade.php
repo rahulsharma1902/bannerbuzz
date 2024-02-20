@@ -255,6 +255,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('contact-us') }}">Contact Us</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('accessories') }}">Accessories</a>
+                        </li>
                     </ul>
                     <div class="navbar_nav_mb">
                         <div class="navbar_text_mb">
@@ -437,34 +440,36 @@
 <script src="{{ asset('front/js/script.js') }}"></script>
 <script>
     // counter
-    var counted = 0;
-    $(window).scroll(function() {
+//     var counted = 0;
+//     $(document).ready(function(){
+//     $(window).scroll(function() {
 
-        var oTop = $('.counter').offset().top - window.innerHeight;
-        if (counted == 0 && $(window).scrollTop() > oTop) {
-            $('.count').each(function() {
-                var $this = $(this),
-                    countTo = $this.attr('data-count');
-                $({
-                    countNum: $this.text()
-                }).animate({
-                    countNum: countTo
-                }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function() {
-                        $this.text(Math.floor(this.countNum));
-                    },
-                    complete: function() {
-                        $this.text(this.countNum);
-                    }
+//         var oTop = $('.counter').offset().top - window.innerHeight;
+//         if (counted == 0 && $(window).scrollTop() > oTop) {
+//             $('.count').each(function() {
+//                 var $this = $(this),
+//                     countTo = $this.attr('data-count');
+//                 $({
+//                     countNum: $this.text()
+//                 }).animate({
+//                     countNum: countTo
+//                 }, {
+//                     duration: 2000,
+//                     easing: 'swing',
+//                     step: function() {
+//                         $this.text(Math.floor(this.countNum));
+//                     },
+//                     complete: function() {
+//                         $this.text(this.countNum);
+//                     }
 
-                });
-            });
-            counted = 1;
-        }
+//                 });
+//             });
+//             counted = 1;
+//         }
 
-    });
+//     });
+// });
     // brand-slider
     $(document).ready(function() {
         $('.brand-slider').slick({
