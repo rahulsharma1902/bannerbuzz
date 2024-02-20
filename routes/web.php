@@ -158,19 +158,25 @@ Route::get('admin-dashboard/remove-blog/{id}',[BlogController::class,'removeBlog
 // Route::get('/',[CustomizeController::class,'index']);
 
 // web view Routes ViewController
-Route::get('/',[ViewController::class,'index']);
-Route::get('about-us',[ViewController::class,'aboutUs']);
+Route::get('/',[ViewController::class,'index'])->name('home');
+Route::get('about-us',[ViewController::class,'aboutUs'])->name('about-us');
 Route::get('contact-us',[ViewController::class,'contactUs']);
 Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
-Route::get('blogs/{slug?}',[ViewController::class,'blogs']);
+Route::get('blogs/{slug?}',[ViewController::class,'blogs'])->name('blog.category');
 Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
 
 // products and shop controller ShopController
-Route::get('shop/{slug}',[ShopController::class,'shop']);
+Route::get('shop/{slug}',[ShopController::class,'shop'])->name('shop');
 Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
 Route::get('categories/{parent_id}/children', [ShopController::class,'getChildCategories']);
 Route::get('/categories/{category_id}/products', [ShopController::class, 'getCategoryProducts']);
 Route::get('product/{id}/sizes',[ShopController::class,'getsizes']);
 Route::post('custom-product',[ShopController::class,'CustomProduct']);
+
+// accessories Routes ShopController
+Route::get('accessories',[ShopController::class,'accessories']);
+
+// testing mail
+Route::post('send-mail',[ShopController::class,'sendMail']);
 
 

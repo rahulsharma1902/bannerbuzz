@@ -45,21 +45,16 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('category',$category,$subcategory ?? null) !!}
+                    {!! Breadcrumbs::render('accessories') !!}
                  
                 </nav>
                 <div class="vinyl_content">
-                    <h3>{{ $category->name ?? '' }}</h3>
-                    <p>
-                        <?php if ($category->description) {
-                            echo $category->description;
-                        } ?>
-                    </p>
+                    <h3>Accessories</h3>
                 </div>
             </div>
         </div>
     </section>
-    <form action="{{ url('custom-product') }}" method="post">
+    <form action="" method="post">
         @csrf
         <section class="custom-sec shop_size">
             <div class="container">
@@ -69,14 +64,14 @@
                         <div class="select_wrap">
                             <select id="product_select" name="product_id" class="form-select"
                                 aria-label="Default select example">
-                                @if ($products->isNotEmpty())
-                                    @foreach ($products as $product)
+                                @if ($product_accessories->isNotEmpty())
+                                    @foreach ($product_accessories as $product)
                                         <option value="{{ $product->id ?? '' }}">{{ $product->name ?? '' }}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
-                        @if ($product->sizes->isNotEmpty())
+                        @if ($product_accessories->first()->sizes->isNotEmpty())
                             <div class="select_wrap">
                                 <select id="select_size" class="form-select" name="product_size"
                                     aria-label="Default select example">
@@ -130,7 +125,7 @@
                     <div class="filter_wreap">
                         <h5>Filters</h5>
                         <div class="accordion">
-                            <div class="accordion-item">
+                            {{-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -151,7 +146,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -162,8 +157,8 @@
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        @if ($category->productTypes->isNotEmpty())
-                                            @foreach ($category->productTypes as $type)
+                                        @if ($product_accessoriesType->isNotEmpty())
+                                            @foreach ($product_accessoriesType as $type)
                                                 <p>{{ $type->name }}</p>
                                             @endforeach
                                         @endif
@@ -189,14 +184,14 @@
                     </div>
                     <div class="shop_rtl_wreap">
                         <div class="shop_rtl busines_slider">
-                            @if ($products->isNotEmpty())
-                                @foreach ($products as $product)
+                            @if ($product_accessories->isNotEmpty())
+                                @foreach ($product_accessories as $product)
                                     <div class="card">
                                         <div class="busines_img">
                                             @foreach (json_decode($product->images) as $index => $image)
                                                 @if ($index == 0)
                                                     <img height="160px" width="200px"
-                                                        src="{{ asset('product_Images') }}/{{ $image }}">
+                                                        src="{{ asset('accessories_Images') }}/{{ $image }}">
                                                 @endif
                                             @endforeach
                                             <div class="cust_btn_wreap">
@@ -307,7 +302,7 @@
             </div>
         </div>
     </section>
-    @if ($products->isNotEmpty())
+    @if ($product_accessories->isNotEmpty())
         <script>
             $(document).ready(function() {
                 function GetProductSizes(Id) {
@@ -482,7 +477,7 @@
                     $('#product_price').val(price);
                 });
 
-                var defaultProductId = "{{ $products->first()->id }}";
+                var defaultProductId = "{{ $product_accessories->first()->id }}";
                 GetProductSizes(defaultProductId);
                 $('#product_select').val(defaultProductId);
             });

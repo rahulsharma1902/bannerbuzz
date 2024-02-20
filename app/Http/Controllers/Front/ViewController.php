@@ -39,13 +39,13 @@ class ViewController extends Controller
 
     public function blogs($slug = null)
     {
-        $blog_cat = BlogCategory::where('slug', $slug)->first();
-        if ($blog_cat) {
-            $blogs = Blogs::where('blog_category_id', $blog_cat->id)->get();
-            $blog_category = BlogCategory::where('id', '!=', $blog_cat->id)->get();
-            return view('front.blogs.index', compact('blogs', 'blog_category'));
+        $category = BlogCategory::where('slug', $slug)->first();
+        if ($category) {
+            $blogs = Blogs::where('blog_category_id', $category->id)->paginate(8);
+            $blog_category = BlogCategory::where('id', '!=', $category->id)->get();
+            return view('front.blogs.index', compact('blogs', 'blog_category','category'));
         } else {
-            $blogs = Blogs::orderBy('created_at', 'desc')->get();
+            $blogs = Blogs::orderBy('created_at', 'desc')->paginate(8);
             $blog_category = BlogCategory::all();
             $latest_blogs = Blogs::latest()->where('status', true)->take(10)->get();
             return view('front.blogs.index', compact('blogs', 'blog_category', 'latest_blogs'));

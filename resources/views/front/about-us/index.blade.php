@@ -5,8 +5,7 @@
         <div class="">
             <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">About us</li>
+                    {!! Breadcrumbs::render('about-us') !!}
                 </ol>
             </nav>
         </div>

@@ -1,5 +1,20 @@
 @extends('front_layout.master')
 @section('content')
+    <section class="brad_inner">
+        <div class="container">
+            <div class="">
+                <nav class="breadcrumb_wreap" aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        @if ($category ?? '')
+                            {!! Breadcrumbs::render('Blog.category', $category) !!}
+                        @else
+                            {!! Breadcrumbs::render('Blogs') !!}
+                        @endif
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
     <section class="blog-sec p_100">
         <div class="container">
             <div class="blog-content">
@@ -9,10 +24,11 @@
                             <div class="blogs">
                                 <div class="row">
                                     @foreach ($blogs as $blog)
-                                        <div class="col-md-6 pb-5">
+                                        <div data-month="{{ $blog->created_at->format('M') }}"
+                                            class="blogs_div col-md-6 pb-5">
                                             <div class="blog">
                                                 <div class="blog-img">
-                                                    <img src="{{ asset('blog_Images') }}/{{ $blog->image ?? ''}}"
+                                                    <img src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}"
                                                         alt="">
                                                 </div>
                                                 <div class="blog-body">
@@ -21,27 +37,62 @@
                                                     <h4>{{ $blog->title ?? '' }}</h4>
                                                     <p>
                                                         {{ substr(strip_tags($blog->short_description), 0, 150) }}
-                                                        <a href="{{ url('blog') }}/{{ $blog->slug ?? ''}}">Read
-                                                        More</a></p>
+                                                        <a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}">Read
+                                                            More</a>
+                                                    </p>
                                                 </div>
-                                            
+
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                             <div class="paginetion_wreap">
-                                <ul class="list-unstyled m-0">
-                                    <li>
-                                        <a href="#"><i class="fa-solid fa-chevron-left"></i></a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li class="active">
-                                        <a href="#"><i class="fa-solid fa-chevron-right"></i></a>
-                                    </li>
-                                </ul>
+                                @if ($blogs->lastPage() > 1)
+                                    <ul class="list-unstyled m-0">
+                                        @if ($blogs->onFirstPage())
+                                            <li>
+                                                <a href=""><i class="fa-solid fa-chevron-left"></i></a>
+                                            </li>
+                                            @for ($i = 1; $i <= $blogs->lastPage(); $i++)
+                                                <li class="{{ $i == $blogs->currentPage() ? 'active' : '' }}">
+                                                    <a href="{{ $blogs->url($i) }}">{{ $i }}</a>
+                                                </li>
+                                            @endfor
+                                            <li class="active">
+                                                <a href="{{ $blogs->nextPageUrl() }}"><i
+                                                        class="fa-solid fa-chevron-right"></i></a>
+                                            </li>
+                                        @elseif ($blogs->HasmorePages())
+                                            <li class="active">
+                                                <a href="{{ $blogs->previousPageUrl() }}"><i
+                                                        class="fa-solid fa-chevron-left"></i></a>
+                                            </li>
+                                            @for ($i = 1; $i <= $blogs->lastPage(); $i++)
+                                                <li class="{{ $i == $blogs->currentPage() ? 'active' : '' }}">
+                                                    <a href="{{ $blogs->url($i) }}">{{ $i }}</a>
+                                                </li>
+                                            @endfor
+                                            <li class="active">
+                                                <a href="{{ $blogs->nextPageUrl() }}"><i
+                                                        class="fa-solid fa-chevron-right"></i></a>
+                                            </li>
+                                        @else
+                                            <li class="active">
+                                                <a href="{{ $blogs->previousPageUrl() }}"><i
+                                                        class="fa-solid fa-chevron-left"></i></a>
+                                            </li>
+                                            @for ($i = 1; $i <= $blogs->lastPage(); $i++)
+                                                <li class="{{ $i == $blogs->currentPage() ? 'active' : '' }}">
+                                                    <a href="{{ $blogs->url($i) }}">{{ $i }}</a>
+                                                </li>
+                                            @endfor
+                                            <li>
+                                                <a href=""><i class="fa-solid fa-chevron-right"></i></a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     @endif
@@ -63,11 +114,11 @@
                                             @php $counter = 0; @endphp
                                             @foreach ($blogs as $blog)
                                                 @if ($counter < 5)
-                                                    <li><a href="javascript:void">
+                                                    <li><a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}">
                                                             <img width="50px"
                                                                 src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}"
                                                                 alt="">
-                                                            <h6>{{ $blog->title ?? ''}}</h6>
+                                                            <h6>{{ $blog->title ?? '' }}</h6>
                                                         </a></li>
                                                 @endif
                                                 @php $counter++; @endphp
@@ -137,7 +188,7 @@
                             <div class="blog-blocks">
                                 <h5>Archives</h5>
                                 <div class="select-month-box">
-                                    <select placeholder="Select Month">
+                                    <select id="Month" name="Month" placeholder="Select Month">
                                         <option name="" value="" style="display:none;">Select Month</option>
                                         <option name="January" value="Jan">January</option>
                                         <option name="February" value="Feb">February</option>
@@ -160,4 +211,21 @@
             </div>
         </div>
     </section>
+    <script>
+        $(document).ready(function() {
+            $('#Month').on('change', function() {
+                var selectedOption = $(this).val();
+
+                $('.blogs_div').each(function() {
+                    var blogMonth = $(this).data('month');
+
+                    if (selectedOption == blogMonth) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

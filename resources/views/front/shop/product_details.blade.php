@@ -101,6 +101,7 @@
                                             <div class="shop_dt_group">
                                                 <label class="form-label">{{ $variation->name }}:</label>
                                                 @if ($variation->variationData->isNotEmpty())
+                                                <?php $variation_price[]=$variation->variationData->first()->price; ?>
                                                     <select name="{{ $variation->var_slug }}"
                                                         class="product_variation form-select">
                                                         @foreach ($variation->variationData as $data)
@@ -122,14 +123,14 @@
                         <div class="shp_dt_art">
                             <p>
                                 @if ($product->sizes->isNotEmpty())
-                                    <span id="product_price_main">£{{ $product->sizes->first()->price + 10 }}</span>
-                                    <strong id="product_price">£{{ $product->sizes->first()->price }}</strong>
+                                    <span id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span>
+                                    <strong id="product_price">£{{ $product->sizes->first()->price + array_sum($variation_price)}}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->sizes->first()->price }}">
                                 @else
-                                    <span id="product_price_main">£{{ $product->price + 10 }}</span>
-                                    <strong id="product_price">£{{ $product->price }}</strong>
+                                    <span id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price)}}</span>
+                                    <strong id="product_price">£{{ $product->price + array_sum($variation_price)}}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->price }}">
