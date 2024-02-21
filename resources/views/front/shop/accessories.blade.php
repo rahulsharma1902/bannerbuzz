@@ -54,57 +54,56 @@
             </div>
         </div>
     </section>
-    <form action="" method="post">
-        @csrf
         <section class="custom-sec shop_size">
             <div class="container">
                 <div class="custom-content" style="background-color: #141414;">
                     <h3>Start Your Order</h3>
-                    <div class="select-box">
-                        <div class="select_wrap">
-                            <select id="product_select" name="product_id" class="form-select"
-                                aria-label="Default select example">
-                                @if ($product_accessories->isNotEmpty())
-                                    @foreach ($product_accessories as $product)
-                                        <option data-price="{{ $product->price }}" value="{{ $product->id ?? '' }}">
-                                            {{ $product->name ?? '' }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                    <form id="search_product">
+                        <div class="select-box">
+                            <div class="select_wrap">
+                                <select id="product_select" name="product_slug" class="form-select"
+                                    aria-label="Default select example">
+                                    @if ($product_accessories->isNotEmpty())
+                                        @foreach ($product_accessories as $product)
+                                            <option data-price="{{ $product->price }}" data-id="{{ $product->id }}"
+                                                value="{{ $product->slug ?? '' }}">
+                                                {{ $product->name ?? '' }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
+                                class="select_wrap">
+                                <select id="select_size" class="form-select" name="product_size"
+                                    aria-label="Default select example">
+    
+                                </select>
+                            </div>
+    
+                            <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                                id="size_unit_div">
+                                <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
+                                    <option selected value="Ft">Ft</option>
+                                    <option value="In">In</option>
+                                    <option value="Mm">Mm</option>
+                                    <option value="Cm">Cm</option>
+                                </select>
+                            </div>
+                            <div class="select_wrap">
+                                <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                    value="1" class="form-select" aria-label="Default select example">
+                            </div>
                         </div>
-
-                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
-                            class="select_wrap">
-                            <select id="select_size" class="form-select" name="product_size"
-                                aria-label="Default select example">
-
-                            </select>
-                        </div>
-
-                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
-                            id="size_unit_div">
-                            <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
-                                <option selected value="Ft">Ft</option>
-                                <option value="In">In</option>
-                                <option value="Mm">Mm</option>
-                                <option value="Cm">Cm</option>
-                            </select>
-                        </div>
-                        <div class="select_wrap">
-                            <input type="number" min="1" max="999" id="product_qty" name="quantity"
-                                value="1" class="form-select" aria-label="Default select example">
-                        </div>
-                    </div>
+                    </form>
                     <div class="shop_size_txt">
                         <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
                                 id="size_price">$11.75</strong></p>
                         <input type="hidden" id="product_price" name="product_price" value="">
-                        <button type="button" class="btn light_dark">Buy Now</button>
+                        <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
                     </div>
                 </div>
             </div>
         </section>
-    </form>
     <section id="accordionExample">
         <div class="shop_wrapper p_100">
             <div class="container">
@@ -340,14 +339,14 @@
     @if ($product_accessories->isNotEmpty())
         <script>
             $(document).ready(function() {
-
-                // default product selected 
+                // default product selected
                 var defaultProductId = "{{ $product_accessories->first()->id }}";
+                var defaultValue = "{{ $product_accessories->first()->slug }}";
                 var productprice = "{{ $product_accessories->first()->price }}";
                 GetProductSizes(defaultProductId, productprice);
-                $('#product_select').val(defaultProductId);
+                $('#product_select').val(defaultValue);
 
-                // getting the product size and price
+                // getting size and  price of product
                 function GetProductSizes(Id, productprice) {
                     $.ajax({
                         url: "{{ url('/accessories/sizes') }}" + "/" + Id,
@@ -398,18 +397,18 @@
                     });
                 }
 
-                // on selecting the product 
+                // on select different product 
                 $('#product_select').on('change', function() {
-                    var Id = $(this).val();
                     var selectedOption = $(this).find('option:selected');
                     var productPrice = selectedOption.data('price');
+                    var Id = selectedOption.data('id');
                     $("#size_unit option").prop("selected", function() {
                         return this.defaultSelected;
                     });
                     GetProductSizes(Id, productPrice);
                 });
 
-                // on changing product quantity
+                // on change product quantity
                 $('#product_qty').on('change', function() {
                     var value = $(this).val();
                     if (value < 1 || value > 999) {
@@ -440,15 +439,17 @@
                     }
                 });
 
-                // on changing the size unit 
+                // on changing size unit 
                 $('#size_unit').on('change', function() {
                     var unit_value = $(this).val();
-                    var productID = $('#product_select').val();
+                    var productID = $('#product_select');
+                    var selectedOption = productID.find('option:selected');
+                    var ID = selectedOption.data('id');
                     var selectedSize = $('#select_size').val();
-                    updateSize(productID, unit_value, selectedSize);
+                    updateSize(ID, unit_value, selectedSize);
                 });
 
-                // updating the size on cahanging the unit 
+                // updating size on changing unit 
                 function updateSize(id, value, selectedSize) {
                     $.ajax({
                         url: "{{ url('/accessories/sizes') }}" + "/" + id,
@@ -535,6 +536,47 @@
                     $('#size_price').text('$' + price);
                     $('#main_price').text('$' + (price + 10));
                     $('#product_price').val(price);
+                });
+
+                $('#print_type').on('change', function() {
+                    applyFilters();
+                });
+
+                $('.productType').on('change', function() {
+                    applyFilters();
+                });
+
+                function applyFilters() {
+                    var selectedServices = $('.productType:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var printType = $('#print_type').is(':checked');
+                    var printTypevalue = $('#print_type').val();
+                    $('.product-div').each(function() {
+                        var productType = $(this).data('producttype');
+                        var productprint = $(this).data('printtype');
+                        if (productType || productprint) {
+                            var showproduct =
+                                (selectedServices.length === 0 || selectedServices.some(service =>
+                                    productType.includes(service))) &&
+                                (!printType || productprint.includes(printTypevalue));
+
+                            $(this).toggle(showproduct);
+                        }
+                    });
+                }
+
+                $('#buy_now').on('click', function() {
+                    var myform = $('#search_product');
+                    var formData = myform.serialize();
+                    var params = new URLSearchParams(formData);
+                    var productSlug = params.get('product_slug');
+                    var size = params.get('product_size');
+                    var sizeUnit = params.get('size_unit');
+                    var quantity = params.get('quantity');
+                    var url = "{{ url('/accessories') }}" + "/" + encodeURIComponent(productSlug) + "?size=" +
+                        size + "&sizeUnit=" + sizeUnit + "&quantity=" + quantity;
+                    window.location.href = url;
                 });
             });
         </script>

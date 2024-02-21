@@ -31,6 +31,10 @@ class Product extends Model
         return $this->hasOne(ProductCategories::class,'id','category_id');
     }
 
+    public function productType(){
+        return $this->hasOne(ProductType::class,'id','product_type_id');
+    }
+
     public function variations(){
         return $this->hasMany(ProductVariations::class,'product_id','id');
     }

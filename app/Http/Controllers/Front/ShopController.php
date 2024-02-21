@@ -15,43 +15,50 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ShopController extends Controller
 {
+    //:::::::::::::::::::::: Shop :::::::::::::::::::://
     public function shop($slug)
     {
-
         $cat = ProductCategories::where('slug', $slug)->first();
-        if($cat){
-        $category = ProductCategories::with('products', 'subCategories.products')->find($cat->id);
-        $allproducts = $category->products;
+        if ($cat) {
+            $category = ProductCategories::with('products', 'subCategories.products')->find($cat->id);
+            $allproducts = $category->products;
 
-        foreach ($category->subCategories as $subCategory) {
-            $allproducts = $allproducts->merge($subCategory->products);
+            foreach ($category->subCategories as $subCategory) {
+                $allproducts = $allproducts->merge($subCategory->products);
+            }
+            $perPage = 9;
+            $page = request()->get('page', 1);
+            $products = new LengthAwarePaginator(
+                $allproducts->forPage($page, $perPage),
+                $allproducts->count(),
+                $perPage,
+                $page,
+                ['path' => url()->current()]
+            );
+            return view('front.shop.index', compact('category', 'products', 'allproducts'));
+        } else {
+            return redirect()->back();
         }
-        $perPage = 9; 
-        $page = request()->get('page', 1); 
-        $products = new LengthAwarePaginator(
-            $allproducts->forPage($page, $perPage),
-            $allproducts->count(),
-            $perPage,
-            $page,
-            ['path' => url()->current()]
-        );
-        return view('front.shop.index', compact('category', 'products','allproducts'));
-    }else {
-        return redirect()->back();
-    }
     }
 
-    public function ProductDetails($slug)
+    //:::::::::::::::::: Product Details ::::::::::::::::::::://
+    public function ProductDetails(Request $request,$slug)
     {
+
         $product = Product::where('slug', $slug)->first();
-        if($product){
+        if ($product) {
+            $selected_size = $request->input('size');
+            $selected_size_unit = $request->input('sizeUnit');
+            $selected_qty = $request->input('quantity');
             $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
-            return view('front.shop.product_details', compact('product', 'related_product'));
-        }else {
+            return view('front.shop.product_details', compact('product', 'related_product','selected_size','selected_size_unit','selected_qty'));
+        } else {
             return redirect()->back();
         }
 
     }
+
+    //::::::::::: getting data by ajax :::::::::::::::://
     public function getChildCategories($parent_id)
     {
         $childCategories = ProductCategories::where('parent_category', $parent_id)->get();
@@ -69,15 +76,9 @@ class ShopController extends Controller
         $product = Product::find($id);
         return response()->json($product->sizes);
     }
+    //::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
-    public function CustomProduct(Request $request)
-    {
-        $product = Product::find($request->product_id);
-
-        //   return view('front.shop.product_details',compact())
-    }
-
-    // product accessories functions 
+    //:::::::::: product accessories functions ::::::::::::::::://
     public function accessories()
     {
         $product_accessories = ProductAccessories::paginate(9);
@@ -85,11 +86,18 @@ class ShopController extends Controller
         return view('front.shop.accessories', compact('product_accessoriesType', 'product_accessories'));
     }
 
-    public function AccessoriesDetails($slug)
+    public function AccessoriesDetails(Request $request,$slug)
     {
         $product = ProductAccessories::where('slug', $slug)->first();
-        $related_product = ProductAccessories::where('accessories_type', $product->accessories_type)->where('id', '!=', $product->id)->get();
-        return view('front.shop.accessories_details', compact('product', 'related_product'));
+        if ($product) {
+            $selected_size = $request->input('size');
+            $selected_size_unit = $request->input('sizeUnit');
+            $selected_qty = $request->input('quantity');
+            $related_product = ProductAccessories::where('accessories_type', $product->accessories_type)->where('id', '!=', $product->id)->get();
+            return view('front.shop.accessories_details', compact('product', 'related_product','selected_size','selected_size_unit','selected_qty'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function getaccessoriessizes($id)
@@ -97,23 +105,4 @@ class ShopController extends Controller
         $product = ProductAccessories::find($id);
         return response()->json($product->sizes);
     }
-
-    // public function sendMail(Request $request){
-    //     $request->validate([
-    //        'name' => 'required',
-    //        'email' => 'required',
-    //        'number' => 'required',
-    //        'company_name' => 'required'
-    //     ]);
-
-    //     $maildata = [
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'number' => $request->number,
-    //         'company_name' => $request->company_name
-    //     ];
-    //     Mail::to('developer1234556@gmail.com')->send(new MailToAdmin($maildata));
-
-    //     return redirect()->back();
-    // }
 }

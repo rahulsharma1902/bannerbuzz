@@ -98,7 +98,7 @@
                         <span class="bars bar2 navbar-toggler-icon"></span>
                         <span class="bars bar3 navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="{{ asset('front/img/clogo.svg') }}"
+                    <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('front/img/clogo.svg') }}"
                             alt="" /></a>
                     <div class="search_wrapper">
                         <div class="dropdown">

@@ -4,7 +4,7 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('product',$product) !!}
+                    {!! Breadcrumbs::render('product', $product) !!}
                 </nav>
             </div>
         </div>
@@ -71,22 +71,32 @@
                                         @if ($product->sizes->isNotEmpty())
                                             <select id="select_size" name="product_size" class="form-select">
                                                 @foreach ($product->sizes as $size)
-                                                    <option data-id="{{ $size->id }}" data-price="{{ $size->price }}"
+                                                    <option @if ($selected_size != null && $selected_size == $size->size_value) selected @endif
+                                                        data-id="{{ $size->id }}" data-price="{{ $size->price }}"
                                                         value="{{ $size->size_value }}">{{ $size->size_value }}</option>
                                                 @endforeach
                                             </select>
                                             @if ($product->sizes->first()->size_type != 'Custom')
                                                 <select id="size_unit" name="size_unit" class="form-select">
-                                                    <option value="Ft" selected>Ft</option>
-                                                    <option value="In">inch</option>
-                                                    <option value="Cm">Cm</option>
-                                                    <option value="Mm">Mm</option>
+                                                    <option @if ($selected_size_unit == 'Ft') selected @endif
+                                                        value="Ft">Ft</option>
+                                                    <option @if ($selected_size_unit == 'In') selected @endif
+                                                        value="In">inch</option>
+                                                    <option @if ($selected_size_unit == 'Cm') selected @endif
+                                                        value="Cm">Cm</option>
+                                                    <option @if ($selected_size_unit == 'Mm') selected @endif
+                                                        value="Mm">Mm</option>
                                                 </select>
                                             @endif
                                         @endif
                                         <label for="product_quantity">Qty:</label>
-                                        <input type="number" value="1" id="product_quantity" name="quantity"
-                                            placeholder="Qty" class="form-select">
+                                        @if ($selected_qty != null)
+                                            <input type="number" value="{{ $selected_qty }}" id="product_quantity"
+                                                name="quantity" placeholder="Qty" class="form-select">
+                                        @else
+                                            <input type="number" value="1" id="product_quantity" name="quantity"
+                                                placeholder="Qty" class="form-select">
+                                        @endif
                                     </div>
                                 </div>
                                 @if ($product->variations->isNotEmpty())
@@ -121,18 +131,34 @@
                         <div class="shp_dt_art">
                             <p>
                                 @if ($product->sizes->isNotEmpty())
-                                    <del><span
-                                        id="product_price_main">£{{ $product->sizes->first()->price + 10 + array_sum($variation_price) }}</span></del>
-                                    <strong
-                                        id="product_price">£{{ $product->sizes->first()->price + array_sum($variation_price) }}</strong>
+                                    <?php
+                                    foreach ($product->sizes as $size) {
+                                        if ($selected_size === $size->size_value) {
+                                            $size_price = $size->price;
+                                        }
+                                    }
+                                    if (!$selected_size) {
+                                        $size_price = $product->sizes->first()->price;
+                                    }
+                                    if ($selected_qty != null) {
+                                        $total = ($size_price + array_sum($variation_price)) * $selected_qty;
+                                    } else {
+                                        $total = $size_price + array_sum($variation_price);
+                                    } ?>
+                                    <span id="product_price_main">${{ $total + 10 }}</span>
+                                    <strong id="product_price">£{{ $total }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
-                                        value="{{ $product->sizes->first()->price }}">
+                                        value="{{ $size_price }}">
                                 @else
-                                <del> <span
-                                        id="product_price_main">£{{ $product->price + 10 + array_sum($variation_price) }}</span></del>
-                                    <strong
-                                        id="product_price">£{{ $product->price + array_sum($variation_price) }}</strong>
+                                    <?php
+                                    if ($selected_qty != null) {
+                                        $total = ($product->price + array_sum($variation_price)) * $selected_qty;
+                                    } else {
+                                        $total = $product->price + array_sum($variation_price);
+                                    } ?>
+                                    <span id="product_price_main">£{{ $total + 10 }}</span>
+                                    <strong id="product_price">£{{ $total }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->price }}">
@@ -364,6 +390,12 @@
     </section>
     <script>
         $(document).ready(function() {
+            @if ($selected_size_unit != null && $selected_size_unit != 'Ft')
+                var size_unit = "{{ $selected_size_unit }}";
+                var selectedSize = "{{ $selected_size }}";
+                var productID = "{{ $product->id }}";
+                updateSize(productID, size_unit, selectedSize);
+            @endif
             var size_prices = [];
             @if ($product->sizes->isNotEmpty())
                 size_prices.push({
@@ -373,29 +405,20 @@
             @endif
             $('#select_size').on('change', function() {
 
-                var totalPrice = parseFloat($('#product_price_input').val());
                 var size_value = $(this).val();
                 var Qty = parseFloat($('#product_quantity').val());
 
                 var selectedOption = this.options[this.selectedIndex];
                 var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
                 var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-
-                var previousPrice = size_prices.reduce(function(total, item) {
-                    return total + item.price;
-                }, 0);
-                size_prices = [];
-                totalPrice -= previousPrice;
-                size_prices.push({
-                    value: selectedid,
-                    price: selectedprice
+                var totalPrice = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    totalPrice += selectedPrice;
                 });
-
-                totalPrice += selectedprice;
-
-                $('#product_price_main').text('$' + (parseFloat(totalPrice) + 5) * Qty);
-                $('#product_price').text('$' + totalPrice * Qty);
-                $('#product_price_input').val(totalPrice);
+                $('#product_price_input').val(selectedprice);
+                $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
+                $('#product_price').text('$' + (selectedprice + totalPrice )* Qty);
             });
 
             $('#product_quantity').on('change', function() {
@@ -404,9 +427,14 @@
                     value = 1;
                     $('#product_quantity').val(1);
                 }
+                var totalPrice = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    totalPrice += selectedPrice;
+                });
                 var price = $('#product_price_input').val();
-                $('#product_price_main').text('$' + (parseFloat(price) + 5) * value);
-                $('#product_price').text('$' + value * price);
+                $('#product_price_main').text('$' + (parseFloat(price) +totalPrice + 5) * value);
+                $('#product_price').text('$' + (parseFloat(price) + totalPrice) * value);
             });
 
             // converting size units
@@ -419,7 +447,7 @@
 
             function updateSize(id, value, selectedSize) {
                 $.ajax({
-                    url: "{{ url('/product/sizes/') }}" +"/" + id,
+                    url: "{{ url('/product/sizes/') }}" + "/" + id,
                     type: 'GET',
                     success: function(data) {
                         var sizeSelect = $('#select_size');

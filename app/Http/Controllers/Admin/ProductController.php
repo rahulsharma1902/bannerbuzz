@@ -34,12 +34,7 @@ class ProductController extends Controller
 
     public function addProcc(Request $request)
     {
-
-        // echo "<pre>";
-        // print_r($request->all());
-        // die();
         if ($request->id) {
-
             $request->validate([
                 'name' => 'required|unique:products,name,' . $request->id,
                 'slug' => 'required|unique:products,slug,' . $request->id,
