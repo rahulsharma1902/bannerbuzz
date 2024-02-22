@@ -58,7 +58,7 @@ class ProductCategoryController extends Controller
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                        $filename = $request->slug . time(). '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
                     }
@@ -130,7 +130,7 @@ class ProductCategoryController extends Controller
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                        $filename = $request->slug . time() . '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
                     }

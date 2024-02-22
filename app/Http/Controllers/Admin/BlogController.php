@@ -105,7 +105,7 @@ class BlogController extends Controller
                 $blog->description = $request->description;
                 if ($request->hasFile('image')) {
                     $image = $request->image;
-                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                    $filename = 'blog' .time() . '.' . $image->extension();
                     $image->move(public_path() . '/blog_Images/', $filename);
                     $blog->image = $filename;
                 }
@@ -144,7 +144,7 @@ class BlogController extends Controller
             $blog->description = $request->description;
             if ($request->hasFile('image')) {
                 $image = $request->image;
-                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                $filename = 'blog'  . time() . '.' . $image->extension();
                 $image->move(public_path() . '/blog_Images/', $filename);
                 $blog->image = $filename;
             }
