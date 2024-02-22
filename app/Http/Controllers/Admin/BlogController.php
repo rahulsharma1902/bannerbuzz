@@ -66,6 +66,7 @@ class BlogController extends Controller
         return view('admin.blogs.add_blog', compact('blog', 'blog_categories'));
     }
 
+    //::::::::::::::: add or update blog ::::::::::::::::::://
     public function addBlogProcc(Request $request)
     {
         if ($request->id) {
@@ -94,8 +95,6 @@ class BlogController extends Controller
                     ]
                 );
             }
-
-
             $blog = Blogs::find($request->id);
             if ($blog) {
                 $blog->title = $request->title;
@@ -153,7 +152,6 @@ class BlogController extends Controller
         $blog->save();
         return redirect()->back()->with('success', 'blog added successfully');
     }
-
 
     public function removeBlog($id)
     {

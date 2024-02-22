@@ -110,4 +110,9 @@ class ShopController extends Controller
         $product = ProductAccessories::find($id);
         return response()->json($product->sizes);
     }
+
+    //specialoffers 
+    public function specialoffers(){
+        return view('front.shop.special-offers.special-offers');
+    }
 }

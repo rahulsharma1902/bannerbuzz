@@ -47,7 +47,7 @@
                     <p class="m-0">Free Express shipping for orders over £99.00</p>
                     <ul>
                         <li>
-                            <a href="javascript:void(0)">
+                            <a href="{{ url('order-tracking') }}">
                                 <img src="{{ asset('front/img/track.svg') }}" alt="" />
                                 <span>Order Tracking</span>
                             </a>
@@ -359,12 +359,12 @@
                         <div class="footer_contnt">
                             <h6>Information</h6>
                             <ul>
-                                <li><a href="#">Order Tracking</a></li>
-                                <li><a href="#">Customer Reviews</a></li>
-                                <li><a href="#">Special Offers</a></li>
+                                <li><a href="{{ url('order-tracking') }}">Order Tracking</a></li>
+                                <li><a href="{{ url('customer-reviews') }}">Customer Reviews</a></li>
+                                <li><a href="{{ url('special-offers') }}">Special Offers</a></li>
                                 <li><a href="#">Sitemap</a></li>
                                 <li><a href="{{ url('/blogs') }}">Blog</a></li>
-                                <li><a href="#">Safety Signs & Banners</a></li>
+                                {{-- <li><a href="#">Safety Signs & Banners</a></li> --}}
                             </ul>
                         </div>
                         <div class="footer_contnt">
@@ -373,7 +373,7 @@
                                 <li><a href="{{ url('about-us') }}">About Us</a></li>
                                 <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                 <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Use</a></li>
+                                <li><a href="{{ url('privacy-policy') }}">Terms of Use</a></li>
                             </ul>
                         </div>
                         <div class="footer_contnt">

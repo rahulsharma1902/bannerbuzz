@@ -36,6 +36,18 @@ class ViewController extends Controller
     {
         return view('front.privacy-policy.index');
     }
+
+    public function uploadArtwork(){
+        return view('front.upload-artwork.upload-artwork');
+    }
+
+    public function ordertracking(){
+        return view('front.order-tracking.order-tracking');
+    }
+
+    public function customerReviews(){
+        return view('front.customer-reviews.index');
+    }
     //:::::::::::::::::::::::::::::::::::::::::::::::://
 
     //:::::::::::::::: Blogs ::::::::::::::::::::::::://

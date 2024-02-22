@@ -23,7 +23,6 @@ class AccessoriesController extends Controller
     {
         $entities = Entities::all();
         $product = ProductAccessories::where('slug', $slug)->first();
-
         $accessories_type = AccessoriesType::all();
         return view('admin.accessories.add', compact('accessories_type', 'product', 'entities'));
     }
@@ -34,9 +33,9 @@ class AccessoriesController extends Controller
         return view('admin.accessories_type.index', compact('accessories_type'));
     }
 
+    //:::::::::::::::::: Accessories Type :::::::::::::::::://
     public function AddAccessorieType(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:accessories_types,slug',
@@ -74,7 +73,7 @@ class AccessoriesController extends Controller
         return redirect()->back()->with('success', 'Accessories type added successfully');
     }
 
-    public function removeType($id)
+    public function removeType($id)            // removing type
     {
         $accessorie_type = AccessoriesType::find($id);
         if ($accessorie_type) {
@@ -85,7 +84,7 @@ class AccessoriesController extends Controller
         }
     }
 
-    //:::::::::: Adding Accessories ::::::::::::::::::::::::::::::://
+    //:::::::::::::::: Adding Accessories :::::::::::::::::::://
     public function AccessoriesAddprocc(Request $request)
     {
         // echo "<pre>";

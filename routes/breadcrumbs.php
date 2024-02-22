@@ -15,6 +15,31 @@ Breadcrumbs::for('about-us',function(Generator $trail){
     $trail->push('About Us',route('about-us'));
 });
 
+Breadcrumbs::for('upload-artwork',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Upload ArtWork',route('upload-artwork'));
+});
+
+Breadcrumbs::for('special-offers',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Special Offers',route('special-offers'));
+});
+
+Breadcrumbs::for('privacy-policy',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Privacy Policy',route('privacy-policy'));
+});
+
+Breadcrumbs::for('customer-reviews',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Customer Reviews',route('customer-reviews'));
+});
+
+Breadcrumbs::for('order-tracking',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Order Tracking',route('order-tracking'));
+});
+
 Breadcrumbs::for('contact-us',function(Generator $trail){
     $trail->parent('home');
     $trail->push('Contact Us',url('/contact-us'));
@@ -29,11 +54,6 @@ Breadcrumbs::for('Blog.category',function(Generator $trail,BlogCategory $categor
     $trail->parent('Blogs');
     $trail->push($category->name , route('blog.category',$category));
 });
-
-// Breadcrumbs::for('category',function(Generator $trail, ProductCategories $category){
-//     $trail->parent('home');
-//     $trail->push($category->name,route('shop',$category->slug));
-// });
 
 Breadcrumbs::for('accessories',function(Generator $trail){
     $trail->parent('home');
