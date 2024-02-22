@@ -160,23 +160,38 @@ Route::get('admin-dashboard/remove-blog/{id}',[BlogController::class,'removeBlog
 // web view Routes ViewController
 Route::get('/',[ViewController::class,'index'])->name('home');
 Route::get('about-us',[ViewController::class,'aboutUs'])->name('about-us');
-Route::get('contact-us',[ViewController::class,'contactUs']);
-Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
+Route::get('contact-us',[ViewController::class,'contactUs'])->name('contact-us');
+Route::get('customer-reviews',[ViewController::class,'customerReviews'])->name('customer-reviews');
+Route::get('privacy-policy',[ViewController::class,'privacyPolicy'])->name('privacy-policy');
+Route::get('upload-artwork',[ViewController::class,'uploadArtwork'])->name('upload-artwork');
+Route::get('order-tracking',[ViewController::class,'ordertracking'])->name('order-tracking');
+
+// blogs ViewController
 Route::get('blogs/{slug?}',[ViewController::class,'blogs'])->name('blog.category');
 Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
 
 // products and shop controller ShopController
 Route::get('shop/{slug}',[ShopController::class,'shop'])->name('shop');
-Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
-Route::get('categories/{parent_id}/children', [ShopController::class,'getChildCategories']);
-Route::get('/categories/{category_id}/products', [ShopController::class, 'getCategoryProducts']);
-Route::get('product/{id}/sizes',[ShopController::class,'getsizes']);
+Route::get('details/{slug}',[ShopController::class,'ProductDetails'])->name('product');
+Route::get('categories/children/{parent_id}', [ShopController::class,'getChildCategories']);
+Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
+Route::get('product/sizes/{id}',[ShopController::class,'getsizes']);
 Route::post('custom-product',[ShopController::class,'CustomProduct']);
+Route::get('special-offers',[ShopController::class,'specialoffers'])->name('special-offers');
+
 
 // accessories Routes ShopController
 Route::get('accessories',[ShopController::class,'accessories']);
+Route::get('accessories/{slug}',[ShopController::class,'AccessoriesDetails']);
+Route::get('accessories/sizes/{id}',[ShopController::class,'getaccessoriessizes']);
+
 
 // testing mail
 Route::post('send-mail',[ShopController::class,'sendMail']);
+
+// fallback route 
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
 
 

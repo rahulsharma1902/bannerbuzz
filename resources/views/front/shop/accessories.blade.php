@@ -46,7 +46,7 @@
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                     {!! Breadcrumbs::render('accessories') !!}
-                 
+
                 </nav>
                 <div class="vinyl_content">
                     <h3>Accessories</h3>
@@ -54,56 +54,56 @@
             </div>
         </div>
     </section>
-    <form action="" method="post">
-        @csrf
         <section class="custom-sec shop_size">
             <div class="container">
                 <div class="custom-content" style="background-color: #141414;">
                     <h3>Start Your Order</h3>
-                    <div class="select-box">
-                        <div class="select_wrap">
-                            <select id="product_select" name="product_id" class="form-select"
-                                aria-label="Default select example">
-                                @if ($product_accessories->isNotEmpty())
-                                    @foreach ($product_accessories as $product)
-                                        <option value="{{ $product->id ?? '' }}">{{ $product->name ?? '' }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        @if ($product_accessories->first()->sizes->isNotEmpty())
+                    <form id="search_product">
+                        <div class="select-box">
                             <div class="select_wrap">
-                                <select id="select_size" class="form-select" name="product_size"
+                                <select id="product_select" name="product_slug" class="form-select"
                                     aria-label="Default select example">
-
+                                    @if ($product_accessories->isNotEmpty())
+                                        @foreach ($product_accessories as $product)
+                                            <option data-price="{{ $product->price }}" data-id="{{ $product->id }}"
+                                                value="{{ $product->slug ?? '' }}">
+                                                {{ $product->name ?? '' }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
-
-                            <div class="select_wrap" id="size_unit_div">
-                                <select class="form-select" id="size_unit" name="size_unit"
+                            <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
+                                class="select_wrap">
+                                <select id="select_size" class="form-select" name="product_size"
                                     aria-label="Default select example">
+    
+                                </select>
+                            </div>
+    
+                            <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                                id="size_unit_div">
+                                <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
                                     <option selected value="Ft">Ft</option>
                                     <option value="In">In</option>
                                     <option value="Mm">Mm</option>
                                     <option value="Cm">Cm</option>
                                 </select>
                             </div>
-                        @endif
-                        <div class="select_wrap">
-                            <input type="number" min="1" max="999" id="product_qty" name="quantity"
-                                value="1" class="form-select" aria-label="Default select example">
+                            <div class="select_wrap">
+                                <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                    value="1" class="form-select" aria-label="Default select example">
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="shop_size_txt">
                         <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
                                 id="size_price">$11.75</strong></p>
                         <input type="hidden" id="product_price" name="product_price" value="">
-                        <button type="button" class="btn light_dark">Buy Now</button>
+                        <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
                     </div>
                 </div>
             </div>
         </section>
-    </form>
     <section id="accordionExample">
         <div class="shop_wrapper p_100">
             <div class="container">
@@ -195,7 +195,7 @@
                                                 @endif
                                             @endforeach
                                             <div class="cust_btn_wreap">
-                                                <a href="{{ url('details') }}/{{ $product->slug ?? '' }}"
+                                                <a href="{{ url('accessories') }}/{{ $product->slug ?? '' }}"
                                                     class="btn cust_btn" tabindex="0">Customize </a>
                                             </div>
                                         </div>
@@ -220,17 +220,51 @@
                             @endif
                         </div>
                         <div class="paginetion_wreap">
-                            <ul class="list-unstyled m-0">
-                                <li>
-                                    <a href="#"><i class="fa-solid fa-chevron-left"></i></a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="active">
-                                    <a href="#"><i class="fa-solid fa-chevron-right"></i></a>
-                                </li>
-                            </ul>
+                            @if ($product_accessories->lastPage() > 1)
+                                <ul class="list-unstyled m-0">
+                                    @if ($product_accessories->onFirstPage())
+                                        <li>
+                                            <a href=""><i class="fa-solid fa-chevron-left"></i></a>
+                                        </li>
+                                        @for ($i = 1; $i <= $product_accessories->lastPage(); $i++)
+                                            <li class="{{ $i == $product_accessories->currentPage() ? 'active' : '' }}">
+                                                <a href="{{ $product_accessories->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
+                                        <li class="active">
+                                            <a href="{{ $product_accessories->nextPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-right"></i></a>
+                                        </li>
+                                    @elseif ($product_accessories->HasmorePages())
+                                        <li class="active">
+                                            <a href="{{ $product_accessories->previousPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-left"></i></a>
+                                        </li>
+                                        @for ($i = 1; $i <= $product_accessories->lastPage(); $i++)
+                                            <li class="{{ $i == $product_accessories->currentPage() ? 'active' : '' }}">
+                                                <a href="{{ $product_accessories->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
+                                        <li class="active">
+                                            <a href="{{ $product_accessories->nextPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-right"></i></a>
+                                        </li>
+                                    @else
+                                        <li class="active">
+                                            <a href="{{ $product_accessories->previousPageUrl() }}"><i
+                                                    class="fa-solid fa-chevron-left"></i></a>
+                                        </li>
+                                        @for ($i = 1; $i <= $product_accessories->lastPage(); $i++)
+                                            <li class="{{ $i == $product_accessories->currentPage() ? 'active' : '' }}">
+                                                <a href="{{ $product_accessories->url($i) }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
+                                        <li>
+                                            <a href=""><i class="fa-solid fa-chevron-right"></i></a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -305,19 +339,30 @@
     @if ($product_accessories->isNotEmpty())
         <script>
             $(document).ready(function() {
-                function GetProductSizes(Id) {
+                // default product selected
+                var defaultProductId = "{{ $product_accessories->first()->id }}";
+                var defaultValue = "{{ $product_accessories->first()->slug }}";
+                var productprice = "{{ $product_accessories->first()->price }}";
+                GetProductSizes(defaultProductId, productprice);
+                $('#product_select').val(defaultValue);
+
+                // getting size and  price of product
+                function GetProductSizes(Id, productprice) {
                     $.ajax({
-                        url: '/product/' + Id + '/sizes',
+                        url: "{{ url('/accessories/sizes') }}" + "/" + Id,
                         type: 'GET',
                         success: function(data) {
                             var sizeSelect = $('#select_size');
+                            var selectsizediv = $('#select_size_div');
                             if (data.length > 0) {
-                                sizeSelect.show();
+                                selectsizediv.show();
                                 sizeSelect.empty();
                                 var price = parseFloat(data[0].price);
                                 var sizeType = data[0].size_type;
                                 if (sizeType == 'Custom') {
                                     $('#size_unit_div').hide();
+                                } else {
+                                    $('#size_unit_div').show();
                                 }
                                 var qty = parseFloat($('#product_qty').val());
                                 $('#product_price').val(price * qty);
@@ -340,29 +385,40 @@
                                     }
                                 });
                             } else {
-                                sizeSelect.hide();
+                                $('#size_unit_div').hide();
+                                selectsizediv.hide();
+                                var qty = parseFloat($('#product_qty').val());
+                                $('#product_price').val(parseFloat(productprice) * qty);
+                                $('#size_price').text('$' + parseFloat(productprice) * qty);
+                                $('#size_price').attr('data-price', parseFloat(productprice) * qty);
+                                $('#main_price').text('$' + (parseFloat(productprice) + 10) * qty);
                             }
                         },
                     });
                 }
 
+                // on select different product 
                 $('#product_select').on('change', function() {
-                    var Id = $(this).val();
-                    var selectedOption = this.options[this.selectedIndex];
+                    var selectedOption = $(this).find('option:selected');
+                    var productPrice = selectedOption.data('price');
+                    var Id = selectedOption.data('id');
                     $("#size_unit option").prop("selected", function() {
                         return this.defaultSelected;
                     });
-                    GetProductSizes(Id);
+                    GetProductSizes(Id, productPrice);
                 });
 
+                // on change product quantity
                 $('#product_qty').on('change', function() {
                     var value = $(this).val();
                     if (value < 1 || value > 999) {
                         value = 1;
                         $('#product_qty').val(1);
                     }
-                    var sizeSelect = $('#select_size');
-                    if (sizeSelect.length > 0) {
+                    var sizeSelect = $('#select_size').value;
+                    console.log(sizeSelect);
+                    if (sizeSelect) {
+                        console.log("ifpart");
                         var selectedOption = sizeSelect.find('option:selected');
                         var selectedprice = parseFloat(selectedOption.data('price'));
                         var newPrice = parseFloat(selectedprice) * parseFloat(value);
@@ -371,7 +427,9 @@
                         $('#size_price').attr('data-price', newPrice);
                         $('#main_price').text('$' + (newPrice + 10));
                     } else {
-                        var price = parseFloat("{{ $product->price }}");
+                        var selectproduct = $('#product_select');
+                        var selectedOption = selectproduct.find(':selected');
+                        var price = selectedOption.data('price');
                         console.log(price);
                         var newPrice = parseFloat(price) * parseFloat(value);
                         $('#product_price').val(newPrice);
@@ -381,16 +439,20 @@
                     }
                 });
 
+                // on changing size unit 
                 $('#size_unit').on('change', function() {
                     var unit_value = $(this).val();
-                    var productID = $('#product_select').val();
+                    var productID = $('#product_select');
+                    var selectedOption = productID.find('option:selected');
+                    var ID = selectedOption.data('id');
                     var selectedSize = $('#select_size').val();
-                    updateSize(productID, unit_value, selectedSize);
+                    updateSize(ID, unit_value, selectedSize);
                 });
 
+                // updating size on changing unit 
                 function updateSize(id, value, selectedSize) {
                     $.ajax({
-                        url: '/product/' + id + '/sizes',
+                        url: "{{ url('/accessories/sizes') }}" + "/" + id,
                         type: 'GET',
                         success: function(data) {
                             var sizeSelect = $('#select_size');
@@ -419,7 +481,6 @@
                                     unit_value = 1;
                                 }
                                 $.each(data, function(index, size) {
-
                                     if (size.size_type == 'wh' || size.size_type == 'DH') {
                                         if (selectedSize == size.size_value) {
                                             size_values = size.size_value.split('X');
@@ -466,10 +527,10 @@
                     });
                 }
 
+                // on selecting the size 
                 $('#select_size').on('change', function() {
                     var selectedOption = this.options[this.selectedIndex];
                     var selectedprice = selectedOption.getAttribute('data-price');
-
                     var qty = $('#product_qty').val();
                     var price = parseFloat(selectedprice) * parseFloat(qty);
                     $('#size_price').text('$' + price);
@@ -477,9 +538,49 @@
                     $('#product_price').val(price);
                 });
 
-                var defaultProductId = "{{ $product_accessories->first()->id }}";
-                GetProductSizes(defaultProductId);
-                $('#product_select').val(defaultProductId);
+                //::::::::: Applying Filters ::::::::::::::::::::://
+                $('#print_type').on('change', function() {
+                    applyFilters();
+                });
+
+                $('.productType').on('change', function() {
+                    applyFilters();
+                });
+
+                function applyFilters() {
+                    var selectedServices = $('.productType:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var printType = $('#print_type').is(':checked');
+                    var printTypevalue = $('#print_type').val();
+                    $('.product-div').each(function() {
+                        var productType = $(this).data('producttype');
+                        var productprint = $(this).data('printtype');
+                        if (productType || productprint) {
+                            var showproduct =
+                                (selectedServices.length === 0 || selectedServices.some(service =>
+                                    productType.includes(service))) &&
+                                (!printType || productprint.includes(printTypevalue));
+
+                            $(this).toggle(showproduct);
+                        }
+                    });
+                }
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+                //:::::::::::: generate Url :::::::::::::://
+                $('#buy_now').on('click', function() {
+                    var myform = $('#search_product');
+                    var formData = myform.serialize();
+                    var params = new URLSearchParams(formData);
+                    var productSlug = params.get('product_slug');
+                    var size = params.get('product_size');
+                    var sizeUnit = params.get('size_unit');
+                    var quantity = params.get('quantity');
+                    var url = "{{ url('/accessories') }}" + "/" + encodeURIComponent(productSlug) + "?size=" +
+                        size + "&sizeUnit=" + sizeUnit + "&quantity=" + quantity;
+                    window.location.href = url;
+                });
             });
         </script>
     @endif

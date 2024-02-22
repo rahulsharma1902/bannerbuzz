@@ -66,6 +66,7 @@ class BlogController extends Controller
         return view('admin.blogs.add_blog', compact('blog', 'blog_categories'));
     }
 
+    //::::::::::::::: add or update blog ::::::::::::::::::://
     public function addBlogProcc(Request $request)
     {
         if ($request->id) {
@@ -94,8 +95,6 @@ class BlogController extends Controller
                     ]
                 );
             }
-
-
             $blog = Blogs::find($request->id);
             if ($blog) {
                 $blog->title = $request->title;
@@ -106,7 +105,7 @@ class BlogController extends Controller
                 $blog->description = $request->description;
                 if ($request->hasFile('image')) {
                     $image = $request->image;
-                    $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                    $filename = 'blog' .time() . '.' . $image->extension();
                     $image->move(public_path() . '/blog_Images/', $filename);
                     $blog->image = $filename;
                 }
@@ -145,7 +144,7 @@ class BlogController extends Controller
             $blog->description = $request->description;
             if ($request->hasFile('image')) {
                 $image = $request->image;
-                $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                $filename = 'blog'  . time() . '.' . $image->extension();
                 $image->move(public_path() . '/blog_Images/', $filename);
                 $blog->image = $filename;
             }
@@ -153,7 +152,6 @@ class BlogController extends Controller
         $blog->save();
         return redirect()->back()->with('success', 'blog added successfully');
     }
-
 
     public function removeBlog($id)
     {

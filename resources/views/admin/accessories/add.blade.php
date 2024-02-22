@@ -247,7 +247,8 @@
                                     More variation</a>
                             </div>
                         @endif
-                        <div class="col-lg-10 p-3">
+                        <div class="d-flex">
+                        <div class="col-lg-6 p-3">
                             <div class="form-group">
                                 <label class="form-label" for="description">Product Description</label>
                                 <div class="form-control-wrap">
@@ -255,6 +256,16 @@
                                         placeholder="About Product.....">{{ $product->description ?? '' }}</textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6 p-3">
+                            <div class="form-group">
+                                <label class="form-label" for="description">Product specification</label>
+                                <div class="form-control-wrap">
+                                    <textarea name="product_specification" class="description form-control" id="product_specification"
+                                        placeholder="About Product.....">{{ $product->addtional_info ?? '' }}</textarea>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                         @if ($product !== null)
                             <div class="card card-bordered card-preview d-none" id="addnewcard">
@@ -268,23 +279,25 @@
                                             <div class="col-sm-12">
                                                 <div id="parent_div" class="col-lg-12 p-1 ">
                                                     @if ($product->variations)
+                                                    <?php $count = 0 ?>
                                                         @foreach ($product->variations as $variation)
                                                             <div id="container_div"
                                                                 class="container_div form-group col-lg-12 ">
-                                                                <input type="hidden" name="product_variation_id"
-                                                                    value="{{ $variation->id ?? '' }}">
+                                                                <input type="hidden" name="var[{{ $count }}][id]" value="{{ $variation->id }}">
+                                                                {{-- <input type="hidden" name="product_variation_id"
+                                                                    value="{{ $variation->id ?? '' }}"> --}}
                                                                 <h6>Variation {{ $loop->iteration }} </h6>
                                                                 <div class="col-lg-12 d-flex">
                                                                     <div class="col-lg-3 p-2">
                                                                         <div class="form-group">
                                                                             <div class="form-control-wrap">
                                                                                 <input type="text"
-                                                                                    name="variation_name[]"
+                                                                                    name="var[{{ $count }}][name]"
                                                                                     class="variation_name form-control"
                                                                                     id="variation_name"
                                                                                     placeholder="Enter Name"
                                                                                     value="{{ $variation->name ?? '' }}">
-                                                                                    <input type="hidden" name="var_slug[]" class="var_slug" value="{{ $variation->var_slug ?? '' }}">
+                                                                                    <input type="hidden" name="var[{{ $count }}][var_slug]" class="var_slug" value="{{ $variation->var_slug ?? '' }}">
                                                                                 <div class="error-message"
                                                                                     style="color: red; display: none;">
                                                                                     Duplicate
@@ -296,7 +309,7 @@
                                                                     <div class="col-lg-3 p-2">
                                                                         <div class="form-group">
                                                                             <div class="form-control-wrap">
-                                                                                <select name="entity_id[]"
+                                                                                <select name="var[{{ $count }}][entity]"
                                                                                     class="entity_id form-control"
                                                                                     id="entity_id">
                                                                                     @if ($entities)
@@ -379,6 +392,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <?php $count++ ?>
                                                         @endforeach
                                                     @endif
                                                 </div>
