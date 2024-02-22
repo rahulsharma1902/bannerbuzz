@@ -42,7 +42,7 @@ class ShopController extends Controller
     }
 
     //:::::::::::::::::: Product Details ::::::::::::::::::::://
-    public function ProductDetails(Request $request,$slug)
+    public function ProductDetails(Request $request, $slug)
     {
 
         $product = Product::where('slug', $slug)->first();
@@ -51,7 +51,7 @@ class ShopController extends Controller
             $selected_size_unit = $request->input('sizeUnit');
             $selected_qty = $request->input('quantity');
             $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
-            return view('front.shop.product_details', compact('product', 'related_product','selected_size','selected_size_unit','selected_qty'));
+            return view('front.shop.product_details', compact('product', 'related_product', 'selected_size', 'selected_size_unit', 'selected_qty'));
         } else {
             return redirect()->back();
         }
@@ -67,7 +67,12 @@ class ShopController extends Controller
 
     public function getCategoryProducts($category_id)
     {
-        $products = Product::where('category_id', $category_id)->get();
+        $category = ProductCategories::with('products', 'subCategories.products')->find($category_id);
+        $products = $category->products;
+
+        foreach ($category->subCategories as $subCategory) {
+            $products = $products->merge($subCategory->products);
+        }
         return response()->json($products);
     }
 
@@ -86,7 +91,7 @@ class ShopController extends Controller
         return view('front.shop.accessories', compact('product_accessoriesType', 'product_accessories'));
     }
 
-    public function AccessoriesDetails(Request $request,$slug)
+    public function AccessoriesDetails(Request $request, $slug)
     {
         $product = ProductAccessories::where('slug', $slug)->first();
         if ($product) {
@@ -94,7 +99,7 @@ class ShopController extends Controller
             $selected_size_unit = $request->input('sizeUnit');
             $selected_qty = $request->input('quantity');
             $related_product = ProductAccessories::where('accessories_type', $product->accessories_type)->where('id', '!=', $product->id)->get();
-            return view('front.shop.accessories_details', compact('product', 'related_product','selected_size','selected_size_unit','selected_qty'));
+            return view('front.shop.accessories_details', compact('product', 'related_product', 'selected_size', 'selected_size_unit', 'selected_qty'));
         } else {
             return redirect()->back();
         }

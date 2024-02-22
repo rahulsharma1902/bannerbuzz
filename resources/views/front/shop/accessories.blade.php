@@ -538,6 +538,7 @@
                     $('#product_price').val(price);
                 });
 
+                //::::::::: Applying Filters ::::::::::::::::::::://
                 $('#print_type').on('change', function() {
                     applyFilters();
                 });
@@ -565,7 +566,9 @@
                         }
                     });
                 }
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
+                //:::::::::::: generate Url :::::::::::::://
                 $('#buy_now').on('click', function() {
                     var myform = $('#search_product');
                     var formData = myform.serialize();

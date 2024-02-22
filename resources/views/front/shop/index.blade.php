@@ -1,5 +1,28 @@
 @extends('front_layout.master')
 @section('content')
+    @php
+        if ($products->isNotEmpty()) {
+            $width = null;
+            $height = null;
+            foreach ($products as $product) {
+                if ($product->sizes->isNotEmpty()) {
+                    foreach ($product->sizes as $size) {
+                        if ($size->size_type == 'wh' || $size->size_type == 'DH') {
+                            $size = explode('X', $size->size_value);
+                            $width[] = $size[0];
+                            $height[] = $size[1];
+                        }
+                    }
+                }
+            }
+        }
+        if ($width && $height) {
+            $width = collect($width)->unique()->values()->all();
+            $height = collect($height)->unique()->values()->all();
+            sort($width);
+            sort($height);
+        }
+    @endphp
     <section class="banner-sec">
         <div class="container">
             <div class="banner-content">
@@ -64,41 +87,42 @@
             <div class="custom-content" style="background-color: #141414;">
                 <h3>Start Your Order</h3>
                 @if ($allproducts->isNotEmpty())
-                <form id="search_product_form">
-                    <div class="select-box">
-                        <div class="select_wrap">
-                            <select id="product_select" name="product_slug" class="form-select"
-                                aria-label="Default select example">
+                    <form id="search_product_form">
+                        <div class="select-box ">
+                            <div class="select_wrap">
+                                <select id="product_select" name="product_slug" class="form-select"
+                                    aria-label="Default select example">
                                     @foreach ($allproducts as $product)
                                         <option data-price="{{ $product->price }}" data-id="{{ $product->id }}"
                                             value="{{ $product->slug ?? '' }}">
                                             {{ $product->name ?? '' }}</option>
                                     @endforeach
-                            </select>
-                        </div>
-                        <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
-                            class="select_wrap">
-                            <select id="select_size" class="form-select" name="product_size"
-                                aria-label="Default select example">
+                                </select>
+                            </div>
+                            <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
+                                class="select_wrap">
+                                <select id="select_size" class="form-select" name="product_size"
+                                    aria-label="Default select example">
 
-                            </select>
-                        </div>
+                                </select>
+                            </div>
 
-                        <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
-                            id="size_unit_div">
-                            <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
-                                <option selected value="Ft">Ft</option>
-                                <option value="In">In</option>
-                                <option value="Mm">Mm</option>
-                                <option value="Cm">Cm</option>
-                            </select>
+                            <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                                id="size_unit_div">
+                                <select class="form-select" id="size_unit" name="size_unit"
+                                    aria-label="Default select example">
+                                    <option selected value="Ft">Ft</option>
+                                    <option value="In">In</option>
+                                    <option value="Mm">Mm</option>
+                                    <option value="Cm">Cm</option>
+                                </select>
+                            </div>
+                            <div class="select_wrap">
+                                <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                    value="1" class="form-select" aria-label="Default select example">
+                            </div>
                         </div>
-                        <div class="select_wrap">
-                            <input type="number" min="1" max="999" id="product_qty" name="quantity"
-                                value="1" class="form-select" aria-label="Default select example">
-                        </div>
-                    </div>
-                </form>
+                    </form>
                 @endif
                 <div class="shop_size_txt">
                     <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
@@ -131,46 +155,48 @@
                         <h5>Filters</h5>
                         <div class="accordion">
                             @if ($category->subCategories->isNotEmpty())
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Categories
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                           
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Categories
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <ul>
+
                                                 @foreach ($category->subCategories as $sub_category)
                                                     <li><a
                                                             href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
                                                     </li>
                                                 @endforeach
-                                        </ul>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
                             @if ($category->productTypes->isNotEmpty())
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Products Type
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            Products Type
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
                                             @foreach ($category->productTypes as $type)
                                                 <p><input value="{{ $type->slug }}" type="checkbox"
-                                                        name="productType[]" class="productType">{{ $type->name }}</p>
+                                                        name="productType[]"
+                                                        class="productType">&nbsp;{{ $type->name }}</p>
                                             @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingThree">
@@ -184,19 +210,83 @@
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <p><input value="yes" type="checkbox" name="print_type"
-                                                id="print_type">Printed</p>
+                                                id="print_type">&nbsp;Printed</p>
                                     </div>
                                 </div>
                             </div>
+                            @if ($width)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingWidth">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseWidth"
+                                            aria-expanded="false" aria-controls="collapseWidth">
+                                            Width
+                                        </button>
+                                    </h2>
+                                    <div id="collapseWidth" class="accordion-collapse collapse"
+                                        aria-labelledby="headingWidth" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            @foreach ($width as $width)
+                                                <p><input value="{{ $width }}" type="checkbox" name="Width"
+                                                        class="productWidth">&nbsp;{{ $width }}</p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if ($height)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingheight">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseheight"
+                                            aria-expanded="false" aria-controls="collapseheight">
+                                            Height
+                                        </button>
+                                    </h2>
+                                    <div id="collapseheight" class="accordion-collapse collapse"
+                                        aria-labelledby="headingheight" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            @foreach ($height as $height)
+                                                <p><input value="{{ $height }}" type="checkbox"
+                                                        class="productheight" name="height">&nbsp;{{ $height }}
+                                                </p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="shop_rtl_wreap">
                         <div class="shop_rtl busines_slider">
                             @if ($products->isNotEmpty())
+                                <?php $count = 0; ?>
                                 @foreach ($products as $product)
+                                    @php
+                                        $p_width = null;
+                                        $p_height = null;
+                                        if ($product->sizes->isNotEmpty()) {
+                                            foreach ($product->sizes as $size) {
+                                                if ($size->size_type == 'wh' || $size->size_type == 'DH') {
+                                                    $size = explode('X', $size->size_value);
+                                                    $p_width[] = $size[0];
+                                                    $p_height[] = $size[1];
+                                                } 
+                                            }
+                                            if ($p_width && $p_height) {
+                                                $p_width = collect($p_width)->unique()->values()->all();
+                                                $p_height = collect($p_height)->unique()->values()->all();
+                                                sort($p_width);
+                                                sort($p_height);
+                                                $p_width = implode(',', $p_width);
+                                                $p_height = implode(',', $p_height);
+                                            }
+                                        }
+                                    @endphp
                                     <div class="product-div card"
                                         data-productType="{{ $product->productType->slug ?? '' }}"
-                                        data-printtype="{{ $product->is_printed }}">
+                                        data-printtype="{{ $product->is_printed }}"
+                                        @if ($p_width && $p_height) data-width="{{ $p_width }}" data-height="{{ $p_height }}" @else data-width="" data-height="" @endif>
                                         <div class="busines_img">
                                             @foreach (json_decode($product->images) as $index => $image)
                                                 @if ($index == 0)
@@ -223,13 +313,14 @@
                                                 <p>{{ $product->sizes->first()->size_value ?? '' }} Starts at
                                                     <span>£{{ $product->sizes->first()->price ?? '' }}</span>
                                                 </p>
-                                            @else 
-                                            <p>Starts at
-                                                <span>£{{ $product->price ?? '' }}</span>
-                                            </p>
+                                            @else
+                                                <p>Starts at
+                                                    <span>£{{ $product->price ?? '' }}</span>
+                                                </p>
                                             @endif
                                         </div>
                                     </div>
+                                    <?php $count++; ?>
                                 @endforeach
                             @endif
                         </div>
@@ -287,64 +378,32 @@
         <div class="accordion_wrapper p_100 pt-0">
             <div class="container">
                 <div class="accordion" id="accordionExample">
-                    @if($category->FAQs->isNotEmpty())
-                    <?php $count = 0; ?>
-                    @foreach ($category->FAQs as $FAQs )
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingFive">
-                            <button class="accordion-button @if($count != 0) collapsed @endif" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse{{ $count }}" aria-expanded="@if($count == 0) show @else false @endif"  aria-controls="collapse{{ $count }}">
-                               {{$FAQs->title ?? ''}}
-                            </button>
-                        </h2>
-                        <div id="collapse{{ $count }}" class="accordion-collapse collapse @if($count == 0)show @endif" aria-labelledby="heading{{ $count }}"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    {{$FAQs->description ?? ''}}
-                                </p>
+                    @if ($category->FAQs->isNotEmpty())
+                        <?php $count = 0; ?>
+                        @foreach ($category->FAQs as $FAQs)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button @if ($count != 0) collapsed @endif"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $count }}"
+                                        aria-expanded="@if ($count == 0) show @else false @endif"
+                                        aria-controls="collapse{{ $count }}">
+                                        {{ $FAQs->title ?? '' }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $count }}"
+                                    class="accordion-collapse collapse @if ($count == 0) show @endif"
+                                    aria-labelledby="heading{{ $count }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p>
+                                            {{ $FAQs->description ?? '' }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <?php $count++ ?>
-                    @endforeach
+                            <?php $count++; ?>
+                        @endforeach
                     @endif
-                    {{-- <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingSix">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                Perfectly Tailored Custom Vinyl Banners to Meet Your Requirements
-                            </button>
-                        </h2>
-                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingSeven">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                Cost-Effective, Durable & Portable Vinyl Banners for Indoor & Outdoor Purposes
-                            </button>
-                        </h2>
-                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -551,6 +610,7 @@
                     $('#product_price').val(price);
                 });
 
+                //::::::::::::: applying filters ::::::::::::::::::::::://
                 $('#print_type').on('change', function() {
                     applyFilters();
                 });
@@ -559,8 +619,21 @@
                     applyFilters();
                 });
 
+                $('.productWidth').on('change', function() {
+                    applyFilters();
+                });
+                $('.productheight').on('change', function() {
+                    applyFilters();
+                });
+
                 function applyFilters() {
-                    var selectedServices = $('.productType:checked').map(function() {
+                    var selectedType = $('.productType:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var selectedWidth = $('.productWidth:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var selectedHeight = $('.productheight:checked').map(function() {
                         return $(this).val();
                     }).get();
                     var printType = $('#print_type').is(':checked');
@@ -568,17 +641,24 @@
                     $('.product-div').each(function() {
                         var productType = $(this).data('producttype');
                         var productprint = $(this).data('printtype');
+                        var productWidth = $(this).data('width').split(',');
+                        var productHeight = $(this).data('height').split(',');
                         if (productType || productprint) {
                             var showproduct =
-                                (selectedServices.length === 0 || selectedServices.some(service =>
+                                (selectedType.length === 0 || selectedType.some(service =>
                                     productType.includes(service))) &&
-                                (!printType || productprint.includes(printTypevalue));
-
+                                (!printType || productprint.includes(printTypevalue)) &&
+                                (selectedWidth.length === 0 || selectedWidth.some(width =>
+                                    productWidth.includes(width))) &&
+                                (selectedHeight.length === 0 || selectedHeight.some(height =>
+                                    productHeight.includes(height)));
                             $(this).toggle(showproduct);
                         }
                     });
                 }
+                //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
+                //::::::::::::::::: buy now section :::::::::::::::::::::::://
                 $('#buy_now').on('click', function() {
                     var myform = $('#search_product_form');
                     var formData = myform.serialize();
@@ -588,7 +668,8 @@
                     var size = params.get('product_size');
                     var sizeUnit = params.get('size_unit');
                     var quantity = params.get('quantity');
-                    var url = "{{ url('/details') }}" + "/" + encodeURIComponent(productSlug) + "?size="+size +"&sizeUnit="+sizeUnit +"&quantity="+quantity;
+                    var url = "{{ url('/details') }}" + "/" + encodeURIComponent(productSlug) + "?size=" +
+                        size + "&sizeUnit=" + sizeUnit + "&quantity=" + quantity;
                     window.location.href = url;
                 });
             });

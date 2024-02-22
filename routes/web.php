@@ -183,8 +183,8 @@ Route::get('accessories/sizes/{id}',[ShopController::class,'getaccessoriessizes'
 Route::post('send-mail',[ShopController::class,'sendMail']);
 
 // fallback route 
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
-});
+// Route::fallback(function () {
+//     return response()->view('errors.404', [], 404);
+// });
 
 

@@ -266,6 +266,8 @@
         parentDiv.parentNode.removeChild(parentDiv);
     }
 
+
+//::::::::::::: Adding FAQs fields ::::::::::::::::::::::::://
     $(document).ready(function() {
         $('#add-FAQs').click(function() {
             var newFaqHtml = `
