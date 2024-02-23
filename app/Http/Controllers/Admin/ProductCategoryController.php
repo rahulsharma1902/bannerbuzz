@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryFAQ;
 use App\Models\ProductCategories;
 use App\Models\ProductType;
 use App\Models\Product;
@@ -14,15 +15,15 @@ class ProductCategoryController extends Controller
     {
         $category = ProductCategories::where('slug', $slug)->first();
         if ($category) {
-            if($category->parent_category === null){
-               $categories = ProductCategories::where('slug', '!=', $slug)->whereNull('parent_category')->get();
+            if ($category->parent_category === null) {
+                $categories = ProductCategories::where('slug', '!=', $slug)->whereNull('parent_category')->get();
             } else {
-               $categories = ProductCategories::where('slug', '!=', $slug)->get();
+                $categories = ProductCategories::where('slug', '!=', $slug)->get();
             }
         } else {
             $categories = ProductCategories::all();
         }
-       
+
         return view('admin.productCategory.index', compact('categories', 'category'));
     }
 
@@ -57,7 +58,7 @@ class ProductCategoryController extends Controller
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                        $filename = $request->slug . time(). '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
                     }
@@ -70,6 +71,37 @@ class ProductCategoryController extends Controller
                 $category->images = json_encode($images);
             }
             $category->save();
+
+            if ($category && $request->remove_FAQ_id !== null) {
+                    $Data_id = explode(',', $request->remove_FAQ_id);
+                foreach ($Data_id as $id) {
+                    $data = CategoryFAQ::find($id);
+                    if ($data) {
+                        $data->delete();
+                    }
+                }
+            }
+            if ($request->faqs) {
+                foreach ($request->faqs as $faqData) {
+                    $faq = CategoryFAQ::findOrFail($faqData['id']);
+                    $faq->title = $faqData['title'];
+                    $faq->description = $faqData['description'];
+                    $faq->save();
+                }
+            }
+            // Add new FAQs
+            if ($request->new_title) {
+                for ($i = 0; $i < count($request->new_title); $i++) {
+                    if ($request->new_title[$i] != null && $request->new_description[$i] != null) {
+                        $cat_faq = new CategoryFAQ();
+                        $cat_faq->category_id = $category->id;
+                        $cat_faq->title = $request->new_title[$i];
+                        $cat_faq->description = $request->new_description[$i];
+                        $cat_faq->save();
+                    }
+                }
+            }
+
 
             return redirect()->back()->with('success', 'Successfully Updated category');
         } else {
@@ -98,7 +130,7 @@ class ProductCategoryController extends Controller
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->title . rand(0, 100) . '.' . $image->extension();
+                        $filename = $request->slug . time() . '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
                     }
@@ -106,6 +138,15 @@ class ProductCategoryController extends Controller
             }
             $category->images = json_encode($images);
             $category->save();
+            for ($i = 0; $i < count($request->new_title); $i++) {
+                if ($request->new_title[$i] != null && $request->new_description[$i] != null) {
+                    $cat_faq = new CategoryFAQ();
+                    $cat_faq->category_id = $category->id;
+                    $cat_faq->title = $request->new_title[$i];
+                    $cat_faq->description = $request->new_description[$i];
+                    $cat_faq->save();
+                }
+            }
 
             return redirect()->back()->with('success', 'Successfully Added category');
         }
@@ -118,8 +159,28 @@ class ProductCategoryController extends Controller
 
             if ($category) {
                 $childCategories = ProductCategories::where('parent_category', $category->id)->get();
-                foreach ($childCategories as $childCategory) {
-                    $childCategory->update(['parent_category' => null]);
+                if ($childCategories) {
+                    foreach ($childCategories as $childCategory) {
+                        $childCategory->update(['parent_category' => null]);
+                    }
+                }
+                $products = Product::where('category_id',$category->id)->get();
+                if($products){
+                    foreach($products as $product){
+                        $product->delete();
+                    }
+                }
+                $productType = ProductType::where('category_id',$category->id)->get();
+                if($productType){
+                    foreach($productType as $type){
+                        $type->delete();
+                    }
+                }
+                $FAQs = CategoryFAQ::where('category_id', $category->id)->get();
+                if ($FAQs) {
+                    foreach ($FAQs as $f) {
+                        $f->delete();
+                    }
                 }
                 $category->delete();
                 return redirect()->back()->with('success', 'Category has been removed');
@@ -167,10 +228,10 @@ class ProductCategoryController extends Controller
     {
         $product_type = ProductType::find($id);
         if ($product_type) {
-            $products = Product::where('product_type_id',$id)->get();
-            if($products){
-                foreach($products as $product){
-                    $product->update(['product_type_id'=> null]);
+            $products = Product::where('product_type_id', $id)->get();
+            if ($products) {
+                foreach ($products as $product) {
+                    $product->update(['product_type_id' => null]);
                 }
             }
             $product_type->delete();

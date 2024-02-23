@@ -47,7 +47,7 @@
                     <p class="m-0">Free Express shipping for orders over £99.00</p>
                     <ul>
                         <li>
-                            <a href="javascript:void(0)">
+                            <a href="{{ url('order-tracking') }}">
                                 <img src="{{ asset('front/img/track.svg') }}" alt="" />
                                 <span>Order Tracking</span>
                             </a>
@@ -98,7 +98,7 @@
                         <span class="bars bar2 navbar-toggler-icon"></span>
                         <span class="bars bar3 navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="{{ asset('front/img/clogo.svg') }}"
+                    <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('front/img/clogo.svg') }}"
                             alt="" /></a>
                     <div class="search_wrapper">
                         <div class="dropdown">
@@ -255,6 +255,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('contact-us') }}">Contact Us</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('accessories') }}">Accessories</a>
+                        </li>
                     </ul>
                     <div class="navbar_nav_mb">
                         <div class="navbar_text_mb">
@@ -356,12 +359,12 @@
                         <div class="footer_contnt">
                             <h6>Information</h6>
                             <ul>
-                                <li><a href="#">Order Tracking</a></li>
-                                <li><a href="#">Customer Reviews</a></li>
-                                <li><a href="#">Special Offers</a></li>
+                                <li><a href="{{ url('order-tracking') }}">Order Tracking</a></li>
+                                <li><a href="{{ url('customer-reviews') }}">Customer Reviews</a></li>
+                                <li><a href="{{ url('special-offers') }}">Special Offers</a></li>
                                 <li><a href="#">Sitemap</a></li>
                                 <li><a href="{{ url('/blogs') }}">Blog</a></li>
-                                <li><a href="#">Safety Signs & Banners</a></li>
+                                {{-- <li><a href="#">Safety Signs & Banners</a></li> --}}
                             </ul>
                         </div>
                         <div class="footer_contnt">
@@ -370,7 +373,7 @@
                                 <li><a href="{{ url('about-us') }}">About Us</a></li>
                                 <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                 <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Use</a></li>
+                                <li><a href="{{ url('privacy-policy') }}">Terms of Use</a></li>
                             </ul>
                         </div>
                         <div class="footer_contnt">
@@ -437,34 +440,36 @@
 <script src="{{ asset('front/js/script.js') }}"></script>
 <script>
     // counter
-    var counted = 0;
-    $(window).scroll(function() {
+//     var counted = 0;
+//     $(document).ready(function(){
+//     $(window).scroll(function() {
 
-        var oTop = $('.counter').offset().top - window.innerHeight;
-        if (counted == 0 && $(window).scrollTop() > oTop) {
-            $('.count').each(function() {
-                var $this = $(this),
-                    countTo = $this.attr('data-count');
-                $({
-                    countNum: $this.text()
-                }).animate({
-                    countNum: countTo
-                }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function() {
-                        $this.text(Math.floor(this.countNum));
-                    },
-                    complete: function() {
-                        $this.text(this.countNum);
-                    }
+//         var oTop = $('.counter').offset().top - window.innerHeight;
+//         if (counted == 0 && $(window).scrollTop() > oTop) {
+//             $('.count').each(function() {
+//                 var $this = $(this),
+//                     countTo = $this.attr('data-count');
+//                 $({
+//                     countNum: $this.text()
+//                 }).animate({
+//                     countNum: countTo
+//                 }, {
+//                     duration: 2000,
+//                     easing: 'swing',
+//                     step: function() {
+//                         $this.text(Math.floor(this.countNum));
+//                     },
+//                     complete: function() {
+//                         $this.text(this.countNum);
+//                     }
 
-                });
-            });
-            counted = 1;
-        }
+//                 });
+//             });
+//             counted = 1;
+//         }
 
-    });
+//     });
+// });
     // brand-slider
     $(document).ready(function() {
         $('.brand-slider').slick({

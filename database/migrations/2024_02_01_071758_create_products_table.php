@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('price')->nullable();
             $table->string('is_printed')->nullable();
             $table->text('quantity')->default('10000');
-            $table->json('addtional_info')->nullable();
+            $table->text('addtional_info')->nullable();
             $table->integer('status')->default(true);
             $table->timestamps();
         });
