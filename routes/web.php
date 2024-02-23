@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AccessoriesController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Front\ShopController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Front\ViewController;
+use App\Models\BlogCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,11 +140,37 @@ Route::get('admin-dashboard/accessories-type',[AccessoriesController::class,'Acc
 Route::post('admin-dashboard/accessories-type-addProcc',[AccessoriesController::class,'AddAccessorieType']);
 Route::get('admin-dashboard/remove-accessorie-type/{id}',[AccessoriesController::class,'removeType']);
 
+
+// Blog Category routes BlogController
+Route::get('admin-dashboard/blog-category',[BlogController::class,'BlogCategoryPage']);
+Route::post('admin-dashboard/add-blog-category',[BlogController::class,'BlogCategoryAddProcc']);
+Route::get('admin-dashboard/remove-blog-category/{id}',[BlogController::class,'removeBlogCategory']);
+
+// Blogs Routes BlogController
+Route::get('admin-dashboard/blogs',[BlogController::class,'index']);
+Route::get('admin-dashboard/add-blog/{slug?}',[BlogController::class,'addBlog']);
+Route::post('admin-dashboard/add-blog-procc',[BlogController::class,'addBlogProcc']);
+Route::get('admin-dashboard/remove-blog/{id}',[BlogController::class,'removeBlog']);
 });
 
 // FRONT LAYOUT
 
 // Route::get('/',[CustomizeController::class,'index']);
+
+// web view Routes ViewController
 Route::get('/',[ViewController::class,'index']);
-Route::get('/shop',[ViewController::class,'shop']);
+Route::get('about-us',[ViewController::class,'aboutUs']);
+Route::get('contact-us',[ViewController::class,'contactUs']);
+Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
+Route::get('blogs/{slug?}',[ViewController::class,'blogs']);
+Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
+
+// products and shop controller ShopController
+Route::get('shop/{slug}',[ShopController::class,'shop']);
+Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
+Route::get('categories/children/{parent_id}', [ShopController::class,'getChildCategories']);
+Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
+Route::get('product/sizes/{id}',[ShopController::class,'getsizes']);
+Route::post('custom-product',[ShopController::class,'CustomProduct']);
+
 

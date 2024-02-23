@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('product_id');
             $table->string('size_type')->nullable();
             $table->text('size_value')->nullable();
-            $table->string('size_unit')->default('feet');
+            $table->string('size_unit')->default('null');
             $table->text('price')->nullable();
             $table->text('quantity')->nullable();
             $table->integer('status')->default(true);

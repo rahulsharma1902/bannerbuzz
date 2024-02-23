@@ -11,7 +11,6 @@ use Hash;
 class AdminDashController extends Controller
 {
     public function index(){
-        
         return view('admin.dashboard.index');
     }
 
@@ -63,5 +62,4 @@ class AdminDashController extends Controller
 
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
     }
-   
 }

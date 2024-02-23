@@ -30,8 +30,8 @@
             referrerpolicy="no-referrer"
         />
 
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/responsive.css" />
+        <link rel="stylesheet" href="{{ url('/coustomizer/css/style.css') }}" />
+        <link rel="stylesheet" href="{{ url('/coustomizer/css/responsive.css') }}" />
         <title>Design online</title>
     </head>
     <body>
@@ -41,7 +41,7 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="./img/new_create_logo.png" class="img-fluid" alt="" /></a>
+                    <a class="navbar-brand" href="#"><img src="{{ asset('coustomizer/img/new_create_logo.png') ?? '' }}" class="img-fluid" alt="" /></a>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <!--   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -56,14 +56,14 @@
                         </ul> -->
                         <div class="button-group">
                             <button data-title="Undo" data-placement="bottom" class="spride-svg btnundo is-disabled bottom" id="undo" disabled="disabled" aria-label="Undo">
-                                <span class="menu-text"><img src="./img/undo.png" class="img-fluid" alt="" /></span>
+                                <span class="menu-text"><img src="{{ asset('coustomizer/img/undo.png') ?? '' }}" class="img-fluid" alt="" /></span>
                             </button>
                             <button data-title="Redo" data-placement="bottom" class="spride-svg btnredo is-disabled bottom" id="redo" disabled="disabled" aria-label="Redo">
-                                <span class="menu-text"><img src="./img/redo.png" class="img-fluid" alt="" /></span>
+                                <span class="menu-text"><img src="{{ asset('coustomizer/img/redo.png') ?? '' }}" class="img-fluid" alt="" /></span>
                             </button>
                             <div class="button-group trash-box">
                                 <button id="trash" data-title="Trash" data-placement="bottom" class="spride-svg btntrash bottom" aria-label="Trash">
-                                    <span class="menu-text"><img src="./img/delete-img.png" class="img-fluid" alt="" /></span>
+                                    <span class="menu-text"><img src="{{ asset('coustomizer/img/delete-img.png') ?? '' }}" class="img-fluid" alt="" /></span>
                                 </button>
                             </div>
                         </div>
@@ -93,6 +93,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-        <script src="js/script.js"></script>
+        <script src="{{ url('/coustomizer/js/script.js') }}"></script>
     </body>
 </html>

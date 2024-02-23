@@ -12,7 +12,7 @@
     <!-- Fav Icon  -->
     <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
     <!-- Page Title  -->
-    <title>Bannerbuzz || Admin Dashboard</title>
+    <title>Cre*ive || Admin Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link rel="stylesheet" href="{{ asset('admin-theme/coustam.css?ver=3.1.2') }}">
@@ -211,6 +211,29 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('admin-dashboard/accessories-type') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text"> Accessories Type
+                                                </span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Blogs </span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/blog-category') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Blog
+                                                    categories</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/blogs') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text"> Blogs list
+                                                    </span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/add-blog') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text"> Add Blog
                                                 </span></a>
                                         </li>
                                     </ul>
