@@ -1,9 +1,9 @@
 @extends('front_layout.master')
 @section('content')
     @php
+        $width = null;
+        $height = null;
         if ($products->isNotEmpty()) {
-            $width = null;
-            $height = null;
             foreach ($products as $product) {
                 if ($product->sizes->isNotEmpty()) {
                     foreach ($product->sizes as $size) {
@@ -271,7 +271,7 @@
                                                     $size = explode('X', $size->size_value);
                                                     $p_width[] = $size[0];
                                                     $p_height[] = $size[1];
-                                                } 
+                                                }
                                             }
                                             if ($p_width && $p_height) {
                                                 $p_width = collect($p_width)->unique()->values()->all();

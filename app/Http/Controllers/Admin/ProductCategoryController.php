@@ -164,6 +164,18 @@ class ProductCategoryController extends Controller
                         $childCategory->update(['parent_category' => null]);
                     }
                 }
+                $products = Product::where('category_id',$category->id)->get();
+                if($products){
+                    foreach($products as $product){
+                        $product->delete();
+                    }
+                }
+                $productType = ProductType::where('category_id',$category->id)->get();
+                if($productType){
+                    foreach($productType as $type){
+                        $type->delete();
+                    }
+                }
                 $FAQs = CategoryFAQ::where('category_id', $category->id)->get();
                 if ($FAQs) {
                     foreach ($FAQs as $f) {
