@@ -13,7 +13,7 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col">Sno.</th>
                         <th class="nk-tb-col"><span class="sub-text"> Name</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Slug</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Product Type</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">category</span></th>
                         <th class="tb-tnx-action">
                             <span>Action</span>
@@ -40,7 +40,7 @@
                             </div>
                         </td>
                         <td class="nk-tb-col tb-col-mb">
-                            <span class="tb-amount">{{ $product->slug ?? '' }}</span>
+                            <span class="tb-amount">{{ $product->productType->name ?? '' }}</span>
                         </td>
 
                         <td class="nk-tb-col tb-col-md">

@@ -77,6 +77,12 @@ class AccessoriesController extends Controller
     {
         $accessorie_type = AccessoriesType::find($id);
         if ($accessorie_type) {
+            $products = ProductAccessories::where('accessories_type', $accessorie_type->id)->get();
+            if ($products) {
+                foreach ($products as $product) {
+                    $product->update(['accessories_type' => null]);
+                }
+            }
             $accessorie_type->delete();
             return redirect()->back()->with('success', 'Accessorie Type deleted successfully');
         } else {
@@ -121,7 +127,7 @@ class AccessoriesController extends Controller
             if ($request->images !== null) {           // new images 
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug. time()  . '.' . $image->extension();
+                        $filename = $request->slug . time() . '.' . $image->extension();
                         $image->move(public_path() . '/accessories_Images/', $filename);
                         $images[] = $filename;
                     }
@@ -227,7 +233,7 @@ class AccessoriesController extends Controller
                                 $variation_data[$i]->description = $request->$var_description[$i];
                                 if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
                                     $image = $request->file($var_images)[$i];
-                                    $filename = $request->$var_value[$i]. time() . '.' . $image->extension();
+                                    $filename = $request->$var_value[$i] . time() . '.' . $image->extension();
                                     $image->move(public_path() . '/accessories_Images/', $filename);
                                     $variation_data[$i]->image = $filename;
                                 }
@@ -241,7 +247,7 @@ class AccessoriesController extends Controller
                                 if (isset($request->$var_images[$i])) {
                                     if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
                                         $image = $request->file($var_images)[$i];
-                                        $filename = $request->$var_value[$i]  .time() . '.' . $image->extension();
+                                        $filename = $request->$var_value[$i] . time() . '.' . $image->extension();
                                         $image->move(public_path() . '/accessories_Images/', $filename);
                                         $var_data->image = $filename;
                                     }
@@ -280,7 +286,7 @@ class AccessoriesController extends Controller
                                     if (isset($request->$var_images[$i])) {
                                         if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
                                             $image = $request->file($var_images)[$i];
-                                            $filename = $request->$value[$i]  .time() . '.' . $image->extension();
+                                            $filename = $request->$value[$i] . time() . '.' . $image->extension();
                                             $image->move(public_path() . '/accessories_Images/', $filename);
                                             $var_data->image = $filename;
                                         }
@@ -318,7 +324,7 @@ class AccessoriesController extends Controller
             if ($request->images !== null) {
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug  . time() .'.' . $image->extension();
+                        $filename = $request->slug . time() . '.' . $image->extension();
                         $image->move(public_path() . '/accessories_Images/', $filename);
                         $images[] = $filename;
                     }

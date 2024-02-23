@@ -13,12 +13,7 @@
             <table class="datatable-init nowrap nk-tb-list nk-tb-ulist" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid">
-                                <label class="custom-control-label" for="uid"></label>
-                            </div>
-                        </th>
+                        <th class="nk-tb-col"><span class="sub-text">Sno.</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Blog Name</span></th>
                         {{-- <th class="nk-tb-col"><span class="sub-text">Slug</span></th> --}}
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Category</span></th>
@@ -28,14 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $count = 1; ?>
                     @foreach ($blogs as $blog )
-
-
                     <tr class="nk-tb-item">
-                        <td class="nk-tb-col nk-tb-col-check">
-                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                <input type="checkbox" class="custom-control-input" id="uid1">
-                                <label class="custom-control-label" for="uid1"></label>
+                        <td class="nk-tb-col">
+                            <div class="user-card">
+                                <div class="user-info">
+                                    <span class="tb-lead">{{ $count ?? '' }}</span>
+
+                                </div>
                             </div>
                         </td>
                         <td class="nk-tb-col">
@@ -75,6 +71,7 @@
                             </ul>
                         </td>
                     </tr>
+                    <?php $count++ ?>
                     @endforeach
                 </tbody>
             </table>

@@ -147,6 +147,7 @@
                                     </div>
                                 </div>
                             </div> --}}
+                            @if ($product_accessoriesType->isNotEmpty())
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -157,14 +158,15 @@
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        @if ($product_accessoriesType->isNotEmpty())
                                             @foreach ($product_accessoriesType as $type)
-                                                <p>{{ $type->name }}</p>
+                                                <p><input value="{{ $type->slug }}" type="checkbox"
+                                                    name="productType[]"
+                                                    class="productType">&nbsp;{{ $type->name }}</p>
                                             @endforeach
-                                        @endif
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -176,7 +178,8 @@
                                 <div id="collapseThree" class="accordion-collapse collapse"
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p>lorem ipsum</p>
+                                        <p><input value="yes" type="checkbox" name="print_type"
+                                                id="print_type">&nbsp;Printed</p>
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +189,8 @@
                         <div class="shop_rtl busines_slider">
                             @if ($product_accessories->isNotEmpty())
                                 @foreach ($product_accessories as $product)
-                                    <div class="card">
+                                    <div class="product-div card" data-productType="{{ $product->type->slug ?? '' }}"
+                                        data-printtype="{{ $product->is_printed }}">
                                         <div class="busines_img">
                                             @foreach (json_decode($product->images) as $index => $image)
                                                 @if ($index == 0)
@@ -553,6 +557,7 @@
                     }).get();
                     var printType = $('#print_type').is(':checked');
                     var printTypevalue = $('#print_type').val();
+                    console.log(printTypevalue);
                     $('.product-div').each(function() {
                         var productType = $(this).data('producttype');
                         var productprint = $(this).data('printtype');
