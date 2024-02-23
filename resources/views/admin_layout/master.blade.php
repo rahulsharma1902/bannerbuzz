@@ -48,8 +48,8 @@
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('/admin-dashboard') }}" class="logo-link nk-sidebar-logo">
                             <h4 class="text-light">Bannerbuzz</h4>
-                            <!-- <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark"> -->
+                             {{-- <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark">  --}}
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->

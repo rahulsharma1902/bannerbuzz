@@ -14,7 +14,7 @@
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col">Sno.</th>
                             <th class="nk-tb-col"><span class="sub-text"> Name</span></th>
-                            <th class="nk-tb-col"><span class="sub-text">Slug</span></th>
+                            {{-- <th class="nk-tb-col"><span class="sub-text">Slug</span></th> --}}
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Display on front</span></th>
                             <th class="tb-tnx-action">
                                 <span>Action</span>
@@ -40,9 +40,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="nk-tb-col tb-col-mb">
+                                {{-- <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-amount">{{ $category->slug ?? '' }}</span>
-                                </td>
+                                </td> --}}
 
                                 <td class="nk-tb-col tb-col-md p-3">
                                     @if($category->display_on === 1)

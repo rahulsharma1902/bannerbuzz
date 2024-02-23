@@ -73,7 +73,7 @@
                         </th>
                         <th class="tb-tnx-info">
                             <span class="tb-tnx-desc d-none d-sm-inline-block">
-                                <span> Slug</span>
+                                <span> Category</span>
                             </span>
                         </th>
                         <th class="tb-tnx-action">
@@ -96,8 +96,8 @@
                             </td>
                             <td class="tb-tnx-info">
                                 <div class="tb-tnx-desc">
-                                    <input type="text" data-id="{{ $type->slug ?? '' }}"
-                                        class="titleName name{{ $type->slug ?? '' }}" value="{{ $type->slug ?? '' }}" disabled
+                                    <input type="text" data-id="{{ $type->category->name ?? '' }}"
+                                        class="titleName name{{ $type->category->name ?? '' }}" value="{{ $type->category->name ?? '' }}" disabled
                                         style="border: none; background: transparent;" />
                                 </div>
                             </td>

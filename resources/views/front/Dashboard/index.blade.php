@@ -428,20 +428,21 @@
                             <div class="multi_shop_cont"
                                 style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
                                 <div class="multi_shop_txt">
-                                    <h5>{{ $category->name ?? ''}}</h5>
+                                    <h5>{{ $category->name ?? '' }}</h5>
                                     <p>Starting at <strong>${{ $minPriceProduct->price ?? '0' }}</strong></p>
-                                    <a href="{{ url('shop') }}/{{ $category->slug ?? '' }}" class="btn btn_dark">Explore
+                                    <a href="{{ url('shop') }}/{{ $category->slug ?? '' }}"
+                                        class="btn btn_dark">Explore
                                         Now</a>
                                 </div>
                                 <div class="multi_shop_img">
-                                    @if($category->images)
-                                    @foreach (json_decode($category->images) as $index => $image)
-                                        @if ($index == 0)
-                                            <a href="{{ url('shop') }}/{{ $category->slug }}"><img width="250px"
-                                                    height="150px"
-                                                    src="{{ asset('category_Images') }}/{{ $image }}"></a>
-                                        @endif
-                                    @endforeach
+                                    @if ($category->images)
+                                        @foreach (json_decode($category->images) as $index => $image)
+                                            @if ($index == 0)
+                                                <a href="{{ url('shop') }}/{{ $category->slug }}"><img width="250px"
+                                                        height="150px"
+                                                        src="{{ asset('category_Images') }}/{{ $image }}"></a>
+                                            @endif
+                                        @endforeach
                                     @endif
                                 </div>
                             </div>
@@ -599,7 +600,7 @@
                                     <li>
                                         <div class="blog_list_img">
                                             <img width="250px" height="200px"
-                                                src="{{ asset('blog_Images') }}/{{ $blog->image ?? ''}}">
+                                                src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}">
                                         </div>
                                         <div class="blog_list_txt">
                                             <span>{{ $blog->created_at->format('F jS, Y') }}</span>
@@ -660,7 +661,7 @@
             $(document).ready(function() {
                 function updateChildCategories(parentId) {
                     $.ajax({
-                        url: "{{ url('/categories/children') }}" + "/" + parentId ,
+                        url: "{{ url('/categories/children') }}" + "/" + parentId,
                         type: 'GET',
                         success: function(data) {
                             var childSelect = $('#child_category');
@@ -669,14 +670,16 @@
                                 childSelect.show();
                                 childSelect.empty();
                                 var firstChildId = data[0].id;
+                                var slug = data[0].slug;
+                                var url = "{{ url('shop') }}/" + slug;
+                                $('#view_all').attr('href', url);
                                 getProductsForCategory(firstChildId);
                                 $.each(data, function(index, category) {
-                                    childSelect.append('<option value="' + category.id + '">' +
+                                    childSelect.append('<option data-slug="'+ category.slug +'" value="' + category.id + '">' +
                                         category.name + '</option>');
                                 });
                             } else {
                                 childSelect.hide();
-                                console.log("main");
                                 getProductsForCategory(parentId);
                             }
                         },
@@ -685,7 +688,7 @@
 
                 function getProductsForCategory(categoryId) {
                     $.ajax({
-                        url: "{{ url('/categories/products') }}"+"/" + categoryId,
+                        url: "{{ url('/categories/products') }}" + "/" + categoryId,
                         type: 'GET',
                         success: function(products) {
                             var productList = $('#product_container');
@@ -723,6 +726,10 @@
 
                 $('#child_category').on('change', function() {
                     var Id = $(this).val();
+                    var selectedOption = this.options[this.selectedIndex];
+                    var selectedSlug = selectedOption.getAttribute('data-slug');
+                    var url = "{{ url('shop') }}/" + selectedSlug;
+                    $('#view_all').attr('href', url);
                     getProductsForCategory(Id);
                 });
                 $('#parent_category').on('change', function() {
@@ -742,4 +749,4 @@
             });
         </script>
     @endif
-@endsection 
+@endsection

@@ -1,5 +1,28 @@
 @extends('front_layout.master')
 @section('content')
+    @php
+        $width = null;
+        $height = null;
+        if ($products->isNotEmpty()) {
+            foreach ($products as $product) {
+                if ($product->sizes->isNotEmpty()) {
+                    foreach ($product->sizes as $size) {
+                        if ($size->size_type == 'wh' || $size->size_type == 'DH') {
+                            $size = explode('X', $size->size_value);
+                            $width[] = $size[0];
+                            $height[] = $size[1];
+                        }
+                    }
+                }
+            }
+        }
+        if ($width && $height) {
+            $width = collect($width)->unique()->values()->all();
+            $height = collect($height)->unique()->values()->all();
+            sort($width);
+            sort($height);
+        }
+    @endphp
     <section class="banner-sec">
         <div class="container">
             <div class="banner-content">
@@ -45,7 +68,7 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('category', $category ) !!}
+                    {!! Breadcrumbs::render('category', $category) !!}
 
                 </nav>
                 <div class="vinyl_content">
@@ -63,45 +86,49 @@
         <div class="container">
             <div class="custom-content" style="background-color: #141414;">
                 <h3>Start Your Order</h3>
-                <div class="select-box">
-                    <div class="select_wrap">
-                        <select id="product_select" name="product_id" class="form-select"
-                            aria-label="Default select example">
-                            @if ($allproducts->isNotEmpty())
-                                @foreach ($allproducts as $product)
-                                    <option data-price="{{ $product->price }}" value="{{ $product->id ?? '' }}">
-                                        {{ $product->name ?? '' }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
-                        class="select_wrap">
-                        <select id="select_size" class="form-select" name="product_size"
-                            aria-label="Default select example">
+                @if ($allproducts->isNotEmpty())
+                    <form id="search_product_form">
+                        <div class="select-box ">
+                            <div class="select_wrap">
+                                <select id="product_select" name="product_slug" class="form-select"
+                                    aria-label="Default select example">
+                                    @foreach ($allproducts as $product)
+                                        <option data-price="{{ $product->price }}" data-id="{{ $product->id }}"
+                                            value="{{ $product->slug ?? '' }}">
+                                            {{ $product->name ?? '' }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
+                                class="select_wrap">
+                                <select id="select_size" class="form-select" name="product_size"
+                                    aria-label="Default select example">
 
-                        </select>
-                    </div>
+                                </select>
+                            </div>
 
-                    <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
-                        id="size_unit_div">
-                        <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
-                            <option selected value="Ft">Ft</option>
-                            <option value="In">In</option>
-                            <option value="Mm">Mm</option>
-                            <option value="Cm">Cm</option>
-                        </select>
-                    </div>
-                    <div class="select_wrap">
-                        <input type="number" min="1" max="999" id="product_qty" name="quantity" value="1"
-                            class="form-select" aria-label="Default select example">
-                    </div>
-                </div>
+                            <div @if ($allproducts->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                                id="size_unit_div">
+                                <select class="form-select" id="size_unit" name="size_unit"
+                                    aria-label="Default select example">
+                                    <option selected value="Ft">Ft</option>
+                                    <option value="In">In</option>
+                                    <option value="Mm">Mm</option>
+                                    <option value="Cm">Cm</option>
+                                </select>
+                            </div>
+                            <div class="select_wrap">
+                                <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                    value="1" class="form-select" aria-label="Default select example">
+                            </div>
+                        </div>
+                    </form>
+                @endif
                 <div class="shop_size_txt">
                     <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
                             id="size_price">$11.75</strong></p>
                     <input type="hidden" id="product_price" name="product_price" value="">
-                    <a href="" class="btn light_dark">Buy Now</a>
+                    <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -127,46 +154,50 @@
                     <div class="filter_wreap">
                         <h5>Filters</h5>
                         <div class="accordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Categories
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            @if ($category->subCategories->isNotEmpty())
+                            @if ($category->subCategories->isNotEmpty())
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Categories
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <ul>
+
                                                 @foreach ($category->subCategories as $sub_category)
                                                     <li><a
                                                             href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
                                                     </li>
                                                 @endforeach
-                                            @endif
-                                        </ul>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Products Type
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        @if ($category->productTypes->isNotEmpty())
+                            @endif
+                            @if ($category->productTypes->isNotEmpty())
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            Products Type
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
                                             @foreach ($category->productTypes as $type)
-                                                <p>{{ $type->name }}</p>
+                                                <p><input value="{{ $type->slug }}" type="checkbox"
+                                                        name="productType[]"
+                                                        class="productType">&nbsp;{{ $type->name }}</p>
                                             @endforeach
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -178,17 +209,84 @@
                                 <div id="collapseThree" class="accordion-collapse collapse"
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p>lorem ipsum</p>
+                                        <p><input value="yes" type="checkbox" name="print_type"
+                                                id="print_type">&nbsp;Printed</p>
                                     </div>
                                 </div>
                             </div>
+                            @if ($width)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingWidth">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseWidth"
+                                            aria-expanded="false" aria-controls="collapseWidth">
+                                            Width
+                                        </button>
+                                    </h2>
+                                    <div id="collapseWidth" class="accordion-collapse collapse"
+                                        aria-labelledby="headingWidth" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            @foreach ($width as $width)
+                                                <p><input value="{{ $width }}" type="checkbox" name="Width"
+                                                        class="productWidth">&nbsp;{{ $width }}</p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if ($height)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingheight">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseheight"
+                                            aria-expanded="false" aria-controls="collapseheight">
+                                            Height
+                                        </button>
+                                    </h2>
+                                    <div id="collapseheight" class="accordion-collapse collapse"
+                                        aria-labelledby="headingheight" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            @foreach ($height as $height)
+                                                <p><input value="{{ $height }}" type="checkbox"
+                                                        class="productheight" name="height">&nbsp;{{ $height }}
+                                                </p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="shop_rtl_wreap">
                         <div class="shop_rtl busines_slider">
                             @if ($products->isNotEmpty())
+                                <?php $count = 0; ?>
                                 @foreach ($products as $product)
-                                    <div class="card">
+                                    @php
+                                        $p_width = null;
+                                        $p_height = null;
+                                        if ($product->sizes->isNotEmpty()) {
+                                            foreach ($product->sizes as $size) {
+                                                if ($size->size_type == 'wh' || $size->size_type == 'DH') {
+                                                    $size = explode('X', $size->size_value);
+                                                    $p_width[] = $size[0];
+                                                    $p_height[] = $size[1];
+                                                }
+                                            }
+                                            if ($p_width && $p_height) {
+                                                $p_width = collect($p_width)->unique()->values()->all();
+                                                $p_height = collect($p_height)->unique()->values()->all();
+                                                sort($p_width);
+                                                sort($p_height);
+                                                $p_width = implode(',', $p_width);
+                                                $p_height = implode(',', $p_height);
+                                            }
+                                        }
+                                    @endphp
+                                    <div class="product-div card"
+                                        data-productType="{{ $product->productType->slug ?? '' }}"
+                                        data-printtype="{{ $product->is_printed }}"
+                                        @if ($p_width && $p_height) data-width="{{ $p_width }}" data-height="{{ $p_height }}" @else data-width="" data-height="" @endif>
                                         <div class="busines_img">
                                             @foreach (json_decode($product->images) as $index => $image)
                                                 @if ($index == 0)
@@ -215,9 +313,14 @@
                                                 <p>{{ $product->sizes->first()->size_value ?? '' }} Starts at
                                                     <span>£{{ $product->sizes->first()->price ?? '' }}</span>
                                                 </p>
+                                            @else
+                                                <p>Starts at
+                                                    <span>£{{ $product->price ?? '' }}</span>
+                                                </p>
                                             @endif
                                         </div>
                                     </div>
+                                    <?php $count++; ?>
                                 @endforeach
                             @endif
                         </div>
@@ -275,65 +378,32 @@
         <div class="accordion_wrapper p_100 pt-0">
             <div class="container">
                 <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingFive">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                Shop Vinyl Banners for Long-Lasting and Great Advertising Solutions
-                            </button>
-                        </h2>
-                        <div id="collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    When it comes to advertising in the great outdoors, durability is of the utmost
-                                    importance. Our Custom Vinyl Banners are made from a high-quality PVC material, which
-                                    not only guarantees their durability but also provides water-resistant properties. These
-                                    banners can withstand the elements, including rain and shine, and will not lose their
-                                    brilliant colors or their striking appearance. When you use one of our vinyl banners to
-                                    display your message or brand outside, you can do so with full assurance, knowing that
-                                    the banner will continue to be resilient and captivating no matter the temperature or
-                                    precipitation.
-                                </p>
+                    @if ($category->FAQs->isNotEmpty())
+                        <?php $count = 0; ?>
+                        @foreach ($category->FAQs as $FAQs)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button @if ($count != 0) collapsed @endif"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $count }}"
+                                        aria-expanded="@if ($count == 0) show @else false @endif"
+                                        aria-controls="collapse{{ $count }}">
+                                        {{ $FAQs->title ?? '' }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $count }}"
+                                    class="accordion-collapse collapse @if ($count == 0) show @endif"
+                                    aria-labelledby="heading{{ $count }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p>
+                                            {{ $FAQs->description ?? '' }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingSix">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                Perfectly Tailored Custom Vinyl Banners to Meet Your Requirements
-                            </button>
-                        </h2>
-                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingSeven">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                Cost-Effective, Durable & Portable Vinyl Banners for Indoor & Outdoor Purposes
-                            </button>
-                        </h2>
-                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                            <?php $count++; ?>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -343,9 +413,10 @@
             $(document).ready(function() {
                 // default product selected
                 var defaultProductId = "{{ $allproducts->first()->id }}";
+                var defaultValue = "{{ $allproducts->first()->slug }}";
                 var productprice = "{{ $allproducts->first()->price }}";
                 GetProductSizes(defaultProductId, productprice);
-                $('#product_select').val(defaultProductId);
+                $('#product_select').val(defaultValue);
 
                 // getting size and  price of product
                 function GetProductSizes(Id, productprice) {
@@ -400,9 +471,9 @@
 
                 // on select different product 
                 $('#product_select').on('change', function() {
-                    var Id = $(this).val();
                     var selectedOption = $(this).find('option:selected');
                     var productPrice = selectedOption.data('price');
+                    var Id = selectedOption.data('id');
                     $("#size_unit option").prop("selected", function() {
                         return this.defaultSelected;
                     });
@@ -443,9 +514,11 @@
                 // on changing size unit 
                 $('#size_unit').on('change', function() {
                     var unit_value = $(this).val();
-                    var productID = $('#product_select').val();
+                    var productID = $('#product_select');
+                    var selectedOption = productID.find('option:selected');
+                    var ID = selectedOption.data('id');
                     var selectedSize = $('#select_size').val();
-                    updateSize(productID, unit_value, selectedSize);
+                    updateSize(ID, unit_value, selectedSize);
                 });
 
                 // updating size on changing unit 
@@ -535,6 +608,69 @@
                     $('#size_price').text('$' + price);
                     $('#main_price').text('$' + (price + 10));
                     $('#product_price').val(price);
+                });
+
+                //::::::::::::: applying filters ::::::::::::::::::::::://
+                $('#print_type').on('change', function() {
+                    applyFilters();
+                });
+
+                $('.productType').on('change', function() {
+                    applyFilters();
+                });
+
+                $('.productWidth').on('change', function() {
+                    applyFilters();
+                });
+                $('.productheight').on('change', function() {
+                    applyFilters();
+                });
+
+                function applyFilters() {
+                    var selectedType = $('.productType:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var selectedWidth = $('.productWidth:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var selectedHeight = $('.productheight:checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                    var printType = $('#print_type').is(':checked');
+                    var printTypevalue = $('#print_type').val();
+                    $('.product-div').each(function() {
+                        var productType = $(this).data('producttype');
+                        var productprint = $(this).data('printtype');
+                        var productWidth = $(this).data('width').split(',');
+                        var productHeight = $(this).data('height').split(',');
+                        if (productType || productprint) {
+                            var showproduct =
+                                (selectedType.length === 0 || selectedType.some(service =>
+                                    productType.includes(service))) &&
+                                (!printType || productprint.includes(printTypevalue)) &&
+                                (selectedWidth.length === 0 || selectedWidth.some(width =>
+                                    productWidth.includes(width))) &&
+                                (selectedHeight.length === 0 || selectedHeight.some(height =>
+                                    productHeight.includes(height)));
+                            $(this).toggle(showproduct);
+                        }
+                    });
+                }
+                //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+                //::::::::::::::::: buy now section :::::::::::::::::::::::://
+                $('#buy_now').on('click', function() {
+                    var myform = $('#search_product_form');
+                    var formData = myform.serialize();
+                    var params = new URLSearchParams(formData);
+                    console.log(formData);
+                    var productSlug = params.get('product_slug');
+                    var size = params.get('product_size');
+                    var sizeUnit = params.get('size_unit');
+                    var quantity = params.get('quantity');
+                    var url = "{{ url('/details') }}" + "/" + encodeURIComponent(productSlug) + "?size=" +
+                        size + "&sizeUnit=" + sizeUnit + "&quantity=" + quantity;
+                    window.location.href = url;
                 });
             });
         </script>
