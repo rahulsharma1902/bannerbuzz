@@ -21,30 +21,37 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
     {{-- jquery CDN --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 
     <title>Home page</title>
 </head>
 
 <body>
-
+<?php $home_data = App\Models\HomeContent::first(); ?>
     <header>
+        @if($home_data && $home_data->display_offer == 1)
         <div class="topbar" style="background-color: #fadc38;">
             <div class="container-fluid">
                 <div class="topbar-content">
-                    <span>Up to 30% off Sitewide. <span style="color: #dc288a;">Use Code:</span>DEALS</span>
+                    <span>{{$home_data->offer_text ?? ''}}</span>
                     <div class="toggl">
                         <i class="fa-solid fa-xmark"></i>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
         <div class="free-exp-wrap">
             <div class="container-fluid">
                 <div class="free-exp">
-                    <p class="m-0">Free Express shipping for orders over £99.00</p>
+                    @if($home_data)
+                    <p class="m-0">{{$home_data->top_text ?? ''}}</p>
+                    @endif
                     <ul>
                         <li>
                             <a href="{{ url('order-tracking') }}">
@@ -120,8 +127,9 @@
                             </ul>
                         </div>
                         <div class="search_block">
-                            <form action="">
+                            <form class="srch_txt" action="">
                                 <input type="search" class="form-control" placeholder="Search..." />
+                                <i class="fa fa-search"></i>
                             </form>
                         </div>
                     </div>
@@ -181,14 +189,14 @@
                                             @if ($category->subCategories->isNotEmpty())
                                                 <div class="submuenu__wreap">
                                                     <ul class="submuenu_text">
-                                                        @foreach ($category->subCategories as $sub_category)
+                                                        @foreach ($category->subCategories as $key => $sub_category)
                                                             <li>
                                                                 <a
                                                                     href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
                                                                 <span><i class="fa-solid fa-chevron-right"></i></span>
                                                                 @if ($sub_category->subCategories->isNotEmpty() || $sub_category->products->isNotEmpty())
                                                                     @if ($sub_category->subCategories->isNotEmpty())
-                                                                        <div class="menuLevel3">
+                                                                        <div class="menuLevel3 subCategoryMenu ">
                                                                             <div class="menuLevel_txt">
                                                                                 <ul>
                                                                                     @foreach ($sub_category->subCategories as $cat)
@@ -216,7 +224,7 @@
                                                                             </div>
                                                                         </div>
                                                                 @elseif ($sub_category->products->isNotEmpty())
-                                                                    <div class="menuLevel3">
+                                                                    <div class="menuLevel3 subCategoryMenu ">
                                                                         <div class="menuLevel_txt">
                                                                             <ul>
                                                                                 @foreach ($sub_category->products as $product)
@@ -368,7 +376,7 @@
                             </ul>
                         </div>
                         <div class="footer_contnt">
-                            <h6>Information</h6>
+                            <h6>Customer Service</h6>
                             <ul>
                                 <li><a href="{{ url('about-us') }}">About Us</a></li>
                                 <li><a href="{{ url('contact-us') }}">Contact us</a></li>
@@ -437,7 +445,20 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
 
+
 <script src="{{ asset('front/js/script.js') }}"></script>
+
+<script>
+    initializeSlick();
+    //var script = document.createElement('script');
+    //script.src = "{{ asset('front/js/script.js') }}";
+    //document.body.appendChild(script);
+
+   // script.onload = function() {
+    //    initializeSlick();
+    //};
+</script>
+
 <script>
     // counter
 //     var counted = 0;
@@ -498,6 +519,23 @@
         });
     });
 </script>
+    <script>
+        $(document).ready(function () {
+            $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
+            $('.submuenu_text li').hover(
+                function () {
+                   $(this).find('.subCategoryMenu').css('display', 'block');
+                },
+                function () {
+                    $(this).find('.subCategoryMenu').css('display', 'none');
+                },
+            
+               );
+                $('.submuenu_text li').on('mouseleave', function () {
+                    $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
+                });
+           });
+    </script>
 </body>
 
 </html>

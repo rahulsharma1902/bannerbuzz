@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('parent_category')->nullable();
+            $table->string('cat_image');
             $table->json('images')->nullable();
             $table->text('description')->nullable();
             $table->integer('display_on')->default(false);

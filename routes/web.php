@@ -17,6 +17,9 @@ use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
+use App\Http\Controllers\Admin\SiteControllers\HomeController;
+use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
+use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
 use App\Http\Controllers\Front\ViewController;
 use App\Models\BlogCategory;
 
@@ -34,10 +37,13 @@ use App\Models\BlogCategory;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('login', [AuthenticationController::class, 'index'])->name('login');
+Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
-Route::get('register', [AuthenticationController::class, 'register']);
+Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
+
+//logout Route 
+Route::get('logout',[AuthenticationController::class,'logout']);
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
@@ -135,6 +141,21 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/add-blog/{slug?}', [BlogController::class, 'addBlog']);
     Route::post('admin-dashboard/add-blog-procc', [BlogController::class, 'addBlogProcc']);
     Route::get('admin-dashboard/remove-blog/{id}', [BlogController::class, 'removeBlog']);
+
+    //::::::::: Site content settings ::::::::::::::::::::::::::::://
+
+    //home page  HomeController
+    Route::get('admin-dashboard/home-content',[HomeController::class,'index']);
+    Route::post('admin-dashboard/home-content-update',[HomeController::class,'UpdateProcc']);
+
+    //About us Content 
+    Route::get('admin-dashboard/about-us-content',[AboutContentController::class,'index']);
+    Route::post('admin-dashboard/about-us-content-update',[AboutContentController::class,'UpdateContent']);
+
+    // Add testimonials TestimonialController
+    Route::get('admin-dashboard/testimonials',[TestimonialController::class,'index']);
+    Route::post('admin-dashboard/add-testimonial-procc',[TestimonialController::class,'AddProcc']);
+    Route::get('admin-dashboard/remove-testimonial/{id}',[TestimonialController::class,'remove']);
 });
 
 // FRONT LAYOUT
@@ -180,27 +201,4 @@ Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
 
-<<<<<<< HEAD
-// FRONT LAYOUT
-
-// Route::get('/',[CustomizeController::class,'index']);
-
-// web view Routes ViewController
-Route::get('/',[ViewController::class,'index']);
-Route::get('about-us',[ViewController::class,'aboutUs']);
-Route::get('contact-us',[ViewController::class,'contactUs']);
-Route::get('privacy-policy',[ViewController::class,'privacyPolicy']);
-Route::get('blogs/{slug?}',[ViewController::class,'blogs']);
-Route::get('blog/{slug}',[ViewController::class,'blogDetails']);
-
-// products and shop controller ShopController
-Route::get('shop/{slug}',[ShopController::class,'shop']);
-Route::get('details/{slug}',[ShopController::class,'ProductDetails']);
-Route::get('categories/children/{parent_id}', [ShopController::class,'getChildCategories']);
-Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
-Route::get('product/sizes/{id}',[ShopController::class,'getsizes']);
-Route::post('custom-product',[ShopController::class,'CustomProduct']);
-
-=======
->>>>>>> 122277e3e45a98ab058d8a0b292faf49b61e4249
 

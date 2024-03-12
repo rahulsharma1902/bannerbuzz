@@ -161,6 +161,7 @@
                         @endif
                         <br>
                         <h4>Add Size (optional)</h4>
+                        @if($product == null)
                         <div class="col-lg-12 p-3 d-flex ">
                             <div class="form-group col-lg-4" style="margin-right: 1rem">
                                 <label class="form-label" for="Qty">Size type</label>
@@ -177,9 +178,8 @@
                                     <span class="text text-danger">{{ $message }}</span>
                                 @enderror
                                 <input type="hidden" name="size_unit" value="feet">
-
-
                             </div>
+
                             <div class="form-group col-lg-8 " id="sizeDiv">
                                 <span id="add-button" class="text-right"
                                     style="display: none; cursor: pointer; float:right;">
@@ -187,8 +187,39 @@
                                 </span>
                             </div>
                         </div>
+                        @endif
                         @if ($product !== null)
                             @if ($product->sizes)
+                            <div class="col-lg-12 p-3 d-flex ">
+                            <div class="form-group col-lg-4" style="margin-right: 1rem">
+                                <label class="form-label" for="Qty">Size type</label>
+                                <div class="form-control-wrap">
+                                    <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
+                                    @if(isset($product->sizes->first()->size_type))
+                                        <option value="none">--none--</option>
+                                        <option value="{{$product->sizes->first()->size_type ?? ''}}">{{$product->sizes->first()->size_type ?? ''}}</option>
+                                    @else 
+                                        <option value="none">--none--</option>
+                                        <option value="wh">Width and Height</option>
+                                        <option value="length">length</option>
+                                        <option value="DH">Diameter and height</option>
+                                        <option value="Custom">Custom</option>
+                                    @endif
+                                    </select>
+                                </div>
+                                @error('size_type')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                @enderror
+                                <input type="hidden" name="size_unit" value="feet">
+                            </div>
+
+                            <div class="form-group col-lg-8 " id="sizeDiv">
+                                <span id="add-button" class="text-right"
+                                    style="display: none; cursor: pointer; float:right;">
+                                    <a class="primary-link" onclick="addmore()">+Add more</a>
+                                </span>
+                            </div>
+                        </div>
                                 <div class="col-lg-6">
                                     <div class="Size_class form-control-wrap d-flex p-1">
                                         <div class="col-lg-2">

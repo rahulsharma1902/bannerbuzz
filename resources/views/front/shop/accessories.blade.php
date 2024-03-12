@@ -46,7 +46,6 @@
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                     {!! Breadcrumbs::render('accessories') !!}
-
                 </nav>
                 <div class="vinyl_content">
                     <h3>Accessories</h3>
@@ -274,7 +273,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion_wrapper p_100 pt-0">
+        {{-- <div class="accordion_wrapper p_100 pt-0">
             <div class="container">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
@@ -338,7 +337,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
     @if ($product_accessories->isNotEmpty())
         <script>

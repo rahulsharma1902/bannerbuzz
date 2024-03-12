@@ -5,11 +5,11 @@
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
-                        @if ($category ?? '')
-                            {!! Breadcrumbs::render('Blog.category', $category) !!}
-                        @else
-                            {!! Breadcrumbs::render('Blogs') !!}
-                        @endif
+                    @if ($category ?? '')
+                        {!! Breadcrumbs::render('Blog.category', $category) !!}
+                    @else
+                        {!! Breadcrumbs::render('Blogs') !!}
+                    @endif
                     </ol>
                 </nav>
             </div>
@@ -19,8 +19,8 @@
         <div class="container">
             <div class="blog-content">
                 <div class="row">
-                    @if ($blogs->isNotEmpty())
-                        <div class="col-lg-8">
+                    <div class="col-lg-8">
+                        @if ($blogs->isNotEmpty())
                             <div class="blogs">
                                 <div class="row">
                                     @foreach ($blogs as $blog)
@@ -37,7 +37,7 @@
                                                     <h4>{{ $blog->title ?? '' }}</h4>
                                                     <p>
                                                         {{ substr(strip_tags($blog->short_description), 0, 150) }}
-                                                        <a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}">Read
+                                                       <a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}"> ...Read
                                                             More</a>
                                                     </p>
                                                 </div>
@@ -94,8 +94,14 @@
                                     </ul>
                                 @endif
                             </div>
-                        </div>
-                    @endif
+                            @else 
+                            <div class="blogs">
+                                <div class="row">
+                                    <p>No Result Found</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                     <div class="col-lg-4">
                         <div class="blog-block">
                             <div class="blog-blocks">

@@ -8,6 +8,9 @@ use App\Models\Blogs;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
+use App\Models\HomeContent;
+use App\Models\Testimonial;
+use App\Models\AboutUsContent;
 
 
 class ViewController extends Controller
@@ -15,16 +18,19 @@ class ViewController extends Controller
     //::::::::::: Home page ::::::::::::::::::://
     public function index()
     {
+        $testimonials = Testimonial::all();
+        $home_content = HomeContent::first();
         $product_categories = ProductCategories::whereNull('parent_category')->get();
         $products = Product::latest()->where('status', true)->take(10)->get();
         $blogs = Blogs::latest()->where('status', true)->take(4)->get();
-        return view('front.Dashboard.index', compact('product_categories', 'products', 'blogs'));
+        return view('front.Dashboard.index', compact('product_categories', 'products', 'blogs','home_content','testimonials'));
     }
 
     //:::::::::::::: site Pages ::::::::::::::::::://
     public function aboutUs()
     {
-        return view('front.about-us.index');
+        $about_content = AboutUsContent::first();
+        return view('front.about-us.index',compact('about_content'));
     }
 
     public function contactUs()
@@ -46,7 +52,8 @@ class ViewController extends Controller
     }
 
     public function customerReviews(){
-        return view('front.customer-reviews.index');
+        $testimonials = Testimonial::paginate(9);
+        return view('front.customer-reviews.index',compact('testimonials'));
     }
     //:::::::::::::::::::::::::::::::::::::::::::::::://
 
@@ -59,7 +66,7 @@ class ViewController extends Controller
             $blog_category = BlogCategory::where('id', '!=', $category->id)->get();
             return view('front.blogs.index', compact('blogs', 'blog_category', 'category'));
         } else {
-            $blogs = Blogs::orderBy('created_at', 'desc')->paginate(8);
+            $blogs = Blogs::where('status',true)->orderBy('created_at', 'desc')->paginate(8);
             $blog_category = BlogCategory::all();
             $latest_blogs = Blogs::latest()->where('status', true)->take(10)->get();
             return view('front.blogs.index', compact('blogs', 'blog_category', 'latest_blogs'));

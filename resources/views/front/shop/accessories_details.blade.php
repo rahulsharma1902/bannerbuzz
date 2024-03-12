@@ -283,13 +283,13 @@
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product
                         Specifications</button>
-                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                    <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
                         type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Size</button>
                     <button class="nav-link" id="nav-FAQ-tab" data-bs-toggle="tab" data-bs-target="#nav-FAQ"
                         type="button" role="tab" aria-controls="nav-FAQ" aria-selected="false">FAQ</button>
                     <button class="nav-link" id="nav-Customer-tab" data-bs-toggle="tab" data-bs-target="#nav-Customer"
                         type="button" role="tab" aria-controls="nav-Customer" aria-selected="false">Customer
-                        Reviews</button>
+                        Reviews</button> -->
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -298,16 +298,10 @@
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="descript_wreap">
-                        <h5>Lorem Ipsum 1</h5>
-                        <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-                            of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-                            but also the leap into electronic typesetting, remaining essentially unchanged.
-                        </p>
+                    <?php echo $product->additional_info; ?>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <div class="descript_wreap">
                         <h5>Lorem Ipsum 2</h5>
                         <p>
@@ -339,7 +333,7 @@
                             but also the leap into electronic typesetting, remaining essentially unchanged.
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>

@@ -46,11 +46,11 @@ class ProductController extends Controller
                 $request->validate(
                     [
                         'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     ],
                     [
                         'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                     ]
                 );
             }
@@ -66,11 +66,13 @@ class ProductController extends Controller
             $product->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {     // adding new images 
+                $count = 1; 
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/product_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
@@ -249,13 +251,13 @@ class ProductController extends Controller
                     'name' => 'required|unique:products,name',
                     'slug' => 'required|unique:products,slug',
                     'images' => 'required',
-                    'images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
+                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     'category_id' => 'required',
                     'default_price' => 'required|numeric'
                 ],
                 [
                     'images.*.image' => 'The file must be an image.',
-                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                 ]
             );
 
@@ -272,11 +274,13 @@ class ProductController extends Controller
             $product->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/product_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
@@ -389,15 +393,4 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Invalid product type for deletion');
         }
     }
-<<<<<<< HEAD
-
-    public function editVariations($slug)
-    {
-        $product = Product::where('slug', $slug)->first();
-        $entities = Entities::all();
-        return view('admin.products.edit_variation', compact('product', 'entities'));
-    }
 }
-=======
-}
->>>>>>> 122277e3e45a98ab058d8a0b292faf49b61e4249

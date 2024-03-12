@@ -569,7 +569,7 @@ header .search_content .navbar-brand {
 .custom-sec .select_wrap {
     width: 100%;
 }
-.busines_slider .card {
+.busines_slider2 .card ,.busines_slider .card {
     border-radius: 15px;
     border: 1px solid #1B1B1B;
     background: #000;    
@@ -577,19 +577,21 @@ header .search_content .navbar-brand {
     margin: 0 15px;
     transition: all 0.5s ease-in-out;
 }
-.busines_slider .card:hover {
+.busines_slider2 .card:hover,.busines_slider .card:hover {
     border: 1px solid #1B1B1B;
     background: #0B0B0B;
     box-shadow: 0px 16px 74px 0px rgba(220, 40, 138, 0.16);
 }
-.busines_slider .slick-list.draggable {
+.busines_slider2 .slick-list.draggable, .busines_slider .slick-list.draggable {
     margin: 0 -15px;
-    overflow: visible;
 }
-.busines_slider .card .busines_img img {
+.busines_slider2 .card .busines_img img, .busines_slider .card .busines_img img {
     margin: 0 auto;
+    height: 160px;
+    width: 235px;
+    object-fit: cover;
 }
-.busines_slider .card .card-body {
+.busines_slider2 .card .card-body,.busines_slider .card .card-body {
     padding: 20px 0 0;
     text-align: center;
 }
@@ -602,16 +604,16 @@ header .search_content .navbar-brand {
     font-size: 14px;
     font-weight: 500;
 }
-.busines_slider .card .card-body p {
+.busines_slider2 .card .card-body p,.busines_slider .card .card-body p {
     margin: 22px 0 0;
 }
-.busines_slider .card .card-body h5 {
+.busines_slider2 .card .card-body h5,.busines_slider .card .card-body h5  {
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     text-align: center;
 }
-.busines_slider .card .busines_img {
+.busines_slider2 .card .busines_img,.busines_slider .card .busines_img {
     border-radius: 15px;
     background: #FFF;
     text-align: center;
@@ -622,6 +624,14 @@ header .search_content .navbar-brand {
     align-items: center;
     position: relative;
     justify-content: center;
+}
+
+.busines_slider2 .card,.busines_slider .card {
+    height: auto;
+}
+
+.busines_slider2 .slick-track,.busines_slider .slick-track {
+    display: flex;
 }
 .picks_wreap .busine_select p {
     text-align: start;
@@ -648,7 +658,7 @@ header .search_content .navbar-brand {
   background-size: 0 100%;
   transition: background-size 0.4s ease-in-out;
 }
-.busines_slider .slick-arrow {
+.busines_slider2 .slick-arrow,.busines_slider .slick-arrow  {
     background-color: #48A9EB;
     color: #fff;
     border: 0;
@@ -663,10 +673,10 @@ header .search_content .navbar-brand {
 .our_best_content .shop_wreap li a {
     display: inline-block;
 }
-.busines_slider .prev-arrow {
+.busines_slider2 .prev-arrow,.busines_slider .prev-arrow  {
     right: 50px;
 }
-.busines_slider .next-arrow {
+.busines_slider2 .next-arrow,.busines_slider .next-arrow {
     right: 0;
 }
 .busines_btn {
@@ -765,18 +775,18 @@ header .search_content .navbar-brand {
 .picks_wreap .busine_select h4 {
     text-align: start;
 }
-.picks_wreap .busines_slider .card .card-body p {
+.picks_wreap .busines_slider2 .card .card-body p,.picks_wreap .busines_slider .card .card-body p {
     margin-top: 0;
     transition: all 0.5s ease-in-out;
 }
-.picks_wreap .busines_slider .card:hover .card-body p {
+.picks_wreap .busines_slider2 .card:hover .card-body p,.picks_wreap .busines_slider .card:hover .card-body p {
     color: #DC288A;
 }
-.picks_wreap .busines_slider .card .card-body p span {
+.picks_wreap .busines_slider2 .card .card-body p span,.picks_wreap .busines_slider .card .card-body p span  {
     font-size: 12px;
     text-decoration: line-through;
 }
-.picks_wreap .busines_slider .card .card-body p strong {
+.picks_wreap .busines_slider2 .card .card-body p strong,.picks_wreap .busines_slider .card .card-body p strong  {
     font-size: 14px;
 }
 .arrivals_progress {
@@ -868,14 +878,14 @@ header .search_content .navbar-brand {
     opacity: 0;
     transition: all 0.5s ease-in-out;
 }
-.busines_slider .card:hover .cust_btn {
+.busines_slider2 .card:hover .cust_btn,.busines_slider .card:hover .cust_btn  {
     opacity: 1;
 }
 .cust_btn_wreap .cust_btn:hover {
     background-color: #000;
     color: #fff;
 }
-.busines_slider .card:hover .busines_img img {
+.busines_slider2 .card:hover .busines_img img,.busines_slider .card:hover .busines_img img {
     opacity: 0.3;
 }
 .multi_shop_cont {
@@ -1009,8 +1019,9 @@ header .search_content .navbar-brand {
 .quality_content p:last-child {
     margin: 35px 0 0;
 }
-.busines_slider::before, 
-.busines_slider::after {
+.busines_slider2::before, 
+.busines_slider2::after,.busines_slider::before, 
+.busines_slider::after  {
     position: absolute;
     content: '';
     top: 0;
@@ -1021,12 +1032,13 @@ header .search_content .navbar-brand {
     width: 200%;
     z-index: 1;
 }
-.busines_slider::before {
+.busines_slider2::before,.busines_slider::before {
     left: 100%;
     right: unset;
     margin-left: 2px;
 }
-.picks_wreap .busines_slider::before, 
+.picks_wreap .busines_slider2::before, 
+.picks_wreap .busines_slider2::after,.picks_wreap .busines_slider::before, 
 .picks_wreap .busines_slider::after {
     background-color: #000;
 }
@@ -1540,17 +1552,17 @@ input:focus-visible {
 .descript_wrapper .nav .nav-link:hover {
     border-color: #1B1B1B #1B1B1B #000;
 }
-.template_wrapper .busines_slider .card {
+.template_wrapper .busines_slider2 .card,.template_wrapper .busines_slider .card  {
     padding: 0;
     background-color: transparent;
 }
-.template_wrapper .busines_slider .card .busines_img {
+.template_wrapper .busines_slider2 .card .busines_img,.template_wrapper .busines_slider .card .busines_img {
     min-height: auto;
     min-width: auto;
     background-color: transparent;
     padding: 0;
 }
-.template_wrapper .busines_slider .card {
+.template_wrapper .busines_slider2 .card,.template_wrapper .busines_slider .card  {
     margin: 0 12px;
 }
 .template_slider .slick-dots {
@@ -2394,7 +2406,7 @@ header .search_wrapper .search_block form.srch_txt {
 .breadcrumb_wreap ol {
     margin: 0!important;
 }
-.busines_slider .prev-arrow {
+.busines_slider2 .prev-arrow,.busines_slider .prev-arrow {
     right: 50px;
     background-color: rgba(72, 169, 235, 0.2);
 }

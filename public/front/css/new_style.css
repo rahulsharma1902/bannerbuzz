@@ -1,0 +1,219 @@
+.our_best_grid .card:hover p a {
+  color: #dc288a !important;
+  font-weight: 600;
+}
+
+.our_best_grid .card p a {
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.our_best_grid .card,
+.arrivals_wreap .card {
+  cursor: pointer;
+}
+
+.arrivals_wreap .card .card-body h5 {
+  text-align: center;
+}
+
+.blgs_lt_content p a {
+  color: #dc288a;
+}
+
+.arrivals_wreap .card .busines_img img {
+  min-height: 160px;
+  height: 160px;
+}
+
+.submuenu_text {
+  background: #f5f5f5;
+}
+
+.blog_list li .blog_list_img img,
+.blgs_lt img {
+  border-radius: 12px;
+}
+
+.blog_list li .blog_list_txt a {
+  color: #dc288a;
+}
+
+.submuenu_text li a {
+  white-space: nowrap;
+}
+
+header .navbar-nav li.nav-item a {
+  transition: all 0.09s ease-in-out !important;
+}
+
+.submuenu__wreap::after {
+  position: absolute;
+  content: "\f0d8";
+  left: 5px;
+  font-family: "FontAwesome";
+  top: -13px;
+  height: 20px;
+  width: 20px;
+  font-size: 25px;
+  color: #f5f5f5;
+}
+
+header .navbaar .navbar {
+  padding: 0;
+}
+
+header .navbar-expand-lg .navbar-nav .nav-link {
+  padding: 13px 0px;
+}
+
+header .navbar-expand-lg .navbar-nav .nav-link:after {
+  bottom: 3px;
+  height: 2px;
+}
+
+header .navbar-expand-lg .navbar-nav .nav-link.active:after {
+  display: none;
+}
+
+.menuLevel3 {
+  width: 1000px;
+}
+
+.submuenu_text {
+  width: auto;
+}
+
+.submuenu_text li {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  justify-content: space-between;
+}
+
+/* review modal box css */
+.modal.tab-content h5 {
+  font-size: 25px;
+  color: #000;
+}
+
+.modal.tab-content .modal-header button {
+  border: 0;
+  background: transparent;
+}
+
+.modal.tab-content span {
+  font-size: 25px;
+}
+
+.modal.tab-content .form-group label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.modal.tab-content .form-group {
+  margin-bottom: 20px;
+  padding: 0 !important;
+  height: auto;
+}
+
+.modal.tab-content .form-control,
+.modal.tab-content textarea {
+  height: auto;
+  font-family: Mona-Sans;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.modal.tab-content input::placeholder {
+  font-family: Mona-Sans;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+
+.modal.tab-content .modal-header {
+  padding: 10px 20px;
+  border: 0;
+}
+
+.modal.tab-content .modal-footer {
+  border: 0;
+  padding: 0;
+}
+
+.modal.tab-content {
+  margin: 0 !important;
+}
+
+.modal.tab-content .rate {
+    padding: 0;
+    float: none;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: auto !important;
+}
+
+.modal.tab-content .rate > input:checked ~ label {
+  font-size: 30px !important;
+  color: #ffc700 !important;
+}
+.modal.tab-content .rate:not(:checked) > label {
+  font-size: 30px !important;
+  color: #ccc !important;
+}
+
+.modal.tab-content .modal-footer button {
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  border-radius: 5px;
+  padding: 15px 40px;
+  border: 0;
+}
+
+.modal.tab-content .modal-footer button:hover {
+  background: #000;
+  color: #fff;
+}
+
+.modal.tab-content .modal-footer button:first-child {
+  background: #000;
+  color: #fff;
+}
+
+.modal.tab-content .modal-footer button:first-child:hover {
+  background: #fadc38;
+  color: #000;
+}
+
+@media only screen and (max-width: 1599px) {
+  .menuLevel3 {
+    width: 700px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .menuLevel3 {
+    width: 540px;
+  }
+}
+
+@media only screen and (max-width:767px) {
+    .modal.tab-content .modal-footer button {
+        font-size: 14px;
+        padding: 10px 40px;
+    }
+  }

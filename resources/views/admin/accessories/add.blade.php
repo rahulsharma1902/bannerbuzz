@@ -76,7 +76,7 @@
                         <div class="d-flex">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group" id="file-input">
-                                    <label class="form-label" for="image">Image</label>
+                                    <label class="form-label" for="image">Images</label>
                                     <div class="form-control-wrap p-2">
                                         <input type="file" name="images[]" class="form-control" id="image">
                                     </div>
@@ -121,6 +121,7 @@
                         @endif
                         <br>
                         <h4>Add Size (optional)</h4>
+                        @if($product == null)
                         <div class="col-lg-12 p-3 d-flex ">
                             <div class="form-group col-lg-4" style="margin-right: 1rem">
                                 <label class="form-label" for="Qty">Size type</label>
@@ -146,8 +147,39 @@
                                 </span>
                             </div>
                         </div>
+                        @endif
                         @if ($product !== null)
                             @if ($product->sizes)
+                            <div class="col-lg-12 p-3 d-flex ">
+                            <div class="form-group col-lg-4" style="margin-right: 1rem">
+                                <label class="form-label" for="Qty">Size type</label>
+                                <div class="form-control-wrap">
+                                    <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
+                                    @if(isset($product->sizes->first()->size_type))
+                                        <option value="none">--none--</option>
+                                        <option value="{{$product->sizes->first()->size_type ?? ''}}">{{$product->sizes->first()->size_type ?? ''}}</option>
+                                    @else 
+                                        <option value="none">--none--</option>
+                                        <option value="wh">Width and Height</option>
+                                        <option value="length">length</option>
+                                        <option value="DH">Diameter and height</option>
+                                        <option value="Custom">Custom</option>
+                                    @endif
+                                    </select>
+                                </div>
+                                @error('size_type')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                @enderror
+                                <input type="hidden" name="size_unit" value="feet">
+                            </div>
+
+                            <div class="form-group col-lg-8 " id="sizeDiv">
+                                <span id="add-button" class="text-right"
+                                    style="display: none; cursor: pointer; float:right;">
+                                    <a class="primary-link" onclick="addmore()">+Add more</a>
+                                </span>
+                            </div>
+                        </div>
                                 <div class="col-lg-6">
                                     <div class="Size_class form-control-wrap d-flex p-1">
                                         <div class="col-lg-2">
@@ -262,7 +294,7 @@
                                 <label class="form-label" for="description">Product specification</label>
                                 <div class="form-control-wrap">
                                     <textarea name="product_specification" class="description form-control" id="product_specification"
-                                        placeholder="About Product.....">{{ $product->addtional_info ?? '' }}</textarea>
+                                        placeholder="About Product.....">{{ $product->additional_info ?? '' }}</textarea>
                                 </div>
                             </div>
                         </div>

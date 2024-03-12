@@ -56,11 +56,11 @@
 
                         <div class="col-lg-6 p-3">
                             <div class="form-group" id="file-input">
-                                <label class="form-label" for="image">Image</label>
+                                <label class="form-label" for="image">Banner Image</label>
                                 <div class="form-control-wrap p-2">
                                     <input type="file" name="images[]" class="form-control" id="image">
                                 </div>
-                                @error('image')
+                                @error('images')
                                     <span class="text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -71,8 +71,8 @@
                             <div class="col-lg-12 d-flex align-items-center flex-wrap">
                                 <?php $images = json_decode($category->images); ?>
                                 @foreach ($images as $image)
-                                    <div class="col-lg-3 mb-3">
-                                        <div class="form-group d-flex align-items-center" style="width: 10rem;">
+                                    <div class="col-lg-5 mb-3">
+                                        <div class="form-group d-flex align-items-center" >
                                             <img src="{{ asset('category_Images') ?? '' }}/{{ $image ?? '' }}"
                                                 alt="">
                                             <input type="hidden" name="existing_images[]" value="{{ $image }}">
@@ -84,6 +84,27 @@
                                         <div class="w-100"></div>
                                     @endif
                                 @endforeach
+                            </div>
+                        @endif
+                        <div class="col-lg-6 p-2">
+                            <div class="form-group" id="file-input">
+                                <label class="form-label" for="cat_image">Category Image</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="file" name="cat_image" class="form-control" id="image">
+                                </div>
+                                @error('cat_image')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        @if (isset($category->cat_image))
+                            <div class="col-lg-12 d-flex align-items-center flex-wrap">
+                                    <div class="col-lg-3 mb-3">
+                                        <div class="form-group d-flex align-items-center" style="width: 10rem;">
+                                            <img src="{{ asset('category_Images') ?? '' }}/{{$category->cat_image?? '' }}"
+                                                alt="">
+                                        </div>
+                                    </div>
                             </div>
                         @endif
                         @if (!isset($category))
@@ -249,8 +270,6 @@
         button.onclick = function() {
             remove(inputdiv);
         };
-
-
 
         inputdiv.appendChild(input);
         inputdiv.appendChild(button);

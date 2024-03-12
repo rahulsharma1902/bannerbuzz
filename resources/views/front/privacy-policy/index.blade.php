@@ -4,7 +4,7 @@
     <div class="container">
         <div class="">
             <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                {!! Breadcrumbs::render('privacy-policy') !!}
+            {!! Breadcrumbs::render('privacy-policy') !!}
             </nav>
         </div>
     </div>

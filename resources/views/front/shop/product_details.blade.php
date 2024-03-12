@@ -283,13 +283,13 @@
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product
                         Specifications</button>
-                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                    <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
                         type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Size</button>
                     <button class="nav-link" id="nav-FAQ-tab" data-bs-toggle="tab" data-bs-target="#nav-FAQ"
                         type="button" role="tab" aria-controls="nav-FAQ" aria-selected="false">FAQ</button>
                     <button class="nav-link" id="nav-Customer-tab" data-bs-toggle="tab" data-bs-target="#nav-Customer"
                         type="button" role="tab" aria-controls="nav-Customer" aria-selected="false">Customer
-                        Reviews</button>
+                        Reviews</button> -->
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -301,7 +301,7 @@
                         <?php echo $product->addtional_info; ?>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <div class="descript_wreap">
                         <h5>Lorem Ipsum 2</h5>
                         <p>
@@ -333,7 +333,7 @@
                             but also the leap into electronic typesetting, remaining essentially unchanged.
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -441,11 +441,7 @@
 
             function updateSize(id, value, selectedSize) {
                 $.ajax({
-<<<<<<< HEAD
-                    url: "{{ url('/product/sizes/') }}" +"/" + id,
-=======
                     url: "{{ url('/product/sizes/') }}" + "/" + id,
->>>>>>> 122277e3e45a98ab058d8a0b292faf49b61e4249
                     type: 'GET',
                     success: function(data) {
                         var sizeSelect = $('#select_size');

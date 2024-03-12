@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use App\Models\User;
+use Session;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
 use Mail;
@@ -15,7 +16,7 @@ class AuthenticationController extends Controller
 {
     public function index(){
         
-        return view('authentication.login');
+        return view('authentication.index');
     }
     public function loginProcc(Request $request){
     
@@ -32,7 +33,7 @@ class AuthenticationController extends Controller
                 if(Auth::user()->is_admin == 1){
                     return redirect('/admin-dashboard')->with('success','Successfully loggedin! Welcome Come Admin');
                 }elseif(Auth::user()->is_admin == 0){
-                    return redirect('/account')->with('success','Successfully loggedin');
+                    return redirect('/')->with('success','Successfully loggedin');
                 }else{
                     Auth::logout();
                     return redirect()->back()->with('error','failed! Something went wrong');
@@ -50,15 +51,16 @@ class AuthenticationController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
+            'number' => 'required|numeric'
         ]);
         $password = Hash::make($request->password);
 
-        $user = User::create(['name'=>$request->name,'email'=>$request->email,'password'=>$password]);
+        $user = User::create(['name'=>$request->fname." ".$request->lname,'email'=>$request->email,'password'=>$password,'number'=>$request->number]);
         $mailData = [
             'name' => $request->name,
             'email' => $request->email,
         ];
-        $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
         
         return redirect()->back()->with('success','Your account is created successfully');
     }
@@ -102,6 +104,7 @@ class AuthenticationController extends Controller
     }
     public function logout(){
         Auth::logout();
-        return redirect('/login')->with('success','successfully logged out');
+        Session::flush();
+        return redirect('/')->with('success','successfully logged out');
     }
 }

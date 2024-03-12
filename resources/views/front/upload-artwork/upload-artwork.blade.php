@@ -4,7 +4,7 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('upload-artwork') !!}
+                {!! Breadcrumbs::render('upload-artwork') !!}
                 </nav>
             </div>
         </div>

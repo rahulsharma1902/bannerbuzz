@@ -22,6 +22,7 @@ class ShopController extends Controller
         if ($cat) {
             $category = ProductCategories::with('products', 'subCategories.products')->find($cat->id);
             $allproducts = $category->products;
+           
 
             foreach ($category->subCategories as $subCategory) {
                 $allproducts = $allproducts->merge($subCategory->products);
@@ -69,7 +70,10 @@ class ShopController extends Controller
     {
         $category = ProductCategories::with('products', 'subCategories.products')->find($category_id);
         $products = $category->products;
-
+        if($category->parent){
+            $parent = $category->parent;
+            $products = $products->merge($parent->products);
+        }
         foreach ($category->subCategories as $subCategory) {
             $products = $products->merge($subCategory->products);
         }

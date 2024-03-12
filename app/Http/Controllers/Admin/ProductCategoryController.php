@@ -41,11 +41,23 @@ class ProductCategoryController extends Controller
                 $request->validate(
                     [
                         'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     ],
                     [
                         'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
+                    ]
+                );
+            }
+            if ($request->cat_image !== null) {
+                $request->validate(
+                    [
+                        'cat_image' => 'required',
+                        'cat_image.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    ],
+                    [
+                        'cat_image.*.image' => 'The file must be an image.',
+                        'cat_image.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
                     ]
                 );
             }
@@ -54,13 +66,21 @@ class ProductCategoryController extends Controller
             $category->slug = $request->slug;
             $category->parent_category = $request->parent_category;
             $category->description = $request->description;
+            if ($request->hasFile('cat_image')) {
+                $img = $request->cat_image;
+                $filename = 'cat_image' . time() . '.' . $img->extension();
+                $img->move(public_path() . '/category_Images/', $filename);
+                $category->cat_image = $filename;
+            }
             $images = [];
             if ($request->images !== null) {
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time(). '.' . $image->extension();
+                        $filename = $request->slug . $count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
@@ -73,7 +93,7 @@ class ProductCategoryController extends Controller
             $category->save();
 
             if ($category && $request->remove_FAQ_id !== null) {
-                    $Data_id = explode(',', $request->remove_FAQ_id);
+                $Data_id = explode(',', $request->remove_FAQ_id);
                 foreach ($Data_id as $id) {
                     $data = CategoryFAQ::find($id);
                     if ($data) {
@@ -108,16 +128,18 @@ class ProductCategoryController extends Controller
             $request->validate([
                 'name' => 'required|unique:product_categories,name',
                 'slug' => 'required|unique:product_categories,slug',
+                'cat_image' => 'required',
+                'cat_image.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
             ]);
             if ($request->images !== null) {
                 $request->validate(
                     [
                         'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     ],
                     [
                         'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                     ]
                 );
             }
@@ -126,13 +148,21 @@ class ProductCategoryController extends Controller
             $category->slug = $request->slug;
             $category->parent_category = $request->parent_category;
             $category->description = $request->description;
+            if ($request->hasFile('cat_image')) {
+                $img = $request->cat_image;
+                $filename = 'cat_image' . time() . '.' . $img->extension();
+                $img->move(public_path() . '/category_Images/', $filename);
+                $category->cat_image = $filename;
+            }
             $images = [];
             if ($request->images !== null) {
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug . $count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/category_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
@@ -158,32 +188,32 @@ class ProductCategoryController extends Controller
             $category = ProductCategories::where('slug', $slug)->first();
 
             if ($category) {
-                $childCategories = ProductCategories::where('parent_category', $category->id)->get();
-                if ($childCategories) {
-                    foreach ($childCategories as $childCategory) {
-                        $childCategory->update(['parent_category' => null]);
+                $products = Product::where('category_id', $category->id)->get();
+                if ($products) {
+                    return redirect()->back()->with('error', 'You cannot remove category having products');
+                } else {
+                    $childCategories = ProductCategories::where('parent_category', $category->id)->get();
+                    if ($childCategories) {
+                        foreach ($childCategories as $childCategory) {
+                            $childCategory->update(['parent_category' => null]);
+                        }
                     }
-                }
-                $products = Product::where('category_id',$category->id)->get();
-                if($products){
-                    foreach($products as $product){
-                        $product->delete();
+
+                    $productType = ProductType::where('category_id', $category->id)->get();
+                    if ($productType) {
+                        foreach ($productType as $type) {
+                            $type->delete();
+                        }
                     }
-                }
-                $productType = ProductType::where('category_id',$category->id)->get();
-                if($productType){
-                    foreach($productType as $type){
-                        $type->delete();
+                    $FAQs = CategoryFAQ::where('category_id', $category->id)->get();
+                    if ($FAQs) {
+                        foreach ($FAQs as $f) {
+                            $f->delete();
+                        }
                     }
+                    $category->delete();
+                    return redirect()->back()->with('success', 'Category has been removed');
                 }
-                $FAQs = CategoryFAQ::where('category_id', $category->id)->get();
-                if ($FAQs) {
-                    foreach ($FAQs as $f) {
-                        $f->delete();
-                    }
-                }
-                $category->delete();
-                return redirect()->back()->with('success', 'Category has been removed');
             } else {
                 return redirect()->back()->with('error', 'Invalid category for deletion');
             }
