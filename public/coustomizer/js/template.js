@@ -972,7 +972,7 @@ function populateLayersList() {
 
         layerElement.querySelector('.unlock-layer').addEventListener('click', function(event) {
             event.stopPropagation(); // Prevent click event from bubbling up to parent layers
-            object.selectable = !object.selectable; // Toggle lock/unlock
+            object.selectable = !object.selectable; // Toggle lock/unlock 
             var lockIconElement = layerElement.querySelector('.unlock-layer i');
             lockIconElement.className = object.selectable ? 'fas fa-lock-open' : 'fas fa-lock'; // Update lock icon
             canvas.discardActiveObject();
