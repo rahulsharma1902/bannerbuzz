@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\Template;
 use App\Models\TemplateCategory;
 use App\Models\Background;
-use App\Models\Clipart;
-use App\Models\Shape;
+use App\Models\BackgroundCategory;
 
+use App\Models\Clipart;
+use App\Models\ClipArtCategory;
+use App\Models\Shape;
+use App\Models\ShapeCategory;
+
+use App\Models\UploadImageTemplate;
+use Auth;
 
 class TemplateController extends Controller
 {
@@ -60,13 +66,58 @@ class TemplateController extends Controller
             $templateData = Template::where('slug', $slug)->first();
             if($templateData){
                 $templates = Template::all();
-                $backgrounds = Background::all();
-                $shapes = Shape::all();
-                $cliparts = Clipart::all();
-                return view('admin.template.template',compact('templateData','shapes','backgrounds','cliparts','templates'));
+                $backgrounds = BackgroundCategory::with('background')->get();
+                $shapes = ShapeCategory::with('shape')->get();
+                $cliparts = ClipArtCategory::with('clipart')->get();
+                $uploadedImages = UploadImageTemplate::where('user_id',Auth::user()->id ?? '')->get();
+                // echo '<pre>';
+                // print_r($shapes);
+                // die();
+                // $shapes = Shape::all();
+                // $cliparts = Clipart::all();
+                return view('admin.template.template',compact('templateData','shapes','backgrounds','cliparts','templates','uploadedImages'));
             }else{
                 return redirect()->back()->with('error','Invalid Template');
             }
         }
     }
+
+
+    public function uploadImageTemplate(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $allowed_extensions = ['png', 'jpg', 'jpeg'];
+    
+            if (!in_array($extension, $allowed_extensions)) {
+                return response()->json(['success' => false, 'message' => 'Only png, jpeg, and jpg images are allowed']);
+            }
+    
+            $imageName = 'template_'.rand(0,1000).time().'.'.$extension;
+            $image->move(public_path().'/UploadImages/', $imageName);
+            $uploadImage = new UploadImageTemplate;
+            $uploadImage->image = $imageName;
+            $uploadImage->user_id = $request->user_id;
+            $uploadImage->save();
+            return response()->json(['success' => true, 'message' => $imageName]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Image upload failed']);
+        }
+    }
+
+
+
+
+    public function saveTemplate(Request $request){
+        $id = $request->id;
+        if($id){
+            $templateData = Template::where('id', $id)->first();
+            $templateData->templateData = $request->templateData;
+            $templateData->save();
+            return response()->json(['success' => true, 'message' => 'Template Successfully uploaded.']);
+        }
+        return response()->json(['success' => false, 'message' => 'Failed to upload template']);
+    }
+    
 }

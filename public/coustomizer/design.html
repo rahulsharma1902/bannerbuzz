@@ -35,36 +35,207 @@
         <title>Design online</title>
     </head>
     <body>
+        <div class="main_div"></div>
         <header class="header_wrap">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="./img/new_create_logo.png" class="img-fluid" alt="" /></a>
+                    <a class="navbar-brand" href="#"><img src="./img/new_create_logo.png" class="img-fluid" alt="" /> </a>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                        <!--   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                            </li>
-                        </ul> -->
-                        <div class="button-group">
-                            <button data-title="Undo" data-placement="bottom" class="spride-svg btnundo is-disabled bottom" id="undo" disabled="disabled" aria-label="Undo">
-                                <span class="menu-text"><img src="./img/undo.png" class="img-fluid" alt="" /></span>
-                            </button>
-                            <button data-title="Redo" data-placement="bottom" class="spride-svg btnredo is-disabled bottom" id="redo" disabled="disabled" aria-label="Redo">
-                                <span class="menu-text"><img src="./img/redo.png" class="img-fluid" alt="" /></span>
-                            </button>
-                            <div class="button-group trash-box">
-                                <button id="trash" data-title="Trash" data-placement="bottom" class="spride-svg btntrash bottom" aria-label="Trash">
-                                    <span class="menu-text"><img src="./img/delete-img.png" class="img-fluid" alt="" /></span>
-                                </button>
+                        <div class="main">
+                            <div class="hd_cntr custom_scrollbar">
+                                <div class="button-group urdbtn">
+                                    <div class="tooltip hd_tlp btnundo">
+                                        <button data-title="Undo" data-placement="bottom" class="spride-svg" id="undo" disabled="disabled" aria-label="Undo">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-rotate-left"></i>
+                                                <i class="fa-solid fa-rotate-left"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Undo
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp btnredo">
+                                        <button data-title="Redo" data-placement="bottom" class="spride-svg" id="redo" disabled="disabled" aria-label="Redo">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-rotate-right"></i>
+                                                <i class="fa-solid fa-rotate-left"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Redo
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-group common_controls copyPastControls" style="">
+                                    <div class="tooltip hd_tlp btncopy">
+                                        <button data-title="Copy" data-placement="bottom" class="spride-svg" id="copy" aria-label="Copy">
+                                            <span class="menu-text">
+                                                <i class="fa-regular fa-copy"></i>
+                                                <i class="fa-regular fa-copy"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Copy
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp btncut">
+                                        <button data-title="Cut" data-placement="bottom" class="spride-svg" id="cut" aria-label="Cut">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-scissors"></i>
+                                                <i class="fa-solid fa-scissors"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Cut
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp btnpaste">
+                                        <button data-title="Paste" data-placement="bottom" class="spride-svg" id="paste" aria-label="Paste" disabled="disabled">
+                                            <span class="menu-text">
+                                                <i class="fa-sharp fa-light fa-paste"></i>
+                                                <i class="fa-sharp fa-light fa-paste"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Paste
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp btndelete">
+                                        <button data-title="Delete" data-placement="bottom" class="spride-svg" id="delete" aria-label="Delete">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-xmark"></i>
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Delete
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-group common_controls" style="">
+                                    <div class="tooltip hd_tlp alignsbtn">
+                                        <button data-title="Object Alignment" data-placement="bottom" class="spride-svg" data-align="top" aria-label="Object Alignment">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-align-justify"></i>
+                                                <i class="fa-solid fa-align-justify"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Object Alignment
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-group rotate-box common_controls" style="">
+                                    <div class="tooltip hd_tlp rotatebtn">
+                                        <button data-title="Rotate" data-placement="bottom" class="spride-svg" aria-label="Rotate">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Rotate
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="" value="" class="rotate-textbox" data-param="angle" id="rotation" aria-label="Rotation" /> <sup>o</sup>
+                                </div>
+                                <div class="button-group common_controls" style="">
+                                    <div class="tooltip hd_tlp fliphr">
+                                        <button id="FlipX" data-title="Flip Horizontal" data-placement="bottom" class="spride-svg" aria-label="Flip Horizontal">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-square-poll-horizontal"></i>
+                                                <i class="fa-solid fa-square-poll-horizontal"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Flip Horizontal
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp flipvrt">
+                                        <button id="FlipY" data-title="Flip Vertical" data-placement="bottom" class="spride-svg" aria-label="Flip Vertical">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-square-poll-vertical"></i>
+                                                <i class="fa-solid fa-square-poll-vertical"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Flip Vertical
+                                        </div>
+                                    </div>
+
+                                    <div class="tooltip hd_tlp filtr">
+                                        <button data-title="Filter" data-placement="bottom" class="btnfilter bottom spride-svg" aria-label="Filter" disabled="disabled">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-filter"></i>
+                                                <i class="fa-solid fa-filter"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            Filter
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="button-group common_controls obj_arng" style="">
+                                    <div class="tooltip hd_tlp arngobjct">
+                                        <button data-title="Arrange Objects" data-placement="bottom" class="spride-svg btnarrangeobjects bottom" data-align="top" aria-label="Arrange Objects">
+                                            <span class="menu-text">
+                                                <i class="fa-solid fa-layer-group"></i>
+                                                <i class="fa-solid fa-layer-group"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text toltp-arng">
+                                            Arrange Objects
+                                        </div>
+                                    </div>
+
+                                    <div class="lyr_grp" style="display: none;">
+                                        <button id="forwordBtn" data-param="up" class="changelayer">
+                                            <span>Forward</span>
+                                            <span class="spride-svg">
+                                                <i class="fa-solid fa-layer-group"></i>
+                                                <i class="fa-solid fa-layer-group"></i>
+                                            </span>
+                                        </button>
+                                        <button id="backwordBtn" data-param="down" class="changelayer">
+                                            <span>Backword</span>
+                                            <span class="spride-svg">
+                                                <i class="fa-solid fa-layer-group"></i>
+                                                <i class="fa-solid fa-layer-group"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="button-group opacity-box common_controls" style="">
+                                    <label>Opacity</label>
+                                    <div class="range-slider" id="range_slider">
+                                        <input class="range-slider__range opacity_slider" type="range" value="100" min="0" max="100" id="range_slider__range" aria-label="Opacity" />
+                                        <span class="range-slider__value" id="range_slider__value" style="width: 50px;"></span>
+                                    </div>
+                                </div>
+                                <div class="button-group trash-box">
+                                    <div class="tooltip hd_tlp trshbtn">
+                                        <button id="trash" data-title="Trash" data-placement="bottom" class="spride-svg btntrash bottom" aria-label="Trash">
+                                            <span class="menu-text">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </span>
+                                        </button>
+                                        <div class="tooltip-text">
+                                            trash
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="hd_ryt_buttn">
@@ -75,67 +246,282 @@
                 </div>
             </nav>
         </header>
+
         <section class="design-edit">
-            <div class="row">
-                <div class="col-lg-9">
+            <div class="row main-rw">
+                <div class="col-xl-9 col-lg-12">
                     <div class="design-tabs">
-                        <div class="nw-rw1 d-flex align-items-start">
-                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                                    <img src="./img/template.png" class="img-fluid" alt=".." />
+                        <div class="nw-rw1">
+                            <div class="nav flex-column nav-pills contain" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                 <!-- <div class="tooltip"> -->
+                                <button class="nav-link tempdv" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                    <span class="spride_img">
+                                        <img src="./img/template.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/template-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Template</p>
                                 </button>
+                                <!-- <div class="tooltip-text">
+                                        Template
+                                    </div>
+                                </div> -->
 
-                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                                    <img src="./img/text.png" class="img-fluid" alt=".." />
+                                <!-- <div class="tooltip toltp-2"> -->
+
+                                <button class="nav-link tempdv" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/text.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/text-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Text</p>
                                 </button>
+                                 <!-- <div class="tooltip-text">
+                                        Text
+                                    </div>
+                                </div> -->
 
-                                <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                                    <img src="./img/background.png" class="img-fluid" alt=".." />
+                                <!-- <div class="tooltip toltp-3"> -->
+
+                                <button class="nav-link tempdv" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/background.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/background-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Background</p>
                                 </button>
+                                <!--  <div class="tooltip-text">
+                                        Background
+                                    </div>
+                                </div> -->
 
-                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                                    <img src="./img/shapes.png" class="img-fluid" alt=".." />
+                                <!-- <div class="tooltip toltp-4"> -->
+
+                                <button class="nav-link tempdv" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/shapes.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/shapes-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Shapes</p>
                                 </button>
+                                <!--  <div class="tooltip-text">
+                                        Shapes
+                                    </div>
+                                </div> -->
 
-                                <button class="nav-link" id="v-pills-clip-tab" data-bs-toggle="pill" data-bs-target="#v-pills-clip" type="button" role="tab" aria-controls="v-pills-clip" aria-selected="true">
-                                    <img src="./img/clip-part.png" class="img-fluid" alt=".." />
+                                <!-- <div class="tooltip toltp-5"> -->
+
+                                <button class="nav-link tempdv" id="v-pills-clip-tab" data-bs-toggle="pill" data-bs-target="#v-pills-clip" type="button" role="tab" aria-controls="v-pills-clip" aria-selected="true">
+                                    <span class="spride_img">
+                                        <img src="./img/clip-part.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/clippart-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Clipart</p>
                                 </button>
+                                <!-- <div class="tooltip-text">
+                                        Clipart
+                                    </div>
+                                </div>
+ -->
+                                <!-- <div class="tooltip toltp-6"> -->
 
-                                <button class="nav-link" id="v-pills-upld-tab" data-bs-toggle="pill" data-bs-target="#v-pills-upld" type="button" role="tab" aria-controls="v-pills-upld" aria-selected="false">
-                                    <img src="./img/upld-f.png" class="img-fluid" alt=".." />
+                                <button class="nav-link tempdv" id="v-pills-upld-tab" data-bs-toggle="pill" data-bs-target="#v-pills-upld" type="button" role="tab" aria-controls="v-pills-upld" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/upld-f.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/uploads-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Uploads</p>
                                 </button>
+                                <!-- <div class="tooltip-text">
+                                        Uploads
+                                    </div>
+                                </div>
+ -->
+                                <!-- <div class="tooltip toltp-7"> -->
 
-                                <button class="nav-link" id="v-pills-desgn-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desgn" type="button" role="tab" aria-controls="v-pills-desgn" aria-selected="false">
-                                    <img src="./img/design.png" class="img-fluid" alt=".." />
+                                <button class="nav-link tempdv" id="v-pills-desgn-tab" data-bs-toggle="pill" data-bs-target="#v-pills-desgn" type="button" role="tab" aria-controls="v-pills-desgn" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/design.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/design-cment-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Design Comments</p>
                                 </button>
+                                 <!--  <div class="tooltip-text">
+                                        Design Comments
+                                    </div>
+                                </div> -->
 
-                                <button class="nav-link" id="v-pills-quick-tab" data-bs-toggle="pill" data-bs-target="#v-pills-quick" type="button" role="tab" aria-controls="v-pills-quick" aria-selected="false">
-                                    <img src="./img/quick-hlp.png" class="img-fluid" alt=".." />
+                                <!-- <div class="tooltip toltp-8"> -->
+
+                                <button class="nav-link quitop to-top" id="v-pills-quick-tab" data-bs-toggle="pill" data-bs-target="#v-pills-quick" type="button" role="tab" aria-controls="v-pills-quick" aria-selected="false">
+                                    <span class="spride_img">
+                                        <img src="./img/quick-hlp.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/quick-hlp-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Quick Help</p>
                                 </button>
+                                 <!-- <div class="tooltip-text">
+                                        Quick Help
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="tooltip toltp-9"> -->
 
                                 <button class="nav-link" id="v-pills-lyr-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lyr" type="button" role="tab" aria-controls="v-pills-lyr" aria-selected="false">
-                                    <img src="./img/layers.png" class="img-fluid" alt=".." />
+                                    <span class="spride_img">
+                                        <img src="./img/layers.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/lyr-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
                                     <p>Layers</p>
                                 </button>
+                                 <!--   <div class="tooltip-text">
+                                        Layers
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="tooltip toltp-10"> -->
 
                                 <button class="nav-link" id="v-pills-myd-tab" data-bs-toggle="pill" data-bs-target="#v-pills-myd" type="button" role="tab" aria-controls="v-pills-myd" aria-selected="false">
-                                    <a class="btn" data-bs-toggle="modal" href="#modal" role="button">
-                                        <img src="./img/myd.png" class="img-fluid" alt=".." />
-                                        <p>My Design</p>
-                                    </a>
+                                    <span class="spride_img">
+                                        <img src="./img/myd.png" class="wht-img img-fluid" alt=".." />
+                                        <img src="./img/myd-p.png" class="pink-img img-fluid" alt=".." />
+                                    </span>
+                                    <p>My Design</p>
                                 </button>
+                                <!-- <div class="tooltip-text">
+                                        My Design
+                                    </div>
+                                </div> -->
                             </div>
 
                             <div class="tab-content" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <div class="tourStep intro-main-box Fstep" id="step1" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Template</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>Choose from our state of the art Ready-to-use relevant templates which are relevant to product you have chosen to design.</p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev" style="visibility: hidden;">Prev</button>
+                                            <span class="intro-count-box">1 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Sstep" id="step2" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Text</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>Use our extensive font library and formatting options (Alignment, Colors, and Size) to use text in your design.</p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">2 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Tstep" id="step3" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Background</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>
+                                                Choose from extensive library of meaningful background designs to create beautiful design for your product. Moreover, we’ve also provided the color chart in case you want to choose from
+                                                colors.
+                                            </p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">3 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Fourstep" id="step4" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Shapes</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>Choose from library of different shapes which are useful to create your design; Color chart is also available to change color of shape.</p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">4 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Fvstep" id="step5" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Clip Art</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>
+                                                Choose from extensive library of ready-to-use relevant vector art (ClipArt) which you can use to create meaningful banner design. You can also search the vector art you are looking for by
+                                                using given search box.
+                                            </p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">5 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Sixstep" id="step6" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Uploads</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>You can upload your photos and Artwork to be used in your design from here; please also through given instructions related to type if art file and size limitation.</p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">6 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tourStep intro-main-box Svnstep" id="step7" style="display: none;">
+                                    <div class="intro-box">
+                                        <div class="top_alrt">
+                                            <div class="arrw">
+                                                <h6>Free Design Support</h6>
+                                                <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
+                                            </div>
+                                            <p>
+                                                If you are not able to complete the design online, please leave a comments in the comments box. Our design team will incorporate the comments and email you the new design for approval. Changes
+                                                can take up to 48 hours and can delay the delivery date.
+                                            </p>
+                                        </div>
+                                        <div class="intro-footer">
+                                            <button title="Previous" class="introbtn pull-left tourPrev">Prev</button>
+                                            <span class="intro-count-box">7 of 7</span>
+                                            <button title="Next" class="introbtn pull-right tourNext">Finish</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                     <div class="temp_content">
                                         <button title="Close" class="btncloseleftpanel" aria-label="Close" id="">×</button>
 
@@ -211,6 +597,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                                     <div class="temp_content bg_edit">
                                         <button title="Close" class="btncloseleftpanel" aria-label="Close">×</button>
@@ -432,10 +819,10 @@
                                                 </label>
                                                 <input type="button" class="btn-action btn-block addnewtext" name="" value="UPLOAD YOUR OWN IMAGE" aria-label="UPLOAD YOUR OWN IMAGE" style="opacity: 1; pointer-events: inherit;" />
                                             </div>
-                                        </div>
-                                        <div class="templ_imgs">
-                                            <div class="not_txt">
-                                                <p>Note: Please click on image to place on canvas</p>
+                                            <div class="templ_imgs">
+                                                <div class="not_txt">
+                                                    <p>Note: Please click on image to place on canvas</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -469,18 +856,7 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="v-pills-quick" role="tabpanel" aria-labelledby="v-pills-quick-tab">
-                                    <div class="tourStep intro-main-box right" id="ImageHosting" style="display: none;">
-                                        <div class="intro-box">
-                                            <div class="arrow"></div>
-                                            <button title="Close" class="tourClose introclose">×</button>
-                                            <h6>Template</h6>
-                                            <p>Choose from our state of the art Ready-to-use relevant templates which are relevant to product you have chosen to design.</p>
-                                            <div class="intro-footer">
-                                                <button title="Next" class="introbtn pull-right tourNext">Next</button>
-                                                <span class="intro-count-box">1 of 7</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
 
                                 <div class="tab-pane fade" id="v-pills-lyr" role="tabpanel" aria-labelledby="v-pills-lyr-tab">
@@ -492,7 +868,9 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box">
+                                                        <img src="./img/design-tool.png" />
+                                                    </span>
                                                     <span class="layer-text-box">UP TO 50% OFF</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -501,7 +879,7 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box"> <img src="./img/design-tool.png" /></span>
                                                     <span class="layer-text-box">Lorem Ipsum has been the industry's standard dummy text ever since.</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -510,7 +888,9 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box">
+                                                        <img src="./img/design-tool.png" />
+                                                    </span>
                                                     <span class="layer-text-box">SPECIAL OFFER</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -519,7 +899,7 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box"> <img src="./img/design-tool.png" /></span>
                                                     <span class="layer-text-box">SALE</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -528,7 +908,7 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box"> <img src="./img/design-tool.png" /></span>
                                                     <span class="layer-text-box">Valentine's Day</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -537,7 +917,7 @@
                                                     <button class="" title="View">
                                                         <i id="icon" class="far fa-eye"></i>
                                                     </button>
-                                                    <span class="layer-icon-box"> T</span>
+                                                    <span class="layer-icon-box"> <img src="./img/design-tool.png" /></span>
                                                     <span class="layer-text-box">Image Layer</span>
                                                     <span class="unlock-layer"> <i class="fa-sharp fa-solid fa-unlock"></i></span>
                                                     <span class="layer-dragg-box"> </span>
@@ -548,115 +928,182 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="v-pills-myd" role="tabpanel" aria-labelledby="v-pills-myd-tab">
-                                    <div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="..." tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="loginPopupBox">
-                                                    <button title="Close" class="btncloseleftpanel" aria-label="Close" id="">×</button>
-                                                    <div class="loginBox d-flex">
-                                                        <div class="loginLeftBox">
-                                                            <div class="imageBox">
-                                                                <img src="./img/my_des.svg" alt="" />
-                                                            </div>
-                                                        </div>
+                                    <div class="loginPopupBox">
+                                        <button title="Close" class="btncloseleftpanel" aria-label="Close" id="">×</button>
+                                        <div class="loginBox d-flex">
+                                            <div class="loginLeftBox">
+                                                <div class="imageBox">
+                                                    <img src="./img/my_des.svg" alt="" />
+                                                </div>
+                                            </div>
 
-                                                        <div class="loginRightBox">
-                                                            <div class="blockTitle">
-                                                                <h3>LOGIN</h3>
-                                                            </div>
-                                                            <div class="">
-                                                                <div class="form-group">
-                                                                    <input type="email" class="form-control" name="email" value="" placeholder="Email Address*" />
-                                                                    <span></span>
-                                                                    <span class="el-icon"><i class="fa-sharp fa-light fa-envelope"></i></span>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <input id="password-field" type="password" class="form-control" name="password" value="secret" placeholder="Password*" />
-                                                                    <span class="el-icon"><i class="fa-light fa-lock"></i></span>
-                                                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="otpbutton">
-                                                                <button class="linkButton forgotLink">Forgot Password?</button>
-                                                                <a class="linkButton forgotLink otpLink">
-                                                                    <span>Login With Email OTP</span>
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <div>
-                                                                    <div
-                                                                        class="grecaptcha-badge"
-                                                                        data-style="inline"
-                                                                        style="
-                                                                            width: 256px;
-                                                                            height: 60px;
-                                                                            position: fixed;
-                                                                            visibility: hidden;
-                                                                            display: block;
-                                                                            transition: right 0.3s ease 0s;
-                                                                            bottom: 14px;
-                                                                            right: -186px;
-                                                                            box-shadow: gray 0px 0px 5px;
-                                                                            border-radius: 2px;
-                                                                            overflow: hidden;
-                                                                        "
-                                                                    >
-                                                                        <div class="grecaptcha-logo">
-                                                                            <iframe
-                                                                                title="reCAPTCHA"
-                                                                                width="256"
-                                                                                height="60"
-                                                                                role="presentation"
-                                                                                name="a-msr41ut4crl5"
-                                                                                frameborder="0"
-                                                                                scrolling="no"
-                                                                                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
-                                                                                src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LeCuh8fAAAAAL9SfJQ-HOjf8erf-stG1zUmqkQt&amp;co=aHR0cHM6Ly93d3cuYmFubmVyYnV6ei5jby51azo0NDM.&amp;hl=en&amp;v=MHBiAvbtvk5Wb2eTZHoP1dUd&amp;size=invisible&amp;badge=inline&amp;cb=awc1j6fix3c6"
-                                                                            ></iframe>
-                                                                        </div>
-                                                                        <div class="grecaptcha-error"></div>
-                                                                        <textarea
-                                                                            id="g-recaptcha-response"
-                                                                            name="g-recaptcha-response"
-                                                                            class="g-recaptcha-response"
-                                                                            style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"
-                                                                        ></textarea>
-                                                                    </div>
-                                                                    <iframe style="display: none;"></iframe>
-                                                                </div>
-                                                            </div>
-                                                            <div class="buttonSet"><button type="button" class="btn cta">Log In</button></div>
-                                                            <div class="socialLogin">
-                                                                <div class="socialTitleBox">
-                                                                    <span class="socialTitle"> <span>(OR) </span>Sign Up With Social</span>
-                                                                </div>
-                                                                <div class="socialContent">
-                                                                    <ul class="signinLinks">
-                                                                        <li>
-                                                                            <button class="linkButton googlePlus"><img src="./img/google.svg" /></button>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a class="linkButton facebook"><img src="./img/facebook.svg" alt="Facebook" /></a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a class="linkButton amazone"><img src="./img/amazone.svg" alt="Amazon" /></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div class="createAccountLinkBox">
-                                                                <span>Don't Have An Account?</span>
-                                                                <button class="linkButton">Create An Account</button>
-                                                            </div>
-                                                        </div>
+                                            <div class="loginRightBox">
+                                                <div class="blockTitle">
+                                                    <h3>LOGIN</h3>
+                                                </div>
+                                                <div class="">
+                                                    <div class="form-group">
+                                                        <input type="email" class="form-control" name="email" value="" placeholder="Email Address*" />
+                                                        <span></span>
+                                                        <span class="el-icon"><i class="fa-sharp fa-light fa-envelope"></i></span>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <input id="password-field" type="password" class="form-control" name="password" value="" placeholder="Password*" />
+                                                        <span class="el-icon"><i class="fa-light fa-lock"></i></span>
+                                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="otpbutton">
+                                                    <button class="linkButton forgotLink">Forgot Password?</button>
+                                                    <a class="linkButton forgotLink otpLink">
+                                                        <span>Login With Email OTP</span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="buttonSet"><button type="button" class="btn cta">Log In</button></div>
+                                                <div class="socialLogin">
+                                                    <div class="socialTitleBox">
+                                                        <span class="socialTitle"> <span>(OR) </span>Sign Up With Social</span>
+                                                    </div>
+                                                    <div class="socialContent">
+                                                        <ul class="signinLinks">
+                                                            <li>
+                                                                <a href="#" class="linkButton googlePlus">
+                                                                    <i class="fa-brands fa-google"> </i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" class="linkButton facebook">
+                                                                    <i class="fa-brands fa-facebook-f"> </i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#" class="linkButton amazone">
+                                                                    <i class="fa-brands fa-amazon"> </i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="createAccountLinkBox">
+                                                    <span>Don't Have An Account?</span>
+                                                    <button class="linkButton">Create An Account</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="canva-img">
+                                <div class="main2">
+                                    <div class="acrylc-letter-box">
+                                        <div class="form_group_box">
+                                            <div class="select_box">
+                                                <select name="select" id="select-option" class="form-control">
+                                                    <option value="">Verdana</option>
+                                                    <option value="Option_one">Arial</option>
+                                                    <option value="Option_two">Rockwell</option>
+                                                    <option value="Option_three">Cambria</option>
+                                                    <option value="Option_four">Book Antiqua</option>
+                                                </select>
+                                            </div>
+                                            <div class="select-size">
+                                                <label>Size:</label>
+                                                <input type="number" name="fontSize" class="form-control" min="1" max="600" placeholder="117" />
+                                            </div>
+                                        </div>
+                                        <div class="text-editor">
+                                            <ul>
+                                                <li class="custm_li">
+                                                    <button data-title="Bold" data-placement="bottom" class="text_param" id="bold">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-bold"></i>
+                                                            <i class="fa-solid fa-bold"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li class="custm_li">
+                                                    <button data-title="Italic" class="text_param" id="italic">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-italic"></i>
+                                                            <i class="fa-solid fa-italic"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li class="custm_li">
+                                                    <button data-title="Underline" class="text_param" id="underline">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-underline"></i>
+                                                            <i class="fa-solid fa-underline"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li class="custm_li">
+                                                    <button data-title="Left Align Text" class="text_param align" id="text_align_left">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-align-left"></i>
+                                                            <i class="fa-solid fa-align-left"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li class="custm_li">
+                                                    <button data-title="Center Text" class="text_param" id="text_align_center">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-align-center"></i>
+                                                            <i class="fa-solid fa-align-center"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li class="custm_li">
+                                                    <button data-title="Right Align Text" class="text_param" id="text_align_right">
+                                                        <span class="menu-text">
+                                                            <i class="fa-solid fa-align-right"></i>
+                                                            <i class="fa-solid fa-align-right"></i>
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <div class="color_picker">
+                                                        <input type="color" id="favcolor" name="favcolor" value="#fff" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="form-group arcBox">
+                                                        <input class="styled-checkbox" id="makeArc" type="checkbox" value="arc-text" />
+                                                        <label for="makeArc" class="arcText">Arc Text</label>
+                                                        <div class="open-arc-text" style="">
+                                                            <div class="radius-box">
+                                                                <label>Radius</label>
+                                                                <div class="range-slider" id="range_slider">
+                                                                    <input class="range-slider__range" type="range" value="250" min="0" max="263" id="radius" />
+                                                                    <span class="range-slider__value" id="radius_slider_value" style="width: 28.8973%;"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="reverse-box">
+                                                                <input class="styled-checkbox" id="reverse" type="checkbox" value="reverse" />
+                                                                <label for="reverse">Reverse</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="text_param btnmoretextcontrols">
+                                                        <i class="fa fa-ellipsis-v"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <div class="select_box slct_lng">
+                                                        <select name="select" id="select-option" class="form-control">
+                                                            <option value="">English</option>
+                                                            <option value="Option_one">English</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="color_pickers colr_menu">
                                     <div class="background-panel-desktop">
                                         <div class="form-group-box background_control object_control" style="">
@@ -721,87 +1168,313 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="./img/canva.png" class="img-fluid" alt="" />
+                                <div class="cnva_dummy">
+                                    <div class="cnva_dv">
+                                        <img src="./img/canva.png" class="img-fluid" alt="" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="design-ryt-vw">
-                        <div class="ryt-logo-img">
-                            <div class="cusm-lgo">
-                                <img src="./img/custom-vinyl.png" class="img-fluid" alt=".." />
-                            </div>
-                            <h6>Custom Vinyl Banners</h6>
-                        </div>
-                        <div class="footer-size-main">
-                            <a href="#standard-size">Standard Size</a>
-                        </div>
-                        <div id="table_custom_size" class="custom-size" style="overflow: inherit;">
-                            <ul class="custom_size">
-                                <li class="option">
-                                    <div class="custome-size-title">W</div>
-                                    <div class="customsize-wrapper sizeMeasurement">
-                                        <input value="3" id="size_w" name="size_w" type="number" step=".01" />
-                                    </div>
-                                </li>
-                                <li class="option">
-                                    <div class="custome-size-title">H</div>
-                                    <div class="customsize-wrapper sizeMeasurement">
-                                        <input value="2" id="size_h" name="size_h" type="number" step=".01" />
-                                    </div>
-                                </li>
-                                <li class="option">
-                                    <div class="select_box">
-                                        <select name="select" class="form-control">
-                                            <option value="">FT</option>
-                                            <option value="Option_one">FT</option>
-                                            <option value="Option_two">MM</option>
-                                            <option value="Option_three">CM</option>
-                                            <option value="Option_four">MT</option>
-                                        </select>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="ftr-size-price">
-                            <div class="ftr-size-lft">
-                                <p>$8.39 <span>Incl.</span> VAT</p>
-                            </div>
-                            <div class="ftr-lnks">
-                                <a hef="#" class="btn cta">Apply</a>
-                            </div>
-                        </div>
-                        <div class="ryt-view-box">
-                            <div class="editing-lnks">
-                                <ul class="list-unstyled m-0">
-                                    <li>
-                                        <span><img src="./img/prevw.png" class="img-fluid" alt=".." /></span>
-                                    </li>
-                                    <li>
-                                        <span><img src="./img/share.png" class="img-fluid" alt=".." /></span>
-                                    </li>
-                                    <li>
-                                        <span><img src="./img/itlic.png" class="img-fluid" alt=".." /></span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="togls_buttn">
-                                <ul class="list-unstyled m-0">
-                                    <li>
-                                        <span><img src="./img/chat.png" class="img-fluid" alt=".." /></span>
-                                    </li>
-                                    <li>
-                                        <label class="switch">
-                                            <input type="checkbox" />
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+               <div class="col-xl-3 new_right_arw">
+    <div class="desgin-ryt-arw">
+        <button type="button" class="btnpanelbox" aria-label="panel-box" style="display: none;">
+            <i class="fa fa-angle-left"></i>
+        </button>
+
+        <div class="design-ryt-vw">
+            <div class="ryt-logo-img">
+                <div class="cusm-lgo">
+                    <img src="./img/custom-vinyl.png" class="img-fluid" alt=".." />
                 </div>
+                <h6>Custom Vinyl Banners</h6>
+            </div>
+            <div class="footer-size-main">
+                <a href="#standard-size">Standard Size</a>
+            </div>
+            <div id="table_custom_size" class="custom-size">
+                <ul class="custom_size">
+                    <li class="option">
+                        <div class="custome-size-title">W</div>
+                        <div class="customsize-wrapper sizeMeasurement">
+                            <input value="3" id="size_w" name="size_w" type="number" step=".01" />
+                        </div>
+                    </li>
+                    <li class="option">
+                        <div class="custome-size-title">H</div>
+                        <div class="customsize-wrapper sizeMeasurement">
+                            <input value="2" id="size_h" name="size_h" type="number" step=".01" />
+                        </div>
+                    </li>
+                    <li class="option">
+                        <div class="select_box">
+                            <select name="select" class="form-control">
+                                <option value="">FT</option>
+                                <option value="Option_one">FT</option>
+                                <option value="Option_two">MM</option>
+                                <option value="Option_three">CM</option>
+                                <option value="Option_four">MT</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="ftr-size-price">
+                <div class="ftr-size-lft">
+                    <p>$8.39 <span>Incl.</span> VAT</p>
+                </div>
+                <div class="ftr-lnks">
+                    <a hef="#" class="btn cta">Apply</a>
+                </div>
+            </div>
+            <div class="ryt-view-box">
+                <div class="editing-lnks">
+                    <ul class="list-unstyled m-0">
+                        <li>
+                            <button type="button" class="rytb btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <div class="tooltip tol-ryt">
+                                    <span class="edt_lnk">
+                                        <i class="fa-sharp fa-thin fa-image"></i>
+                                        <i class="fa-sharp fa-thin fa-image"></i>
+                                    </span>
+                                    <div class="tooltip-text">
+                                        Preview
+                                    </div>
+                                </div>
+                            </button>
+                            
+                        </li>
+                        <li>
+                            <button type="button" class="rytb btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <div class="tooltip tol-ryt">
+                                    <span class="edt_lnk">
+                                        <i class="fa-sharp fa-light fa-share-nodes"></i>
+                                        <i class="fa-sharp fa-light fa-share-nodes"></i>
+                                    </span>
+                                    <div class="tooltip-text sr_tp">
+                                        Share
+                                    </div>
+                                </div>
+                            </button>
+                           
+                        </li>
+
+                        <li>
+                            <button type="button" class="rytb btn" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                                <div class="tooltip tol-ryt">
+                                    <span class="edt_lnk">
+                                        <i class="fa-sharp fa-solid fa-info"></i>
+                                        <i class="fa-sharp fa-solid fa-info"></i>
+                                    </span>
+                                    <div class="tooltip-text gd-ln">
+                                        Guideline
+                                    </div>
+                                </div>
+                            </button>
+                            
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="togls_buttn">
+                    <ul class="list-unstyled m-0">
+                        <li>
+                            <span class="cht_box">
+                                <img src="./img/chat.png" class="wht_cht img-fluid" alt=".." />
+                                <img src="./img/chat-p.png" class="pnk_cht img-fluid" alt=".." />
+                            </span>
+                        </li>
+                        <li>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider round"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+         <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Preview</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="preview-main-box">
+                                                <div class="preview-main-thumb-box">
+                                                    <ul>
+                                                        <li class="preview-img-front">
+                                                            <div class="img-thumb-box">
+                                                                <img src="./img/dash_s.png" class="img-fluid" alt="" />
+                                                            </div>
+                                                            <span>
+                                                                Front design
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="preview-main-large-box">
+                                                    <img src="./img/dashd.png" class="img-fluid" alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cta" data-bs-dismiss="modal">Finish</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Modal -->
+                            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Share Your Creation</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="share-form">
+                                                <div class="preview-main-large-box">
+                                                    <img src="./img/dashd.png" class="img-fluid" alt="" />
+                                                </div>
+
+                                                <div class="popup-shareform-box">
+                                                    <ul class="form-group-box">
+                                                        <li>
+                                                            <ul class="top_li">
+                                                                <li class="inpt_boxs">
+                                                                    <div class="form-group">
+                                                                        <label class="mandate">Your Name</label>
+                                                                        <input type="text" name="sendername" id="sendername" class="form-control" placeholder="Your Name" />
+                                                                    </div>
+                                                                </li>
+                                                                <li class="inpt_boxs">
+                                                                    <div class="form-group">
+                                                                        <label class="mandate">Your Email</label>
+                                                                        <input type="text" name="senderemail" id="senderemail" class="form-control" placeholder="Receiver's Email" />
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="block-full">
+                                                            <div class="form-group">
+                                                                <label>Email Notes</label>
+                                                                <textarea class="form-control" id="sendernotes" row="4" cols="10" placeholder="Notes"></textarea>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn cta">SEND ARTWORK</button>
+                                            <button type="button" class="btn cta btn-pnk" data-bs-dismiss="modal">CANCEL</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Guidelines</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row guide_text">
+                                                <div class="col-lg-7">
+                                                    <div class="guideline-details">
+                                                        <div class="detail-box">
+                                                            <h4>Cut Lines: <span class="dashed-border">&nbsp;</span></h4>
+                                                            <p>This is where we aim to trim the product.</p>
+                                                        </div>
+                                                        <div class="detail-box">
+                                                            <h4>Safe Lines: <span class="dotted-border">&nbsp;</span></h4>
+                                                            <p>Keep text and important imagery within this line to ensure it does not get cut off during trimming.</p>
+                                                        </div>
+                                                        <div class="guide-lines-box">
+                                                            <div class="solid-border">
+                                                                <div class="dashed-border">
+                                                                    <div class="dotted-border">&nbsp;</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="detail-box">
+                                                            <h4>Disclaimer:</h4>
+                                                            <p>
+                                                                Please take a note that all .ai, .eps, .pdf file format artwork will not have the low resolution warning. We strongly suggest to ask for proof for the good quality print.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="short_trm">
+                                                    <div class="guideline-shortcut">
+                                                        <div class="shortcut-list-box">
+                                                            <h4>Shortcuts</h4>
+                                                            <ul class="shortcut-list">
+                                                                <li>
+                                                                    <div class="short-name">Cut</div>
+                                                                    <div class="short-key">Ctrl + X</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Copy</div>
+                                                                    <div class="short-key">Ctrl + C</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Paste</div>
+                                                                    <div class="short-key">Ctrl + V</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Undo</div>
+                                                                    <div class="short-key">Ctrl + Z</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Redo</div>
+                                                                    <div class="short-key">Ctrl + Y</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Move object towards left</div>
+                                                                    <div class="short-key">Left</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Move object towards the right</div>
+                                                                    <div class="short-key">Right</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Move object towards up</div>
+                                                                    <div class="short-key">Up</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Move object towards down</div>
+                                                                    <div class="short-key">Down</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="short-name">Delete</div>
+                                                                    <div class="short-key">Del</div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="display: none;">
+                                            <button type="button" class="btn cta">SEND ARTWORK</button>
+                                            <button type="button" class="btn cta btn-pnk" data-bs-dismiss="modal">CANCEL</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    </div>
+</div>
+
             </div>
         </section>
 

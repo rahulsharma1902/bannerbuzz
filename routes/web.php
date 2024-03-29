@@ -107,6 +107,11 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/template/{slug}', [TemplateController::class, 'template']);
     Route::get('admin-dashboard/template-view', [TemplateController::class, 'index']);
 
+    Route::any('admin-dashboard/template/uploadImage', [TemplateController::class, 'uploadImageTemplate']);
+
+    Route::post('saveTemplate', [TemplateController::class, 'saveTemplate']);
+
+
     //::::::::::::::::::::: ProductCategoryController Routes  ::::::::::::::::::::::://
     Route::get('admin-dashboard/product-category/{slug?}', [ProductCategoryController::class, 'index']);
     Route::post('admin-dashboard/product-category-addProcc', [ProductCategoryController::class, 'AddCategory']);

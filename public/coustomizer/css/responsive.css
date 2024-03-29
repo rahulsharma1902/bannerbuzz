@@ -1,10 +1,11 @@
-@media only screen and (min-width: 1599px) {
+@media only screen and (min-width: 1500px) {
     .container-fluid {
         max-width: 100%;
-        padding: 0px 60px;
+        padding: 0px 30px;
     }
     .container {
         max-width: 1470px;
+        width: 100%;
     }
 }
 
@@ -37,6 +38,12 @@
     ul.custom_size {
         gap: 10px;
     }
+    .cta {
+        padding: 15px 36px;
+    }
+    .hd_ryt_buttn {
+        gap: 20px;
+    }
 }
 @media only screen and (max-width: 1499px) {
     ul.custom_size li.option .customsize-wrapper input {
@@ -48,7 +55,54 @@
     }
     .templ_imgs ul li {
         width: 45%;
-        /* margin-bottom: 20px; */
+    }
+    .design-edit .design-tabs .tab-content.active {
+        display: block;
+        flex: 0 0 23%;
+    }
+    .design-tabs .nw-rw1 {
+        gap: 10px;
+    }
+    .templ_imgs ul {
+        gap: 10px;
+    }
+    .templ_imgs ul li {
+        width: 47%;
+    }
+    .canva-img.blk_dw {
+        max-width: 65%;
+    }
+    .canva-img {
+        width: 100%;
+    }
+    .cta {
+        padding: 15px 20px;
+    }
+    .design-cmnt {
+        max-width: 215px;
+    }
+    .design-ryt-vw {
+        height: 550px;
+        width: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .design-edit .design-tabs .nav {
+        /* flex: 0 0 12%; */
+    }
+
+    .short_trm {
+        padding-left: 15px;
+    }
+    .select_box.new_slct:after {
+        top: 43%;
+        right: 18px;
+    }
+
+    .templ_imgs {
+        margin-top: 20px;
+        height: 335px;
+        overflow-y: auto;
     }
 }
 @media only screen and (max-width: 1399px) {
@@ -58,6 +112,45 @@
     .design-ryt-vw .ftr-size-price .ftr-size-lft p {
         font-size: 15px;
     }
+
+    ul#sortable li.layer span.layer-text-box {
+        width: 140px;
+        /* width: 75px; */
+        font-size: 14px;
+    }
+
+    header.header_wrap .hd_cntr.custom_scrollbar .button-group {
+        gap: 10px;
+    }
+    .design-cmnt {
+        /* max-width: 215px; */
+        max-width: 100%;
+    }
+
+    .design-cmnt .button-group {
+        flex-wrap: wrap;
+    }
+
+    .design-cmnt .button-group .btn.cta {
+        padding: 15px 40px !important;
+    }
+
+    ul#sortable li.layer {
+        gap: 15px;
+    }
+    .canva-img.blk_dw {
+        max-width: 63%;
+    }
+    .text_box_field .text_box-wrap textarea.form-control {
+        padding: 10px;
+        font-size: 12px;
+    }
+    .text_box_field .form-group {
+        margin-bottom: 15px;
+    }
+    .templ_imgs {
+        height: 330px;
+    }
 }
 
 @media only screen and (max-width: 1199px) {
@@ -65,13 +158,363 @@
         width: 60px;
         padding: 10px;
     }
+    .cta {
+        padding: 15px 10px;
+    }
+    .design-ryt-vw {
+        display: none;
+    }
+    .desgin-ryt-arw button.btnpanelbox {
+        display: block;
+    }
+
+    .design-tabs {
+        position: relative;
+    }
+    .desgin-ryt-arw {
+        position: relative;
+    }
+    .desgin-ryt-arw {
+        position: relative;
+    }
+    .desgin-ryt-arw button.btnpanelbox {
+        display: block !important;
+        background: #fff;
+        color: #dc288a;
+        padding: 10px;
+        font-size: 20px;
+        top: 50%;
+        right: 0;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        z-index: 99999;
+        border: 1px solid #cdd5e1;
+        border-right: none;
+        border-radius: 15px 0 0 15px;
+    }
+
+    .mains {
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background: #1b1b1b;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
+    .new_right_arw {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 35%;
+        height: 100%;
+        padding-right: 0;
+    }
+
+    .new_right_arw button.btnpanelbox {
+        margin-top: 10%;
+    }
+    .ryt-arow button.btnpanelbox {
+        left: -50px;
+        top: 70%;
+    }
+    .ryt-arow button.btnpanelbox i {
+        transform: rotatez(180deg);
+    }
+
+    .canva-img {
+        width: 100%;
+    }
+    .canva-img.blk_dw {
+        max-width: 100%;
+    }
+
+    .design-tabs.mains {
+        z-index: -1;
+    }
+    .ryt-view-box .editing-lnks ul li .modal {
+        right: 0;
+        z-index: 1060;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-width: 100%;
+        position: absolute;
+        top: 40%;
+        -webkit-transform: translate(-50%, -50%);
+    }
+    .new_right_arw.rmv_bg {
+        width: 100%;
+    }
+    .modal#exampleModal3 {
+        max-width: 95%;
+    }
+    .col-xl-3.new_right_arw {
+        background: none !important;
+    }
+    .modal-dialog {
+    max-width: 100%;
+   
+}
+.design-ryt-vw.rmv_bg {
+    display: none!important;
+}
+section.design-edit .modal {
+    top: 10%;
+}
 }
 
 @media only screen and (max-width: 991px) {
+    header.header_wrap nav .container-fluid {
+        flex-direction: row-reverse;
+    }
+    button.navbar-toggler {
+        background: #fff;
+        color: #000;
+    }
+    span.navbar-toggler-icon {
+        color: #fff;
+        background: #000;
+        width: 20px;
+        height: 1px;
+    }
+    .tab-content .tab-pane {
+        padding-right: 0;
+    }
+    .templ_imgs ul li {
+        width: 45%;
+    }
+    .new_right_arw {
+        width: 45%;
+    }
+    .loginPopupBox {
+    left: 50%;
+    top: 50%;
+    width: 700px;
+    padding: 20px;
+}
+  .loginBox {
+    /* flex-direction: column; */
+    gap: 20px;
+}
+.socialTitleBox span.socialTitle::before {
+    width: 67px;
+    left: -75px;
+}
+.socialTitleBox span.socialTitle::after {
+    width: 67px;
+   right: -75px;
+}
+    .loginLeftBox {
+        padding: 30px 15px;
+    }
+    .loginRightBox .blockTitle h3 {
+        text-align: left;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    .otpbutton button.linkButton.forgotLink {
+        font-size: 14px;
+        line-height: 1.2;
+    }
+    .otpbutton a {
+        font-size: 12px;
+        line-height: 1.2;
+    }
+    .socialContent ul.signinLinks li a.linkButton {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .createAccountLinkBox span {
+        font-size: 13px;
+        line-height: 1.2;
+    }
+    .createAccountLinkBox button.linkButton {
+        font-size: 12px;
+        line-height: 1.2;
+    }
+    .design-edit .design-tabs .nav {
+        flex: 0 0 15%;
+    }
+    .design-cmnt .button-group .btn.cta {
+    padding: 15px 31px !important;
+}
 }
 
 @media only screen and (max-width: 767px) {
+    .design-tabs .nw-rw1 {
+        flex-direction: column-reverse;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .design-edit .design-tabs .nav {
+        display: flex !important;
+        width: 100%;
+        height: 100px;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .templ_imgs ul {
+        gap: 10px;
+        justify-content: center;
+    }
+    .selct-rw {
+        align-items: center;
+        gap: 15px;
+        margin: 15px;
+        justify-content: center;
+    }
+    .form-group.f-gr1 {
+        margin: 15px;
+    }
+    .temp_content input#template_search_box {
+        max-width: 100% !important;
+        display: inline-block !important;
+    }
+    .form-group input.form-control {
+        padding: 15px;
+    }
+    .text_box_field .form-group input.addnewtext {
+        font-size: 14px;
+    }
+    .cnva_dummy {
+        padding: 50px;
+    }
+    .selct-rw .select_box.new_slct {
+        width: 90%;
+    }
+    .select_box select {
+        max-width: 100%;
+    }
+    .templ_imgs .not_txt {
+        margin-left: 30px;
+    }
+    .form-group-box.SearchBoxSec input#template_search_box {
+        margin: 0px 10px;
+    }
+    .design-edit .design-tabs .nav .tooltip-text {
+        left: 15%;
+        transform: translateY(30px);
+    }
+
+    .tooltip.toltp-2 .tooltip-text {
+        top: 0;
+        left: 22% !important;
+    }
+
+    .tooltip.toltp-3 .tooltip-text {
+        top: 0;
+        left: 35% !important;
+    }
+    .tooltip.toltp-4 .tooltip-text {
+        top: 0;
+        left: 45% !important;
+    }
+    .tooltip.toltp-5 .tooltip-text {
+        top: 0;
+        left: 55% !important;
+    }
+    .tooltip.toltp-6 .tooltip-text {
+        top: 0;
+        left: 65% !important;
+    }
+    .tooltip.toltp-7 .tooltip-text {
+        top: 0;
+        left: 75% !important;
+    }
+    .tooltip.toltp-8 .tooltip-text {
+        top: 0;
+        left: 85% !important;
+    }
+    .tooltip.toltp-9 .tooltip-text {
+        top: 0;
+        left: 95% !important;
+    }
+    .tooltip.toltp-10 .tooltip-text {
+        left: 35%;
+    }
+    .new_right_arw {
+        width: 60%;
+    }
+    .loginRightBox {
+        width: 70%;
+    }
+
+    .contain {
+        display: flex;
+        overflow-x: scroll;
+    }
+    .design-edit .design-tabs .nav {
+        position: fixed;
+        bottom: 0;
+        background: #000;
+        z-index: 99;
+    }
+    .canva-img.blk_dw {
+        width: 100%;
+    }
+    .cnva_dv {
+        height: 200px;
+    }
+
+    .main3 {
+        overflow-x: scroll;
+        overflow-y: hidden !important;
+    }
+    
+   .loginBox {
+    flex-direction: column;
+    gap: 20px;
+}
+.loginPopupBox {
+    width: 580px;
+    height: 870px;
+    border: 1px solid rgb(184, 184, 184);
+    padding: 0;
+    top: 100%;
+}
 }
 
 @media only screen and (max-width: 575px) {
+  .loginPopupBox {
+    width: 340px;
+}
+    .loginPopupBox .form-group input.form-control {
+        padding: 15px 40px;
+    }
+    span.el-icon {
+        left: 10px;
+        top: 15px;
+    }
+    .socialTitleBox span.socialTitle::before {
+        width: 50px;
+        left: -60px;
+    }
+    .socialTitleBox span.socialTitle::after {
+        width: 50px;
+        right: -60px;
+    }
+    ul.custom_size {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .design-ryt-vw .ftr-size-price {
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 15px 0px;
+    }
+    .cnva_dv {
+        width: 360px;
+        height: auto;
+    }
+    .cnva_dummy {
+        padding: 0px;
+    }
 }

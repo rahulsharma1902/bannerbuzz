@@ -442,11 +442,11 @@ function populateLayersList() {
             // If it's text, use a default image icon
             iconHTML = '<span class="layer-icon-box"><i class="fas fa-image"></i></span>';
         } else if (object.type === 'image' && !object.fromSVG) {
-            // If it's a non-SVG image, create a PNG thumbnail
+            // If it's a non-SVG image, create a PNG thumbnail 
             var thumbnailURL = object.toDataURL({ format: 'png', multiplier: 0.4 });
             iconHTML = '<span class="layer-icon-box"><img src="' + thumbnailURL + '" alt=""></span>';
         } else if (object.type === 'image' && object.fromSVG) {
-            // If it's an SVG image, create a PNG thumbnail
+            // If it's an SVG image, create a PNG thumbnail 
             var thumbnailURL = object.toDataURL({ format: 'png', multiplier: 0.4 });
             iconHTML = '<span class="layer-icon-box"><img src="' + thumbnailURL + '" alt=""></span>';
         } else if (object.fromSVG) {
