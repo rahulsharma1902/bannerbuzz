@@ -30,8 +30,8 @@
             referrerpolicy="no-referrer"
         />
 
-        <link rel="stylesheet" href="{{ asset('coustomizer/css/style.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('coustomizer/css/responsive.css') }} " />
+        <link rel="stylesheet" href="{{ asset('coustomizer/css/style.css') }}?{{ time() }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('coustomizer/css/responsive.css') }}?{{ time() }}" />
           <!-- Include Fabric.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js"
         integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ=="
@@ -68,6 +68,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-        <script src="{{ asset('coustomizer/js/script.js') }}"></script>
+        <script src="{{ asset('coustomizer/js/script.js') }}?{{ time() }}"></script>
+
     </body>
 </html>
