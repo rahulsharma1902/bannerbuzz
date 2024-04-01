@@ -234,7 +234,7 @@
                     </div>
                 </div>
                 <div class="hd_ryt_buttn ">
-                    <!-- <a hef="#" class="btn cta">Continue</a> -->
+                    <a hef="#" class="btn cta downloadCanvasToPng">Download PNG</a>
                     <a hef="#" class="btn cta btn-pnk saveTemplate" template-data="{{ json_encode($templateData->templateData) ?? '' }}" template-id="{{ $templateData->id ?? '' }}">Save</a>
                 </div>
             </div>
@@ -575,24 +575,28 @@
 
                                 <div class="selct-rw d-flex">
                                     <div class="select_box">
-                                        <select name="select" id="select-option" class="form-control">
-                                            <option value="">All</option>
-                                            <option value="Option_one">Option one</option>
-                                            <option value="Option_two">Option two</option>
+                                        <select name="select" id="select-option" class="form-control templateCng temMain">
+                                            <option value="" data-show="all">All</option>
+                                            @foreach ($templateCategorys as $temCat)
+                                                <option data-for="data-showCat" data-templateShow="templateShow{{ $temCat->id ?? '' }}" data-show="templateName{{ $temCat->id ?? '' }}" class="" value="Option_one">{{ $temCat->name ?? '' }}</option>
+                                            @endforeach
+                                            <!-- <option value="Option_two">Option two</option> -->
                                         </select>
                                     </div>
 
                                     <div class="select_box">
-                                        <select name="select" id="select-option" class="form-control">
-                                            <option value="">All</option>
-                                            <option value="Option_one">Option one</option>
-                                            <option value="Option_two">Option two</option>
+                                        <select name="select" id="select-option" class="form-control templateCng temOption">
+                                            <option value="all" data-for="all">All</option>
+                                            @foreach ($templates as $tem)
+                                                <option data-for="data-showName" data-templateShow="templateShow{{ $tem->id ?? '' }}"  class="templateName{{ $tem->category->id ?? '' }} templatesName" value="Option_one">{{ $tem->name ?? '' }}</option>
+                                            @endforeach
+                                            <!-- <option value="Option_two">Option two</option> -->
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group-box SearchBoxSec">
                                     <div class="form-group f-gr1">
-                                        <input type="text" name="" value="" class="form-control"
+                                        <input type="text" name="" value="" data-for="template" class="form-control CNGInput"
                                             placeholder="Search templates" id="template_search_box"
                                             aria-label="Search Template" />
                                         <button title="Clear" class="template-cross-icon"
@@ -601,34 +605,15 @@
                                 </div>
                                 <div class="templ_imgs">
                                     <ul class="list-unstyled m-0">
-                                        <li><img src="{{ asset('coustomizer/img/t-img1.png') }}" class="img-fluid"
+                                        @foreach ($templates as $template)       
+                                            <li data-name="{{ $template->name ?? '' }}"  data-showName="templateShow{{ $template->id ?? '' }}" data-showCat="templateShow{{ $template->category->id ?? '' }}" class="loadSelectedTemplate templateSection" data-templateName="templateNametemplate{{$template->id}}" data-templateCat="templateCate{{$template->category->id}}"  data-template-data="{{ json_encode($template->templateData ?? '' ) }}">
+                                            <img src="{{ asset('TemplateImage') }}/{{ $template->template_image ?? 'default.png' }}" class="img-fluid"
                                                 alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img2.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img3.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img4.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img5.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img6.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img7.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img8.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li>
-                                            <img src="{{ asset('coustomizer/img/t-img9.png') }}" class="img-fluid"
-                                                alt="" />
-                                        </li>
-                                        <li>
-                                            <img src="{{ asset('coustomizer/img/t-img10.png') }}" class="img-fluid"
-                                                alt="" />
-                                        </li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img11.png') }}" class="img-fluid"
-                                                alt="" /></li>
-                                        <li><img src="{{ asset('coustomizer/img/t-img12.png') }}" class="img-fluid"
-                                                alt="" /></li>
+                                            </li>
+                                        @endforeach
+                                        <!-- <li><img src="{{ asset('coustomizer/img/t-img1.png') }}" class="img-fluid"
+                                                alt="" /></li> -->
+                                       
                                     </ul>
                                 </div>
                             </div>
@@ -1810,7 +1795,7 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
     var id = $('.saveTemplate').attr('template-id')
         $.ajax({
             type: 'POST',
-            url: '/saveTemplate',
+            url: '{{ url("/saveTemplate") ?? "" }}',
             data: {
                 _token: "{{ csrf_token() }}",
                 id: id,

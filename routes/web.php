@@ -102,7 +102,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('admin-dashboard/template-category/remove', [TemplateCategoryController::class, 'remove']);
 
     // template create 
-    Route::get('admin-dashboard/template-add', [TemplateController::class, 'add']);
+    Route::get('admin-dashboard/template-add/{slug?}', [TemplateController::class, 'add']);
     Route::post('admin-dashboard/template-addProcc', [TemplateController::class, 'addProcc']);
     Route::get('admin-dashboard/template/{slug}', [TemplateController::class, 'template']);
     Route::get('admin-dashboard/template-view', [TemplateController::class, 'index']);

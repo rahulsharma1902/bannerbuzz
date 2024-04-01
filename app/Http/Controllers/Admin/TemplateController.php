@@ -23,49 +23,83 @@ class TemplateController extends Controller
         $templates = Template::all();
         return view('admin.template.index',compact('templates'));
     }
-    public function add(Request $request){
+    public function add(Request $request, ?string $slug = null){
+        $template = Template::where('slug',$slug)->first();
         $templateCategory = TemplateCategory::all();
-        return view('admin.template.add',compact('templateCategory'));
+        if($template){
+             
+            return view('admin.template.add',compact('templateCategory','template'));
+        } else {
+            
+            return view('admin.template.add',compact('templateCategory'));
+        }
     }
     public function addProcc(Request $request){
 
-        $request->validate([
-            'name' => 'required|unique:templates',
-            'slug' => 'required|unique:templates',
-            'category_id' => 'required',
-        ]);
         try {
-            $template = new Template;
-            $template->name = $request->name;
-            $template->slug = $request->slug;
-            $template->category_id = $request->category_id;
-            
-
-            if ($request->hasFile('image')) {
-                $featuredImage = $request->file('image');
-                $extension = $featuredImage->getClientOriginalExtension();
-                $featuredImageName = 'template_'.rand(0,1000).time().'.'.$extension;;
-                $featuredImage->move(public_path().'/TemplateImage/',$featuredImageName);
+            if($request->id){
+                $template = Template::find($request->id);
+                if($template){
+                    $request->validate([
+                        'name' => 'required|unique:templates,name,'.$request->id.',id',
+                        'slug' => 'required|unique:templates,slug,'.$request->id.',id',
+                        'category_id' => 'required',
+                    ]);
+                    $template->name = $request->name;
+                    $template->slug = $request->slug;
+                    $template->category_id = $request->category_id;
+                    if ($request->hasFile('image')) {
+                        $featuredImage = $request->file('image');
+                        $extension = $featuredImage->getClientOriginalExtension();
+                        $featuredImageName = 'template_'.rand(0,1000).time().'.'.$extension;;
+                        $featuredImage->move(public_path().'/TemplateImage/',$featuredImageName);
+                        
+                        $template->template_image = $featuredImageName;    
+                    }
+                    $template->save();
+                    return redirect()->to(url("admin-dashboard/template-add/{$request->slug}"));
+                }
                 
-                $template->image = $featuredImageName;    
-            }
+            }else{
+                $request->validate([
+                    'name' => 'required|unique:templates',
+                    'slug' => 'required|unique:templates',
+                    'category_id' => 'required',
+                ]);
+                
+                    $template = new Template;
+                    $template->name = $request->name;
+                    $template->slug = $request->slug;
+                    $template->category_id = $request->category_id;
+                    
 
-            $template->save();
-            // return redirect()->back()->with('success','Template added succefully.');
-            return redirect()->to(url("admin-dashboard/template/{$request->slug}"));
+                    if ($request->hasFile('image')) {
+                        $featuredImage = $request->file('image');
+                        $extension = $featuredImage->getClientOriginalExtension();
+                        $featuredImageName = 'template_'.rand(0,1000).time().'.'.$extension;;
+                        $featuredImage->move(public_path().'/TemplateImage/',$featuredImageName);
+                        
+                        $template->template_image = $featuredImageName;    
+                    }
+
+                    $template->save();
+                    return redirect()->to(url("admin-dashboard/template/{$request->slug}"));
+            
+            }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while adding the Clipart.');
+            // Log the error message to debug
+            \Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while adding the template: ' . $e->getMessage());
         }
-        // echo '<pre>';
-        // print_r($request->all());
-        // die();
+
     }
 
     public function template($slug){
         if($slug){
             $templateData = Template::where('slug', $slug)->first();
             if($templateData){
-                $templates = Template::all();
+                $templates = Template::with('category')->where('id', '!=', $templateData->id ?? '' )->get();
+                $templateCategorys = TemplateCategory::all();
                 $backgrounds = BackgroundCategory::with('background')->get();
                 $shapes = ShapeCategory::with('shape')->get();
                 $cliparts = ClipArtCategory::with('clipart')->get();
@@ -75,7 +109,7 @@ class TemplateController extends Controller
                 // die();
                 // $shapes = Shape::all();
                 // $cliparts = Clipart::all();
-                return view('admin.template.template',compact('templateData','shapes','backgrounds','cliparts','templates','uploadedImages'));
+                return view('admin.template.template',compact('templateCategorys','templateData','shapes','backgrounds','cliparts','templates','uploadedImages'));
             }else{
                 return redirect()->back()->with('error','Invalid Template');
             }
