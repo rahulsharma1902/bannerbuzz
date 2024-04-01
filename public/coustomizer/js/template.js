@@ -31,7 +31,13 @@ $(document).ready(function (){
                 }
             });
         }else{
-            $('.sectionCNG[data-for="'+dataFor+'"]').trigger('change');
+            if(dataFor == "template"){
+                $('.templateCng').trigger('change');
+            }else{
+
+                $('.sectionCNG[data-for="'+dataFor+'"]').trigger('change');
+            }
+           
         }
     });
     
@@ -46,9 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Check if there is canvas data in the templateData variable
   var templateData = $(".saveTemplate").attr('template-data');
-  console.log(templateData);
   if (templateData !== undefined) {
-    console.log('wokring');
     canvas.loadFromJSON(JSON.parse(templateData), function() {
       canvas.renderAll();
     });
@@ -86,7 +90,6 @@ var countObj = 0;
             $('.color_pickers').hide();
             $('.color').removeClass('changeShapeClr');
             $('#hidden_color_picker').removeClass('changeShapeClr');
-            console.log('text selected....');
             // $('.font-size-container').show();
             updateFontOptions(activeObject);
             updateTextStyleButtons(activeObject);
@@ -218,13 +221,11 @@ function redo() {
 // Attach undo function to undo button click
 $('.undoButton').on('click', function() {
     undo();
-    console.log('Undo performed');
 });
 
 // Attach redo function to redo button click
 $('.redoButton').on('click', function() {
     redo();
-    console.log('Redo performed');
 });
 
 
@@ -400,7 +401,6 @@ function textListFromCanvas(){
 
             textArea.on('input', function() {
                 obj.set('text', $(this).val());
-                console.log('working');
                 canvas.setActiveObject(obj);
 
                 canvas.renderAll();
@@ -416,12 +416,8 @@ function textListFromCanvas(){
 
 
 function updateFontOptions(activeObject) {
-    // Update font size
     updateFontSizeOptions(activeObject.get('fontSize'));
-    // Update font family
     updateFontFamilyOptions(activeObject.get('fontFamily'));
-    console.warn(activeObject.get('fill'));
-    // Input value of color
     setColorValue(activeObject.get('fill'));
     updateOpacitySlider(activeObject);
     commonControls();
@@ -507,6 +503,24 @@ $('.setBackground').on('click', function() {
     var imageSrc = $(this).attr('data-background');
     setBackground(imageSrc);
 });
+$('.loadSelectedTemplate').on('click', function() {
+    var templateData = $(this).data('template-data');
+    var decodedTemplateData = templateData === "null" ? null : JSON.parse(templateData || "{}");
+    loadTemplateData(decodedTemplateData);
+});
+
+function loadTemplateData(templateData){
+    if (templateData && Object.keys(templateData).length > 0) {
+        canvas.loadFromJSON(templateData, function() {
+            canvas.renderAll();
+        });
+    } else {
+        canvas.clear();
+        console.log('No template data available. Canvas has been cleared.');
+    }
+}
+
+
 function refreshFunctions(){
     textListFromCanvas();
     populateLayersList();
@@ -723,7 +737,6 @@ function clearCanvas() {
 
 
 $('.selectTemp').on('click', function() {
-    console.log('wokring');
     var svgIMGShape = $(this).attr('shapeData');
     var from = $(this).attr('data-from');
     loadShape(svgIMGShape,from);
@@ -908,9 +921,7 @@ $('.sendBackward').on('click', function (){
 });
 
 function bringForward() {
-    // console.log('bringForward working');
     var activeObjects = canvas.getActiveObjects();
-    // console.log('Active Objects:', activeObjects);
     if (activeObjects && activeObjects.length > 0) {
         activeObjects.reverse().forEach(function(object) {
             canvas.bringForward(object);
@@ -920,9 +931,7 @@ function bringForward() {
     }
 }
 function sendBackward() {
-    // console.log('sendBackward working');
     var activeObjects = canvas.getActiveObjects();
-    // console.log('Active Objects:', activeObjects);
     if (activeObjects && activeObjects.length > 0) {
         activeObjects.forEach(function(object) {
             canvas.sendBackwards(object);
@@ -1066,3 +1075,49 @@ $('#uploadButton').on('click', function() {
 
 
 
+
+$(document).ready(function(){
+    $('.templatesName').hide();
+    $('.templateCng').on('change', function (){
+        var selectedOption = $(this).find('option:selected');
+        var forAttr = selectedOption.data('for');
+        console.log(forAttr);
+        var templateName = selectedOption.data('show');
+        if(forAttr == 'data-showCat'){
+            $('.templatesName').hide(); 
+            $('.'+templateName).show(); 
+        }else if (forAttr == 'all'){
+            var allShow = $('.temMain').find('option:selected').attr('data-templateShow');
+            $('.loadSelectedTemplate[data-showCat="' + allShow + '"]').show();
+
+            console.log(allShow);
+            return false;
+        }
+        if(templateName === 'all'){
+            $('.templatesName').hide();
+            $('.temOption').val('all').change();
+
+            $('.loadSelectedTemplate').show();
+        }else{
+        var templateData = selectedOption.attr('data-templateShow');
+            $('.loadSelectedTemplate').hide();
+            $('.loadSelectedTemplate['+forAttr+'="'+templateData+'"]').show();
+        }
+ 
+       
+    });
+
+});
+
+$(document).ready(function(){
+    $('.downloadCanvasToPng').on('click', function() {
+        var canvas = document.getElementById('customCanvas');
+        var canvasData = canvas.toDataURL('image/png');
+        var a = document.createElement('a');
+        a.href = canvasData;
+        a.download = 'canvas_image.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});

@@ -69,7 +69,10 @@
                                             <ul class="link-list-opt no-bdr">
                                                 <li><a
                                                         href="{{ url('admin-dashboard/template') ?? '' }}/{{ $template->slug ?? ''}}"><em
-                                                            class="icon ni ni-eye"></em><span>Edit</span></a></li>
+                                                            class="icon ni ni-eye"></em><span>Edit Template</span></a></li>
+                                                            <li><a
+                                                        href="{{ url('admin-dashboard/template-add') ?? '' }}/{{ $template->slug ?? ''}}"><em
+                                                            class="icon ni ni-eye"></em><span>Edit Info</span></a></li>
                                                 <li><a class="delete"
                                                         link="{{ url('admin-dashboard/template-remove') ?? '' }}/{{ $template->slug ?? ''}}"><em
                                                             class="icon ni ni-focus"></em><span>Remove</span></a></li>
