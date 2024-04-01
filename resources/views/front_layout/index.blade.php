@@ -70,5 +70,5 @@
 
         <script src="{{ asset('coustomizer/js/script.js') }}?{{ time() }}"></script>
 
-    </body>
+    </body> 
 </html>
