@@ -53,18 +53,25 @@ document.addEventListener("DOMContentLoaded", function() {
   // Check if there is canvas data in the templateData variable
   var templateData = $(".saveTemplate").attr('template-data');
   if (templateData !== undefined) {
-    canvas.loadFromJSON(JSON.parse(templateData), function() {
-      canvas.renderAll();
-    });
-  }else{
-    var text = new fabric.IText('Customize me!', {
-        left: 300,
-        top: 100,
-        fontSize: 30,
-        fill: 'white',
+      canvas.loadFromJSON(JSON.parse(templateData), function() {
+          // Iterate through all objects after loading
+          canvas.forEachObject(function(obj) {
+              if (obj.stroke === 'clrChangeShape') {
+                  obj.set('shapeObjectData', true);
+              }
+          });
+          canvas.renderAll();
+      });
+  } else {
+      var text = new fabric.IText('Customize me!', {
+          left: 300,
+          top: 100,
+          fontSize: 30,
+          fill: 'white',
       });
       canvas.add(text);
   }
+  
     
     canvas.on('text:changed', function(options) {
         textListFromCanvas();
@@ -111,6 +118,7 @@ var countObj = 0;
     canvas.on('mouse:down', function(options) {
      
         var target = canvas.findTarget(options.e);
+        
         if(target && target.get('shapeObjectData')){
             $('.acrylc-letter-box').hide();
             $('.color').addClass('changeShapeClr');
@@ -124,6 +132,7 @@ var countObj = 0;
             $('#hidden_color_picker').removeClass('changeShapeClr');
             updateFontOptions(target);
             updateTextStyleButtons(target);
+           
         } else {
             
             $('.acrylc-letter-box').hide();
@@ -227,7 +236,22 @@ $('.undoButton').on('click', function() {
 $('.redoButton').on('click', function() {
     redo();
 });
+// $('.arcRadiusSlider').on('input', function() {
+//     var newRadius = parseInt($(this).val(), 10);
+//     simulateArcText(newRadius);
+// });
 
+// function simulateArcText(newRadius) {
+//     var activeObject = canvas.getActiveObject();
+//     if (activeObject) {
+//         var originalScaleY = activeObject.scaleY;
+//         var newScale = newRadius / 100; // Example calculation, adjust as needed
+
+//         activeObject.scaleY = newScale * originalScaleY; 
+        
+//         canvas.renderAll();
+//     }
+// }
 
 
 // end of undo and redo
@@ -421,6 +445,7 @@ function updateFontOptions(activeObject) {
     setColorValue(activeObject.get('fill'));
     updateOpacitySlider(activeObject);
     commonControls();
+    setrangeValues(); // this is use for update Line Height Letter Spacing range slider 
 }
 function updateFontSizeOptions(fontSize) {
     $('.font-size').val(fontSize);
@@ -508,6 +533,64 @@ $('.loadSelectedTemplate').on('click', function() {
     var decodedTemplateData = templateData === "null" ? null : JSON.parse(templateData || "{}");
     loadTemplateData(decodedTemplateData);
 });
+
+
+$('.cngLetterSpace').on('input', function() {
+    var charSpacingValue = parseInt($(this).val(), 10);
+    changeLetterSpacing(charSpacingValue);
+});
+
+function changeLetterSpacing(charSpacingValue) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('charSpacing', charSpacingValue);
+        canvas.renderAll();
+    }
+}
+
+
+$('.cngLetterHeight').on('input', function() {
+    var lineSpacingValue = parseInt($(this).val(), 10);
+    changeHeightSpacing(lineSpacingValue);
+});
+function setrangeValues() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        var charSpacing = activeObject.get('charSpacing');
+        var lineHeight = activeObject.get('lineHeight');
+        var backgroundColor = activeObject.get('backgroundColor');
+        
+        $('.cngLetterSpace').val(charSpacing);
+        $('.cngLetterHeight').val(lineHeight);
+        $('.highlightBg').val(backgroundColor);
+    }
+}
+
+function changeHeightSpacing(lineSpacingValue) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('lineHeight', lineSpacingValue);
+        canvas.renderAll();
+    }
+}
+
+$('.highlightBg').on('input', function() {
+    var highlightColor = $(this).val();
+    changeHighlightColor(highlightColor);
+});
+
+function changeHighlightColor(color) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject) {
+        if (activeObject.type === 'i-text') {
+            // Check if the object is an iText object
+            activeObject.set({ backgroundColor: color });
+            canvas.renderAll();
+        }
+    }
+}
+
+
 
 function loadTemplateData(templateData){
     if (templateData && Object.keys(templateData).length > 0) {
@@ -647,7 +730,10 @@ function paste() {
                 } else {
                     canvas.add(clonedObject);
                 }
-
+                //  use this for convert copy object to chnage able color object 
+                if (clonedObject.stroke === 'clrChangeShape') {
+                    clonedObject.set('shapeObjectData', true);
+                }
                 canvas.renderAll();
             }, ['sourcePath', 'filters']); // Include any properties that require deep cloning
         });
@@ -767,6 +853,7 @@ function loadShape(img,from) {
         // Add custom property to identify shape objects
         if(from == 'shapes'){
         svgObject.set('shapeObjectData', true);
+        svgObject.set('stroke', "clrChangeShape");
         }
         canvas.add(svgObject);
         canvas.setActiveObject(svgObject);
@@ -1024,11 +1111,6 @@ $(document).ready(function() {
 });
 
 
-    // Refresh layers list when canvas objects are modified <i class="fa-solid fa-eye-slash"></i>
-
-//     canvas.on('object:added', populateLayersList);
-// canvas.on('object:removed', populateLayersList);
-// layers code end here 
 
 
 
@@ -1075,13 +1157,12 @@ $('#uploadButton').on('click', function() {
 
 
 
-
+// show and hide filter for template section from where we can load template data :
 $(document).ready(function(){
     $('.templatesName').hide();
     $('.templateCng').on('change', function (){
         var selectedOption = $(this).find('option:selected');
         var forAttr = selectedOption.data('for');
-        console.log(forAttr);
         var templateName = selectedOption.data('show');
         if(forAttr == 'data-showCat'){
             $('.templatesName').hide(); 
@@ -1090,7 +1171,6 @@ $(document).ready(function(){
             var allShow = $('.temMain').find('option:selected').attr('data-templateShow');
             $('.loadSelectedTemplate[data-showCat="' + allShow + '"]').show();
 
-            console.log(allShow);
             return false;
         }
         if(templateName === 'all'){
@@ -1108,7 +1188,7 @@ $(document).ready(function(){
     });
 
 });
-
+// Download canvas Into png image functionality ::
 $(document).ready(function(){
     $('.downloadCanvasToPng').on('click', function() {
         var canvas = document.getElementById('customCanvas');
