@@ -1,5 +1,7 @@
 $(document).ready(function (){
     $('.common_controls').hide();
+    $('#horizontalLine').hide();
+    $('#verticalLine').hide();
 
     $('.acrylc-letter-box').hide();
     $('.sectionCNG').on('change', function (){
@@ -48,6 +50,24 @@ var isDragging = false;
 
 document.addEventListener("DOMContentLoaded", function() {
   canvas = new fabric.Canvas('customCanvas');
+
+//   this is use for add scalling border in canvas ::
+  var canvas2=document.getElementById("canvasBottom");
+  var ctx2=canvas2.getContext("2d");
+
+  ctx2.beginPath();
+  for(var i=0;i<canvas.width;i+=10){
+      var y=(i/100==parseInt(i/100))?0:10;
+      ctx2.moveTo(i+15,y);
+      ctx2.lineTo(i+15,15);
+      var x=(i/100==parseInt(i/100))?0:10;
+      ctx2.moveTo(x,i+15);
+      ctx2.lineTo(15,i+15);
+  }
+  ctx2.strokeStyle = "white";
+  ctx2.stroke();
+
+//  scaling border canvas end here
 
 
   // Check if there is canvas data in the templateData variable
@@ -118,7 +138,7 @@ var countObj = 0;
     canvas.on('mouse:down', function(options) {
      
         var target = canvas.findTarget(options.e);
-        
+        // console.log(target);
         if(target && target.get('shapeObjectData')){
             $('.acrylc-letter-box').hide();
             $('.color').addClass('changeShapeClr');
@@ -166,25 +186,47 @@ var countObj = 0;
     
         }
     });
-
-    // var colorDivs = document.querySelectorAll('.color');
-
-    // colorDivs.forEach(function(colorDiv) {
-    //     console.log(colorDiv);
-    //     colorDiv.addEventListener('click', function() {
-    //         console.log('working');
-    //         var bgColor = colorDiv.getAttribute('bgColor');
-    //         console.log(bgColor);
-    //         // Set the background color of the canvas using Fabric.js method
-    //         canvas.setBackgroundColor(bgColor, canvas.renderAll.bind(canvas));
-    //     });
+    const horizontalLine = document.getElementById('horizontalLine');
+    const verticalLine = document.getElementById('verticalLine');
+    canvas.on('mouse:move', function(options) {
+        $('#horizontalLine').show();
+        $('#verticalLine').show();
+        const canvasElement = canvas.lowerCanvasEl;
+        const rect = canvasElement.getBoundingClientRect();
+        const x = options.e.clientX - rect.left;
+        const y = options.e.clientY - rect.top;
+        const maxX = canvasElement.width;
+        const maxY = canvasElement.height;
+        console.log(maxY);
+        var disWidth = getWidthDistance();
+        horizontalLine.style.left = `${parseInt(x) + disWidth}px`;
+        verticalLine.style.top = `${parseInt(y) + 35}px`;;
+    });
+    
+    canvas.on('mouse:out', function(options) {
+        $('#horizontalLine').hide();
+        $('#verticalLine').hide();
+    });
+    // canvas.on('mouse:over', function(options) {
+    //     $('#horizontalLine').show();
+    //     $('#verticalLine').show();
     // });
-
-
-
+    
 
 
 });
+function getWidthDistance(){
+var canvasContainer = $(".canvas-container");
+var customCanvas = $("#customCanvas");
+
+var canvasContainerLeft = canvasContainer.offset().left;
+var customCanvasLeft = customCanvas.offset().left;
+
+var widthDistance = customCanvasLeft - canvasContainerLeft;
+$("#verticalLine").css("left", `${widthDistance - 15}px`);
+return widthDistance;
+console.log(widthDistance);
+}
 // Canvas code end here ::
 //  background function start from here :::
 // undo redo start here
@@ -264,16 +306,21 @@ function cngBackgroungColor(color) {
     canvas.backgroundColor = color;
 
     // Check if there is a background image and remove it
-    if (currentBgImageSrc) {
-        var existingBgImage = canvas.getObjects().find(function(obj) {
-            return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-        });
-
-        if (existingBgImage) {
-            canvas.remove(existingBgImage);
-            currentBgImageSrc = null; // Reset the current background image source
+    canvas.getObjects().find(function(obj) {
+        if (obj.stroke === 'imageBgStroke') {
+            canvas.remove(obj);
         }
-    }
+    });
+    // if (currentBgImageSrc) {
+    //     var existingBgImage = canvas.getObjects().find(function(obj) {
+    //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
+    //     });
+
+    //     if (existingBgImage) {
+    //         canvas.remove(existingBgImage);
+    //         currentBgImageSrc = null; // Reset the current background image source
+    //     }
+    // }
 
     canvas.renderAll();
 }
@@ -288,19 +335,6 @@ $('.colorChange').on('click', function() {
     }
 });
 
-// $('.colorChange').on('click', function (){
-//     var bgColor = $(this).attr('bgColor');
-
-//     if($(this).hasClass('changeShapeClr')){
-//         updateActiveObjectColor(bgColor);
-//         console.log('shape');
-//     }else{
-//         cngBackgroungColor(bgColor);
-//         console.log('bg');
-
-//     }
-
-// });
 
 function handleColorInput() {
     var color = document.getElementById('hidden_color_picker').value;
@@ -321,21 +355,32 @@ document.querySelectorAll('#background_color_picker, #trigger_color_picker').for
 document.getElementById('hidden_color_picker').addEventListener('input', handleColorInput);
 
 
-var currentBgImageSrc = null;
+// var currentBgImageSrc = null;
 
 function setBackground(imageSrc) {
     if (imageSrc) {
-        if (currentBgImageSrc) {
-            var existingBgImage = canvas.getObjects().find(function(obj) {
-                return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-            });
+        // if (currentBgImageSrc) {
+        //     var existingBgImage = canvas.getObjects().find(function(obj) {
+        //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
+        //     });
 
-            if (existingBgImage) {
-                canvas.remove(existingBgImage);
+        //     if (existingBgImage) {
+        //         canvas.remove(existingBgImage);
+                
+        //     }
+        // }else{
+        //     var existingBgImage = canvas.getObjects().find(function(obj) {
+        //         if (obj.stroke === 'imageBgStroke') {
+        //             canvas.remove(obj);
+        //         }
+        //     });
+        // }
+        // currentBgImageSrc = imageSrc;
+        canvas.getObjects().find(function(obj) {
+            if (obj.stroke === 'imageBgStroke') {
+                canvas.remove(obj);
             }
-        }
-
-        currentBgImageSrc = imageSrc;
+        });
 
         fabric.Image.fromURL(imageSrc, function(img) {
             // Get the scale to fit the image within the canvas
@@ -355,7 +400,8 @@ function setBackground(imageSrc) {
                 selectable: true,
                 hasControls: true,
                 hasBorders: false,
-                globalCompositeOperation: 'destination-over'
+                globalCompositeOperation: 'destination-over',
+                stroke:'imageBgStroke',
             });
 
             // Do not change canvas dimensions
@@ -665,17 +711,22 @@ $('.colorCng').on('input', function() {
     updateActiveObjectColor(newColor);
 });
 function updateActiveObjectColor(newColor) {
-    $('.adjustBtnClr').css({backgroundColor: newColor});
+    $('.adjustBtnClr').css({ backgroundColor: newColor });
     var activeObject = canvas.getActiveObject();
     if (activeObject) {
-        if (activeObject.type === 'image') {
-            activeObject.setElement(newColor);
+        if (activeObject.type === 'group') { 
+            activeObject.getObjects().forEach(function(path) {
+                if (path.type === 'path') { 
+                    path.set({ fill: newColor }); 
+                }
+            });
         } else {
             activeObject.set('fill', newColor);
         }
         canvas.renderAll();
     }
 }
+
 
 function setColorValue(color) {
     if(color ==  'rgb(0,0,0)'){
@@ -854,6 +905,17 @@ function loadShape(img,from) {
         if(from == 'shapes'){
         svgObject.set('shapeObjectData', true);
         svgObject.set('stroke', "clrChangeShape");
+            // change color of svg to white :: 
+            if (svgObject.type === 'group') { 
+                svgObject.getObjects().forEach(function(path) {
+                    if (path.type === 'path') { 
+                        path.set({ fill: "white" }); 
+                    }
+                });
+            } else {
+                svgObject.set('fill', "white");
+            }
+            // chnage clr end here
         }
         canvas.add(svgObject);
         canvas.setActiveObject(svgObject);
@@ -1190,6 +1252,11 @@ $(document).ready(function(){
 });
 // Download canvas Into png image functionality ::
 $(document).ready(function(){
+    $("#select-option").find("option").each(function() {
+        $(".font-family").css("font-family", '"' + this.value + '"');
+    });
+
+    
     $('.downloadCanvasToPng').on('click', function() {
         var canvas = document.getElementById('customCanvas');
         var canvasData = canvas.toDataURL('image/png');
@@ -1201,3 +1268,8 @@ $(document).ready(function(){
         document.body.removeChild(a);
     });
 });
+
+
+
+
+

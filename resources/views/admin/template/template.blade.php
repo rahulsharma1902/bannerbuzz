@@ -1113,20 +1113,17 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option value="Verdana">Verdana</option>
-                                                <option value="Arial">Arial</option>
-                                                <option value="Rockwell">Rockwell</option>
-                                                <option value="Cambria">Cambria</option>
-                                                <option value="Book Antiqua">Book Antiqua</option>
-                                                <option value="Courier New">Courier New</option>
-                                                <option value="Georgia">Georgia</option>
-                                                <option value="Times New Roman">Times New Roman</option>
-                                                <option value="monospace">Monospace</option>
-                                                <option value="system-ui">System-ui</option>
-                                                <option value="'circular'">Circular</option>
-                                                <option value="emoji">emoji</option>
-                                                <option value="math">math</option>
-                                                <option value="Eurostile LT Std">Eurostile LT Std;</option>
+                                                <option style="font-family: 'Mona Sans';" value="Verdana">Verdana</option>
+                                                <option style="font-family: 'circular';" value="Arial">Arial</option>
+                                                <option style="font-family: 'cursive;';" value="Rockwell">Rockwell</option>
+                                                <option style="font-family: 'emoji';" value="emoji">emoji</option>
+                                                <option style="font-family: 'math';" value="math">math</option> 
+                                                <option style="font-family: 'monospace';" value="monospace">Monospace</option>
+                                                <option style="font-family: 'system-ui';" value="system-ui">System-ui</option>
+                                                <option style="font-family: 'circular';" value="Times New Roman">Times New Roman</option>
+                                                <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
+                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
+
                                             </select>
                                         </div>
                                         <div class="select-size">
@@ -1243,11 +1240,18 @@
 
                         </div>
 
-                        <div class="" style="padding:2rem 5rem; display: flex; justify-content: center;">
-                            <div class="">
-                                <canvas id="customCanvas" width="700" height="400" style="border:1px solid;"></canvas>
-                            </div>
+                        <div class="canvas-container wrapper" style="padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
+                                    <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
+                                    <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div>
+                                <!-- <div> -->
+                                <canvas id="canvasBottom" width=750 height=427></canvas>
+                                <canvas id="customCanvas" width="700" height="400" style="border: 1px solid;"></canvas>
+                                <!-- Position the lines relative to the canvas -->
+                                
+                            <!-- </div> -->
                         </div>
+
+
                         <!-- <div class="cnva_dummy">
                             <div class="cnva_dv">
                                 <canvas id="customCanvas" width="700" height="300" style="border:1px solid red;"></canvas>
