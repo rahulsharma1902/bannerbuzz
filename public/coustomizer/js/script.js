@@ -282,9 +282,9 @@ $(document).ready(function () {
     attactWith.show();
 });
 $(document).ready(function () {
-    $(".attactWith, .aligndiv").hide(); // Initially hide these elements
+    $(".attactWith, .aligndiv, .attactWith1").hide(); // Initially hide these elements
 
-    $(".mainDiv, .main2_div").on("click", function (e) {
+    $(".mainDiv, .main2_div, .mrcontrol").on("click", function (e) {
         e.stopPropagation(); // Prevent click from bubbling up to the document level
 
         var $this = $(this);
@@ -295,8 +295,8 @@ $(document).ready(function () {
             $this.removeClass("active");
             $("." + dataFor).hide();
         } else {
-            $(".mainDiv, .main2_div").removeClass("active");
-            $(".attactWith, .aligndiv").hide();
+            $(".mainDiv, .main2_div, .mrcontrol").removeClass("active");
+            $(".attactWith, .aligndiv, .attactWith1").hide();
 
             $this.addClass("active");
             $("." + dataFor).show();
@@ -306,15 +306,29 @@ $(document).ready(function () {
     // Click event on the document
     $(document).on("click", function () {
         // If click is outside, hide elements and remove 'active' class
-        $(".mainDiv, .main2_div").removeClass("active");
-        $(".attactWith, .aligndiv").hide();
+        $(".mainDiv, .main2_div , .mrcontrol").removeClass("active");
+        $(".attactWith, .aligndiv, .attactWith1").hide();
     });
 
     // Prevent click inside .attactWith and .aligndiv from bubbling up to document
-    $(".attactWith, .aligndiv").on("click", function (e) {
+    $(".attactWith, .aligndiv, .attactWith1").on("click", function (e) {
         e.stopPropagation();
     });
 });
+// $(document).ready(function () {
+//     $('.attachData').hide();
+//     $(".attactWith1").hide();
+//     $(".mrcontrol").on("click", function () {
+//         // $('.attachData').hide();
+//         //   $('.attactWith').toggle();
+//         $(this).toggleClass("active");
+//         if ($(this).hasClass("active")) {
+//             $(".attactWith1").show();
+//         } else {
+//             $(".attactWith1").hide();
+//         }
+//     });
+// });
 
 
 
@@ -335,22 +349,22 @@ $(document).ready(function () {
 
     $("body").append(attactWith);
 
-    attactWith.show();
+    attactWith.hide();
 });
-$(document).ready(function () {
-    $('.attachData').hide();
-    $(".attactWith1").hide();
-    $(".mrcontrol").on("click", function () {
-        // $('.attachData').hide();
-        //   $('.attactWith').toggle();
-        $(this).toggleClass("active");
-        if ($(this).hasClass("active")) {
-            $(".attactWith1").show();
-        } else {
-            $(".attactWith1").hide();
-        }
-    });
-});
+// $(document).ready(function () {
+//     $('.attachData').hide();
+//     $(".attactWith1").hide();
+//     $(".mrcontrol").on("click", function () {
+//         // $('.attachData').hide();
+//         //   $('.attactWith').toggle();
+//         $(this).toggleClass("active");
+//         if ($(this).hasClass("active")) {
+//             $(".attactWith1").show();
+//         } else {
+//             $(".attactWith1").hide();
+//         }
+//     });
+// });
 
 $(document).ready(function () {
     $(".tooltip.hd_tlp.alignsbtn button").click(function () {

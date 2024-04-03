@@ -3027,3 +3027,23 @@ ul#sortable li.layer span.layer-text-box {
 }
 }
 /* end new css here */
+#wrapper{
+    /* position:relative; */
+    /* width:315px;
+    height:215px; */
+
+}
+#canvasBottom{
+    position:absolute;
+    /* border:1px solid red; */
+    /* background: transparent; */
+   
+    background-color: rgb(0, 0, 0); 
+    /* padding:20px; */
+    margin-right: 0px;
+    margin-top: -20px;
+}
+#customCanvas{
+    position:absolute;
+    border:1px solid red;
+}

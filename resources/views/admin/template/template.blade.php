@@ -15,7 +15,7 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button> -->
-            <a class="navbar-brand" href="#"><img src="{{ asset('coustomizer/img/new_create_logo.png') ?? '' }}"
+            <a class="navbar-brand" href="{{ url('admin-dashboard') ?? '' }}"><img src="{{ asset('coustomizer/img/new_create_logo.png') ?? '' }}"
                     class="img-fluid" alt="" /> </a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <div class="main">
@@ -158,7 +158,7 @@
                                 </div>
                             </div>
 
-                            <div class="tooltip hd_tlp filtr">
+                            <!-- <div class="tooltip hd_tlp filtr">
                                 <button data-title="Filter" data-placement="bottom" class="btnfilter bottom spride-svg"
                                     aria-label="Filter" disabled="disabled">
                                     <span class="menu-text">
@@ -169,7 +169,7 @@
                                 <div class="tooltip-text">
                                     Filter
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div data-for="attactWith" class="button-group common_controls obj_arng mainDiv" style="">
@@ -358,7 +358,7 @@
  -->
                         <!-- <div class="tooltip toltp-7"> -->
 
-                        <button class="nav-link tempdv" data-for="step7"  id="v-pills-desgn-tab" data-bs-toggle="pill"
+                        <!-- <button class="nav-link tempdv" data-for="step7"  id="v-pills-desgn-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-desgn" type="button" role="tab" aria-controls="v-pills-desgn"
                             aria-selected="false">
                             <span class="spride_img">
@@ -368,7 +368,7 @@
                                     alt=".." />
                             </span>
                             <p>Design Comments</p>
-                        </button>
+                        </button> -->
                         <!--  <div class="tooltip-text">
                                         Design Comments
                                     </div>
@@ -412,7 +412,7 @@
 
                         <!-- <div class="tooltip toltp-10"> -->
 
-                        <button class="nav-link" data-for="step10"  id="v-pills-myd-tab" data-bs-toggle="pill"
+                        <!-- <button class="nav-link" data-for="step10"  id="v-pills-myd-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-myd" type="button" role="tab" aria-controls="v-pills-myd"
                             aria-selected="false">
                             <span class="spride_img">
@@ -421,7 +421,7 @@
                                     alt=".." />
                             </span>
                             <p>My Design</p>
-                        </button>
+                        </button> -->
                         <!-- <div class="tooltip-text">
                                         My Design
                                     </div>
@@ -1033,7 +1033,7 @@
                                         <div class="form-group-box background_control object_control" style="">
                                             <div class="color-palette-box">
                                                 <ul id="background_color_box">
-                                                    <li class="color whitecolorborder" bgColor="#e7e4e4">
+                                                    <li class="colorChange color whitecolorborder" bgColor="#e7e4e4">
                                                         <span data-colorcode="ffffff"
                                                             style="background-color: rgb(255, 255, 255);"> </span>
                                                     </li>
@@ -1113,20 +1113,17 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option value="Verdana">Verdana</option>
-                                                <option value="Arial">Arial</option>
-                                                <option value="Rockwell">Rockwell</option>
-                                                <option value="Cambria">Cambria</option>
-                                                <option value="Book Antiqua">Book Antiqua</option>
-                                                <option value="Courier New">Courier New</option>
-                                                <option value="Georgia">Georgia</option>
-                                                <option value="Times New Roman">Times New Roman</option>
-                                                <option value="monospace">Monospace</option>
-                                                <option value="system-ui">System-ui</option>
-                                                <option value="'circular'">Circular</option>
-                                                <option value="emoji">emoji</option>
-                                                <option value="math">math</option>
-                                                <option value="Eurostile LT Std">Eurostile LT Std;</option>
+                                                <option style="font-family: 'Mona Sans';" value="Verdana">Verdana</option>
+                                                <option style="font-family: 'circular';" value="Arial">Arial</option>
+                                                <option style="font-family: 'cursive;';" value="Rockwell">Rockwell</option>
+                                                <option style="font-family: 'emoji';" value="emoji">emoji</option>
+                                                <option style="font-family: 'math';" value="math">math</option> 
+                                                <option style="font-family: 'monospace';" value="monospace">Monospace</option>
+                                                <option style="font-family: 'system-ui';" value="system-ui">System-ui</option>
+                                                <option style="font-family: 'circular';" value="Times New Roman">Times New Roman</option>
+                                                <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
+                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
+
                                             </select>
                                         </div>
                                         <div class="select-size">
@@ -1136,7 +1133,7 @@
                                         </div>
                                     </div>
                                     <div class="text-editor">
-                                        <ul>
+                                        <ul style="width:60rem;">
                                             <li class="custm_li  bold-btn">
                                                 <button data-title="Bold" data-placement="bottom"
                                                     class="text_param  bold-btn" id="bold">
@@ -1197,7 +1194,7 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="form-group arcBox">
+                                                <!-- <div class="form-group arcBox">
                                                     <input class="styled-checkbox" id="makeArc" type="checkbox"
                                                         value="arc-text" />
                                                     <label for="makeArc" class="arcText">Arc Text</label>
@@ -1206,7 +1203,8 @@
                                                             <div class="radius-box">
                                                                 <label>Radius</label>
                                                                 <div class="range-slider" id="range_slider">
-                                                                    <input class="range-slider__range" type="range"
+                                                                    
+                                                                    <input class="arcRadiusSlider range-slider__range" type="range"
                                                                         value="250" min="0" max="263" id="radius" />
                                                                     <span class="range-slider__value"
                                                                         id="radius_slider_value"
@@ -1220,10 +1218,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </li>
                                             <li class="btncontrols">
-                                                <button class="text_param btnmoretextcontrols mrcontrol">
+                                                <button class="text_param btnmoretextcontrols mrcontrol" data-for="attactWith1">
                                                     <i class="fa fa-ellipsis-v"></i>
                                                 </button>
                                             </li>
@@ -1242,11 +1240,18 @@
 
                         </div>
 
-                        <div class="" style="padding:2rem 5rem; display: flex; justify-content: center;">
-                            <div class="">
-                                <canvas id="customCanvas" width="700" height="400" style="border:1px solid;"></canvas>
-                            </div>
+                        <div class="canvas-container wrapper" style="padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
+                                    <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
+                                    <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div>
+                                <!-- <div> -->
+                                <canvas id="canvasBottom" width=750 height=427></canvas>
+                                <canvas id="customCanvas" width="700" height="400" style="border: 1px solid;"></canvas>
+                                <!-- Position the lines relative to the canvas -->
+                                
+                            <!-- </div> -->
                         </div>
+
+
                         <!-- <div class="cnva_dummy">
                             <div class="cnva_dv">
                                 <canvas id="customCanvas" width="700" height="300" style="border:1px solid red;"></canvas>
@@ -1665,14 +1670,14 @@
     </button>
 </div>
 
-<div class="text-more-controls attactWith1 attachData" data-attact="mrcontrol" style="display: none;">
+<div class="text-more-controls attactWith1 attachData" data-attact="mrcontrol">
     <div class="text-option-box">
         <!-- <span class="arrow-icon"></span> -->
         <div class="form-group">
             <div class="line-height">
                 <label>Line Height</label>
                 <div class="range-slider">
-                    <input class="range-slider__range lineHeight" type="range" value="1" min="0.5" max="10" step="0.1"
+                    <input class="range-slider__range lineHeight cngLetterHeight" type="range" value="1" min="1" max="10" step="0.1"
                         id="line_height_range_slider">
                     <span class="range-slider__value" id="line_height_slider_value"></span>
                 </div>
@@ -1680,7 +1685,7 @@
             <div class="letter-space">
                 <label>Letter Spacing</label>
                 <div class="range-slider" id="letter_space_range_slider">
-                    <input class="range-slider__range charSpacing" type="range" value="50" min="-100" max="500"
+                    <input class="cngLetterSpace range-slider__range charSpacing" type="range" value="50" min="-100" max="500"
                         id="charSpacing">
                     <span class="range-slider__value" id="letter_space_slider_value"></span>
                 </div>
@@ -1693,7 +1698,7 @@
                     <div class="asColorPicker-wrap">
                         <button title="Add Color" class="btnaddcolor" id="text_highlight_color_picker">
                             <div class="color_picker">
-                                <input type="color" id="favcolor" name="favcolor" value="#fff">
+                                <input class="highlightBg" type="color" id="favcolor" name="favcolor" value="#fff">
                             </div>
                         </button>
                         <div class="asColorPicker-trigger">
@@ -1784,14 +1789,9 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
         saveTemplate();
     });
     function saveTemplate() {
-    // Prompt the user for a template name
-    // var templateName = prompt("Enter a name for the template:");
 
-    // if (templateName !== null) {
-    // Serialize the canvas and prepare data
     var canvasData = JSON.stringify(canvas.toJSON());
-    // console.log(canvasData);
-    // Send an Ajax request to save the template
+
     var id = $('.saveTemplate').attr('template-id')
         $.ajax({
             type: 'POST',
@@ -1809,9 +1809,7 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
                 console.error('Error saving template:', error);
             }
         });
-    // } else {
-    //     alert('Template saving canceled.');
-    // }
+
 }
 </script>
 @endsection

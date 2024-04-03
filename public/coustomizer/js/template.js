@@ -1,5 +1,7 @@
 $(document).ready(function (){
     $('.common_controls').hide();
+    $('#horizontalLine').hide();
+    $('#verticalLine').hide();
 
     $('.acrylc-letter-box').hide();
     $('.sectionCNG').on('change', function (){
@@ -49,22 +51,47 @@ var isDragging = false;
 document.addEventListener("DOMContentLoaded", function() {
   canvas = new fabric.Canvas('customCanvas');
 
+//   this is use for add scalling border in canvas ::
+  var canvas2=document.getElementById("canvasBottom");
+  var ctx2=canvas2.getContext("2d");
+
+  ctx2.beginPath();
+  for(var i=0;i<canvas.width;i+=10){
+      var y=(i/100==parseInt(i/100))?0:10;
+      ctx2.moveTo(i+15,y);
+      ctx2.lineTo(i+15,15);
+      var x=(i/100==parseInt(i/100))?0:10;
+      ctx2.moveTo(x,i+15);
+      ctx2.lineTo(15,i+15);
+  }
+  ctx2.strokeStyle = "white";
+  ctx2.stroke();
+
+//  scaling border canvas end here
+
 
   // Check if there is canvas data in the templateData variable
   var templateData = $(".saveTemplate").attr('template-data');
   if (templateData !== undefined) {
-    canvas.loadFromJSON(JSON.parse(templateData), function() {
-      canvas.renderAll();
-    });
-  }else{
-    var text = new fabric.IText('Customize me!', {
-        left: 300,
-        top: 100,
-        fontSize: 30,
-        fill: 'white',
+      canvas.loadFromJSON(JSON.parse(templateData), function() {
+          // Iterate through all objects after loading
+          canvas.forEachObject(function(obj) {
+              if (obj.stroke === 'clrChangeShape') {
+                  obj.set('shapeObjectData', true);
+              }
+          });
+          canvas.renderAll();
+      });
+  } else {
+      var text = new fabric.IText('Customize me!', {
+          left: 300,
+          top: 100,
+          fontSize: 30,
+          fill: 'white',
       });
       canvas.add(text);
   }
+  
     
     canvas.on('text:changed', function(options) {
         textListFromCanvas();
@@ -111,6 +138,7 @@ var countObj = 0;
     canvas.on('mouse:down', function(options) {
      
         var target = canvas.findTarget(options.e);
+        // console.log(target);
         if(target && target.get('shapeObjectData')){
             $('.acrylc-letter-box').hide();
             $('.color').addClass('changeShapeClr');
@@ -124,6 +152,7 @@ var countObj = 0;
             $('#hidden_color_picker').removeClass('changeShapeClr');
             updateFontOptions(target);
             updateTextStyleButtons(target);
+           
         } else {
             
             $('.acrylc-letter-box').hide();
@@ -157,25 +186,47 @@ var countObj = 0;
     
         }
     });
-
-    // var colorDivs = document.querySelectorAll('.color');
-
-    // colorDivs.forEach(function(colorDiv) {
-    //     console.log(colorDiv);
-    //     colorDiv.addEventListener('click', function() {
-    //         console.log('working');
-    //         var bgColor = colorDiv.getAttribute('bgColor');
-    //         console.log(bgColor);
-    //         // Set the background color of the canvas using Fabric.js method
-    //         canvas.setBackgroundColor(bgColor, canvas.renderAll.bind(canvas));
-    //     });
+    const horizontalLine = document.getElementById('horizontalLine');
+    const verticalLine = document.getElementById('verticalLine');
+    canvas.on('mouse:move', function(options) {
+        $('#horizontalLine').show();
+        $('#verticalLine').show();
+        const canvasElement = canvas.lowerCanvasEl;
+        const rect = canvasElement.getBoundingClientRect();
+        const x = options.e.clientX - rect.left;
+        const y = options.e.clientY - rect.top;
+        const maxX = canvasElement.width;
+        const maxY = canvasElement.height;
+        console.log(maxY);
+        var disWidth = getWidthDistance();
+        horizontalLine.style.left = `${parseInt(x) + disWidth}px`;
+        verticalLine.style.top = `${parseInt(y) + 35}px`;;
+    });
+    
+    canvas.on('mouse:out', function(options) {
+        $('#horizontalLine').hide();
+        $('#verticalLine').hide();
+    });
+    // canvas.on('mouse:over', function(options) {
+    //     $('#horizontalLine').show();
+    //     $('#verticalLine').show();
     // });
-
-
-
+    
 
 
 });
+function getWidthDistance(){
+var canvasContainer = $(".canvas-container");
+var customCanvas = $("#customCanvas");
+
+var canvasContainerLeft = canvasContainer.offset().left;
+var customCanvasLeft = customCanvas.offset().left;
+
+var widthDistance = customCanvasLeft - canvasContainerLeft;
+$("#verticalLine").css("left", `${widthDistance - 15}px`);
+return widthDistance;
+console.log(widthDistance);
+}
 // Canvas code end here ::
 //  background function start from here :::
 // undo redo start here
@@ -227,7 +278,22 @@ $('.undoButton').on('click', function() {
 $('.redoButton').on('click', function() {
     redo();
 });
+// $('.arcRadiusSlider').on('input', function() {
+//     var newRadius = parseInt($(this).val(), 10);
+//     simulateArcText(newRadius);
+// });
 
+// function simulateArcText(newRadius) {
+//     var activeObject = canvas.getActiveObject();
+//     if (activeObject) {
+//         var originalScaleY = activeObject.scaleY;
+//         var newScale = newRadius / 100; // Example calculation, adjust as needed
+
+//         activeObject.scaleY = newScale * originalScaleY; 
+        
+//         canvas.renderAll();
+//     }
+// }
 
 
 // end of undo and redo
@@ -240,16 +306,21 @@ function cngBackgroungColor(color) {
     canvas.backgroundColor = color;
 
     // Check if there is a background image and remove it
-    if (currentBgImageSrc) {
-        var existingBgImage = canvas.getObjects().find(function(obj) {
-            return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-        });
-
-        if (existingBgImage) {
-            canvas.remove(existingBgImage);
-            currentBgImageSrc = null; // Reset the current background image source
+    canvas.getObjects().find(function(obj) {
+        if (obj.stroke === 'imageBgStroke') {
+            canvas.remove(obj);
         }
-    }
+    });
+    // if (currentBgImageSrc) {
+    //     var existingBgImage = canvas.getObjects().find(function(obj) {
+    //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
+    //     });
+
+    //     if (existingBgImage) {
+    //         canvas.remove(existingBgImage);
+    //         currentBgImageSrc = null; // Reset the current background image source
+    //     }
+    // }
 
     canvas.renderAll();
 }
@@ -264,19 +335,6 @@ $('.colorChange').on('click', function() {
     }
 });
 
-// $('.colorChange').on('click', function (){
-//     var bgColor = $(this).attr('bgColor');
-
-//     if($(this).hasClass('changeShapeClr')){
-//         updateActiveObjectColor(bgColor);
-//         console.log('shape');
-//     }else{
-//         cngBackgroungColor(bgColor);
-//         console.log('bg');
-
-//     }
-
-// });
 
 function handleColorInput() {
     var color = document.getElementById('hidden_color_picker').value;
@@ -297,21 +355,32 @@ document.querySelectorAll('#background_color_picker, #trigger_color_picker').for
 document.getElementById('hidden_color_picker').addEventListener('input', handleColorInput);
 
 
-var currentBgImageSrc = null;
+// var currentBgImageSrc = null;
 
 function setBackground(imageSrc) {
     if (imageSrc) {
-        if (currentBgImageSrc) {
-            var existingBgImage = canvas.getObjects().find(function(obj) {
-                return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-            });
+        // if (currentBgImageSrc) {
+        //     var existingBgImage = canvas.getObjects().find(function(obj) {
+        //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
+        //     });
 
-            if (existingBgImage) {
-                canvas.remove(existingBgImage);
+        //     if (existingBgImage) {
+        //         canvas.remove(existingBgImage);
+                
+        //     }
+        // }else{
+        //     var existingBgImage = canvas.getObjects().find(function(obj) {
+        //         if (obj.stroke === 'imageBgStroke') {
+        //             canvas.remove(obj);
+        //         }
+        //     });
+        // }
+        // currentBgImageSrc = imageSrc;
+        canvas.getObjects().find(function(obj) {
+            if (obj.stroke === 'imageBgStroke') {
+                canvas.remove(obj);
             }
-        }
-
-        currentBgImageSrc = imageSrc;
+        });
 
         fabric.Image.fromURL(imageSrc, function(img) {
             // Get the scale to fit the image within the canvas
@@ -331,7 +400,8 @@ function setBackground(imageSrc) {
                 selectable: true,
                 hasControls: true,
                 hasBorders: false,
-                globalCompositeOperation: 'destination-over'
+                globalCompositeOperation: 'destination-over',
+                stroke:'imageBgStroke',
             });
 
             // Do not change canvas dimensions
@@ -421,6 +491,7 @@ function updateFontOptions(activeObject) {
     setColorValue(activeObject.get('fill'));
     updateOpacitySlider(activeObject);
     commonControls();
+    setrangeValues(); // this is use for update Line Height Letter Spacing range slider 
 }
 function updateFontSizeOptions(fontSize) {
     $('.font-size').val(fontSize);
@@ -509,6 +580,64 @@ $('.loadSelectedTemplate').on('click', function() {
     loadTemplateData(decodedTemplateData);
 });
 
+
+$('.cngLetterSpace').on('input', function() {
+    var charSpacingValue = parseInt($(this).val(), 10);
+    changeLetterSpacing(charSpacingValue);
+});
+
+function changeLetterSpacing(charSpacingValue) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('charSpacing', charSpacingValue);
+        canvas.renderAll();
+    }
+}
+
+
+$('.cngLetterHeight').on('input', function() {
+    var lineSpacingValue = parseInt($(this).val(), 10);
+    changeHeightSpacing(lineSpacingValue);
+});
+function setrangeValues() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        var charSpacing = activeObject.get('charSpacing');
+        var lineHeight = activeObject.get('lineHeight');
+        var backgroundColor = activeObject.get('backgroundColor');
+        
+        $('.cngLetterSpace').val(charSpacing);
+        $('.cngLetterHeight').val(lineHeight);
+        $('.highlightBg').val(backgroundColor);
+    }
+}
+
+function changeHeightSpacing(lineSpacingValue) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('lineHeight', lineSpacingValue);
+        canvas.renderAll();
+    }
+}
+
+$('.highlightBg').on('input', function() {
+    var highlightColor = $(this).val();
+    changeHighlightColor(highlightColor);
+});
+
+function changeHighlightColor(color) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject) {
+        if (activeObject.type === 'i-text') {
+            // Check if the object is an iText object
+            activeObject.set({ backgroundColor: color });
+            canvas.renderAll();
+        }
+    }
+}
+
+
+
 function loadTemplateData(templateData){
     if (templateData && Object.keys(templateData).length > 0) {
         canvas.loadFromJSON(templateData, function() {
@@ -582,17 +711,22 @@ $('.colorCng').on('input', function() {
     updateActiveObjectColor(newColor);
 });
 function updateActiveObjectColor(newColor) {
-    $('.adjustBtnClr').css({backgroundColor: newColor});
+    $('.adjustBtnClr').css({ backgroundColor: newColor });
     var activeObject = canvas.getActiveObject();
     if (activeObject) {
-        if (activeObject.type === 'image') {
-            activeObject.setElement(newColor);
+        if (activeObject.type === 'group') { 
+            activeObject.getObjects().forEach(function(path) {
+                if (path.type === 'path') { 
+                    path.set({ fill: newColor }); 
+                }
+            });
         } else {
             activeObject.set('fill', newColor);
         }
         canvas.renderAll();
     }
 }
+
 
 function setColorValue(color) {
     if(color ==  'rgb(0,0,0)'){
@@ -647,7 +781,10 @@ function paste() {
                 } else {
                     canvas.add(clonedObject);
                 }
-
+                //  use this for convert copy object to chnage able color object 
+                if (clonedObject.stroke === 'clrChangeShape') {
+                    clonedObject.set('shapeObjectData', true);
+                }
                 canvas.renderAll();
             }, ['sourcePath', 'filters']); // Include any properties that require deep cloning
         });
@@ -767,6 +904,18 @@ function loadShape(img,from) {
         // Add custom property to identify shape objects
         if(from == 'shapes'){
         svgObject.set('shapeObjectData', true);
+        svgObject.set('stroke', "clrChangeShape");
+            // change color of svg to white :: 
+            if (svgObject.type === 'group') { 
+                svgObject.getObjects().forEach(function(path) {
+                    if (path.type === 'path') { 
+                        path.set({ fill: "white" }); 
+                    }
+                });
+            } else {
+                svgObject.set('fill', "white");
+            }
+            // chnage clr end here
         }
         canvas.add(svgObject);
         canvas.setActiveObject(svgObject);
@@ -1024,11 +1173,6 @@ $(document).ready(function() {
 });
 
 
-    // Refresh layers list when canvas objects are modified <i class="fa-solid fa-eye-slash"></i>
-
-//     canvas.on('object:added', populateLayersList);
-// canvas.on('object:removed', populateLayersList);
-// layers code end here 
 
 
 
@@ -1075,13 +1219,12 @@ $('#uploadButton').on('click', function() {
 
 
 
-
+// show and hide filter for template section from where we can load template data :
 $(document).ready(function(){
     $('.templatesName').hide();
     $('.templateCng').on('change', function (){
         var selectedOption = $(this).find('option:selected');
         var forAttr = selectedOption.data('for');
-        console.log(forAttr);
         var templateName = selectedOption.data('show');
         if(forAttr == 'data-showCat'){
             $('.templatesName').hide(); 
@@ -1090,7 +1233,6 @@ $(document).ready(function(){
             var allShow = $('.temMain').find('option:selected').attr('data-templateShow');
             $('.loadSelectedTemplate[data-showCat="' + allShow + '"]').show();
 
-            console.log(allShow);
             return false;
         }
         if(templateName === 'all'){
@@ -1108,8 +1250,13 @@ $(document).ready(function(){
     });
 
 });
-
+// Download canvas Into png image functionality ::
 $(document).ready(function(){
+    $("#select-option").find("option").each(function() {
+        $(".font-family").css("font-family", '"' + this.value + '"');
+    });
+
+    
     $('.downloadCanvasToPng').on('click', function() {
         var canvas = document.getElementById('customCanvas');
         var canvasData = canvas.toDataURL('image/png');
@@ -1121,3 +1268,8 @@ $(document).ready(function(){
         document.body.removeChild(a);
     });
 });
+
+
+
+
+
