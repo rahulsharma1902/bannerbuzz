@@ -114,7 +114,7 @@
         <div class="shop_wrapper p_100">
             <div class="container">
                 <div class="shop_top">
-                    <p>Found {{$NOFproducts}}   {{$category->name}} for your selection</p>
+                    <p>Found {{$NOFproducts ?? '' }}   {{$category->name ?? '' }} for your selection</p>
                     <div class="shop_size_txt">
                         <span>Sort by</span>
                         <div class="select_wrap">

@@ -1113,14 +1113,14 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option style="font-family: 'Mona Sans';" value="Verdana">Verdana</option>
-                                                <option style="font-family: 'circular';" value="Arial">Arial</option>
-                                                <option style="font-family: 'cursive;';" value="Rockwell">Rockwell</option>
+                                                <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
+                                                <option style="font-family: 'Arial';" value="Arial">Arial</option>
+                                                <option style="font-family: 'Rockwell;';" value="Rockwell">Rockwell</option>
                                                 <option style="font-family: 'emoji';" value="emoji">emoji</option>
                                                 <option style="font-family: 'math';" value="math">math</option> 
                                                 <option style="font-family: 'monospace';" value="monospace">Monospace</option>
                                                 <option style="font-family: 'system-ui';" value="system-ui">System-ui</option>
-                                                <option style="font-family: 'circular';" value="Times New Roman">Times New Roman</option>
+                                                <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
                                                 <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
                                                 <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
 

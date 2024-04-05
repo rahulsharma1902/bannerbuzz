@@ -112,6 +112,7 @@ var countObj = 0;
             $('.color_pickers').show();
 
         }else if(activeObject.type === 'i-text'){
+            // activeObject.set('globalCompositeOperation','destination-over');
         // if (activeObject && activeObject.type === 'i-text') {
             $('.acrylc-letter-box').show();
             $('.color_pickers').hide();
@@ -189,6 +190,8 @@ var countObj = 0;
     const horizontalLine = document.getElementById('horizontalLine');
     const verticalLine = document.getElementById('verticalLine');
     canvas.on('mouse:move', function(options) {
+        // var activeObject = options.target;
+        // activeObject.set('globalCompositeOperation','destination-over');
         $('#horizontalLine').show();
         $('#verticalLine').show();
         const canvasElement = canvas.lowerCanvasEl;
@@ -197,10 +200,9 @@ var countObj = 0;
         const y = options.e.clientY - rect.top;
         const maxX = canvasElement.width;
         const maxY = canvasElement.height;
-        console.log(maxY);
         var disWidth = getWidthDistance();
         horizontalLine.style.left = `${parseInt(x) + disWidth}px`;
-        verticalLine.style.top = `${parseInt(y) + 35}px`;;
+        verticalLine.style.top = `${parseInt(y) + 35}px`;
     });
     
     canvas.on('mouse:out', function(options) {
@@ -212,6 +214,73 @@ var countObj = 0;
     //     $('#verticalLine').show();
     // });
     
+    // object dragging 
+
+    function updateAlignmentLines(activeObject) {
+        // First, remove any existing guidelines
+        canvas.getObjects('line').forEach((line) => {
+            if (line.id === 'guideLine') canvas.remove(line);
+        });
+    
+        let objBounds = activeObject.getBoundingRect();
+        let objects = canvas.getObjects().filter(obj => obj !== activeObject && obj.type !== 'line');
+    
+        objects.forEach((obj) => {
+            let bounds = obj.getBoundingRect();
+            let margin = 10; // Adjust this value as needed for your layout
+    
+            // Check for vertical alignment
+            if (Math.abs(bounds.left - objBounds.left) < margin) {
+                let startY = Math.min(bounds.top, objBounds.top);
+                let endY = Math.max(bounds.top + bounds.height, objBounds.top + objBounds.height);
+                addLine([bounds.left, startY, bounds.left, endY], 'guideLine');
+            }
+            if (Math.abs(bounds.left + bounds.width - (objBounds.left + objBounds.width)) < margin) {
+                let startY = Math.min(bounds.top, objBounds.top);
+                let endY = Math.max(bounds.top + bounds.height, objBounds.top + objBounds.height);
+                addLine([bounds.left + bounds.width, startY, bounds.left + bounds.width, endY], 'guideLine');
+            }
+    
+            // Check for horizontal alignment
+            if (Math.abs(bounds.top - objBounds.top) < margin) {
+                let startX = Math.min(bounds.left, objBounds.left);
+                let endX = Math.max(bounds.left + bounds.width, objBounds.left + objBounds.width);
+                addLine([startX, bounds.top, endX, bounds.top], 'guideLine');
+            }
+            if (Math.abs(bounds.top + bounds.height - (objBounds.top + objBounds.height)) < margin) {
+                let startX = Math.min(bounds.left, objBounds.left);
+                let endX = Math.max(bounds.left + bounds.width, objBounds.left + objBounds.width);
+                addLine([startX, bounds.top + bounds.height, endX, bounds.top + bounds.height], 'guideLine');
+            }
+        });
+    
+        canvas.renderAll();
+    }
+    
+    // Attach to the object:moving event
+    canvas.on('object:moving', function(e) {
+        updateAlignmentLines(e.target);
+    });
+    
+    // Optionally, remove guidelines when the object stops moving
+    canvas.on('object:modified', function() {
+        canvas.getObjects('line').forEach((line) => {
+            if (line.id === 'guideLine') canvas.remove(line);
+        });
+        canvas.renderAll();
+    });
+    
+    function addLine(points, id) {
+        var line = new fabric.Line(points, {
+            stroke: 'white',
+            selectable: false,
+            id: id
+        });
+        canvas.add(line);
+    }
+    
+
+    // object draggign end here 
 
 
 });
@@ -219,13 +288,13 @@ function getWidthDistance(){
 var canvasContainer = $(".canvas-container");
 var customCanvas = $("#customCanvas");
 
+console.warn(canvasContainer.width());
 var canvasContainerLeft = canvasContainer.offset().left;
 var customCanvasLeft = customCanvas.offset().left;
-
 var widthDistance = customCanvasLeft - canvasContainerLeft;
 $("#verticalLine").css("left", `${widthDistance - 15}px`);
-return widthDistance;
 console.log(widthDistance);
+return widthDistance;
 }
 // Canvas code end here ::
 //  background function start from here :::
@@ -562,6 +631,7 @@ $('.clearAllCanvasData').on('click', function() {
     undoStack = [];
     redoStack = [];
     copiedObjects = [];
+    $('.changeShapeClr').removeClass('changeShapeClr');
     
 }); 
 $('.flipVertical').on('click', function(){
