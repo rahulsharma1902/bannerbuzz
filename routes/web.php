@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\BackgroundCategoryController;
 use App\Http\Controllers\Admin\BackgroundController;
-use App\Http\Controllers\Front\CustomizeController;
+use App\Http\Controllers\Front\CustomizerController;
 use App\Http\Controllers\Admin\ShapeCategoryController;
 use App\Http\Controllers\Admin\ShapeController;
 use App\Http\Controllers\Admin\ClipArtController;
@@ -165,7 +165,7 @@ Route::group(['middleware' => ['admin']], function () {
 
 // FRONT LAYOUT
 
-// Route::get('/',[CustomizeController::class,'index']);
+// Route::get('/',[CustomizerController::class,'index']);
 
 //:::::::::::::::::::::: Front Routes ::::::::::::::::::::::::::::::::::::://
 
@@ -188,6 +188,17 @@ Route::get('shop/{slug}', [ShopController::class, 'shop'])->name('shop');
 Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('special-offers');
 Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
 
+
+
+// :::::::::::::::::Customizer 
+
+Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+
+Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
+
+// :::::::::::::::::Customizer route end here
+
+
 // Accessories Routes //
 Route::get('accessories', [ShopController::class, 'accessories']);
 Route::get('accessories/{slug}', [ShopController::class, 'AccessoriesDetails']);
@@ -197,6 +208,9 @@ Route::get('accessories/sizes/{id}', [ShopController::class, 'getaccessoriessize
 Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildCategories']);
 Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
 Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
+
+
+
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 

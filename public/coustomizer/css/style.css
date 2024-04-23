@@ -345,7 +345,8 @@ header.header_wrap nav a.navbar-brand {
     height: calc(100vh - 110px);
 }
 .design-ryt-vw {
-    height: 400px !important;
+    /* height: 400px !important; */
+    height: 100% !important;
 }
 .design-edit .design-tabs .nav p {
     margin: 10px 0px;
@@ -854,7 +855,7 @@ select.form-control:focus {
 .templ_imgs ul li img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .temp_content.upld_content button.btnuploadimginfo {
@@ -1421,7 +1422,8 @@ header.header_wrap .button-group span.menu-text i {
 }
 
 .acrylc-letter-box .text-editor {
-    flex: 0 0 70%;
+    /* flex: 0 0 70%; */
+    flex: 0 0 50%;
     width: 100%;
 }
 
@@ -3046,4 +3048,9 @@ ul#sortable li.layer span.layer-text-box {
 #customCanvas{
     position:absolute;
     border:1px solid red;
+}
+
+.nw-rw1 {
+    border-right: 1px solid #1b1b1b;
+    overflow: hidden;
 }

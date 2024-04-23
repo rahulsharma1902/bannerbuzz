@@ -22,7 +22,7 @@
                   @csrf
                     <div class="form_info">
                         <input type="email" id="email" name="email" placeholder="Your Email">
-                        <input type="password" id="password" name="password" placeholder="Your Email">
+                        <input type="password" id="password" name="password" placeholder="Your Password">
                         <!-- <div class="">
                             <div class="g-recaptcha" data-sitekey="6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb"></div>
                                 @if ($errors->has('g-recaptcha-response'))

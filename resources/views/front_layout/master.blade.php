@@ -60,7 +60,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)">
+                            <a href="{{ url('login') ?? '' }}">
                                 <img src="{{ asset('front/img/account.svg') }}" alt="" />
                                 <span>Account</span>
                             </a>

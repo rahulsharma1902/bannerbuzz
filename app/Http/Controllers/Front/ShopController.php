@@ -7,6 +7,7 @@ use App\Mail\MailToAdmin;
 use App\Models\AccessoriesType;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Template;
 use App\Models\ProductAccessories;
 use App\Models\ProductCategories;
 use Illuminate\Support\Facades\Mail;
@@ -47,12 +48,13 @@ class ShopController extends Controller
     {
 
         $product = Product::where('slug', $slug)->first();
+        $templates = Template::with('category')->get();
         if ($product) {
             $selected_size = $request->input('size');
             $selected_size_unit = $request->input('sizeUnit');
             $selected_qty = $request->input('quantity');
             $related_product = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
-            return view('front.shop.product_details', compact('product', 'related_product', 'selected_size', 'selected_size_unit', 'selected_qty'));
+            return view('front.shop.product_details', compact('templates','product', 'related_product', 'selected_size', 'selected_size_unit', 'selected_qty'));
         } else {
             return redirect()->back();
         }

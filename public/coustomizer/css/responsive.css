@@ -68,6 +68,7 @@
     }
     .templ_imgs ul li {
         width: 47%;
+        height: 9rem;
     }
     .canva-img.blk_dw {
         max-width: 65%;

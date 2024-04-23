@@ -288,12 +288,13 @@ function getWidthDistance(){
 var canvasContainer = $(".canvas-container");
 var customCanvas = $("#customCanvas");
 
-console.warn(canvasContainer.width());
+// console.warn(canvasContainer.width());
 var canvasContainerLeft = canvasContainer.offset().left;
 var customCanvasLeft = customCanvas.offset().left;
 var widthDistance = customCanvasLeft - canvasContainerLeft;
 $("#verticalLine").css("left", `${widthDistance - 15}px`);
-console.log(widthDistance);
+
+// console.log(widthDistance);
 return widthDistance;
 }
 // Canvas code end here ::

@@ -222,15 +222,20 @@
                 </p>
             </div>
             <div class="template_slider busines_slider m-0 d-flex">
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_1.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
+                @isset($templates)
+                    @foreach ($templates as $template)
+                        <div class="card">
+                            <div class="busines_img">
+                                <img src="{{ asset('TemplateImage') }}/{{ $template->template_image ?? 'default.png' }}" />
+                                <div class="cust_btn_wreap">
+                                    <a href="{{ url('designtool') ?? '' }}/{{ $product->slug ?? '' }}/{{ $template->slug ?? '' }}" class="btn cust_btn" tabindex="0">Customize </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
+                    @endforeach
+                @endisset
+                
+                <!-- <div class="card">
                     <div class="busines_img">
                         <img src="{{ asset('front/img/template_2.png') }}" />
                         <div class="cust_btn_wreap">
@@ -269,7 +274,7 @@
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
