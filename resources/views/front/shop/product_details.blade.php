@@ -64,7 +64,7 @@
                             <div class="shop_dt_ship">
                                 <p><strong>Want it by Friday, Jan. 26?</strong> Order Today and choose 'Urgent' shipping at
                                     checkout.</p>
-                            </div>
+                            </div> 
                             <form>
                                 <div class="shop_dt_fm">
                                     <div class="shop_dt_size">
