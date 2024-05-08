@@ -1,5 +1,18 @@
 @extends('front_layout.master')
 @section('content')
+<style>
+.password-container {
+  position: relative;
+}
+.toggle-password {
+  position: absolute;
+  top: 40%;
+  right: 5px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 15px; 
+}
+</style>
     <section class="banner-sec">
         <div class="container-fluid">
             <div class="banner-content">
@@ -11,7 +24,7 @@
     </section>
 
  
-    <section class="order_track_sec p_100 pb-0">
+    <section class="order_track_sec register_form p_100 pb-0">
         <div class="container">
             <div class="order_track_content">
                 <div class="hd_txt text-center">
@@ -22,7 +35,20 @@
                   @csrf
                     <div class="form_info">
                         <input type="email" id="email" name="email" placeholder="Your Email">
-                        <input type="password" id="password" name="password" placeholder="Your Password">
+                    @if ($errors->has('email'))
+                     <span class="text-danger">{{ $errors->first('email') }}</span>
+                    @endif
+                        <!-- <input type="password" id="password" name="password" placeholder="Your Password"> -->
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" placeholder="Your Password">
+                        @if ($errors->has('password'))
+                            <span class="text-danger">{{ $errors->first('password') }}</span>
+                        @endif
+                            <span  class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye-slash" id="eye"></i>
+                            </span>
+                        </div>
+                       
                         <!-- <div class="">
                             <div class="g-recaptcha" data-sitekey="6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb"></div>
                                 @if ($errors->has('g-recaptcha-response'))
@@ -30,8 +56,47 @@
                                 @endif
                             </div> 
                         </div> -->
-                            <button type="submit" placeholder="Submit" class="light_dark m-0">Login</button>
+
+                        <div class="otpbutton">
+                            <a class="linkButton forgotLink otpLink">
+                                <span>Get Email OTP</span></a>
+                                <button class="linkButton forgotLink">Forgot Password?</button>
+                            </div>
+                            <div class="buttonSet creat_accnt">
+                                   <button type="submit" class="btn">Login</button>
+                            </div>
                     </div>
+    
+                     <div class="social_links">
+                    <div class="social_title"><p>or sign in with</p></div>
+                    <div class="social_content">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-facebook-f"></i><br />
+                                    <span>Facebook</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-google"></i><br />
+                                    <span>Google</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-amazon"></i><br />
+                                    <span>Amazon</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="alreadyAccount">Don't have an account?<a href="{{ url('/register') }}" class="linkButton" >Sign Up</a></p>
+                    
+                   <!--  <div class="formGroup termsCondition">
+                        <p class="readPolicy">Read Our <a class="" href="/terms-and-conditions">Terms And Conditions</a> And <a class="" href="/privacy-policy">Privacy Policy</a></p>
+                    </div> -->
+                </div>
                 </form>
             </div>
         </div>
@@ -72,4 +137,38 @@
             </div>
         </div>
     </section>
+    <script>
+
+    $(function(){
+  
+  $('#eye').click(function(){
+       
+        if($(this).hasClass('fa-eye-slash')){
+           
+          $(this).removeClass('fa-eye-slash');
+          
+          $(this).addClass('fa-eye');
+          
+          $('#password').attr('type','text');
+            
+        }else{
+         
+          $(this).removeClass('fa-eye');
+          
+          $(this).addClass('fa-eye-slash');  
+          
+          $('#password').attr('type','password');
+        }
+    });
+});
+</script>
+@if(Session::has('error'))
+    <script>
+        iziToast.error({
+            message: '{{ Session::get("error") }}',
+            position: 'topRight'
+        });
+    </script>
+@endif
+
 @endsection

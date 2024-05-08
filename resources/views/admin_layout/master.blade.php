@@ -303,7 +303,7 @@
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
                                                     <div class="user-name dropdown-indicator">
-                                                        {{ Auth::user()->name ?? '' }}</div>
+                                                        {{ Auth::user()->user_name ?? '' }}</div>
                                                 </div>
                                             </div>
                                         </a>

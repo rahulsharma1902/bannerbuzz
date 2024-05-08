@@ -84,6 +84,35 @@
                                     <div class="form-group">
                                         <button class="btn btn-lg btn-primary btn-block">Sign in</button>
                                     </div>
+                                     <div class="social_links">
+                    <div class="social_title"><p>or sign up with</p></div>
+                    <div class="social_content">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-facebook-f"></i><br />
+                                    <span>Facebook</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-google"></i><br />
+                                    <span>Google</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa-brands fa-amazon"></i><br />
+                                    <span>Amazon</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="alreadyAccount">Already Have An Account?<button class="linkButton">Log In</button></p>
+                    <div class="formGroup termsCondition">
+                        <p class="readPolicy">Read Our <a class="" href="/terms-and-conditions">Terms And Conditions</a> And <a class="" href="/privacy-policy">Privacy Policy</a></p>
+                    </div>
+                </div>
                                 </form>
                                
                            

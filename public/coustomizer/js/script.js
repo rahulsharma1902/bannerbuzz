@@ -82,7 +82,7 @@ jQuery(".nav-pills button.nav-link").on("click", function () {
     jQuery(".tab-content").addClass("active");
     // $('.new_right_arw').hide();
     var cusCanLeft = $('#customCanvas').offset().left; 
-    $('#canvasBottom').offset({ left: cusCanLeft - 24 }); 
+    $('#canvasBottom').offset({ left: cusCanLeft - 20 }); 
     
     // var dis = $('#customCanvas').offset().left - $('#canvasBottom').offset().left;
     // $("#canvasBottom").css("margin-left", `${dis + 100}px`);
@@ -97,10 +97,19 @@ $("button.btncloseleftpanel").click(function () {
     // $(".canva-img").addClass("blk_dw");
 });
 
-$(window).resize(function(){
-    var cusCanLeft = $('#customCanvas').offset().left; 
-    $('#canvasBottom').offset({ left: cusCanLeft - 24 }); 
-})
+$(document).ready(function (){
+    function adjustCanvasPosition() {
+        var cusCanLeft = $('#customCanvas').offset().left;
+        $('#canvasBottom').offset({ left: cusCanLeft - 20 });
+    }
+
+    adjustCanvasPosition();
+
+    $(window).resize(adjustCanvasPosition);
+
+    $('.btncloseleftpanel').on('click', adjustCanvasPosition);
+});
+
 $(".lyr_grp").hide();
 jQuery(".toltp-arng").on("click", function () {
     jQuery(".lyr_grp").toggle();
@@ -412,3 +421,69 @@ $(document).ready(function () {
 
 
 
+
+
+$(document).ready(function() {
+    // const $container = $('.canvasData');
+    // let scale = 1; // Default scale
+
+    // $('.zoomIn').on('click', function() {
+    //     scale = Math.max(scale - 0.2, 0.2); // Decrease scale by 20%, minimum scale 20%
+    //     updateScale();
+    // });
+
+    // $('.zoomOut').on('click', function() {
+    //     scale += 0.2; // Increase scale by 20%
+    //     updateScale();
+    // });
+
+    // $('#zoomSelect').on('change', function() {
+    //     const value = $(this).val();
+    //     switch(value) {
+    //         case 'fit':
+    //             fitToContainer();
+    //             break;
+    //         case 'fill':
+    //             fillContainer();
+    //             break;
+    //         default:
+    //             scale = parseInt(value) / 100;
+    //             updateScale();
+    //             break;
+    //     }
+    // });
+
+    // function updateScale() {
+    //     $container.css({
+    //         'transform': `scale(${scale})`,
+    //         'transform-origin': 'center center',
+    //         'overflow': 'scroll'
+    //     });
+    // }
+
+    // function fitToContainer() {
+    //     // Assuming the container has a fixed dimension and content needs to fit exactly within
+    //     const containerHeight = $container.height();
+    //     const contentHeight = $container.get(0).scrollHeight;
+    //     const containerWidth = $container.width();
+    //     const contentWidth = $container.get(0).scrollWidth;
+    //     const scaleWidth = containerWidth / contentWidth;
+    //     const scaleHeight = containerHeight / contentHeight;
+    //     scale = Math.min(scaleWidth, scaleHeight);
+    //     updateScale();
+    //     $container.css('overflow', 'hidden'); // Disable scrollbars
+    // }
+
+    // function fillContainer() {
+    //     // Assuming the intent is to always fill the container, potentially cutting off content
+    //     const containerHeight = $container.height();
+    //     const contentHeight = $container.get(0).scrollHeight;
+    //     const containerWidth = $container.width();
+    //     const contentWidth = $container.get(0).scrollWidth;
+    //     const scaleWidth = containerWidth / contentWidth;
+    //     const scaleHeight = containerHeight / contentHeight;
+    //     scale = Math.max(scaleWidth, scaleHeight);
+    //     updateScale();
+    //     $container.css('overflow', 'hidden'); // Disable scrollbars
+    // }
+});

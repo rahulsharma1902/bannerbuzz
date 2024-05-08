@@ -68,7 +68,7 @@
     }
     .templ_imgs ul li {
         width: 47%;
-        height: 9rem;
+        /* height: 9rem; */
     }
     .canva-img.blk_dw {
         max-width: 65%;
@@ -79,9 +79,13 @@
     .cta {
         padding: 15px 20px;
     }
-    .design-cmnt {
+   /* .design-cmnt {
         max-width: 215px;
+    }*/
+    /*.design-cmnt {
+     max-width: 230px;
     }
+*/
     .design-ryt-vw {
         height: 550px;
         width: 100%;
@@ -123,10 +127,10 @@
     header.header_wrap .hd_cntr.custom_scrollbar .button-group {
         gap: 10px;
     }
-    .design-cmnt {
-        /* max-width: 215px; */
+  /*  .design-cmnt {
+         max-width: 215px; 
         max-width: 100%;
-    }
+    }*/
 
     .design-cmnt .button-group {
         flex-wrap: wrap;

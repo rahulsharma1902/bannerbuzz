@@ -210,6 +210,43 @@
                                 </div>
                             @endif
                         @endif
+                        @if(isset($product) && $product->key_points != null)
+                            <div id="input-div-container" class="col-lg-12">
+                                <div  class="col-lg-12  d-flex">
+                                    <div class="form-group col-lg-11 p-2" id="Key">
+                                        <div class="col-lg-12">
+                                            <label class="form-label" for="image">Key Points</label>
+                                            @foreach(json_decode($product->key_points) as $key_point)
+                                                <div class="form-control-wrap p-2">
+                                                    <input type="text" name="keys[]" class="form-control" id="key-points" value="{{ $key_point ?? '' }}" placeholder="About product....">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="form-control-wrap pt-3 ">
+                                        <a type="button" onclick="addNewInput()" class="primary-link" id="add-input-field">Add
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @else 
+                            <div id="input-div-container" class="col-lg-12">
+                                <div  class="col-lg-12  d-flex">
+                                    <div class="form-group col-lg-11 p-2" id="Key">
+                                        <div class="col-lg-12">
+                                            <label class="form-label" for="image">Key Points</label>
+                                            <div class="form-control-wrap p-2">
+                                                <input type="text" name="keys[]" class="form-control" id="key-points" placeholder="About product....">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-control-wrap pt-3 ">
+                                        <a type="button" onclick="addNewInput()" class="primary-link" id="add-input-field">Add
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         @if ($product === null)
                             <h5>Add Accessories Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
@@ -735,6 +772,25 @@
         var containerDiv = icon.closest('.Size_class');
         containerDiv.remove();
         document.getElementById('remove_size_id').value = productSizes;
+    }
+    function addNewInput() {
+        var Div_conatiner = $('#Key');
+        
+        var Input_HTML = `<div class="col-lg-12 d-flex newdiv">
+                            <div class="form-control-wrap col-lg-11 p-2">
+                                <input type="text" name="keys[]" class="form-control" id="key-points" placeholder="About product....">
+                            </div>
+                            <div style="cursor:pointer;" class="form-control-wrap  p-2">
+                                <i style="cursor:pointer;" onclick="removeInput(this)"
+                                class="fas fa-trash-alt"></i>
+                            </div> 
+                        </div>`;
+        Div_conatiner.append(Input_HTML);
+    }
+
+    function removeInput(element) {
+        let parentDiv = element.closest('.newdiv');
+        parentDiv.remove();
     }
     //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 

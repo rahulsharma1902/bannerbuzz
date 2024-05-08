@@ -45,20 +45,17 @@
                                     9724 Reviews | Product Specifications | 1 Answered questions | SKU : BBVBCB00
                                 </p>
                             </div>
+                                @php
+                                    $keys = $product->key_points ?? '';
+                                    $productKeys = json_decode($keys);
+                                @endphp
                             <div class="shop_dt_list">
                                 <ul>
+                                @foreach($productKeys as $keys)
                                     <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
+                                        {{ $keys }}
                                     </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
+                                @endforeach
                                 </ul>
                             </div>
                             <div class="shop_dt_ship">

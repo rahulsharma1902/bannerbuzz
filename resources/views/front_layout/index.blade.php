@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<!-- Ruler csss -->
+        
+<link rel="stylesheet" href="{{ asset('coustomizer/css/bbz-styles.css') }}?{{ time() }}">
+        <!-- Ruler css end   -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
         <link
@@ -31,7 +34,14 @@
         />
 
         <link rel="stylesheet" href="{{ asset('coustomizer/css/style.css') }}?{{ time() }}" />
+        <link rel="stylesheet" href="{{ asset('coustomizer/css/front.css') }}?{{ time() }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('coustomizer/css/responsive.css') }}?{{ time() }}" />
+
+        
+         <!-- malihu css link  -->
+                <link rel="stylesheet" href="{{ asset('coustomizer/css/malihu.css') }}?{{ time() }}">
+        <!-- malihu css link end -->
+
           <!-- Include Fabric.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js"
         integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ=="
@@ -46,9 +56,14 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
         <title>Design online</title>
+
+
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
+        <!-- malihu js link  -->
+        <link rel="stylesheet" href="{{ asset('coustomizer/js/malihuJquery.js') }}?{{ time() }}">
+        <!-- malihu js link end -->
     </head>
     <body>
         @yield('content')
@@ -69,6 +84,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+
+
+         <!-- Ruler csss -->
+        
+         <link rel="stylesheet" href="{{ asset('coustomizer/js/vendor.js') }}?{{ time() }}">
+        <!-- Ruler css end   -->
         <script src="{{ asset('coustomizer/js/script.js') }}?{{ time() }}"></script>
 
     </body> 

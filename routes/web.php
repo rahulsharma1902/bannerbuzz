@@ -110,6 +110,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::any('admin-dashboard/template/uploadImage', [TemplateController::class, 'uploadImageTemplate']);
 
     Route::post('saveTemplate', [TemplateController::class, 'saveTemplate']);
+    Route::get('admin-dashboard/template-remove/{slug}', [TemplateController::class, 'templateRemove']);
 
 
     //::::::::::::::::::::: ProductCategoryController Routes  ::::::::::::::::::::::://

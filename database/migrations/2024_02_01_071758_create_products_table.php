@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('is_printed')->nullable();
             $table->text('quantity')->default('10000');
             $table->text('addtional_info')->nullable();
+            $table->json('key_points')->nullable();
             $table->integer('status')->default(true);
             $table->timestamps();
         });

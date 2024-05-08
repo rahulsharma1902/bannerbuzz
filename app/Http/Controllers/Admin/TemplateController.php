@@ -154,4 +154,17 @@ class TemplateController extends Controller
         return response()->json(['success' => false, 'message' => 'Failed to upload template']);
     }
     
+
+    public function templateRemove(Request $request, $slug) {
+        $slug = $slug; // This line is redundant.
+        if ($slug) {
+            $template = Template::where('slug', $slug)->first();
+            if ($template) {
+                $template->delete();
+                return redirect()->back()->with('success', 'You template has been removed successfully');
+            }
+        }
+        return redirect()->back()->with('error','Invalid Slug/Request Found !');
+    }
+    
 }

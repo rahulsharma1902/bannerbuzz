@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('price')->nullable();
             $table->text('quantity')->nullable();
             $table->text('additional_info')->nullable();
+            $table->json('key_points')->nullable();
             $table->integer('status')->default(true);
             $table->timestamps();
         });

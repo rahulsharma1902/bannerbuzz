@@ -1,4 +1,6 @@
 $(document).ready(function (){
+    // $('body').css('zoom', '90%');
+
     $('.common_controls').hide();
     $('#horizontalLine').hide();
     $('#verticalLine').hide();
@@ -52,22 +54,304 @@ document.addEventListener("DOMContentLoaded", function() {
   canvas = new fabric.Canvas('customCanvas');
 
 //   this is use for add scalling border in canvas ::
-  var canvas2=document.getElementById("canvasBottom");
-  var ctx2=canvas2.getContext("2d");
+//   var canvas2=document.getElementById("canvasRuler");
+//   var ctx2=canvas2.getContext("2d");
 
-  ctx2.beginPath();
-  for(var i=0;i<canvas.width;i+=10){
-      var y=(i/100==parseInt(i/100))?0:10;
-      ctx2.moveTo(i+15,y);
-      ctx2.lineTo(i+15,15);
-      var x=(i/100==parseInt(i/100))?0:10;
-      ctx2.moveTo(x,i+15);
-      ctx2.lineTo(15,i+15);
-  }
-  ctx2.strokeStyle = "white";
-  ctx2.stroke();
+//   ctx2.beginPath();
+//   for(var i=0;i<canvas.width;i+=10){
+//       var y=(i/100==parseInt(i/100))?0:10;
+//       ctx2.moveTo(i+15,y);
+//       ctx2.lineTo(i+15,15);
+//       var x=(i/100==parseInt(i/100))?0:10;
+//       ctx2.moveTo(x,i+15);
+//       ctx2.lineTo(15,i+15);
+//   }
+//   ctx2.strokeStyle = "red";
+//   ctx2.stroke();
 
 //  scaling border canvas end here
+
+function getPixelsPerUnit(unit) {
+    switch (unit) {
+        case 'mm': return 3.7795275590551;
+        case 'cm': return 37.795275590551;
+        case 'in': return 96;
+        case 'ft': return 1152;
+        default: console.error('Unsupported unit: ' + unit); return null;
+    }
+}
+
+function updateCustomCanvasDimensions(width, height, unit) {
+    let pixelsPerUnit = getPixelsPerUnit(unit);
+    // let maxCanvasWidth = 500; // Width of the ruler
+    let maxCanvasWidth = canvas.width; // Width of the ruler
+    let maxCanvasHeight = canvas.height; // Height of the ruler
+    // let maxCanvasHeight = 350; // Height of the ruler
+
+    let naturalCanvasWidth = width * pixelsPerUnit;
+    let naturalCanvasHeight = height * pixelsPerUnit;
+
+    let scaleWidth = Math.min(maxCanvasWidth / naturalCanvasWidth, 1); // Scale width
+    let scaleHeight = Math.min(maxCanvasHeight / naturalCanvasHeight, 1); // Scale height
+
+    // Update ruler dimensions
+    $('.ruler.top').width(naturalCanvasWidth * scaleWidth);
+    $('.ruler.left').height(naturalCanvasHeight * scaleHeight);
+
+    drawRulers(width, height, unit, scaleWidth, scaleHeight, pixelsPerUnit);
+}
+
+function drawRulers(width, height, unit, scaleWidth, scaleHeight, pixelsPerUnit) {
+    let widthGap = chooseGap(width, width / (width * pixelsPerUnit));
+    let heightGap = chooseGap(height, height / (height * pixelsPerUnit));
+
+    drawRulerLine(width, widthGap, 'horizontal', unit, scaleWidth, pixelsPerUnit);
+    drawRulerLine(height, heightGap, 'vertical', unit, scaleHeight, pixelsPerUnit);
+}
+
+function drawRulerLine(length, gap, orientation, unit, scale, pixelsPerUnit) {
+    let ruler = orientation === 'horizontal' ? '.ruler.top' : '.ruler.left';
+    let numMajorTicks = Math.min(Math.floor(length / gap), 10); // Limit major ticks to maximum 10
+    if (length < 10) {
+        numMajorTicks = length; // Set numMajorTicks to length if it's less than 10
+    }
+
+    $(ruler).empty(); // Clear previous ticks
+    for (let i = 0; i <= numMajorTicks; i++) {
+        let position = i * gap * pixelsPerUnit;
+
+        // Calculate the label based on width or height and the current position
+        let label = Math.round(position / pixelsPerUnit);
+
+        $(ruler).append(`<div class="tick major" style="${orientation === 'horizontal' ? 'left' : 'top'}: ${position * scale}px;"><span>${label}</span></div>`);
+
+        // Draw minor ticks if needed
+        for (let j = 1; j < 10; j++) {
+            let minorPosition = position + j * (gap * pixelsPerUnit / 10);
+            if (minorPosition < length * pixelsPerUnit) {
+                $(ruler).append(`<div class="tick minor" style="${orientation === 'horizontal' ? 'left' : 'top'}: ${minorPosition * scale}px;"></div>`);
+            }
+        }
+    }
+}
+canvas.on('mouse:move', function(event) {
+    let rect = canvas.lowerCanvasEl.getBoundingClientRect();
+    let x = event.e.clientX - rect.left;
+    let y = event.e.clientY - rect.top;
+
+    // Draw a line at the current mouse position
+    // let ctx = canvas.getContext('2d');
+    // ctx.beginPath();
+    // ctx.moveTo(x, 0); // Start of the vertical line (x, 0)
+    // ctx.lineTo(x, canvas.height); // End of the vertical line (x, canvas height)
+    // ctx.stroke();
+
+    // Ensure ruler lines exist and update their positions
+    let rulerTopLine = $('.ruler.top .top-line');
+    let rulerLeftLine = $('.ruler.left .left-line');
+    if (rulerTopLine.length === 0) {
+        $('.ruler.top').prepend('<div class="top-line"></div>');
+        rulerTopLine = $('.ruler.top .top-line');
+    }
+    if (rulerLeftLine.length === 0) {
+        $('.ruler.left').prepend('<div class="left-line"></div>');
+        rulerLeftLine = $('.ruler.left .left-line');
+    }
+    
+    rulerTopLine.css('left', x + 'px');
+    rulerLeftLine.css('top', y + 'px');
+});
+
+
+
+function chooseGap(length, unitPixels, maxLabels = 10) {
+    let minGap = 1; // start with the smallest gap
+    let numLabels;
+    do {
+        numLabels = Math.floor(length / minGap);
+        if (numLabels > maxLabels) {
+            minGap *= 2; // increase the gap
+        }
+    } while (numLabels > maxLabels);
+    return minGap;
+}
+
+
+
+// Example usage
+
+$('#select_size').change(function() {
+    selectedSize();
+    // const selectedOption = $(this).find('option:selected');
+    // const sizeValues = selectedOption.val().split('X');
+    // if(sizeValues != 'custom'){
+    //     const width = parseFloat(sizeValues[0]);
+    //     const height = parseFloat(sizeValues[1]);
+    //     const unit = $('#size_unit option:selected').val().toLowerCase();
+    //     updateCustomCanvasDimensions(width, height, unit);
+    // }
+  });
+  function selectedSize(){
+    const selectedOption = $('#select_size').find('option:selected');
+    const sizeValues = selectedOption.html().split('X');
+    if(sizeValues != 'custom'){
+        const width = parseFloat(sizeValues[0]);
+        const height = parseFloat(sizeValues[1]);
+        const unit = $('#size_unit option:selected').val().toLowerCase();
+        updateCustomCanvasDimensions(width, height, unit);
+        updateMeasurementDisplay(width, height, unit);
+
+    }else{
+        customSizeChange();
+    }
+  }
+//   $('#size_unit').change(function() {
+//     console.log('working');
+//     if (document.getElementById('custom_size_div').style.display === 'none') {
+//         selectedSize();
+//       } else {
+//         customSizeChange();
+//       }
+//   });
+// updateCustomCanvasDimensions(6, 8, 'ft');
+if (document.getElementById('custom_size_div').style.display === 'none') {
+    selectedSize();
+  } else {
+    customSizeChange();
+  }
+// customSizeChange();
+// selectedSize();
+$('.applyBtn').on('click', function() {
+    customSizeChange();
+});
+function customSizeChange(){
+    var width = $('#custom_width').val();
+    var height = $('#custom_height').val();
+    // var unit = $('#size_unit').val().toLowerCase(); 
+    var unit = ($('#size_unit').val() || 'ft').toLowerCase(); 
+
+
+    updateCustomCanvasDimensions(width, height, unit);
+    updateMeasurementDisplay(width, height, unit);
+
+}
+function updateMeasurementDisplay(width, height, unit) {
+    var widthBox = $('.measurement-top-box .feetlabel-box');
+    var heightBox = $('.measurement-left-box .feetlabel-box');
+    
+    widthBox.text(width + ' ' + unit);
+    heightBox.text(height + ' ' + unit);
+}
+
+// zooming code start from here :
+
+
+
+$('#zoomSelect').change(function (){
+    var percent = $(this).val();
+    zoomCanvasScreen(percent);
+});
+$('#zoomIn').click(function() {
+    zoomIn();
+    // updateZoomSelect();
+});
+$('#zoomOut').click(function() {
+    zoomOut();
+    // updateZoomSelect();
+});
+
+function zoomIn() {
+    zoom(20);
+}
+
+function zoomOut() {
+    zoom(-20);
+}
+
+function zoomCanvasScreen(percentage) {
+    // var selectedValue = percentage !== undefined ? percentage : parseFloat($('#zoomSelect').val());
+    var selectedValue = percentage !== undefined ? percentage : 100;
+
+    var mainWidth = 500;
+    var mainHeight = 300;
+
+    var width = mainWidth * (selectedValue / 100);
+    // var width = (mainWidth * (selectedValue / 100))-50;
+    var height = mainHeight * (selectedValue / 100);
+
+    canvasWidthHeightChange(width, height);
+}
+
+function canvasWidthHeightChange(width, height) {
+    // Get the current (old) dimensions of the canvas
+    const oldWidth = canvas.getWidth();
+    const oldHeight = canvas.getHeight();
+
+    // Calculate the scale ratios
+    const scaleX = width / oldWidth;
+    const scaleY = height / oldHeight;
+
+    canvas.getObjects().forEach(function(object) {
+        object.set({
+            left: object.left * scaleX,
+            top: object.top * scaleY,
+            scaleX: object.scaleX * scaleX,
+            scaleY: object.scaleY * scaleY,
+        });
+
+        object.setCoords();
+    });
+
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+
+    canvas.renderAll();
+
+    if (document.getElementById('custom_size_div').style.display === 'none') {
+        selectedSize();
+    } else {
+        customSizeChange();
+    }
+}
+
+function zoom(step) {
+    var select = $('#zoomSelect');
+    var currentZoom = parseInt(select.val());
+    var newZoom = currentZoom + step;
+    if (newZoom >= 800) {
+        newZoom = 800;
+        $('#zoomIn').prop('disabled', true);
+    } else if (newZoom <= 25) {
+        newZoom = 25;
+        $('#zoomOut').prop('disabled', true);
+    } else {
+        $('#zoomOut').prop('disabled', false);
+        $('#zoomIn').prop('disabled', false);
+    }
+    
+
+    $('.newZoomOption').remove();
+        select.append(
+            $("<option>")
+             .addClass("newZoomOption")
+             .val(newZoom)
+             .text(newZoom + "%")
+             .prop("selected", true)
+    );
+
+          zoomCanvasScreen(newZoom);    
+}
+
+
+
+
+
+
+//  zooming code end here : 
+
+
+
+
 
 
   // Check if there is canvas data in the templateData variable
@@ -187,23 +471,23 @@ var countObj = 0;
     
         }
     });
-    const horizontalLine = document.getElementById('horizontalLine');
-    const verticalLine = document.getElementById('verticalLine');
-    canvas.on('mouse:move', function(options) {
-        // var activeObject = options.target;
-        // activeObject.set('globalCompositeOperation','destination-over');
-        $('#horizontalLine').show();
-        $('#verticalLine').show();
-        const canvasElement = canvas.lowerCanvasEl;
-        const rect = canvasElement.getBoundingClientRect();
-        const x = options.e.clientX - rect.left;
-        const y = options.e.clientY - rect.top;
-        const maxX = canvasElement.width;
-        const maxY = canvasElement.height;
-        var disWidth = getWidthDistance();
-        horizontalLine.style.left = `${parseInt(x) + disWidth}px`;
-        verticalLine.style.top = `${parseInt(y) + 35}px`;
-    });
+    // const horizontalLine = document.getElementById('horizontalLine');
+    // const verticalLine = document.getElementById('verticalLine');
+    // canvas.on('mouse:move', function(options) {
+    //     // var activeObject = options.target;
+    //     // activeObject.set('globalCompositeOperation','destination-over');
+    //     $('#horizontalLine').show();
+    //     $('#verticalLine').show();
+    //     const canvasElement = canvas.lowerCanvasEl;
+    //     const rect = canvasElement.getBoundingClientRect();
+    //     const x = options.e.clientX - rect.left;
+    //     const y = options.e.clientY - rect.top;
+    //     const maxX = canvasElement.width;
+    //     const maxY = canvasElement.height;
+    //     var disWidth = getWidthDistance();
+    //     horizontalLine.style.left = `${parseInt(x) + disWidth}px`;
+    //     verticalLine.style.top = `${parseInt(y) + 35}px`;
+    // });
     
     canvas.on('mouse:out', function(options) {
         $('#horizontalLine').hide();
@@ -719,6 +1003,61 @@ function loadTemplateData(templateData){
         console.log('No template data available. Canvas has been cleared.');
     }
 }
+// function loadTemplateData(templateData){
+//     if (templateData && Object.keys(templateData).length > 0) {
+//         canvas.loadFromJSON(templateData, function() {
+//             // After loading, adjust object sizes and positions to fit the current canvas dimensions
+//             adjustCanvasObjectsToFit(canvas);
+//             canvas.renderAll();
+//         });
+//     } else {
+//         canvas.clear();
+//         console.log('No template data available. Canvas has been cleared.');
+//     }
+// }
+
+function adjustCanvasObjectsToFit(canvas) {
+    const canvasWidth = canvas.getWidth();
+    const canvasHeight = canvas.getHeight();
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    // Find the minimum and maximum coordinates of all objects
+    canvas.getObjects().forEach(obj => {
+        obj.setCoords(); // Update the coordinates of the object
+        const objBoundingBox = obj.getBoundingRect();
+        minX = Math.min(minX, objBoundingBox.left);
+        minY = Math.min(minY, objBoundingBox.top);
+        maxX = Math.max(maxX, objBoundingBox.left + objBoundingBox.width);
+        maxY = Math.max(maxY, objBoundingBox.top + objBoundingBox.height);
+    });
+
+    // Calculate scale factors based on the difference in object positions
+    const scaleX = canvasWidth / (maxX - minX);
+    const scaleY = canvasHeight / (maxY - minY);
+    const uniformScaleFactor = Math.min(scaleX, scaleY); // Use the smaller scale factor to maintain aspect ratio
+
+    // Calculate translation factors to center the content
+    const translateX = (canvasWidth - (maxX - minX) * uniformScaleFactor) / 2 - minX * uniformScaleFactor;
+    const translateY = (canvasHeight - (maxY - minY) * uniformScaleFactor) / 2 - minY * uniformScaleFactor;
+
+    // Apply uniform scaling and translation to each object
+    canvas.getObjects().forEach(object => {
+        object.set({
+            left: (object.left - minX) * uniformScaleFactor + translateX,
+            top: (object.top - minY) * uniformScaleFactor + translateY,
+            scaleX: object.scaleX * uniformScaleFactor,
+            scaleY: object.scaleY * uniformScaleFactor,
+        });
+        object.setCoords(); // Update the coordinates of the object
+    });
+
+    canvas.renderAll();
+}
+
 
 
 function refreshFunctions(){

@@ -1,0 +1,218 @@
+
+.templ_imgs ul li {
+    width: 47%;
+     height: auto; 
+}
+
+.upld_content{
+    max-width: 100%;
+}
+.temp_content.upld_content .text_box_field {
+    overflow-x: hidden;
+}
+select {
+    appearance: none;
+}
+select:focus  {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    max-width: 100%;
+}
+/*.temp_content.upld_content {
+    width: 100%;
+    max-width: 340px;
+}*/
+@media only screen and (max-width: 1499px){
+.upld_content {
+    max-width: 240px;
+    width: 100%;
+}
+.design-cmnt {
+    max-width: 240px;
+    width: 100%;
+}
+}
+@media only screen and (max-width: 1399px){
+.design-edit .design-tabs .nav.nav-pills .nav-link span.spride_img {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link.tempdv p {
+    font-size: 14px;
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link:hover span.spride_img img.wht-img.img-fluid {
+   transform: translateY(-25px);
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link:hover span.spride_img img.pink-img.img-fluid {
+    transform: translateY(-25px);
+}
+.design-ryt-vw .ryt-logo-img h6 {
+    font-size: 16px;
+    line-height: 1.2;
+    
+}
+.tooltip-text {
+    position: absolute;
+    top: 10px;
+    right: -135px;
+    width: 80px;
+    height: 40px;
+}
+.ryt-view-box .editing-lnks ul li .tooltip.tol-ryt .tooltip-text {
+    top: 85%;
+    right: 18%;
+    border: 1px solid #000;
+}
+ul.custom_size li.option select {
+    padding: 6px;
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link.tempdv.hd-toltp span.spride_img img.wht-img.img-fluid {
+    transition: none;
+    transform: translateY(-25px);
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link.tempdv.hd-toltp span.spride_img img.pink-img.img-fluid {
+    transition: none;
+    transform: translateY(-25px);
+}
+.design-edit .design-tabs .nav.nav-pills .nav-link.pink-text span.spride_img img.wht-img.img-fluid {
+    transform: translateY(-25px);
+   }
+.design-edit .design-tabs .nav.nav-pills .nav-link.pink-text span.spride_img img.pink-img.img-fluid {
+    transform: translateY(-25px);
+  }
+  .upld_content{
+    max-width: 225px;
+}
+   .design-cmnt {
+     max-width: 225px;
+    }
+    .intro-box {
+    padding: 10px 0px;
+}
+.Fstep {
+    margin-top: -100px;
+}
+.Sstep {
+    margin-top: -12px;
+}
+.Tstep {
+    margin-top: 20px;
+}
+.Fourstep {
+    margin-top: 130px;
+}
+.Fvstep {
+    margin-top: 160px;
+}
+.Sixstep {
+    margin-top: 260px;
+}
+.Svnstep {
+    margin-top: 265px;
+}
+}
+
+
+
+
+
+
+
+
+.mCustomScrollbar.canvas-container.wrapper {
+    cursor: pointer;
+}
+
+.canvas-footer {
+    background: #000000;
+}
+.canvas-footer button {
+    border: none;
+    background: #000;
+    color: #fff;
+    font-size: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.canvas-footer select#zoomSelect {
+    margin: 0!important;
+    height: 26px;
+}
+
+button#zoomIn{
+     border-radius: 0px 2px 2px 0px;
+}
+
+button#zoomOut {
+     border-radius: 2px 0px 0px 2px;
+}
+
+
+.mCustomScrollbar.canvas-container.wrapper::-webkit-scrollbar {
+    height: 0.4em;
+}
+
+
+div#canvas-ruler {
+    width: 500px;
+    margin: auto;
+}
+
+/* .mCustomScrollbar{
+    height:430px;
+    overflow:scroll;
+    padding: 1rem 5rem;
+    justify-content: center;
+    position: relative;
+} */
+
+
+
+
+/* Nikita mam css */
+
+.canva-img {
+    border-right: 1px solid #1b1b1b;
+}
+
+.mCustomScrollbar.canvas-container.wrapper {
+    border-top: 1px solid #1b1b1b;
+    height: calc(100% - 150px) !important;
+}
+
+.canvasData {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 30px;
+}
+
+
+.ef-ruler .left {
+    left: -13px !important;
+}
+
+.ef-ruler {
+    left: -13px !important;
+} 
+
+.ef-ruler .top {
+    left: 0 !important;
+}
+
+canvas.upper-canvas {
+    left: -13px !important;
+}
+
+canvas#customCanvas {
+    left: -13px !important;
+}
+.ef-ruler .corner {
+    width: 0;
+}
+/* Nikita mam css end here */

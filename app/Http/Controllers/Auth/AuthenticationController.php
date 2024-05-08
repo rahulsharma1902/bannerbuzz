@@ -19,7 +19,7 @@ class AuthenticationController extends Controller
         return view('authentication.index');
     }
     public function loginProcc(Request $request){
-    
+       
 
         $request->validate([
             'email' => 'required',
@@ -43,26 +43,53 @@ class AuthenticationController extends Controller
         }
     }
     public function register(){
-        return view('authentication.register');
+
+        $countries = [
+            'AF' => '93', 
+            'AL' => '355', 
+            'DZ' => '213', 
+        ];
+        return view('authentication.new_register',compact('countries'));
     }
     public function registerProcc(Request $request){
-        
+        // dd($request->all());
         $request->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name'  => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
-            'number' => 'required|numeric'
+            'phone' => 'required|unique:users,phone'
+        
         ]);
-        $password = Hash::make($request->password);
+    
+        $user_name = $request->input('first_name') . $request->input('last_name');
 
-        $user = User::create(['name'=>$request->fname." ".$request->lname,'email'=>$request->email,'password'=>$password,'number'=>$request->number]);
+        $unique_user_name = $user_name;
+        $count = 1;
+        while (User::where('user_name', $unique_user_name)->exists()) {
+            $unique_user_name = $user_name.++$count;
+        }
+        $user = new User();
+        $user->user_name =$unique_user_name;
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->password = Hash::make($request->password);
+        $user->save();
+
         $mailData = [
             'name' => $request->name,
             'email' => $request->email,
         ];
         // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        if (Auth::attempt($request->only('email', 'password'))) {
+            if (Auth::user()->is_admin == 0) {
+                return redirect('/')->with('success','Your account is created successfully');
+            }
+        }
+        // return redirect('/')->with('success','Your account is created successfully');
         
-        return redirect()->back()->with('success','Your account is created successfully');
     }
     public function forgetPassword(){
         return view('authentication.forgottenpassword');

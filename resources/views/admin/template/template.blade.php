@@ -244,7 +244,7 @@
 
 <section class="design-edit ">
     <div class="row main-rw">
-        <div class="col-xl-12 col-lg-12">
+        <div class="col-xl-9 col-lg-12">
             <div class="design-tabs">
                 <div class="nw-rw1">
                     <div class="nav flex-column nav-pills contain" id="v-pills-tab" role="tablist"
@@ -1240,18 +1240,63 @@
 
                         </div>
 
-                        <div class="canvas-container wrapper" style="padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
+                        <!-- <div class="canvas-container wrapper" style="padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
                                     <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
                                     <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div>
-                                <!-- <div> -->
                                 <canvas id="canvasBottom" width=750 height=427></canvas>
                                 <canvas id="customCanvas" width="700" height="400" style="border: 1px solid;"></canvas>
-                                <!-- Position the lines relative to the canvas -->
                                 
-                            <!-- </div> -->
-                        </div>
+                        </div> -->
 
-
+<div class="mCustomScrollbar canvas-container wrapper" style="height:430px; overflow:scroll; padding: 1rem 5rem; justify-content: center; position: relative;">
+                                    <div class="canvasData" style="">
+                                        <!-- <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
+                                        <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div> -->
+                                        <div class="canvas-ruler" id="canvas-ruler">
+                                            <div class="ef-ruler">
+                                                <div class="corner" style="top: 0px; left: 0px;background: transparent;"></div>
+                                                <div class="ruler top rulerTop" style="top: 0px;">
+                                                    <div class="top-line" style="left: 51.5px;"></div>
+                                                </div>
+                                                <div class="ruler left rulerLeft" style="left: 0px;">
+                                                    <div class="left-line" style="top: 242px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="stage" style="">
+                                                <div id="main_designtool_tool" class="dragCanvas">
+                                                    <canvas id="customCanvas" width="500" height="350" style="border: 1px solid;"></canvas>
+                                                </div>
+                                            </div>
+                                            <div class="measurement-Box" style="">
+                                                <span class="measurement-top-box">
+                                                    <span class="feetlabel-box">6.00 Ft</span> (w)
+                                                </span> X 
+                                                <span class="measurement-left-box">
+                                                    <span class="feetlabel-box">8.00 Ft </span> (H)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                    </div>
+                             
+                                </div>
+                                <div class="canvas-footer" style="position: absolute; bottom: 0; width: 100%;height: 2rem;box-sizing: border-box; display: flex; justify-content: center; align-items: center;">
+                                        <button class="zoomBtn" id="zoomOut" data-type="down">-</button>
+                                        <select id="zoomSelect" style="margin: 0 10px; background:white;">
+                                            <option value="25">25%</option>
+                                            <option value="50">50%</option>
+                                            <option value="75">75%</option>
+                                            <option value="100" selected>100%</option>
+                                            <option value="200">200%</option>
+                                            <option value="400">400%</option>
+                                            <option value="600">600%</option>
+                                            <option value="800">800%</option>
+                                            <!-- <option value="fit">fit</option>
+                                            <option value="fill">fill</option> -->
+                                        </select>
+                                        <button class="zoomBtn" id="zoomIn" data-type="up">+</button>
+                                </div>
                         <!-- <div class="cnva_dummy">
                             <div class="cnva_dv">
                                 <canvas id="customCanvas" width="700" height="300" style="border:1px solid red;"></canvas>
@@ -1261,7 +1306,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-xl-3 new_right_arw">
+        <div class="col-xl-3 new_right_arw">
             <div class="desgin-ryt-arw">
                 <button type="button" class="btnpanelbox" aria-label="panel-box" style="display: none;">
                     <i class="fa fa-angle-left"></i>
@@ -1270,46 +1315,54 @@
                 <div class="design-ryt-vw">
                     <div class="ryt-logo-img">
                         <div class="cusm-lgo">
-                            <img src="{{ asset('coustomizer/img/custom-vinyl.png') }}" class="img-fluid" alt=".." />
+                            <!-- <img src="{{ asset('coustomizer/img/custom-vinyl.png') }}" class="img-fluid" alt=".." /> -->
+                            <img src="{{ asset('TemplateImage')}}/{{ $templateData->template_image ?? 'template.png' }}" class="img-fluid" alt=".." />
                         </div>
-                        <h6>Custom Vinyl Banners</h6>
+                        <h6>{{ $templateData->name ?? '' }}</h6>
                     </div>
                     <div class="footer-size-main">
-                        <a href="#standard-size">Standard Size</a>
+                        <!-- <a href="#standard-size">Standard Size</a> -->
                     </div>
                     <div id="table_custom_size" class="custom-size">
                         <ul class="custom_size">
-                            <li class="option">
-                                <div class="custome-size-title">W</div>
-                                <div class="customsize-wrapper sizeMeasurement">
-                                    <input value="3" id="size_w" name="size_w" type="number" step=".01" />
-                                </div>
-                            </li>
-                            <li class="option">
-                                <div class="custome-size-title">H</div>
-                                <div class="customsize-wrapper sizeMeasurement">
-                                    <input value="2" id="size_h" name="size_h" type="number" step=".01" />
-                                </div>
-                            </li>
+                            <div style="display:block" class="custom_size_div" id="custom_size_div">
+                                <li class="option">
+                                    <div class="custome-size-title">W</div>
+                                    <div class="customsize-wrapper sizeMeasurement">
+                                        <!-- <input value="3" id="size_w" name="size_w" type="number" step=".01" /> -->
+                                        <input data-unit="Ft" class="form-select form-control" type="number" name="custom_width" value="3" id="custom_width" placeholder="width">
+
+                                    </div>
+                                </li>
+                            </div>
+                            <div style="display:block" class="custom_size_div" id="custom_size_div">
+                                <li class="option">
+                                    <div class="custome-size-title">H</div>
+                                    <div class="customsize-wrapper sizeMeasurement">
+                                    <input data-unit="Ft" class="form-select" type="number" name="custom_height" value="3" id="custom_height" placeholder="height">
+
+                                        <!-- <input value="2" id="size_h" name="size_h" type="number" step=".01" /> -->
+                                    </div>
+                                </li>
+                            </div>
                             <li class="option">
                                 <div class="select_box">
-                                    <select name="select" class="form-control">
-                                        <option value="">FT</option>
-                                        <option value="Option_one">FT</option>
-                                        <option value="Option_two">MM</option>
-                                        <option value="Option_three">CM</option>
-                                        <option value="Option_four">MT</option>
-                                    </select>
+                                <select id="size_unit" name="size_unit" class="form-select">
+                                    <option value="Ft">Ft</option>
+                                    <option value="In">inch</option>
+                                    <option value="Cm">Cm</option>
+                                    <option value="Mm">Mm</option>
+                                </select>
                                 </div>
                             </li>
                         </ul>
                     </div>
                     <div class="ftr-size-price">
                         <div class="ftr-size-lft">
-                            <p>$8.39 <span>Incl.</span> VAT</p>
+                            <!-- <p>$8.39 <span>Incl.</span> VAT</p> -->
                         </div>
                         <div class="ftr-lnks">
-                            <a hef="#" class="btn cta">Apply</a>
+                            <a hef="#" style="" class="btn cta applyBtn">Apply</a>
                         </div>
                     </div>
                     <div class="ryt-view-box">
@@ -1572,7 +1625,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
     </div>
     <!-- <div class="lyr_grp attactWith" data-attact="mainDiv" style="display: block; border:red;">
@@ -1812,4 +1865,94 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
 
 }
 </script>
+
+
+
+
+<!-- Script for changing ft / inch / mm / cm -->
+<script>
+    $(document).ready( function (){
+        
+        async function customSize(){
+                $('.custom_size_div').show();
+                var pricePerUnit = await priceratio();
+                
+                var width =parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+                var newprice = pricePerUnit *( width + height); 
+                
+                var variation_total_price = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    variation_total_price += selectedPrice;
+                });
+                var totalPrice = (newprice) ;
+               
+                if(formatPrice(totalPrice) !== true){
+                    var totalPrice = totalPrice.toFixed(1);
+                }
+
+                $('#product_price').text('$' + totalPrice);
+                // $('#product_price_input').val(selectedprice);
+                $('#product_price_main').text('$' + (totalPrice + 5));
+            }
+
+
+            $('.applyBtn').on('click', function (){
+                var value = $('#size_unit').val();
+                UpdateCustomSize(value);
+            });
+            $('#size_unit').change(function() {
+                var value = $('#size_unit').val();
+                UpdateCustomSize(value);
+                $('.applyBtn').click();
+            });
+            
+            function UpdateCustomSize(value) {
+                var last_unit = $('#custom_width').data('unit');
+                var unit_value;
+
+                if (last_unit == 'In') {
+                    unit_value = 12; 
+                } else if (last_unit == 'Cm') {
+                    unit_value = 30; 
+                } else if (last_unit == 'Mm') {
+                    unit_value = 300; 
+                } else if (last_unit == 'Ft') {
+                    unit_value = 1; 
+                }
+
+                var width = parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+
+                var width_in_inches = width / unit_value;
+                var height_in_inches = height / unit_value;
+
+                var new_unit_value;
+
+                if (value == 'In') {
+                    new_unit_value = 12; 
+                } else if (value == 'Cm') {
+                    new_unit_value = 30; 
+                } else if (value == 'Mm') {
+                    new_unit_value = 300; 
+                } else if (value == 'Ft') {
+                    new_unit_value = 1; 
+                }
+
+                var new_width = width_in_inches * new_unit_value;
+                var new_height = height_in_inches * new_unit_value;
+
+                $('#custom_width').val(new_width);
+                $('#custom_height').val(new_height);
+
+                $('#custom_width').data('unit', value);
+                $('#custom_height').data('unit', value);
+            }
+
+       
+        
+        });
+</script>
+
 @endsection

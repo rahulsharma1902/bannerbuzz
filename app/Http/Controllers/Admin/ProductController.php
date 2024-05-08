@@ -35,6 +35,9 @@ class ProductController extends Controller
     //::::::::::::: Add or Update Product Function ::::::::::::::::::::::::::::::::::://
     public function addProcc(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die();
         if ($request->id) {
             $request->validate([
                 'name' => 'required|unique:products,name,' . $request->id,
@@ -81,6 +84,9 @@ class ProductController extends Controller
                 $product->images = json_encode($updatedImages);
             } else {
                 $product->images = json_encode($images);
+            }
+            if(!empty($request->keys)){
+                $product->key_points = json_encode($request->keys);
             }
             $product->save();
 
@@ -285,6 +291,9 @@ class ProductController extends Controller
                 }
             }
             $product->images = json_encode($images);
+            if(!empty($request->keys)){
+                $product->key_points = json_encode($request->keys);
+            }
             $product->save();
 
             //:::::::::::::::: adding sizes :::::::::::::::://
@@ -359,6 +368,7 @@ class ProductController extends Controller
                     }
                 }
             }
+           
         }
         return redirect()->back()->with('success', 'data added successfully');
 

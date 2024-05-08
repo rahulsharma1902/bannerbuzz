@@ -23,12 +23,18 @@
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
+
+        <!-- Toaster -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    <!-- end toaster -->
     {{-- jquery CDN --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 
     <title>Home page</title>
+
 </head>
 
 <body>
@@ -59,11 +65,39 @@
                                 <span>Order Tracking</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="new_loginup">
                             <a href="{{ url('login') ?? '' }}">
                                 <img src="{{ asset('front/img/account.svg') }}" alt="" />
                                 <span>Account</span>
                             </a>
+                            
+                            <ul class="dropDown popupLogin">
+                            @if(!Auth::check())
+                                <li class="dontAccount">
+                                    <a href="{{ url('login') ?? '' }}" class="btn lgin_btn" aria-label="Login">Login</a>
+                                    <p>Don't Have An Account?</p>
+                                    <a href="{{ url('register') ?? '' }}" class="btn rgstr_btn" aria-label="Register">Register</a>
+                                </li>
+                             @else   
+                                <li>
+                                    <a href="#">
+                                        <span><i class="fa-regular fa-user"></i></span>
+                                        <span>My Account</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span><i class="fa-regular fa-user"></i></span>
+                                        <span>My Designs</span></a>
+                                </li>
+                                <li class="logd_out">
+                                    <a title="Logout" href="{{ url('logout') ?? '' }}" class="lg_out">
+                                     <span><i class="fa-regular fa-user"></i></span>
+                                     <span>Logout</span>
+                                  </a>
+                              </li>
+                            @endif  
+                            </ul>
                         </li>
                         <li>
                             <a href="javascript:void(0)">
@@ -127,9 +161,9 @@
                             </ul>
                         </div>
                         <div class="search_block">
-                            <form class="srch_txt" action="">
-                                <input type="search" class="form-control" placeholder="Search..." />
-                                <i class="fa fa-search"></i>
+                            <form class="srch_txt" >
+                                <input type="search" id="search_val" class="form-control" placeholder="Search..." />
+                                <button type="submit"> <i id="search_btn" class="fa fa-search"></i></button>
                             </form>
                         </div>
                     </div>
@@ -519,23 +553,28 @@
         });
     });
 </script>
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
+        $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
+        $('.submuenu_text li').hover(
+            function () {
+                $(this).find('.subCategoryMenu').css('display', 'block');
+            },
+            function () {
+                $(this).find('.subCategoryMenu').css('display', 'none');
+            },
+        
+        );
+        $('.submuenu_text li').on('mouseleave', function () {
             $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
-            $('.submuenu_text li').hover(
-                function () {
-                   $(this).find('.subCategoryMenu').css('display', 'block');
-                },
-                function () {
-                    $(this).find('.subCategoryMenu').css('display', 'none');
-                },
-            
-               );
-                $('.submuenu_text li').on('mouseleave', function () {
-                    $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
-                });
-           });
-    </script>
+        });
+
+        $('#search_val').keyup(function(){
+            var value = $('#search_val').val();
+            console.log(value);
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -412,7 +412,7 @@
 
                         <!-- <div class="tooltip toltp-10"> -->
 
-                        <button class="nav-link" data-for="step10"  id="v-pills-myd-tab" data-bs-toggle="pill"
+                        <!-- <button class="nav-link" data-for="step10"  id="v-pills-myd-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-myd" type="button" role="tab" aria-controls="v-pills-myd"
                             aria-selected="false">
                             <span class="spride_img">
@@ -421,7 +421,7 @@
                                     alt=".." />
                             </span>
                             <p>My Design</p>
-                        </button>
+                        </button> -->
                         <!-- <div class="tooltip-text">
                                         My Design
                                     </div>
@@ -1240,17 +1240,97 @@
 
                         </div>
 
-                        <div class="canvas-container wrapper" style="padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
+                        <!-- <div class="mCustomScrollbar canvas-container wrapper" style="height:465px; overflow:scroll; padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
                                     <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
                                     <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div>
-                                <!-- <div> -->
-                                <canvas id="canvasBottom" width=750 height=427></canvas>
-                                <canvas id="customCanvas" width="700" height="400" style="border: 1px solid;"></canvas>
-                                <!-- Position the lines relative to the canvas -->
-                                
-                            <!-- </div> -->
+                                <canvas id="canvasBottom" width=550 height=450 style=""></canvas>
+                                <canvas id="customCanvas" width="500" height="400" style="border: 1px solid;"></canvas>
+                               
                         </div>
-
+                        <div style="position: sticky;display: flex;justify-content: center;background: #1e1c1c; margin-top:-2rem;">
+                                    <span class="zoomOut" style="cursor:pointer">+</span>
+                                    <select name="" id="">
+                                        <option value="">100%</option>
+                                        <option value="">50%</option>
+                                        <option value="">fit</option>
+                                    </select>
+                                    <span class="zoomIn" style="cursor:pointer">-</span>
+                                </div> -->
+                                
+                                <!-- <div class="mCustomScrollbar canvas-container wrapper" style="height:465px; overflow:scroll; padding: 2rem 5rem; display: flex; justify-content: center; position: relative;">
+                                    <div class="canvasData" >
+                                        <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
+                                        <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div>
+                                        <canvas id="canvasBottom" width="550" height="450" style=""></canvas>
+                                        <canvas id="customCanvas" width="500" height="400" style="border: 1px solid;"></canvas>
+                                    </div>
+                                </div>
+                                <div style="position: sticky;display: flex;justify-content: center;background: #1e1c1c; margin-top:-2rem;">
+                                    <span class="zoomIn" style="cursor:pointer">-</span>
+                                    <select class="textfield" data-param="zoomSelect" id="zoomSelect">
+                                        <option value="25">25%</option>
+                                        <option value="50">50%</option>
+                                        <option value="75">75%</option>
+                                        <option value="100" selected="selected">100%</option>
+                                        <option value="200">200%</option>
+                                        <option value="400">400%</option>
+                                        <option value="600">600%</option>
+                                        <option value="800">800%</option>
+                                        <option value="100">Fit</option>
+                                        <option value="fill">Fill</option>
+                                    </select>
+                                    <span class="zoomOut" style="cursor:pointer">+</span>
+                                </div> -->
+                                <!-- <div class="mCustomScrollbar canvas-container wrapper" style="height:465px; overflow:scroll; padding: 2rem 5rem; display: flex; justify-content: center; position: relative;"> -->
+                                <div class="mCustomScrollbar canvas-container wrapper" style="height:430px; overflow:auto; padding: 1rem 5rem; justify-content: center; position: relative;">
+                                    <div class="canvasData" style="">
+                                        <!-- <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
+                                        <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div> -->
+                                        <div class="canvas-ruler" id="canvas-ruler">
+                                            <div class="ef-ruler">
+                                                <div class="corner" style="top: 0px; left: 0px;background: transparent;"></div>
+                                                <div class="ruler top rulerTop" style="top: 0px;">
+                                                    <div class="top-line" style="left: 51.5px;"></div>
+                                                </div>
+                                                <div class="ruler left rulerLeft" style="left: 0px;">
+                                                    <div class="left-line" style="top: 242px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="stage" style="">
+                                                <div id="main_designtool_tool" class="dragCanvas">
+                                                    <canvas id="customCanvas" width="500" height="300" style="border: 1px solid;"></canvas>
+                                                </div>
+                                            </div>
+                                            <div class="measurement-Box" style="">
+                                                <span class="measurement-top-box">
+                                                    <span class="feetlabel-box">6.00 Ft</span> (w)
+                                                </span> X 
+                                                <span class="measurement-left-box">
+                                                    <span class="feetlabel-box">8.00 Ft </span> (H)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                    </div>
+                             
+                                </div>
+                                <div class="canvas-footer" style="position: absolute; bottom: 0; width: 100%;height: 2rem;box-sizing: border-box; display: flex; justify-content: center; align-items: center;">
+                                        <button class="zoomBtn" id="zoomOut" data-type="down">-</button>
+                                        <select id="zoomSelect" style="margin: 0 10px; background:white;">
+                                            <option value="25">25%</option>
+                                            <option value="50">50%</option>
+                                            <option value="75">75%</option>
+                                            <option value="100" selected>100%</option>
+                                            <option value="200">200%</option>
+                                            <option value="400">400%</option>
+                                            <option value="600">600%</option>
+                                            <option value="800">800%</option>
+                                            <!-- <option value="fit">fit</option>
+                                            <option value="fill">fill</option> -->
+                                        </select>
+                                        <button class="zoomBtn" id="zoomIn" data-type="up">+</button>
+                                </div>
 
                         <!-- <div class="cnva_dummy">
                             <div class="cnva_dv">
@@ -1285,34 +1365,43 @@
                         <h6>{{ $product->name ?? '' }}</h6>
                     </div>
                     <div class="footer-size-main">
-                        <a href="#standard-size">Standard Size</a>
+                        <a class="standard_size">Standard Size</a>
                     </div>
                     
                     <div id="table_custom_size" class="custom-size">
                         <ul class="custom_size">
                         @if ($product->sizes->isNotEmpty())
                                 
-                            <li class="option">
+                            <li class="option sizeOptions">
                                 <div class="select_box">
                                     <select id="select_size" name="select" class="form-control">
                                         @foreach ($product->sizes as $size)
                                         <option data-id="{{ $size->id }}" data-price="{{ $size->price }}" value="{{ $size->size_value }}">{{ $size->size_value }}</option>
                                             @endforeach
+                                        <option value="custom">Custom</option>
                                     </select>
                                 </div>
                             </li>
-                            <!-- <li class="option">
+                            @endif
+                            <div style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
+                            <li class="option">
                                 <div class="custome-size-title">W</div>
                                 <div class="customsize-wrapper sizeMeasurement">
-                                    <input value="3" id="size_w" name="size_w" type="number" step=".01" />
+                                    <input data-unit="Ft" class="form-select form-control" type="number" name="custom_width" value="3" id="custom_width" placeholder="width">
+
                                 </div>
                             </li>
-                            <li class="option">
-                                <div class="custome-size-title">H</div>
-                                <div class="customsize-wrapper sizeMeasurement">
-                                    <input value="2" id="size_h" name="size_h" type="number" step=".01" />
-                                </div>
-                            </li> -->
+                            </div>
+                            <div style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
+                                <li class="option">
+                                    <div class="custome-size-title">H</div>
+                                    <div class="customsize-wrapper sizeMeasurement">
+                                        <input data-unit="Ft" class="form-select" type="number" name="custom_height" value="3" id="custom_height" placeholder="height">
+
+                                    </div>
+                                </li>
+                                <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $product->price ?? '' }}">
+                            </div>
                             <li class="option">
                                 <div class="select_box">
                                 <select id="size_unit" name="size_unit" class="form-select">
@@ -1324,7 +1413,7 @@
                                 </div>
                             </li>
 
-                            @endif
+                           
                         </ul>
                     </div>
                     <div class="ftr-size-price">
@@ -1341,9 +1430,9 @@
                         </p>
                     </div>
 
-                        <!-- <div class="ftr-lnks">
-                            <a hef="#" class="btn cta">Apply</a>
-                        </div> -->
+                        <div class="ftr-lnks">
+                            <a hef="#" style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="btn cta applyBtn">Apply</a>
+                        </div>
                     </div>
                     <div class="ryt-view-box">
                         <div class="editing-lnks">
@@ -1809,6 +1898,9 @@
                 </div>
 <!-- end new html  -->
 <script src="{{ asset('coustomizer/js/template.js') ?? '' }}"></script>
+
+<script>
+</script>
 <script>
 document.getElementById('imageUpload').addEventListener('change', function(e) {
     var imageFile = e.target.files[0];
@@ -1913,31 +2005,269 @@ $(document).ready( function(){
 
 
 <script>
-    $('#select_size').on('change', function() {
+    
+    // $('#select_size').on('change', function() {
 
-        var size_value = $(this).val();
+    //     var size_value = $(this).val();
 
-        var selectedOption = this.options[this.selectedIndex];
-        var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
-        var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-        var totalPrice = 0;
-        $('.product_variation').each(function() {
-            var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-            totalPrice += selectedPrice;
-        });
-        $('#product_price_input').val(selectedprice);
-        $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice));
-        $('#product_price').text('$' + (selectedprice + totalPrice ));
-    });
+    //     var selectedOption = this.options[this.selectedIndex];
+    //     var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+    //     var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+    //     var totalPrice = 0;
+    //     $('.product_variation').each(function() {
+    //         var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+    //         totalPrice += selectedPrice;
+    //     });
+    //     $('#product_price_input').val(selectedprice);
+    //     $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice));
+    //     $('#product_price').text('$' + (selectedprice + totalPrice ));
+    // });
 
-    $('#size_unit').on('change', function() {
-        var unit_value = $(this).val();
-        var productID = "{{ $product->id }}";
-        var selectedSize = $('#select_size').val();
-        updateSize(productID, unit_value, selectedSize);
-    });
+    // $('#size_unit').on('change', function() {
+    //     var unit_value = $(this).val();
+    //     var productID = "{{ $product->id }}";
+    //     var selectedSize = $('#select_size').val();
+    //     updateSize(productID, unit_value, selectedSize);
+    // });
 
-    function updateSize(id, value, selectedSize) {
+    // function updateSize(id, value, selectedSize) {
+    //             $.ajax({
+    //                 url: "{{ url('/product/sizes/') }}" + "/" + id,
+    //                 type: 'GET',
+    //                 success: function(data) {
+    //                     var sizeSelect = $('#select_size');
+    //                     if (data.length > 0) {
+    //                         sizeSelect.show();
+    //                         sizeSelect.empty();
+    //                         if (value == 'In') {
+    //                             unit_value = 12;
+    //                         } else if (value == 'Cm') {
+    //                             unit_value = 30;
+    //                         } else if (value == 'Mm') {
+    //                             unit_value = 304;
+    //                         } else if (value == 'Ft') {
+    //                             unit_value = 1;
+    //                         }
+    //                         $.each(data, function(index, size) {
+    //                             if (size.size_type == 'wh' || size.size_type == 'DH') {
+    //                                 if (selectedSize == size.size_value) {
+    //                                     size_values = size.size_value.split('X');
+    //                                     sizeSelect.append('<option selected data-sizeType="' +
+    //                                         size
+    //                                         .size_type + '" data-price="' + size.price +
+    //                                         '" value="' + size.size_value + '">' +
+    //                                         +parseFloat(size_values[0]) * unit_value +
+    //                                         ' X ' +
+    //                                         parseFloat(size_values[1]) * unit_value +
+    //                                         '</option>');
+    //                                 } else {
+    //                                     size_values = size.size_value.split('X');
+    //                                     sizeSelect.append('<option data-sizeType="' + size
+    //                                         .size_type + '" data-price="' + size.price +
+    //                                         '" value="' + size.size_value + '">' +
+    //                                         +parseFloat(size_values[0]) * unit_value +
+    //                                         ' X ' +
+    //                                         parseFloat(size_values[1]) * unit_value +
+    //                                         '</option>');
+    //                                 }
+
+    //                             } else {
+    //                                 if (selectedSize == size.size_value) {
+    //                                     sizeSelect.append('<option selected data-sizeType="' +
+    //                                         size
+    //                                         .size_type + '" data-price="' + size.price +
+    //                                         '" value="' + size.size_value + '">' +
+    //                                         parseFloat(size.size_value) * unit_value +
+    //                                         '</option>');
+    //                                 } else {
+    //                                     sizeSelect.append('<option data-sizeType="' + size
+    //                                         .size_type + '" data-price="' + size.price +
+    //                                         '" value="' + size.size_value + '">' +
+    //                                         parseFloat(size.size_value) * unit_value +
+    //                                         '</option>');
+    //                                 }
+    //                             }
+    //                         });
+    //                     } else {
+    //                         sizeSelect.hide();
+    //                     }
+    //                 },
+    //             });
+    //         }
+
+</script>
+<script>
+    $(document).ready( function (){
+        // $('.applyBtn').hide();
+        $('.standard_size').on('click', function (){
+            $('#select_size').prop("selectedIndex", 0);
+            $('.applyBtn').hide();
+            $('.sizeOptions').show();
+            $('.custom_size_div').hide();
+            $('#select_size').trigger('change');
+        })
+        async function customSize(){
+                $('.custom_size_div').show();
+                var pricePerUnit = await priceratio();
+                
+                var width =parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+                var newprice = pricePerUnit *( width + height); 
+                
+                var variation_total_price = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    variation_total_price += selectedPrice;
+                });
+                var totalPrice = (newprice) ;
+               
+                if(formatPrice(totalPrice) !== true){
+                    var totalPrice = totalPrice.toFixed(1);
+                }
+
+                $('#product_price').text('$' + totalPrice);
+                // $('#product_price_input').val(selectedprice);
+                $('#product_price_main').text('$' + (totalPrice + 5));
+            }
+
+            function formatPrice(price) {
+                if (Number.isInteger(price)) {
+                    return true; 
+                } else {
+                    return false; 
+                }
+            }
+
+            // $('#custom_width, #custom_height').on('change', customSize);
+            $('.applyBtn').on('click', customSize);
+
+            async function priceratio() {
+                var main_price = parseFloat($('#product_default_price').val());
+                console.warn(main_price);
+                var value =  $('#size_unit').val(); 
+                var unit_value;
+
+                if (value == 'In') {
+                    unit_value = 12;
+                } else if (value == 'Cm') {
+                    unit_value = 30;
+                } else if (value == 'Mm') {
+                    unit_value = 300;
+                } else if (value == 'Ft') {
+                    unit_value = 1;
+                }
+                PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
+                return PriceperUnit;
+            }
+
+            function UpdateCustomSize(value) {
+                var last_unit = $('#custom_width').data('unit');
+                var unit_value;
+
+                if (last_unit == 'In') {
+                    unit_value = 12; 
+                } else if (last_unit == 'Cm') {
+                    unit_value = 30; 
+                } else if (last_unit == 'Mm') {
+                    unit_value = 300; 
+                } else if (last_unit == 'Ft') {
+                    unit_value = 1; 
+                }
+
+                var width = parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+
+                var width_in_inches = width / unit_value;
+                var height_in_inches = height / unit_value;
+
+                var new_unit_value;
+
+                if (value == 'In') {
+                    new_unit_value = 12; 
+                } else if (value == 'Cm') {
+                    new_unit_value = 30; 
+                } else if (value == 'Mm') {
+                    new_unit_value = 300; 
+                } else if (value == 'Ft') {
+                    new_unit_value = 1; 
+                }
+
+                var new_width = width_in_inches * new_unit_value;
+                var new_height = height_in_inches * new_unit_value;
+
+                $('#custom_width').val(new_width);
+                $('#custom_height').val(new_height);
+
+                $('#custom_width').data('unit', value);
+                $('#custom_height').data('unit', value);
+            }
+
+            $('#select_size').on('change', function() {
+
+                var size_value = $(this).val();
+                if(size_value == 'custom'){
+                    $('.sizeOptions').hide();
+                    $('.applyBtn').show();
+                    $('.applyBtn').click();
+                    customSize();
+                } else {
+                    // $('#select_size').show();
+                    $('.applyBtn').hide();
+                    $('.sizeOptions').show();
+                    $('.custom_size_div').hide();
+
+                    var selectedOption = this.options[this.selectedIndex];
+                    var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+                    var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+                    var totalPrice = 0;
+                    // $('.product_variation').each(function() {
+                    //     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    //     totalPrice += selectedPrice;
+                    // });
+                    $('#product_price_input').val(selectedprice);
+                    $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice));
+                    $('#product_price').text('$' + (selectedprice + totalPrice ));
+                }
+            });
+
+            $('#product_quantity').on('change', function() {
+                var value = $(this).val();
+                if (value < 1 || value > 999) {
+                    value = 1;
+                    $('#product_quantity').val(1);
+                }
+                var size_value = $('#select_size').val();
+                if(size_value == 'custom'){
+                   customSize();
+                } else {
+                    var totalPrice = 0;
+                    // $('.product_variation').each(function() {
+                    //     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    //     totalPrice += selectedPrice;
+                    // });
+                    var price = $('#product_price_input').val();
+                    $('#product_price_main').text('$' + (parseFloat(price) +totalPrice + 5) * value);
+                    $('#product_price').text('$' + (parseFloat(price) + totalPrice) * value);
+                }
+            });
+
+            // converting size units
+            $('#size_unit').on('change', function() {
+                var size_value = $('#select_size').val();
+                var unit_value = $(this).val();
+                if(size_value == 'custom'){
+                   UpdateCustomSize(unit_value);
+                } else {
+                    var unit_value = $(this).val();
+                    var productID = "{{ $product->id }}";
+                    var selectedSize = $('#select_size').val();
+                    updateSize(productID, unit_value, selectedSize);
+                }
+                
+            
+            });
+
+            function updateSize(id, value, selectedSize) {
                 $.ajax({
                     url: "{{ url('/product/sizes/') }}" + "/" + id,
                     type: 'GET',
@@ -1995,14 +2325,27 @@ $(document).ready( function(){
                                     }
                                 }
                             });
+                            sizeSelect.append('<option data-sizeType="custom" data-price="0" value="custom">Custom</option>');
                         } else {
                             sizeSelect.hide();
                         }
+                        if (document.getElementById('custom_size_div').style.display == 'none') {
+                            // selectedSize();
+                            $('#select_size').trigger("change");
+                            console.log('selected side');
+                        } else {
+                            // customSizeChange();
+                            console.log('applyBtn side');
+
+                            $('.applyBtn').click();
+                        }
+                        // $('#select_size').trigger("change");
                     },
                 });
             }
 
+        
+        });
 </script>
-
 
 @endsection

@@ -727,4 +727,12 @@
         </script>
         
     @endif
+    @if(Session::has('success'))
+    <script>
+        iziToast.success({
+            message: '{{ Session::get("success") }}',
+            position: 'topRight'
+        });
+    </script>
+@endif
 @endsection

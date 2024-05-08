@@ -78,8 +78,9 @@ class ViewController extends Controller
         if ($blog) {
             $blog_category = BlogCategory::all();
             $related_blogs = Blogs::where('blog_category_id', $blog->blog_category_id)->take(5)->get();
+            $allblogs = Blogs::all();
 
-            return view('front.blogs.blog_details', compact('blog', 'blog_category', 'related_blogs'));
+            return view('front.blogs.blog_details', compact('blog', 'blog_category', 'related_blogs','allblogs'));
         } else {
             return redirect()->back();
         }
