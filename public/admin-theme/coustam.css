@@ -44,3 +44,7 @@ em{
   th.tb-odr-info.d-flex.justify-content-between.pr-5 {
     padding-right: 170px;
 }
+.user-avatar img, [class^=user-avatar]:not([class*=-group]) img {
+
+  height: 100%;
+}

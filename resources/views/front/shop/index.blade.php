@@ -25,41 +25,18 @@
     @endphp
     <section class="banner-sec">
         <div class="container">
-            <div class="banner-content">
-                <div class="banner-head">
-                    <ul class="shipping">
-                        <li>
-                            <div class="ship-box">
-                                <img src="{{ asset('front/img/some.svg') }}" alt="" />
-                                <div class="text">
-                                    <p>Same Day Shipping</p>
-                                    <span>on selected products</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ship-box">
-                                <img src="{{ asset('front/img/priority.svg') }}" alt="" />
-                                <div class="text">
-                                    <p>Priority Shipping</p>
-                                    <span>on all the orders</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ship-box">
-                                <img src="{{ asset('front/img/free.svg') }}" alt="" />
-                                <div class="text">
-                                    <p>Free Shipping</p>
-                                    <span>on order above $99.00</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="banner-content p-0">
+                @if($category->images)
+                <div class="banner-img p-2">
+                @foreach (json_decode($category->images) as $index => $image)
+                    @if ($index == 0)
+                        <img 
+                            src="{{ asset('category_Images') }}/{{ $image }}">
+                        @break
+                    @endif
+                @endforeach
                 </div>
-                <div class="banner-img">
-                    <img src="{{ asset('front/img/banner_shop.png') }}" alt="" />
-                </div>
+                @endif
             </div>
         </div>
     </section>
@@ -68,8 +45,7 @@
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    {!! Breadcrumbs::render('category', $category) !!}
-
+                {!! Breadcrumbs::render('category', $category) !!}
                 </nav>
                 <div class="vinyl_content">
                     <h3>{{ $category->name ?? '' }}</h3>
@@ -87,6 +63,7 @@
             <div class="custom-content" style="background-color: #141414;">
                 <h3>Start Your Order</h3>
                 @if ($allproducts->isNotEmpty())
+                <?php $NOFproducts = count($allproducts); ?>
                     <form id="search_product_form">
                         <div class="select-box ">
                             <div class="select_wrap">
@@ -137,7 +114,7 @@
         <div class="shop_wrapper p_100">
             <div class="container">
                 <div class="shop_top">
-                    <p>Found 69 Banners for your selection</p>
+                    <p>Found {{$NOFproducts ?? '' }}   {{$category->name ?? '' }} for your selection</p>
                     <div class="shop_size_txt">
                         <span>Sort by</span>
                         <div class="select_wrap">
@@ -292,6 +269,7 @@
                                                 @if ($index == 0)
                                                     <img height="160px" width="200px"
                                                         src="{{ asset('product_Images') }}/{{ $image }}">
+                                                    @break
                                                 @endif
                                             @endforeach
                                             <div class="cust_btn_wreap">
@@ -322,6 +300,11 @@
                                     </div>
                                     <?php $count++; ?>
                                 @endforeach
+                            @else 
+                            <div class="product-div card">
+                                No Result Found
+                            </div>
+                                        
                             @endif
                         </div>
                         <div class="paginetion_wreap">
@@ -487,11 +470,11 @@
                         value = 1;
                         $('#product_qty').val(1);
                     }
-                    var sizeSelect = $('#select_size').value;
+                    var sizeSelect = $('#select_size').val();
                     console.log(sizeSelect);
                     if (sizeSelect) {
                         console.log("ifpart");
-                        var selectedOption = sizeSelect.find('option:selected');
+                        var selectedOption = $('#select_size').find('option:selected');
                         var selectedprice = parseFloat(selectedOption.data('price'));
                         var newPrice = parseFloat(selectedprice) * parseFloat(value);
                         $('#product_price').val(newPrice);

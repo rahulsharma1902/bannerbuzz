@@ -35,6 +35,9 @@ class ProductController extends Controller
     //::::::::::::: Add or Update Product Function ::::::::::::::::::::::::::::::::::://
     public function addProcc(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die();
         if ($request->id) {
             $request->validate([
                 'name' => 'required|unique:products,name,' . $request->id,
@@ -46,11 +49,11 @@ class ProductController extends Controller
                 $request->validate(
                     [
                         'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     ],
                     [
                         'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                     ]
                 );
             }
@@ -66,11 +69,13 @@ class ProductController extends Controller
             $product->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {     // adding new images 
+                $count = 1; 
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/product_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
@@ -79,6 +84,9 @@ class ProductController extends Controller
                 $product->images = json_encode($updatedImages);
             } else {
                 $product->images = json_encode($images);
+            }
+            if(!empty($request->keys)){
+                $product->key_points = json_encode($request->keys);
             }
             $product->save();
 
@@ -249,13 +257,13 @@ class ProductController extends Controller
                     'name' => 'required|unique:products,name',
                     'slug' => 'required|unique:products,slug',
                     'images' => 'required',
-                    'images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
+                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     'category_id' => 'required',
                     'default_price' => 'required|numeric'
                 ],
                 [
                     'images.*.image' => 'The file must be an image.',
-                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                 ]
             );
 
@@ -272,15 +280,20 @@ class ProductController extends Controller
             $product->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/product_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
             $product->images = json_encode($images);
+            if(!empty($request->keys)){
+                $product->key_points = json_encode($request->keys);
+            }
             $product->save();
 
             //:::::::::::::::: adding sizes :::::::::::::::://
@@ -355,6 +368,7 @@ class ProductController extends Controller
                     }
                 }
             }
+           
         }
         return redirect()->back()->with('success', 'data added successfully');
 

@@ -18,16 +18,22 @@ class UserSeeder extends Seeder
 
         $data = [
             [
-                'name' => 'admin',
+                'user_name' => 'admin',
+                'first_name' => 'admin',
+                'last_name' => 'main',
+                'number' => '123456789',
                 'email' => 'admin@gmail.com',
                 'password' => "password",
                 'is_admin' => true,
             ],
         ];
-
+    
         foreach ($data as $d) {
             User::create([
-                'name' => $d['name'],
+                'user_name' => $d['user_name'],
+                'first_name' => $d['first_name'],
+                'last_name' => $d['last_name'],
+                'number' => $d['number'],
                 'email' => $d['email'],
                 'password' => $d['password'],
                 'is_admin' => $d['is_admin'],

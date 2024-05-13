@@ -47,24 +47,19 @@
                             </div>
                             <div class="shop_dt_list">
                                 <ul>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
-                                    <li>
-                                        High-quality PVC flex vinyl banner that lasts up to 7 years.
-                                    </li>
+                                    @if($product->key_points != null)
+                                        @foreach(json_decode($product->key_points) as $point)
+                                            <li>
+                                                {{ $point ?? ''}}
+                                            </li>
+                                        @endforeach
+                                    @endif 
                                 </ul>
                             </div>
                             <div class="shop_dt_ship">
                                 <p><strong>Want it by Friday, Jan. 26?</strong> Order Today and choose 'Urgent' shipping at
                                     checkout.</p>
-                            </div>
+                            </div> 
                             <form>
                                 <div class="shop_dt_fm">
                                     <div class="shop_dt_size">
@@ -75,6 +70,7 @@
                                                         data-id="{{ $size->id }}" data-price="{{ $size->price }}"
                                                         value="{{ $size->size_value }}">{{ $size->size_value }}</option>
                                                 @endforeach
+                                                <option value="custom">Custom</option>
                                             </select>
                                             @if ($product->sizes->first()->size_type != 'Custom')
                                                 <select id="size_unit" name="size_unit" class="form-select">
@@ -97,6 +93,19 @@
                                             <input type="number" value="1" id="product_quantity" name="quantity"
                                                 placeholder="Qty" class="form-select">
                                         @endif
+                                    </div>
+                                </div>
+
+                                <div style="display: none;" class="custom_size_div" id="custom_size_div">
+                                    <div class="container d-flex">
+                                        <div class="input-div p-2">
+                                            <label for="custom_width">Width</label>
+                                          <input data-unit="Ft" class="form-select" type="number" name="custom_width" value="1" id="custom_width" placeholder="width">
+                                        </div>
+                                        <div class="input-div p-2">
+                                            <label for="custom_height">Height</label>
+                                            <input data-unit="Ft" class="form-select" type="number" name="custom_height" value="1" id="custom_height" placeholder="height">
+                                        </div>
                                     </div>
                                 </div>
                                 @if ($product->variations->isNotEmpty())
@@ -163,6 +172,7 @@
                                     <input type="hidden" id="product_price_input" name="product_price"
                                         value="{{ $product->price }}">
                                 @endif
+                                <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $product->price ?? '' }}">
                             </p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault"
@@ -222,54 +232,27 @@
                 </p>
             </div>
             <div class="template_slider busines_slider m-0 d-flex">
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_1.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
+                @isset($templates)
+                    @foreach ($templates as $template)
+                        <div class="card">
+                            <div class="busines_img">
+                                <img src="{{ asset('TemplateImage') }}/{{ $template->template_image ?? 'default.png' }}" />
+                                <div class="cust_btn_wreap">
+                                    <a href="{{ url('designtool') ?? '' }}/{{ $product->slug ?? '' }}/{{ $template->slug ?? '' }}" class="btn cust_btn" tabindex="0">Customize </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
+                    @endforeach
+                @endisset
+                
+                <!-- <div class="card">
                     <div class="busines_img">
                         <img src="{{ asset('front/img/template_2.png') }}" />
                         <div class="cust_btn_wreap">
                             <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_3.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_4.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_5.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="busines_img">
-                        <img src="{{ asset('front/img/template_1.png') }}" />
-                        <div class="cust_btn_wreap">
-                            <a href="#" class="btn cust_btn" tabindex="0">Customize </a>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -283,13 +266,13 @@
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product
                         Specifications</button>
-                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                    <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
                         type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Size</button>
                     <button class="nav-link" id="nav-FAQ-tab" data-bs-toggle="tab" data-bs-target="#nav-FAQ"
                         type="button" role="tab" aria-controls="nav-FAQ" aria-selected="false">FAQ</button>
                     <button class="nav-link" id="nav-Customer-tab" data-bs-toggle="tab" data-bs-target="#nav-Customer"
                         type="button" role="tab" aria-controls="nav-Customer" aria-selected="false">Customer
-                        Reviews</button>
+                        Reviews</button> -->
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -301,7 +284,7 @@
                         <?php echo $product->addtional_info; ?>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <!-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <div class="descript_wreap">
                         <h5>Lorem Ipsum 2</h5>
                         <p>
@@ -333,7 +316,7 @@
                             but also the leap into electronic typesetting, remaining essentially unchanged.
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -397,22 +380,124 @@
                     price: {{ $product->sizes->first()->price }}
                 });
             @endif
+
+            async function customSize(){
+                $('#custom_size_div').show();
+                var pricePerUnit = await priceratio();
+
+                var width =parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+                var newprice = pricePerUnit *( width + height); 
+
+                var Qty = parseFloat($('#product_quantity').val());
+                var variation_total_price = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    variation_total_price += selectedPrice;
+                });
+                var totalPrice = (newprice + variation_total_price) * Qty;
+                if(formatPrice(totalPrice) !== true){
+                    var totalPrice = totalPrice.toFixed(1);
+                }
+
+                $('#product_price').text('$' + totalPrice);
+                // $('#product_price_input').val(selectedprice);
+                $('#product_price_main').text('$' + (totalPrice + 5));
+            }
+
+            function formatPrice(price) {
+                if (Number.isInteger(price)) {
+                    return true; 
+                } else {
+                    return false; 
+                }
+            }
+
+            $('#custom_width, #custom_height').on('change', customSize);
+
+            async function priceratio() {
+                var main_price = parseFloat($('#product_default_price').val());
+                var value =  $('#size_unit').val(); 
+                var unit_value;
+
+                if (value == 'In') {
+                    unit_value = 12;
+                } else if (value == 'Cm') {
+                    unit_value = 30;
+                } else if (value == 'Mm') {
+                    unit_value = 300;
+                } else if (value == 'Ft') {
+                    unit_value = 1;
+                }
+                PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
+                return PriceperUnit;
+            }
+
+            function UpdateCustomSize(value) {
+                var last_unit = $('#custom_width').data('unit');
+                var unit_value;
+
+                if (last_unit == 'In') {
+                    unit_value = 12; 
+                } else if (last_unit == 'Cm') {
+                    unit_value = 30; 
+                } else if (last_unit == 'Mm') {
+                    unit_value = 300; 
+                } else if (last_unit == 'Ft') {
+                    unit_value = 1; 
+                }
+
+                var width = parseFloat($('#custom_width').val());
+                var height = parseFloat($('#custom_height').val());
+
+                var width_in_inches = width / unit_value;
+                var height_in_inches = height / unit_value;
+
+                var new_unit_value;
+
+                if (value == 'In') {
+                    new_unit_value = 12; 
+                } else if (value == 'Cm') {
+                    new_unit_value = 30; 
+                } else if (value == 'Mm') {
+                    new_unit_value = 300; 
+                } else if (value == 'Ft') {
+                    new_unit_value = 1; 
+                }
+
+                var new_width = width_in_inches * new_unit_value;
+                var new_height = height_in_inches * new_unit_value;
+
+                $('#custom_width').val(new_width);
+                $('#custom_height').val(new_height);
+
+                $('#custom_width').data('unit', value);
+                $('#custom_height').data('unit', value);
+            }
+
             $('#select_size').on('change', function() {
 
                 var size_value = $(this).val();
-                var Qty = parseFloat($('#product_quantity').val());
+                if(size_value == 'custom'){
+                    // $('#select_size').hide();
+                    customSize();
+                } else {
+                    $('#select_size').show();
+                    $('#custom_size_div').hide();
+                    var Qty = parseFloat($('#product_quantity').val());
 
-                var selectedOption = this.options[this.selectedIndex];
-                var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
-                var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-                var totalPrice = 0;
-                $('.product_variation').each(function() {
-                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                    totalPrice += selectedPrice;
-                });
-                $('#product_price_input').val(selectedprice);
-                $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
-                $('#product_price').text('$' + (selectedprice + totalPrice )* Qty);
+                    var selectedOption = this.options[this.selectedIndex];
+                    var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+                    var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+                    var totalPrice = 0;
+                    $('.product_variation').each(function() {
+                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                        totalPrice += selectedPrice;
+                    });
+                    $('#product_price_input').val(selectedprice);
+                    $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
+                    $('#product_price').text('$' + (selectedprice + totalPrice )* Qty);
+                }
             });
 
             $('#product_quantity').on('change', function() {
@@ -421,22 +506,34 @@
                     value = 1;
                     $('#product_quantity').val(1);
                 }
-                var totalPrice = 0;
-                $('.product_variation').each(function() {
-                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                    totalPrice += selectedPrice;
-                });
-                var price = $('#product_price_input').val();
-                $('#product_price_main').text('$' + (parseFloat(price) +totalPrice + 5) * value);
-                $('#product_price').text('$' + (parseFloat(price) + totalPrice) * value);
+                var size_value = $('#select_size').val();
+                if(size_value == 'custom'){
+                   customSize();
+                } else {
+                    var totalPrice = 0;
+                    $('.product_variation').each(function() {
+                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                        totalPrice += selectedPrice;
+                    });
+                    var price = $('#product_price_input').val();
+                    $('#product_price_main').text('$' + (parseFloat(price) +totalPrice + 5) * value);
+                    $('#product_price').text('$' + (parseFloat(price) + totalPrice) * value);
+                }
             });
 
             // converting size units
             $('#size_unit').on('change', function() {
+                var size_value = $('#select_size').val();
                 var unit_value = $(this).val();
-                var productID = "{{ $product->id }}";
-                var selectedSize = $('#select_size').val();
-                updateSize(productID, unit_value, selectedSize);
+                if(size_value == 'custom'){
+                   UpdateCustomSize(unit_value);
+                } else {
+                    var unit_value = $(this).val();
+                    var productID = "{{ $product->id }}";
+                    var selectedSize = $('#select_size').val();
+                    updateSize(productID, unit_value, selectedSize);
+                }
+            
             });
 
             function updateSize(id, value, selectedSize) {

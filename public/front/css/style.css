@@ -82,8 +82,7 @@ a {
     box-shadow: none;
 }
 
-h1 {}
-
+h1,
 h2,
 h3,
 h4,
@@ -570,7 +569,7 @@ header .search_content .navbar-brand {
 .custom-sec .select_wrap {
     width: 100%;
 }
-.busines_slider .card {
+.busines_slider2 .card ,.busines_slider .card {
     border-radius: 15px;
     border: 1px solid #1B1B1B;
     background: #000;    
@@ -578,19 +577,21 @@ header .search_content .navbar-brand {
     margin: 0 15px;
     transition: all 0.5s ease-in-out;
 }
-.busines_slider .card:hover {
+.busines_slider2 .card:hover,.busines_slider .card:hover {
     border: 1px solid #1B1B1B;
     background: #0B0B0B;
     box-shadow: 0px 16px 74px 0px rgba(220, 40, 138, 0.16);
 }
-.busines_slider .slick-list.draggable {
+.busines_slider2 .slick-list.draggable, .busines_slider .slick-list.draggable {
     margin: 0 -15px;
-    overflow: visible;
 }
-.busines_slider .card .busines_img img {
+.busines_slider2 .card .busines_img img, .busines_slider .card .busines_img img {
     margin: 0 auto;
+    height: 160px;
+    width: 235px;
+    object-fit: cover;
 }
-.busines_slider .card .card-body {
+.busines_slider2 .card .card-body,.busines_slider .card .card-body {
     padding: 20px 0 0;
     text-align: center;
 }
@@ -603,16 +604,16 @@ header .search_content .navbar-brand {
     font-size: 14px;
     font-weight: 500;
 }
-.busines_slider .card .card-body p {
+.busines_slider2 .card .card-body p,.busines_slider .card .card-body p {
     margin: 22px 0 0;
 }
-.busines_slider .card .card-body h5 {
+.busines_slider2 .card .card-body h5,.busines_slider .card .card-body h5  {
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     text-align: center;
 }
-.busines_slider .card .busines_img {
+.busines_slider2 .card .busines_img,.busines_slider .card .busines_img {
     border-radius: 15px;
     background: #FFF;
     text-align: center;
@@ -623,6 +624,14 @@ header .search_content .navbar-brand {
     align-items: center;
     position: relative;
     justify-content: center;
+}
+
+.busines_slider2 .card,.busines_slider .card {
+    height: auto;
+}
+
+.busines_slider2 .slick-track,.busines_slider .slick-track {
+    display: flex;
 }
 .picks_wreap .busine_select p {
     text-align: start;
@@ -649,7 +658,7 @@ header .search_content .navbar-brand {
   background-size: 0 100%;
   transition: background-size 0.4s ease-in-out;
 }
-.busines_slider .slick-arrow {
+.busines_slider2 .slick-arrow,.busines_slider .slick-arrow  {
     background-color: #48A9EB;
     color: #fff;
     border: 0;
@@ -664,10 +673,10 @@ header .search_content .navbar-brand {
 .our_best_content .shop_wreap li a {
     display: inline-block;
 }
-.busines_slider .prev-arrow {
+.busines_slider2 .prev-arrow,.busines_slider .prev-arrow  {
     right: 50px;
 }
-.busines_slider .next-arrow {
+.busines_slider2 .next-arrow,.busines_slider .next-arrow {
     right: 0;
 }
 .busines_btn {
@@ -766,18 +775,18 @@ header .search_content .navbar-brand {
 .picks_wreap .busine_select h4 {
     text-align: start;
 }
-.picks_wreap .busines_slider .card .card-body p {
+.picks_wreap .busines_slider2 .card .card-body p,.picks_wreap .busines_slider .card .card-body p {
     margin-top: 0;
     transition: all 0.5s ease-in-out;
 }
-.picks_wreap .busines_slider .card:hover .card-body p {
+.picks_wreap .busines_slider2 .card:hover .card-body p,.picks_wreap .busines_slider .card:hover .card-body p {
     color: #DC288A;
 }
-.picks_wreap .busines_slider .card .card-body p span {
+.picks_wreap .busines_slider2 .card .card-body p span,.picks_wreap .busines_slider .card .card-body p span  {
     font-size: 12px;
     text-decoration: line-through;
 }
-.picks_wreap .busines_slider .card .card-body p strong {
+.picks_wreap .busines_slider2 .card .card-body p strong,.picks_wreap .busines_slider .card .card-body p strong  {
     font-size: 14px;
 }
 .arrivals_progress {
@@ -869,14 +878,14 @@ header .search_content .navbar-brand {
     opacity: 0;
     transition: all 0.5s ease-in-out;
 }
-.busines_slider .card:hover .cust_btn {
+.busines_slider2 .card:hover .cust_btn,.busines_slider .card:hover .cust_btn  {
     opacity: 1;
 }
 .cust_btn_wreap .cust_btn:hover {
     background-color: #000;
     color: #fff;
 }
-.busines_slider .card:hover .busines_img img {
+.busines_slider2 .card:hover .busines_img img,.busines_slider .card:hover .busines_img img {
     opacity: 0.3;
 }
 .multi_shop_cont {
@@ -1010,8 +1019,9 @@ header .search_content .navbar-brand {
 .quality_content p:last-child {
     margin: 35px 0 0;
 }
-.busines_slider::before, 
-.busines_slider::after {
+.busines_slider2::before, 
+.busines_slider2::after,.busines_slider::before, 
+.busines_slider::after  {
     position: absolute;
     content: '';
     top: 0;
@@ -1022,12 +1032,13 @@ header .search_content .navbar-brand {
     width: 200%;
     z-index: 1;
 }
-.busines_slider::before {
+.busines_slider2::before,.busines_slider::before {
     left: 100%;
     right: unset;
     margin-left: 2px;
 }
-.picks_wreap .busines_slider::before, 
+.picks_wreap .busines_slider2::before, 
+.picks_wreap .busines_slider2::after,.picks_wreap .busines_slider::before, 
 .picks_wreap .busines_slider::after {
     background-color: #000;
 }
@@ -1541,17 +1552,17 @@ input:focus-visible {
 .descript_wrapper .nav .nav-link:hover {
     border-color: #1B1B1B #1B1B1B #000;
 }
-.template_wrapper .busines_slider .card {
+.template_wrapper .busines_slider2 .card,.template_wrapper .busines_slider .card  {
     padding: 0;
     background-color: transparent;
 }
-.template_wrapper .busines_slider .card .busines_img {
+.template_wrapper .busines_slider2 .card .busines_img,.template_wrapper .busines_slider .card .busines_img {
     min-height: auto;
     min-width: auto;
     background-color: transparent;
     padding: 0;
 }
-.template_wrapper .busines_slider .card {
+.template_wrapper .busines_slider2 .card,.template_wrapper .busines_slider .card  {
     margin: 0 12px;
 }
 .template_slider .slick-dots {
@@ -2395,7 +2406,7 @@ header .search_wrapper .search_block form.srch_txt {
 .breadcrumb_wreap ol {
     margin: 0!important;
 }
-.busines_slider .prev-arrow {
+.busines_slider2 .prev-arrow,.busines_slider .prev-arrow {
     right: 50px;
     background-color: rgba(72, 169, 235, 0.2);
 }
@@ -2515,8 +2526,8 @@ footer .footer_top .row form.footer_top_rt {
 .best_price.bst_new ul.shipping {
     border-top: none;
 }
-.order_track_sec .form_info {
-    max-width: 460px;
+/*.order_track_sec .form_info {
+    max-width: 800px;
     margin: auto;
     display: block;
     border-radius: 9px;
@@ -2524,7 +2535,7 @@ footer .footer_top .row form.footer_top_rt {
     padding: 34px;
     background: #1B1B1B;
     margin-top: 50px;
-}
+}*/
 .order_track_sec .form_info input:first-child {
     color: #FFF;
     font-family: "Mona Sans";
@@ -2533,9 +2544,15 @@ footer .footer_top .row form.footer_top_rt {
     font-weight: 400;
     line-height: normal;
     background: #141414;
+    padding: 25px;
+    width: 100%;
+    height: 100%;
 }
-.order_track_sec .form_info input:first-child::placeholder {
+/*.order_track_sec .form_info input:first-child::placeholder {
     color: #FFF;
+}*/
+.order_track_sec .form_info input#password {
+    background: #141414;
 }
 .order_track_sec .hd_txt h2 {
     margin-bottom: 18px;
@@ -2746,3 +2763,500 @@ p.up_doc {
     z-index: -1;
 }
 /*----------- SW css end here --------- */
+
+/*my new css*/
+
+li.new_loginup ul.dropDown.popupLogin {
+    display: block;
+    background: #fff;
+    min-width: 159px;
+     top: 38px;
+    left: 50%;
+    padding: 15px 10px;
+    border: solid 1px #e0e0e0;
+}
+
+li.new_loginup ul.dropDown.popupLogin a {
+    color: #000;
+}
+
+li.new_loginup ul.dropDown.popupLogin p {
+    color: #000;
+    white-space: nowrap;
+}
+
+li.new_loginup ul.dropDown.popupLogin span i {
+    color: #000;
+}
+
+li.new_loginup ul.dropDown.popupLogin span {
+    color: #000;
+}
+/*header {
+    position: relative;
+}*/
+li.new_loginup {
+    position: relative;
+}
+li.new_loginup ul.dropDown.popupLogin {
+    position: absolute;
+    z-index: 1;
+    top: 40px;
+    left: 0;
+    display: none!important;
+}
+
+li.new_loginup ul.dropDown.popupLogin a.lgin_btn {
+    background: #dc288a;
+    color: #fff!important;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+li.new_loginup ul.dropDown.popupLogin a.lgin_btn:hover {
+    background: rgba(220, 40, 138, 0.9);
+}
+
+li.new_loginup ul.dropDown.popupLogin a.rgstr_btn {
+    border: 1px solid #dc288a;
+    padding: 10px;
+}
+li.new_loginup ul.dropDown.popupLogin a.rgstr_btn:hover {
+   color: #fff!important;
+   background: #dc288a;
+   transition: all 2s ease-in-out;
+}
+li.new_loginup ul.dropDown.popupLogin li {
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+
+li.new_loginup:hover ul.dropDown.popupLogin {
+    display: block!important;
+/*    transition: all 2s ease-in-out;*/
+}
+li.logd_out a.lg_out {
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+
+li.new_loginup ul.dropDown.popupLogin li:not(:first-child) {
+    background: #f3f3f3;
+}
+li.new_loginup ul.dropDown.popupLogin li:not(:first-child) {
+    background: #f3f3f3;
+}
+li.new_loginup ul.dropDown.popupLogin li:first-child{
+    padding: 0;
+}
+li.new_loginup ul.dropDown.popupLogin li:hover a span {
+    color: #dc288a;
+    transition: all 0.5s ease;
+}
+
+li.new_loginup ul.dropDown.popupLogin li:hover a span i {
+    color: #dc288a;
+    transition: all 0.5s ease;
+}
+li.new_loginup ul.dropDown.popupLogin li.dontAccount:hover a {
+    color: #000;
+    transition: all 0.5s ease;
+}
+ul.dropDown.popupLogin li {
+    border-right: none;
+}
+
+/*register page css here*/
+
+.register_form form .formgroup-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+.register_form form {
+    max-width: 800px;
+    margin: auto;
+    border-radius: 9px;
+    border: 1px solid #1B1B1B;
+    padding: 34px;
+    background: #1B1B1B;
+    margin-top: 50px;
+}
+
+.register_form form .formgroup-box .formGroup.halfGroup {
+    width: 100%;
+}
+
+.register_form form .formgroup-box .formGroup.halfGroup input {
+    width: 100%;
+    padding: 20px;
+    border-radius: 4px;
+    color: #FFF;
+    font-family: "Mona Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background: #141414;
+    border: none;
+}
+
+.social_links .social_content ul li a  i {
+    width: 50px;
+    height: 50px;
+    padding: 15px;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    font-size: 20px;
+}
+.social_links .social_content ul li a i:hover{
+    background: #fff;
+    color:#000;
+    transition: all 0.5s ease-in-out;
+}
+
+.social_links .social_content {
+    margin: 20px 0px;
+}
+
+.social_links .social_content ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.social_links .social_content ul li {
+    text-align: center;
+}
+
+.social_links .social_content ul li a {
+    color: #fff;
+    display: block;
+}
+
+.social_links .social_content ul li a span {
+    display: inline-block;
+    margin-top: 10px;
+}
+.social_links p.alreadyAccount {
+    text-align: center;
+}
+
+.social_links p.alreadyAccount button.linkButton {
+    background: none;
+    border: none;
+    color: #fff;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.social_links .formGroup.termsCondition {
+    text-align: center;
+}
+
+
+.register_form form .formGroup.termsCondition p.readPolicy a {
+    color: #fff;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+.register_form form i {
+    width: 50px;
+    height: 50px;
+    padding: 15px;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    font-size: 20px;
+}
+
+.register_form form .social_content {
+    margin: 20px 0px;
+}
+
+.register_form form .social_content ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.register_form form .social_content ul li {
+    text-align: center;
+}
+
+.register_form form.social_content ul li a {
+    color: #fff;
+}
+
+.social_links p.alreadyAccount {
+    text-align: center;
+}
+
+.social_links p.alreadyAccount button.linkButton {
+    background: none;
+    border: none;
+    color: #fff;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.social_links .formGroup.termsCondition {
+    text-align: center;
+}
+
+.social_links .formGroup.termsCondition p.readPolicy a {
+    color: #fff;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.countrycode_sec {
+    position: relative;
+}
+
+.select_code {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+}
+
+.countryinput input {
+    text-align: center;
+}
+
+.select_code select {
+    padding: 10px;
+}
+.countrycode_sec .select_code select {
+    border: none;
+    background: none;
+    padding: 0px;
+     color: #fff!important;
+}
+.formgroupBox .formGroup .controlCheckbox input{
+    margin-right: 5px;
+}
+
+
+.register_form form .formgroup-box .formGroup.halfGroup input:focus, input:active{
+  background: #000;
+}
+
+
+
+.formgroupBox .formGroup .controlCheckbox {
+    display: flex;
+    justify-content: center;
+}
+
+.formgroupBox .formGroup .controlCheckbox input:checked {
+    margin-right: 5px;
+}
+
+.register_form form .buttonSet {
+    text-align: center;
+    margin: 30px 0px;
+}
+
+.register_form form .buttonSet button.btn {
+    max-width: 100%;
+    padding: 15px 130px;
+    color: #000;
+    background: #FADC38;
+    border-radius: 6px;
+}
+.register_form form .buttonSet button.btn:hover {
+    background: #000;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+    
+}
+.social_links .social_title p {
+    text-align: center;
+    position: relative;
+}
+
+.social_links .social_title p::before {
+    position: absolute;
+    content: '';
+    left: 0;
+    width: 40%;
+    height: 2px;
+    background: #fff;
+    top: 50%;
+    
+}
+
+.social_links .social_title p::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    width: 40%;
+    height: 2px;
+    background: #fff;
+    top: 50%;
+    
+}
+.otpbutton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.otpbutton button.linkButton.forgotLink {
+    background: none;
+    border: none;
+    color: #fff;
+    text-decoration: underline;
+}
+
+.otpbutton a.otpLink {
+    color: #fff;
+    text-decoration: underline;
+}
+.register_form form .buttonSet.creat_accnt button.btn {
+    width: 100%;
+}
+
+.register_form form .formgroup-box.email_fld {
+    margin-bottom: 5px;
+}
+label.control.controlCheckbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+label.control.controlCheckbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #FADC38;
+   border: 1px solid #FADC38;
+  
+}
+.formGroup.fieldPassword {
+    position: relative;
+}
+.formGroup.fieldPassword  span.password-toggle-icon {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 15px;
+}
+
+.formGroup.fieldPassword span.password-toggle-icon i {
+    border: none;
+    padding: 0;
+}
+
+/*template slider start here css*/
+
+.template_slider.busines_slider {
+    display: grid!important;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+    gap: 10px;
+}
+
+.template_slider.busines_slider .card {
+    width: 100%;
+    height:100%;
+    margin: 0;
+ 
+}
+
+.template_slider.busines_slider .card .busines_img img {
+    width: 100%;
+      height: 220px;
+    object-fit: cover;
+}
+
+/*template slider end here css*/
+
+
+
+
+@media only screen and (max-width: 767px){
+.register_form form .formgroup-box {
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.register_form form .formgroup-box .formGroup.halfGroup input {
+    padding: 15px;
+}
+.register_form form {
+    padding: 20px;
+ }
+ .formgroupBox .formGroup .controlCheckbox span.labeltext {
+    white-space: nowrap;
+}
+.social_links .social_title p::before {
+    left: 20px;
+    width: 35%;
+    }
+
+ .social_links .social_title p::after {
+    right: 20px;
+    width: 35%;
+  }
+  .register_form form {
+    margin-top: 30px;
+}
+}
+
+
+@media only screen and (max-width: 575px){
+.register_form form .buttonSet button.btn {
+    padding: 15px 40px;
+}
+.social_links .social_title p::before {
+    max-width: 25%;
+    left: 15px;
+}
+.social_links .social_title p::after {
+    width: 25%;
+    right: 15px;
+  }
+  .register_form form .social_content ul {
+    gap: 20px;
+}
+.social_links .social_content ul li a  i {
+    width: 40px;
+    height: 40px;
+    padding: 12px;
+    font-size: 15px;
+}
+.formgroupBox .formGroup .controlCheckbox span.labeltext {
+    white-space: break-spaces!important;
+}
+
+.register_form form .social_content {
+    margin: 4px 0px;
+}
+.order_track_sec .form_info input {
+    padding: 15px;
+}
+.order_track_sec .form_info input:first-child {
+      padding: 20px;
+}
+.register_form form .buttonSet {
+    text-align: center;
+    margin: 10px 0px;
+}
+.register_form form .buttonSet button.btn {
+    padding: 10px;
+    font-size: 14px;
+}
+}

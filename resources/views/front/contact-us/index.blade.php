@@ -5,7 +5,7 @@
         <div class="">
             <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    {!! Breadcrumbs::render('contact-us') !!}
+                {!! Breadcrumbs::render('contact-us') !!}
                 </ol>
             </nav>
         </div>

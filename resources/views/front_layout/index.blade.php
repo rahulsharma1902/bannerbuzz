@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<!-- Ruler csss -->
+        
+<link rel="stylesheet" href="{{ asset('coustomizer/css/bbz-styles.css') }}?{{ time() }}">
+        <!-- Ruler css end   -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
         <link
@@ -30,53 +33,40 @@
             referrerpolicy="no-referrer"
         />
 
-        <link rel="stylesheet" href="{{ url('/coustomizer/css/style.css') }}" />
-        <link rel="stylesheet" href="{{ url('/coustomizer/css/responsive.css') }}" />
+        <link rel="stylesheet" href="{{ asset('coustomizer/css/style.css') }}?{{ time() }}" />
+        <link rel="stylesheet" href="{{ asset('coustomizer/css/front.css') }}?{{ time() }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('coustomizer/css/responsive.css') }}?{{ time() }}" />
+
+        
+         <!-- malihu css link  -->
+                <link rel="stylesheet" href="{{ asset('coustomizer/css/malihu.css') }}?{{ time() }}">
+        <!-- malihu css link end -->
+
+          <!-- Include Fabric.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js"
+        integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Include Fabric.js i-text library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"
+        integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
         <title>Design online</title>
+
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+        <!-- malihu js link  -->
+        <link rel="stylesheet" href="{{ asset('coustomizer/js/malihuJquery.js') }}?{{ time() }}">
+        <!-- malihu js link end -->
     </head>
     <body>
-        <header class="header_wrap">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><img src="{{ asset('coustomizer/img/new_create_logo.png') ?? '' }}" class="img-fluid" alt="" /></a>
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                        <!--   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                            </li>
-                        </ul> -->
-                        <div class="button-group">
-                            <button data-title="Undo" data-placement="bottom" class="spride-svg btnundo is-disabled bottom" id="undo" disabled="disabled" aria-label="Undo">
-                                <span class="menu-text"><img src="{{ asset('coustomizer/img/undo.png') ?? '' }}" class="img-fluid" alt="" /></span>
-                            </button>
-                            <button data-title="Redo" data-placement="bottom" class="spride-svg btnredo is-disabled bottom" id="redo" disabled="disabled" aria-label="Redo">
-                                <span class="menu-text"><img src="{{ asset('coustomizer/img/redo.png') ?? '' }}" class="img-fluid" alt="" /></span>
-                            </button>
-                            <div class="button-group trash-box">
-                                <button id="trash" data-title="Trash" data-placement="bottom" class="spride-svg btntrash bottom" aria-label="Trash">
-                                    <span class="menu-text"><img src="{{ asset('coustomizer/img/delete-img.png') ?? '' }}" class="img-fluid" alt="" /></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="hd_ryt_buttn">
-                            <a hef="#" class="btn cta">Continue</a>
-                            <a hef="#" class="btn cta btn-pnk">Proceed & Checkout</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
         @yield('content')
-
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
             integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
@@ -92,7 +82,15 @@
         ></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-        <script src="{{ url('/coustomizer/js/script.js') }}"></script>
-    </body>
+
+
+         <!-- Ruler csss -->
+        
+         <link rel="stylesheet" href="{{ asset('coustomizer/js/vendor.js') }}?{{ time() }}">
+        <!-- Ruler css end   -->
+        <script src="{{ asset('coustomizer/js/script.js') }}?{{ time() }}"></script>
+
+    </body> 
 </html>

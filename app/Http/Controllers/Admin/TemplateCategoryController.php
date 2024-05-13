@@ -57,17 +57,41 @@ class TemplateCategoryController extends Controller
       }
       }
 
-      public function remove(Request $request) {
+    //   public function remove(Request $request) {
+    //     if ($request->has('id')) {
+    //         $category = TemplateCategory::find($request->id);
+    //         $childCategory = TemplateCategory::where('parent_category',$category->id)->get();
+    //         if ($category) {
+    //             $category->delete();
+    //             return response()->json('Category deleted successfully');
+    //             // parent_category
+    //         } else {
+    //             return response()->json('Category not found');
+    //         }
+    //     } else {
+    //         return response()->json('Missing category');
+    //     }
+    // }
+    public function remove(Request $request) {
         if ($request->has('id')) {
-            $category = TemplateCategory::find($request->id);
+            $category = TemplateCategory::with('children')->find($request->id);
+            
             if ($category) {
-                // $category->delete();
-                return response()->json('Category deleted successfully');
+                $this->deleteCategoryAndChildren($category);
+                return response()->json('Category and its children deleted successfully');
             } else {
                 return response()->json('Category not found');
             }
         } else {
-            return response()->json('Missing category');
+            return response()->json('Missing category ID');
         }
     }
+    
+    private function deleteCategoryAndChildren($category) {
+        foreach ($category->children as $child) {
+            $this->deleteCategoryAndChildren($child); // Recursive call to handle child categories
+        }
+        $category->delete(); // Delete this category
+    }
+    
 }

@@ -74,7 +74,6 @@ class BlogController extends Controller
                 [
                     'title' => 'required',
                     'slug' => 'required|unique:blogs,slug,' . $request->id,
-                    'sub_title' => 'required',
                     'blog_category_id' => 'required',
                     'short_description' => 'required',
                     'description' => 'required'
@@ -120,7 +119,6 @@ class BlogController extends Controller
                 [
                     'title' => 'required',
                     'slug' => 'required|unique:blogs,slug',
-                    'sub_title' => 'required',
                     'image' => 'required',
                     'blog_category_id' => 'required',
                     'image.*' => 'required|image|mimes:jpeg,png,jpg,svg',

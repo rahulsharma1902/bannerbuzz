@@ -11,4 +11,11 @@ class TemplateCategory extends Model
     public function parent(){
         return $this->hasOne(TemplateCategory::class,'id','parent_category');
     }
+    // TemplateCategory model
+
+    public function children()
+    {
+        return $this->hasMany(TemplateCategory::class, 'parent_category', 'id');
+    }
+
 }

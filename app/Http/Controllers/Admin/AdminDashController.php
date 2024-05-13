@@ -21,16 +21,22 @@ class AdminDashController extends Controller
 
     //update profile
     public function ProfileUpdateProcc(Request $request)
-    {
-        $request->validate([
-            'name'=>'required',
-            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
-        ]);
+    {    
+        // $request->validate([
+        //     'user_name'=>'required',
+        //     'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+        //     'phone' => 'required|unique:users,phone,' . Auth::user()->id,
+        // ]);
+       
         $user = User::find(Auth::user()->id);
+    
         $user->update([
-            'name' => $request->name,
+            'user_name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
         ]);
+
+        
         return redirect()->back()->with('success','profile Updated Successfully');
     }
 

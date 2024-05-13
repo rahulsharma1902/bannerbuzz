@@ -15,7 +15,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name"> Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="name" class="form-control" id="name" value="{{ Auth::user()->name}}" >
+                                        <input type="text" name="name" class="form-control" id="name" value="{{ Auth::user()->user_name}}" >
                                     </div>
                                     @error('name')
                                         <span class="text text-danger">{{ $message }}</span>
@@ -29,6 +29,17 @@
                                         <input type="email" name="email" class="form-control" id="email" value="{{ Auth::user()->email}}" >
                                     </div>
                                     @error('email')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6 p-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="name"> Number</label>
+                                    <div class="form-control-wrap">
+                                        <input type="number" name="phone" class="form-control" id="phone" value="{{ Auth::user()->phone}}" >
+                                    </div>
+                                    @error('phone')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use App\Models\User;
+use Session;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
 use Mail;
@@ -15,10 +16,10 @@ class AuthenticationController extends Controller
 {
     public function index(){
         
-        return view('authentication.login');
+        return view('authentication.index');
     }
     public function loginProcc(Request $request){
-    
+       
 
         $request->validate([
             'email' => 'required',
@@ -32,7 +33,7 @@ class AuthenticationController extends Controller
                 if(Auth::user()->is_admin == 1){
                     return redirect('/admin-dashboard')->with('success','Successfully loggedin! Welcome Come Admin');
                 }elseif(Auth::user()->is_admin == 0){
-                    return redirect('/account')->with('success','Successfully loggedin');
+                    return redirect('/')->with('success','Successfully loggedin');
                 }else{
                     Auth::logout();
                     return redirect()->back()->with('error','failed! Something went wrong');
@@ -42,25 +43,53 @@ class AuthenticationController extends Controller
         }
     }
     public function register(){
-        return view('authentication.register');
+
+        $countries = [
+            'AF' => '93', 
+            'AL' => '355', 
+            'DZ' => '213', 
+        ];
+        return view('authentication.new_register',compact('countries'));
     }
     public function registerProcc(Request $request){
-        
+        // dd($request->all());
         $request->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name'  => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
+            'phone' => 'required|unique:users,phone'
+        
         ]);
-        $password = Hash::make($request->password);
+    
+        $user_name = $request->input('first_name') . $request->input('last_name');
 
-        $user = User::create(['name'=>$request->name,'email'=>$request->email,'password'=>$password]);
+        $unique_user_name = $user_name;
+        $count = 1;
+        while (User::where('user_name', $unique_user_name)->exists()) {
+            $unique_user_name = $user_name.++$count;
+        }
+        $user = new User();
+        $user->user_name =$unique_user_name;
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->password = Hash::make($request->password);
+        $user->save();
+
         $mailData = [
             'name' => $request->name,
             'email' => $request->email,
         ];
-        $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        if (Auth::attempt($request->only('email', 'password'))) {
+            if (Auth::user()->is_admin == 0) {
+                return redirect('/')->with('success','Your account is created successfully');
+            }
+        }
+        // return redirect('/')->with('success','Your account is created successfully');
         
-        return redirect()->back()->with('success','Your account is created successfully');
     }
     public function forgetPassword(){
         return view('authentication.forgottenpassword');
@@ -102,6 +131,7 @@ class AuthenticationController extends Controller
     }
     public function logout(){
         Auth::logout();
-        return redirect('/login')->with('success','successfully logged out');
+        Session::flush();
+        return redirect('/')->with('success','successfully logged out');
     }
 }

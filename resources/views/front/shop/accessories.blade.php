@@ -46,7 +46,6 @@
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                     {!! Breadcrumbs::render('accessories') !!}
-
                 </nav>
                 <div class="vinyl_content">
                     <h3>Accessories</h3>
@@ -72,6 +71,7 @@
                                     @endif
                                 </select>
                             </div>
+                            @if ($product_accessories->isNotEmpty())
                             <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
                                 class="select_wrap">
                                 <select id="select_size" class="form-select" name="product_size"
@@ -79,7 +79,7 @@
     
                                 </select>
                             </div>
-    
+                            
                             <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
                                 id="size_unit_div">
                                 <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
@@ -89,6 +89,7 @@
                                     <option value="Cm">Cm</option>
                                 </select>
                             </div>
+                            @endif
                             <div class="select_wrap">
                                 <input type="number" min="1" max="999" id="product_qty" name="quantity"
                                     value="1" class="form-select" aria-label="Default select example">
@@ -274,7 +275,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion_wrapper p_100 pt-0">
+        {{-- <div class="accordion_wrapper p_100 pt-0">
             <div class="container">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
@@ -338,7 +339,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
     @if ($product_accessories->isNotEmpty())
         <script>

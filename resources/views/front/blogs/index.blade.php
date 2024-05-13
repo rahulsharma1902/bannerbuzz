@@ -5,11 +5,11 @@
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
-                        @if ($category ?? '')
-                            {!! Breadcrumbs::render('Blog.category', $category) !!}
-                        @else
-                            {!! Breadcrumbs::render('Blogs') !!}
-                        @endif
+                    @if ($category ?? '')
+                        {!! Breadcrumbs::render('Blog.category', $category) !!}
+                    @else
+                        {!! Breadcrumbs::render('Blogs') !!}
+                    @endif
                     </ol>
                 </nav>
             </div>
@@ -19,14 +19,14 @@
         <div class="container">
             <div class="blog-content">
                 <div class="row">
-                    @if ($blogs->isNotEmpty())
-                        <div class="col-lg-8">
+                    <div class="col-lg-8">
+                        @if ($blogs->isNotEmpty())
                             <div class="blogs">
                                 <div class="row">
                                     @foreach ($blogs as $blog)
                                         <div data-month="{{ $blog->created_at->format('M') }}"
                                             class="blogs_div col-md-6 pb-5">
-                                            <div class="blog">
+                                            <div style="cursor: pointer;" class="blog" data-slug="{{ $blog->slug ?? '' }}">
                                                 <div class="blog-img">
                                                     <img src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}"
                                                         alt="">
@@ -37,11 +37,10 @@
                                                     <h4>{{ $blog->title ?? '' }}</h4>
                                                     <p>
                                                         {{ substr(strip_tags($blog->short_description), 0, 150) }}
-                                                        <a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}">Read
+                                                       <a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}"> ...Read
                                                             More</a>
                                                     </p>
                                                 </div>
-
                                             </div>
                                         </div>
                                     @endforeach
@@ -94,17 +93,41 @@
                                     </ul>
                                 @endif
                             </div>
-                        </div>
-                    @endif
+                            @else 
+                            <div class="blogs">
+                                <div class="row">
+                                    <p>No Result Found</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                     <div class="col-lg-4">
                         <div class="blog-block">
                             <div class="blog-blocks">
-                                <h5>Search</h5>
-                                <form class="search-form">
-                                    <input type="search" name="" id="" class="form-control"
-                                        placeholder="Search...">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </form>
+                                <div class="search-input-div">
+                                    <h5>Search</h5>
+                                    <form class="search-form">
+                                        <input type="search" name="search_bar" id="search_bar" class="form-control"
+                                            placeholder="Search...">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </form>
+                                </div>
+                                <div class="posts" id="search_result_div" style="display:none">
+                                <div id="search_div_text_div" style="display: none;" >Not Found</div>
+                                    <ul >
+                                        @if ($blogs->isNotEmpty())
+                                            @foreach ($blogs as $blog)
+                                                <li style="display:none" class="blog-list" data-name="{{ $blog->title ?? '' }}"><a href="{{ url('blog') }}/{{ $blog->slug ?? '' }}">
+                                                        <img width="50px"
+                                                            src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}"
+                                                            alt="">
+                                                        <h6>{{ $blog->title ?? '' }}</h6>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
                             </div>
                             <div class="blog-blocks">
                                 <h5>Related Posts</h5>
@@ -225,6 +248,35 @@
                         $(this).hide();
                     }
                 });
+            });
+            $('.blog').on('click',function(){
+                var slug = $(this).attr('data-slug');
+                window.location.href = "{{ url('blog')}}"+"/"+slug;
+            });
+            $('#search_bar').on('input',function(){
+                var value = $(this).val();
+                var found = false; 
+                
+                $(".blog-list").each(function() {
+                    var blogname = $(this).attr('data-name');
+                    if(value == '' || value == null || value == undefined){
+                        $('#search_result_div').hide();
+                        $('#search_div_text_div').hide();
+                        $(this).hide();
+                    } else {
+                        $('#search_result_div').show();
+                        if (blogname.toLowerCase().includes(value.toLowerCase())) {
+                            $(this).show();
+                            $('#search_div_text_div').hide();
+                            found = true; 
+                        } else {
+                            $(this).hide();
+                        }
+                    }
+                }); 
+                if (!found) {
+                    $('#search_div_text_div').show();
+                } 
             });
         });
     </script>

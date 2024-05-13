@@ -238,6 +238,30 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Site Content</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/home-content') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Home
+                                                    Content</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/about-us-content') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">About-us
+                                                    Content</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{url('admin-dashboard/testimonials')}}" class="nk-menu-link ">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Testimonials</span>
+                                    </a>
+                                </li>
 
 
                             </ul><!-- .nk-menu -->
@@ -279,7 +303,7 @@
                                                 <div class="user-info d-none d-md-block">
                                                     <div class="user-status">Administrator</div>
                                                     <div class="user-name dropdown-indicator">
-                                                        {{ Auth::user()->name ?? '' }}</div>
+                                                        {{ Auth::user()->user_name ?? '' }}</div>
                                                 </div>
                                             </div>
                                         </a>

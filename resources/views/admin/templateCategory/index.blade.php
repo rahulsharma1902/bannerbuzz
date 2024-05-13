@@ -138,17 +138,30 @@
     </div><!-- .card-preview -->
 </div>
 <script>
-
-$(document).ready(function(){
-    $('#name').on('input', function(){
+$(document).ready(function() {
+    $('body').on('keyup', '#name', function() {
         let name = $(this).val().toLowerCase();
-        let slug = name.replace(/\s+/g, "-");
-        slug = slug.replace(/\//g, "-");
+        let slug = name.replace(/\s+/g, "-").replace(/\//g, "-");
         $('#slug').val(slug);
     });
-    $('#slug').on('change', function(){
+
+    $('body').on('change', '#slug', function() {
         this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
     });
+    
+});
+
+
+$(document).ready(function(){
+    // $('#name').on('input', function(){
+    //     let name = $(this).val().toLowerCase();
+    //     let slug = name.replace(/\s+/g, "-");
+    //     slug = slug.replace(/\//g, "-");
+    //     $('#slug').val(slug);
+    // });
+    // $('#slug').on('change', function(){
+    //     this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
+    // });
 
         // $('#name').on('keyup',function(){
         //     let name = $(this).val().toLowerCase();
@@ -170,6 +183,8 @@ $(document).ready(function(){
             return false;
         }
         // return false;
+        console.log(name);
+        console.log(slug);
         if (name === '' || slug === '') {
             NioApp.Toast('Fields cannot be null', 'info', {position: 'top-right'});
             return false;

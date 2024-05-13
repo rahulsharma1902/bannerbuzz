@@ -45,11 +45,11 @@ class AccessoriesController extends Controller
             $request->validate(
                 [
                     'images' => 'required',
-                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                    'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                 ],
                 [
                     'images.*.image' => 'The file must be an image.',
-                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                    'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                 ]
             );
         }
@@ -92,7 +92,7 @@ class AccessoriesController extends Controller
 
     //:::::::::::::::: Adding Accessories :::::::::::::::::::://
     public function AccessoriesAddprocc(Request $request)
-    {
+    {   
         // echo "<pre>";
         // print_r($request->all());
         // die();
@@ -107,15 +107,16 @@ class AccessoriesController extends Controller
                 $request->validate(
                     [
                         'images' => 'required',
-                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
+                        'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
                     ],
                     [
                         'images.*.image' => 'The file must be an image.',
-                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
+                        'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
                     ]
                 );
             }
             $type = ProductAccessories::find($request->id);
+            
             $type->name = $request->name;
             $type->slug = $request->slug;
             $type->accessories_type = $request->accessorie_type;
@@ -125,22 +126,27 @@ class AccessoriesController extends Controller
             $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {           // new images 
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/accessories_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
             if ($request->existing_images) {                   // pervious images
                 $updatedImages = array_merge($request->existing_images, $images);      // mergeing the images old with new
-                $type->images = json_encode($updatedImages);
+                 $type->images = json_encode($updatedImages);
             } else {
                 $type->images = json_encode($images);
             }
             $type->save();
-
+            if($request->keys){
+                $type->key_points = json_encode($request->keys);
+            }
+            $type->save();
             if ($request->remove_size_id !== null) {      // remove  size 
                 $size_id = explode(',', $request->remove_size_id);
                 if ($size_id) {
@@ -300,17 +306,17 @@ class AccessoriesController extends Controller
             }
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
-            $request->validate([
-                'name' => 'required|unique:product_accessories,name',
-                'slug' => 'required|unique:product_accessories,slug',
-                'images' => 'required',
-                'images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
-                'accessorie_type' => 'required',
-                'default_price' => 'required|numeric'
-            ], [
-                'images.*.image' => 'The file must be an image.',
-                'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg.',
-            ]);
+            // $request->validate([
+            //     'name' => 'required|unique:product_accessories,name',
+            //     'slug' => 'required|unique:product_accessories,slug',
+            //     'images' => 'required',
+            //     'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
+            //     'accessorie_type' => 'required',
+            //     'default_price' => 'required|numeric'
+            // ], [
+            //     'images.*.image' => 'The file must be an image.',
+            //     'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
+            // ]);
 
             $type = new ProductAccessories();
             $type->name = $request->name;
@@ -322,17 +328,22 @@ class AccessoriesController extends Controller
             $type->price = $request->default_price;
             $images = [];
             if ($request->images !== null) {
+                $count = 1;
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
-                        $filename = $request->slug . time() . '.' . $image->extension();
+                        $filename = $request->slug.$count . time() . '.' . $image->extension();
                         $image->move(public_path() . '/accessories_Images/', $filename);
                         $images[] = $filename;
+                        $count++;
                     }
                 }
             }
             $type->images = json_encode($images);
             $type->save();
-
+            if($request->keys){
+                $type->key_points = json_encode($request->keys);
+            }
+            $type->save();
             if ($request->width !== null || $request->sizeValue !== null) {
                 if ($request->size_type === 'none') {
 

@@ -10,13 +10,16 @@ use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\BackgroundCategoryController;
 use App\Http\Controllers\Admin\BackgroundController;
-use App\Http\Controllers\Front\CustomizeController;
+use App\Http\Controllers\Front\CustomizerController;
 use App\Http\Controllers\Admin\ShapeCategoryController;
 use App\Http\Controllers\Admin\ShapeController;
 use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
+use App\Http\Controllers\Admin\SiteControllers\HomeController;
+use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
+use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
 use App\Http\Controllers\Front\ViewController;
 use App\Models\BlogCategory;
 
@@ -34,10 +37,13 @@ use App\Models\BlogCategory;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('login', [AuthenticationController::class, 'index'])->name('login');
+Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
-Route::get('register', [AuthenticationController::class, 'register']);
+Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
+
+//logout Route 
+Route::get('logout',[AuthenticationController::class,'logout']);
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
@@ -96,10 +102,16 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('admin-dashboard/template-category/remove', [TemplateCategoryController::class, 'remove']);
 
     // template create 
-    Route::get('admin-dashboard/template-add', [TemplateController::class, 'add']);
+    Route::get('admin-dashboard/template-add/{slug?}', [TemplateController::class, 'add']);
     Route::post('admin-dashboard/template-addProcc', [TemplateController::class, 'addProcc']);
     Route::get('admin-dashboard/template/{slug}', [TemplateController::class, 'template']);
     Route::get('admin-dashboard/template-view', [TemplateController::class, 'index']);
+
+    Route::any('admin-dashboard/template/uploadImage', [TemplateController::class, 'uploadImageTemplate']);
+
+    Route::post('saveTemplate', [TemplateController::class, 'saveTemplate']);
+    Route::get('admin-dashboard/template-remove/{slug}', [TemplateController::class, 'templateRemove']);
+
 
     //::::::::::::::::::::: ProductCategoryController Routes  ::::::::::::::::::::::://
     Route::get('admin-dashboard/product-category/{slug?}', [ProductCategoryController::class, 'index']);
@@ -135,11 +147,26 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/add-blog/{slug?}', [BlogController::class, 'addBlog']);
     Route::post('admin-dashboard/add-blog-procc', [BlogController::class, 'addBlogProcc']);
     Route::get('admin-dashboard/remove-blog/{id}', [BlogController::class, 'removeBlog']);
+
+    //::::::::: Site content settings ::::::::::::::::::::::::::::://
+
+    //home page  HomeController
+    Route::get('admin-dashboard/home-content',[HomeController::class,'index']);
+    Route::post('admin-dashboard/home-content-update',[HomeController::class,'UpdateProcc']);
+
+    //About us Content 
+    Route::get('admin-dashboard/about-us-content',[AboutContentController::class,'index']);
+    Route::post('admin-dashboard/about-us-content-update',[AboutContentController::class,'UpdateContent']);
+
+    // Add testimonials TestimonialController
+    Route::get('admin-dashboard/testimonials',[TestimonialController::class,'index']);
+    Route::post('admin-dashboard/add-testimonial-procc',[TestimonialController::class,'AddProcc']);
+    Route::get('admin-dashboard/remove-testimonial/{id}',[TestimonialController::class,'remove']);
 });
 
 // FRONT LAYOUT
 
-// Route::get('/',[CustomizeController::class,'index']);
+// Route::get('/',[CustomizerController::class,'index']);
 
 //:::::::::::::::::::::: Front Routes ::::::::::::::::::::::::::::::::::::://
 
@@ -162,6 +189,17 @@ Route::get('shop/{slug}', [ShopController::class, 'shop'])->name('shop');
 Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('special-offers');
 Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
 
+
+
+// :::::::::::::::::Customizer 
+
+Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+
+Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
+
+// :::::::::::::::::Customizer route end here
+
+
 // Accessories Routes //
 Route::get('accessories', [ShopController::class, 'accessories']);
 Route::get('accessories/{slug}', [ShopController::class, 'AccessoriesDetails']);
@@ -171,6 +209,9 @@ Route::get('accessories/sizes/{id}', [ShopController::class, 'getaccessoriessize
 Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildCategories']);
 Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
 Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
+
+
+
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 

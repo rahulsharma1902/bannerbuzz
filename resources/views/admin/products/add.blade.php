@@ -59,7 +59,7 @@
                                     <label class="form-label" for="Printed">Printed</label>
                                     <div class="from-control-wrap">
                                         <select name="Printed" class="form-control" id="Printed">
-                                            @if (@isset($product))
+                                            @if (isset($product))
                                                 <option value="yes" <?php echo $product->is_printed === 'yes' ? 'selected' : ''; ?>>Yes</option>
                                                 <option value="no" <?php echo $product->is_printed === 'no' ? 'selected' : ''; ?>>NO</option>
                                             @else
@@ -126,7 +126,7 @@
                                 <button type="button" onclick="addFileInput()" class="btn btn-primary" id="add-image">Add
                                     More</button>
                             </div>
-                            <div id="default_price" class="col-lg-4 p-3" style="padding-left: 1.5rem">
+                            <div id="default_price" class="col-lg-6 p-3" style="padding-left: 1.5rem">
                                 <div class="form-group">
                                     <label class="form-label" for="default_price"> Price</label>
                                     <div class="form-control-wrap ">
@@ -161,34 +161,65 @@
                         @endif
                         <br>
                         <h4>Add Size (optional)</h4>
-                        <div class="col-lg-12 p-3 d-flex ">
-                            <div class="form-group col-lg-4" style="margin-right: 1rem">
-                                <label class="form-label" for="Qty">Size type</label>
-                                <div class="form-control-wrap">
-                                    <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
-                                        <option value="none">--none--</option>
-                                        <option value="wh">Width and Height</option>
-                                        <option value="length">length</option>
-                                        <option value="DH">Diameter and height</option>
-                                        <option value="Custom">Custom</option>
-                                    </select>
+                        @if(!isset($product) &&$product == null)
+                            <div class="col-lg-12 p-3 d-flex ">
+                                <div class="form-group col-lg-4" style="margin-right: 1rem">
+                                    <label class="form-label" for="Qty">Size type</label>
+                                    <div class="form-control-wrap">
+                                        <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
+                                            <option value="none">--none--</option>
+                                            <option value="wh">Width and Height</option>
+                                            <option value="length">length</option>
+                                            <option value="DH">Diameter and height</option>
+                                            <option value="Custom">Custom</option>
+                                        </select>
+                                    </div>
+                                    @error('size_type')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                    <input type="hidden" name="size_unit" value="feet">
                                 </div>
-                                @error('size_type')
-                                    <span class="text text-danger">{{ $message }}</span>
-                                @enderror
-                                <input type="hidden" name="size_unit" value="feet">
 
-
+                                <div class="form-group col-lg-8 " id="sizeDiv">
+                                    <span id="add-button" class="text-right"
+                                        style="display: none; cursor: pointer; float:right;">
+                                        <a class="primary-link" onclick="addmore()">+Add more</a>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="form-group col-lg-8 " id="sizeDiv">
-                                <span id="add-button" class="text-right"
-                                    style="display: none; cursor: pointer; float:right;">
-                                    <a class="primary-link" onclick="addmore()">+Add more</a>
-                                </span>
-                            </div>
-                        </div>
-                        @if ($product !== null)
+                        @endif
+                        @if(isset($product) && $product !== null)
                             @if ($product->sizes)
+                                <div class="col-lg-12 p-3 d-flex ">
+                                    <div class="form-group col-lg-4" style="margin-right: 1rem">
+                                        <label class="form-label" for="Qty">Size type</label>
+                                        <div class="form-control-wrap">
+                                            <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
+                                            @if(isset($product->sizes->first()->size_type))
+                                                <option value="none">--none--</option>
+                                                <option value="{{$product->sizes->first()->size_type ?? ''}}">{{$product->sizes->first()->size_type ?? ''}}</option>
+                                            @else 
+                                                <option value="none">--none--</option>
+                                                <option value="wh">Width and Height</option>
+                                                <option value="length">length</option>
+                                                <option value="DH">Diameter and height</option>
+                                                <option value="Custom">Custom</option>
+                                            @endif
+                                            </select>
+                                        </div>
+                                        @error('size_type')
+                                            <span class="text text-danger">{{ $message }}</span>
+                                        @enderror
+                                        <input type="hidden" name="size_unit" value="feet">
+                                    </div>
+
+                                    <div class="form-group col-lg-8 " id="sizeDiv">
+                                        <span id="add-button" class="text-right"
+                                            style="display: none; cursor: pointer; float:right;">
+                                            <a class="primary-link" onclick="addmore()">+Add more</a>
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="Size_class form-control-wrap d-flex p-1">
                                         <div class="col-lg-2">
@@ -219,7 +250,7 @@
                                 </div>
                             @endif
                         @endif
-                        @if ($product === null)
+                        @if (isset($product) )
                             <h5>Add Product Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
                                 <div id="container_div" class="container_div form-group col-lg-12 ">
@@ -288,6 +319,43 @@
                                     More variation</a>
                             </div>
                         @endif
+                        @if(isset($product) && $product->key_points != null)
+                            <div id="input-div-container" class="col-lg-12">
+                                <div  class="col-lg-12  d-flex">
+                                    <div class="form-group col-lg-11 p-2" id="Key-input">
+                                        <div class="col-lg-12">
+                                            <label class="form-label" for="image">Key Points</label>
+                                            @foreach(json_decode($product->key_points) as $key_point)
+                                                <div class="form-control-wrap p-2">
+                                                    <input type="text" name="keys[]" class="form-control" id="key-points" value="{{ $key_point ?? '' }}" placeholder="About product....">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="form-control-wrap pt-3 ">
+                                        <a type="button" onclick="addNewInput()" class="primary-link" id="add-input-field">Add
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @else 
+                            <div id="input-div-container" class="col-lg-12">
+                                <div  class="col-lg-12  d-flex">
+                                    <div class="form-group col-lg-11 p-2" id="Key-input">
+                                        <div class="col-lg-12">
+                                            <label class="form-label" for="image">Key Points</label>
+                                            <div class="form-control-wrap p-2">
+                                                <input type="text" name="keys[]" class="form-control" id="key-points" placeholder="About product....">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-control-wrap pt-3 ">
+                                        <a type="button" onclick="addNewInput()" class="primary-link" id="add-input-field">Add
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="d-flex">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
@@ -307,7 +375,7 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                         @if ($product !== null)
                             <div class="card card-bordered card-preview d-none" id="addnewcard">
                                 <div class="card-inner">
@@ -493,7 +561,26 @@
         str = str.replace(/\s+/g, '-');
         $('#slug').val(str);
     }
+    //:::::::::::::::::: add new input :::::::::::::::::::::::::::::://
+    function addNewInput() {
+        var Div_conatiner = $('#Key-input');
+        
+        var Input_HTML = `<div class="col-lg-12 d-flex newdiv">
+                            <div class="form-control-wrap col-lg-11 p-2">
+                                <input type="text" name="keys[]" class="form-control" id="key-points" placeholder="About product....">
+                            </div>
+                            <div style="cursor:pointer;" class="form-control-wrap  p-2">
+                                <i style="cursor:pointer;" onclick="removeInput(this)"
+                                class="fas fa-trash-alt"></i>
+                            </div> 
+                        </div>`;
+        Div_conatiner.append(Input_HTML);
+    }
 
+    function removeInput(element) {
+        let parentDiv = element.closest('.newdiv');
+        parentDiv.remove();
+    }
     //:::::::::::::::: add input fields for image  :::::::::::::::::::::::://
     function addFileInput() {
         var container = document.getElementById('file-input');
@@ -865,69 +952,67 @@
     function cloneParentDiv() {
         divCounter++;
         var htmlTemplate = `<div id="container_div" class="container_div form-group col-lg-12 ">
-                                                    <h6>Variation ${divCounter} </h6>
-                                                    <div class="col-lg-12 d-flex">
-                                                        <div class="col-lg-3 p-2">
-                                                            <div class="form-group">
-                                                                <div class="form-control-wrap">
-                                                                    <input type="text" name="variation_name[]"
-                                                                        class="variation_name form-control"  id="variation_name"
-                                                                            placeholder="Enter Name">
-                                                                    <input type="hidden" name="var_slug[]" class="var_slug">
-                                                                    <div class="error-message" style="color: red; display: none;">Duplicate
-                                                                            value
-                                                                         found</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3 p-2">
-                                                            <div class="form-group">
-                                                                <div class="form-control-wrap">
-                                                                    <select name="entity_id[]" class="entity_id form-control" id="entity_id">
-                                                                        @if ($entities)
-                                                                            @foreach ($entities as $entity)
-                                                                                <option value="{{ $entity->id }}">{{ $entity->name }}</option>
-                                                                            @endforeach
-                                                                        @endif
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3 p-2">
-                                                            <div class="form-group">
-                                                                <i style="cursor:pointer;" onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="variation_value_div">
-                                                            <div id="input_div" class="input_div form-group col-lg-12  d-flex">
-                                                                <div class="form-control-wrap col-lg-2 p-2">
-                                                                    <input type="text" name="variation_value[]"
-                                                                        class="variation_value form-control" placeholder="Value">
-                                                                </div>
-                                                                <div class="form-control-wrap col-lg-2 p-2">
-                                                                    <input type="text" name="variation_price[]"
-                                                                         class="variation_price form-control" placeholder="Price">
-                                                                </div>
-                                                                <div class="form-control-wrap col-lg-3 p-2">
-                                                                   <input type="file" name="variation_Images[]"
-                                                                        class="variation_images form-control" placeholder="Value">
-                                                                </div>
-                                                                <div class="form-control-wrap col-lg-4">
-                                                                    <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
-                                                                        placeholder="About Product....."></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-control-wrap " style="margin-left: 2rem; float:right">
-                                                              <a class="primary-link" style="cursor: pointer;" onclick="cloneInput(this)">Add
-                                                                  More</a>
-                                                         </div>
-                                                    </div>
-                                            </div>`;
-
-
+                        <h6>Variation ${divCounter} </h6>
+                        <div class="col-lg-12 d-flex">
+                            <div class="col-lg-3 p-2">
+                                <div class="form-group">
+                                    <div class="form-control-wrap">
+                                        <input type="text" name="variation_name[]"
+                                            class="variation_name form-control"  id="variation_name"
+                                                placeholder="Enter Name">
+                                        <input type="hidden" name="var_slug[]" class="var_slug">
+                                        <div class="error-message" style="color: red; display: none;">Duplicate
+                                                value
+                                                found</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 p-2">
+                                <div class="form-group">
+                                    <div class="form-control-wrap">
+                                        <select name="entity_id[]" class="entity_id form-control" id="entity_id">
+                                            @if ($entities)
+                                                @foreach ($entities as $entity)
+                                                    <option value="{{ $entity->id }}">{{ $entity->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 p-2">
+                                <div class="form-group">
+                                    <i style="cursor:pointer;" onclick="remove_variation(this)" class="fas fa-trash-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="variation_value_div">
+                                <div id="input_div" class="input_div form-group col-lg-12  d-flex">
+                                    <div class="form-control-wrap col-lg-2 p-2">
+                                        <input type="text" name="variation_value[]"
+                                            class="variation_value form-control" placeholder="Value">
+                                    </div>
+                                    <div class="form-control-wrap col-lg-2 p-2">
+                                        <input type="text" name="variation_price[]"
+                                                class="variation_price form-control" placeholder="Price">
+                                    </div>
+                                    <div class="form-control-wrap col-lg-3 p-2">
+                                        <input type="file" name="variation_Images[]"
+                                            class="variation_images form-control" placeholder="Value">
+                                    </div>
+                                    <div class="form-control-wrap col-lg-4">
+                                        <textarea name="variation_description[]" class="variation_description form-control" id="product_description"
+                                            placeholder="About Product....."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-control-wrap " style="margin-left: 2rem; float:right">
+                                    <a class="primary-link" style="cursor: pointer;" onclick="cloneInput(this)">Add
+                                        More</a>
+                                </div>
+                        </div>
+                </div>`;
 
 
             var tempDiv = document.createElement('div');
