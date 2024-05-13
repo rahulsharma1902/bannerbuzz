@@ -11,8 +11,7 @@ use App\Models\ProductCategories;
 use App\Models\HomeContent;
 use App\Models\Testimonial;
 use App\Models\AboutUsContent;
-
-
+use App\Models\ProductAccessories;
 class ViewController extends Controller
 {
     //::::::::::: Home page ::::::::::::::::::://
@@ -84,5 +83,14 @@ class ViewController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+    //*******************************Search product***********************//
+
+    public function searchProduct(Request $request){
+        $search = $request->search;
+        $products = Product::where('name', 'like', "%$search%")->get();
+        $accessories = ProductAccessories::where('name', 'like', "%$search%")->get();
+        $products = $products->merge($accessories);
+        return view('front.shop.search',compact('products'));
     }
 }

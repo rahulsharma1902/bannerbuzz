@@ -27,15 +27,15 @@
         <div class="container">
             <div class="banner-content p-0">
                 @if($category->images)
-                <div class="banner-img p-2">
-                @foreach (json_decode($category->images) as $index => $image)
-                    @if ($index == 0)
-                        <img 
-                            src="{{ asset('category_Images') }}/{{ $image }}">
-                        @break
-                    @endif
-                @endforeach
-                </div>
+                    <div class="banner-img p-2">
+                        @foreach (json_decode($category->images) as $index => $image)
+                            @if ($index == 0)
+                                <img 
+                                    src="{{ asset('category_Images') }}/{{ $image }}">
+                                @break
+                            @endif
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>

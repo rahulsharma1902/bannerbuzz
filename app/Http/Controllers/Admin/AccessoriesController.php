@@ -142,7 +142,6 @@ class AccessoriesController extends Controller
             } else {
                 $type->images = json_encode($images);
             }
-            $type->save();
             if($request->keys){
                 $type->key_points = json_encode($request->keys);
             }
@@ -339,7 +338,6 @@ class AccessoriesController extends Controller
                 }
             }
             $type->images = json_encode($images);
-            $type->save();
             if($request->keys){
                 $type->key_points = json_encode($request->keys);
             }

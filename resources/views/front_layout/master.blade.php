@@ -161,9 +161,11 @@
                             </ul>
                         </div>
                         <div class="search_block">
-                            <form class="srch_txt" >
-                                <input type="search" id="search_val" class="form-control" placeholder="Search..." />
-                                <button type="submit"> <i id="search_btn" class="fa fa-search"></i></button>
+                            <form class="srch_txt" id="search-form" action="{{url('search')}}" method="get" >
+       
+                                <input type="search" id="search_val" name="search" class="form-control" placeholder="Search..." />
+                                <!-- <i class="fa fa-search"></i> -->
+                                <i id="search_btn" class="fa fa-search"></i>
                             </form>
                         </div>
                     </div>
@@ -569,9 +571,9 @@
             $('.submuenu_text li:first-child .subCategoryMenu').css('display', 'block');
         });
 
-        $('#search_val').keyup(function(){
-            var value = $('#search_val').val();
-            console.log(value);
+        $('#search_btn').on('click',function(){
+          
+            $('#search-form').submit();
         });
     });
 </script>
