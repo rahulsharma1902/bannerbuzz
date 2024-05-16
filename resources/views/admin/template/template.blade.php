@@ -1248,32 +1248,34 @@
                                 
                         </div> -->
 
-<div class="mCustomScrollbar canvas-container wrapper" style="height:430px; overflow:scroll; padding: 1rem 5rem; justify-content: center; position: relative;">
+<div class="mCustomScrollbar canvas-container wrapper" style="height:430px; overflow:auto; padding: 1rem 5rem; justify-content: center; position: relative;">
                                     <div class="canvasData" style="">
                                         <!-- <div id="horizontalLine" style="z-index:1; position: absolute; height: 11px; background-color: white; width: 2px; top: 4%; left: 258px;"></div>
                                         <div id="verticalLine" style="z-index:1; position: absolute; width: 13px; background-color: white; height: 2px; top: 0; left: 19%;"></div> -->
                                         <div class="canvas-ruler" id="canvas-ruler">
-                                            <div class="ef-ruler">
-                                                <div class="corner" style="top: 0px; left: 0px;background: transparent;"></div>
-                                                <div class="ruler top rulerTop" style="top: 0px;">
-                                                    <div class="top-line" style="left: 51.5px;"></div>
+                                            <div class="canva-box-rule">
+                                                <div class="ef-ruler">
+                                                    <div class="corner" style="top: 0px; left: 0px;background: transparent;"></div>
+                                                    <div class="ruler top rulerTop" style="top: 0px;">
+                                                        <div class="top-line" style="left: 51.5px;"></div>
+                                                    </div>
+                                                    <div class="ruler left rulerLeft" style="left: 0px;">
+                                                        <div class="left-line" style="top: 242px;"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="ruler left rulerLeft" style="left: 0px;">
-                                                    <div class="left-line" style="top: 242px;"></div>
+                                                <div class="stage" style="">
+                                                    <div id="main_designtool_tool" class="dragCanvas">
+                                                        <canvas id="customCanvas" width="500" height="300" style="border: 1px solid;"></canvas>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="stage" style="">
-                                                <div id="main_designtool_tool" class="dragCanvas">
-                                                    <canvas id="customCanvas" width="500" height="300" style="border: 1px solid;"></canvas>
+                                                <div class="measurement-Box" style="">
+                                                    <span class="measurement-top-box">
+                                                        <span class="feetlabel-box">6.00 Ft</span> (w)
+                                                    </span> X 
+                                                    <span class="measurement-left-box">
+                                                        <span class="feetlabel-box">8.00 Ft </span> (H)
+                                                    </span>
                                                 </div>
-                                            </div>
-                                            <div class="measurement-Box" style="">
-                                                <span class="measurement-top-box">
-                                                    <span class="feetlabel-box">6.00 Ft</span> (w)
-                                                </span> X 
-                                                <span class="measurement-left-box">
-                                                    <span class="feetlabel-box">8.00 Ft </span> (H)
-                                                </span>
                                             </div>
                                         </div>
                                         
