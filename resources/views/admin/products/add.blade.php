@@ -80,8 +80,12 @@
                                             @if (isset($categories))
                                                 @foreach ($categories as $cat)
                                                     <option value="{{ $cat->id ?? '' }}"
-                                                        @if ($product !== null) @if ($product->category_id == $cat->id) Selected @endif
-                                                        @endif> {{ $cat->name ?? '' }}</option>
+                                                        @if ($product !== null) 
+                                                            @if ($product->category_id == $cat->id) 
+                                                                Selected 
+                                                            @endif
+                                                        @endif
+                                                        > {{ $cat->name ?? '' }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -161,7 +165,7 @@
                         @endif
                         <br>
                         <h4>Add Size (optional)</h4>
-                        @if(!isset($product) &&$product == null)
+                        @if(!isset($product) || $product == null || $product->sizes->isEmpty() )
                             <div class="col-lg-12 p-3 d-flex ">
                                 <div class="form-group col-lg-4" style="margin-right: 1rem">
                                     <label class="form-label" for="Qty">Size type</label>
@@ -188,69 +192,67 @@
                                 </div>
                             </div>
                         @endif
-                        @if(isset($product) && $product !== null)
-                            @if ($product->sizes)
-                                <div class="col-lg-12 p-3 d-flex ">
-                                    <div class="form-group col-lg-4" style="margin-right: 1rem">
-                                        <label class="form-label" for="Qty">Size type</label>
-                                        <div class="form-control-wrap">
-                                            <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
-                                            @if(isset($product->sizes->first()->size_type))
-                                                <option value="none">--none--</option>
-                                                <option value="{{$product->sizes->first()->size_type ?? ''}}">{{$product->sizes->first()->size_type ?? ''}}</option>
-                                            @else 
-                                                <option value="none">--none--</option>
-                                                <option value="wh">Width and Height</option>
-                                                <option value="length">length</option>
-                                                <option value="DH">Diameter and height</option>
-                                                <option value="Custom">Custom</option>
-                                            @endif
-                                            </select>
-                                        </div>
-                                        @error('size_type')
-                                            <span class="text text-danger">{{ $message }}</span>
-                                        @enderror
-                                        <input type="hidden" name="size_unit" value="feet">
+                        @if(isset($product) && $product !== null && $product->sizes->isNotEmpty())
+                            <div class="col-lg-12 p-3 d-flex ">
+                                <div class="form-group col-lg-4" style="margin-right: 1rem">
+                                    <label class="form-label" for="Qty">Size type</label>
+                                    <div class="form-control-wrap">
+                                        <select name="size_type" class="form-control" onchange="addSize()" id="size_type">
+                                        @if(isset($product->sizes->first()->size_type))
+                                            <option value="none">--none--</option>
+                                            <option value="{{$product->sizes->first()->size_type ?? ''}}">{{$product->sizes->first()->size_type ?? ''}}</option>
+                                        @else 
+                                            <option value="none">--none--</option>
+                                            <option value="wh">Width and Height</option>
+                                            <option value="length">length</option>
+                                            <option value="DH">Diameter and height</option>
+                                            <option value="Custom">Custom</option>
+                                        @endif
+                                        </select>
                                     </div>
+                                    @error('size_type')
+                                        <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                    <input type="hidden" name="size_unit" value="feet">
+                                </div>
 
-                                    <div class="form-group col-lg-8 " id="sizeDiv">
-                                        <span id="add-button" class="text-right"
-                                            style="display: none; cursor: pointer; float:right;">
-                                            <a class="primary-link" onclick="addmore()">+Add more</a>
-                                        </span>
+                                <div class="form-group col-lg-8 " id="sizeDiv">
+                                    <span id="add-button" class="text-right"
+                                        style="display: none; cursor: pointer; float:right;">
+                                        <a class="primary-link" onclick="addmore()">+Add more</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="Size_class form-control-wrap d-flex p-1">
+                                    <div class="col-lg-2">
+                                        <h6> Value</h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6> Price</h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6>Action</h6>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                @foreach ($product->sizes as $size)
                                     <div class="Size_class form-control-wrap d-flex p-1">
                                         <div class="col-lg-2">
-                                            <h6> Value</h6>
+                                            {{ $size->size_value . ' (' . $size->size_unit . ')' }}
                                         </div>
                                         <div class="col-lg-2">
-                                            <h6> Price</h6>
+                                            {{ $size->price }}
                                         </div>
                                         <div class="col-lg-2">
-                                            <h6>Action</h6>
+                                            <i style="cursor: pointer"
+                                                onclick="removeSize(this,{{ $size->id ?? '' }})"
+                                                class="fas fa-trash-alt p-2"></i>
                                         </div>
                                     </div>
-                                    @foreach ($product->sizes as $size)
-                                        <div class="Size_class form-control-wrap d-flex p-1">
-                                            <div class="col-lg-2">
-                                                {{ $size->size_value . ' (' . $size->size_unit . ')' }}
-                                            </div>
-                                            <div class="col-lg-2">
-                                                {{ $size->price }}
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <i style="cursor: pointer"
-                                                    onclick="removeSize(this,{{ $size->id ?? '' }})"
-                                                    class="fas fa-trash-alt p-2"></i>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
+                                @endforeach
+                            </div>
                         @endif
-                        @if (isset($product) )
+                        @if (!isset($product) || $product->variations->isEmpty() )
                             <h5>Add Product Variation</h5>
                             <div id="parent_div" class="col-lg-12 p-1 ">
                                 <div id="container_div" class="container_div form-group col-lg-12 ">
@@ -277,8 +279,7 @@
                                                         id="entity_id">
                                                         @if ($entities)
                                                             @foreach ($entities as $entity)
-                                                                <option value="{{ $entity->id }}">{{ $entity->name }}
-                                                                </option>
+                                                                <option value="{{ $entity->id }}">{{ $entity->name }} </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -376,7 +377,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($product !== null)
+                        @if ($product !== null && $product->variations->isNotEmpty())
                             <div class="card card-bordered card-preview d-none" id="addnewcard">
                                 <div class="card-inner">
                                     <div class="preview-block">
@@ -410,7 +411,7 @@
                                                                                     style="color: red; display: none;">
                                                                                     Duplicate
                                                                                     value
-                                                                                     found</div>
+                                                                                    found</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -530,15 +531,16 @@
                                 </div>
                             </div>
                         @endif
+                    </div>
+                    <div class="form-group mt-3 text-center">
+                        <button type="submit"
+                            class="btn btn-lg btn-primary">{{ isset($product) ? ' Update' : ' Save' }}</button>
+                    </div>
                 </div>
-                <div class="form-group mt-3 text-center">
-                    <button type="submit"
-                        class="btn btn-lg btn-primary">{{ isset($product) ? ' Update' : ' Save' }}</button>
-                </div>
-            </div>
             </form>
         </div>
     </div>
+    
     <!-- </div> -->
 
     <script>

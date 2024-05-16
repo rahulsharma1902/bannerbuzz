@@ -182,6 +182,9 @@ Route::get('order-tracking', [ViewController::class, 'ordertracking'])->name('or
 // blogs ViewController //
 Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');
 Route::get('blog/{slug}', [ViewController::class, 'blogDetails']);
+
+//Seachproduct//
+Route::get('search',[ViewController::class,'searchProduct']);
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 //:::::::::::::::::::;:: ShopController Routes ::::::::::::::::::::::::::::::::://

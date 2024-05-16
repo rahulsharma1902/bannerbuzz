@@ -53,6 +53,7 @@
             </div>
         </div>
     </section>
+<<<<<<< HEAD
         <section class="custom-sec shop_size">
             <div class="container">
                 <div class="custom-content" style="background-color: #141414;">
@@ -94,17 +95,58 @@
                                 <input type="number" min="1" max="999" id="product_qty" name="quantity"
                                     value="1" class="form-select" aria-label="Default select example">
                             </div>
+=======
+    <section class="custom-sec shop_size">
+        <div class="container">
+            <div class="custom-content" style="background-color: #141414;">
+                <h3>Start Your Order</h3>
+                <form id="search_product">
+                    <div class="select-box">
+                        <div class="select_wrap">
+                            <select id="product_select" name="product_slug" class="form-select"
+                                aria-label="Default select example">
+                                @if ($product_accessories->isNotEmpty())
+                                    @foreach ($product_accessories as $product)
+                                        <option data-price="{{ $product->price }}" data-id="{{ $product->id }}"
+                                            value="{{ $product->slug ?? '' }}">
+                                            {{ $product->name ?? '' }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
-                    </form>
-                    <div class="shop_size_txt">
-                        <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
-                                id="size_price">$11.75</strong></p>
-                        <input type="hidden" id="product_price" name="product_price" value="">
-                        <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
+                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
+                            class="select_wrap">
+                            <select id="select_size" class="form-select" name="product_size"
+                                aria-label="Default select example">
+
+                            </select>
+                        </div>
+
+                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                            id="size_unit_div">
+                            <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
+                                <option selected value="Ft">Ft</option>
+                                <option value="In">In</option>
+                                <option value="Mm">Mm</option>
+                                <option value="Cm">Cm</option>
+                            </select>
+                        </div>
+                        <div class="select_wrap">
+                            <input type="number" min="1" max="999" id="product_qty" name="quantity"
+                                value="1" class="form-select" aria-label="Default select example">
+>>>>>>> 5273a23469f3cc51aed42e410ed613dedd415093
+                        </div>
                     </div>
+                </form>
+                <div class="shop_size_txt">
+                    <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
+                            id="size_price">$11.75</strong></p>
+                    <input type="hidden" id="product_price" name="product_price" value="">
+                    <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     <section id="accordionExample">
         <div class="shop_wrapper p_100">
             <div class="container">
@@ -159,11 +201,11 @@
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                            @foreach ($product_accessoriesType as $type)
-                                                <p><input value="{{ $type->slug }}" type="checkbox"
-                                                    name="productType[]"
-                                                    class="productType">&nbsp;{{ $type->name }}</p>
-                                            @endforeach
+                                        @foreach ($product_accessoriesType as $type)
+                                            <p><input value="{{ $type->slug }}" type="checkbox"
+                                                name="productType[]"
+                                                class="productType">&nbsp;{{ $type->name }}</p>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
