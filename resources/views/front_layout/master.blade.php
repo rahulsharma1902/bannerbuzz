@@ -227,10 +227,10 @@
                                                     <ul class="submuenu_text">
                                                         @foreach ($category->subCategories as $key => $sub_category)
                                                             <li>
-                                                                <a
-                                                                    href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
-                                                                <span><i class="fa-solid fa-chevron-right"></i></span>
                                                                 @if ($sub_category->subCategories->isNotEmpty() || $sub_category->products->isNotEmpty())
+                                                                    <a
+                                                                        href="{{ url('shop') }}/{{ $sub_category->slug }}">{{ $sub_category->name }}</a>
+                                                                    <span><i class="fa-solid fa-chevron-right"></i></span>
                                                                     @if ($sub_category->subCategories->isNotEmpty())
                                                                         <div class="menuLevel3 subCategoryMenu ">
                                                                             <div class="menuLevel_txt">
@@ -572,8 +572,9 @@
         });
 
         $('#search_btn').on('click',function(){
-          
-            $('#search-form').submit();
+            if($('#search_val').val() != null && $('#search_val').val() != ""){
+                $('#search-form').submit();
+            }
         });
     });
 </script>
