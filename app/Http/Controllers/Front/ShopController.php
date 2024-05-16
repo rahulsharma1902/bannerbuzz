@@ -64,7 +64,13 @@ class ShopController extends Controller
     //::::::::::: getting data by ajax :::::::::::::::://
     public function getChildCategories($parent_id)
     {
-        $childCategories = ProductCategories::where('parent_category', $parent_id)->get();
+        $childCategorie = ProductCategories::where('parent_category', $parent_id)->get();
+        $childCategories = [];
+        foreach($childCategorie as $category){
+            if(isset($category->products) && $category->products->isNotEmpty()){
+                $childCategories[] = $category;
+            }
+        }
         return response()->json($childCategories);
     }
 
