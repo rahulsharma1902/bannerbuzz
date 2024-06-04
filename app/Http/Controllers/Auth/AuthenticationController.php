@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use App\Models\User;
+use App\Models\DesignTemplate;
 use Session;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
@@ -25,14 +26,13 @@ class AuthenticationController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        
+
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
-            // echo '<pre>';
-            // print_r(Auth::user());
-            // echo '</pre>';
+
                 if(Auth::user()->is_admin == 1){
                     return redirect('/admin-dashboard')->with('success','Successfully loggedin! Welcome Come Admin');
                 }elseif(Auth::user()->is_admin == 0){
+                    $this->convertTemporaryIdToUserId();
                     return redirect('/')->with('success','Successfully loggedin');
                 }else{
                     Auth::logout();
@@ -42,6 +42,10 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error','failed to login');
         }
     }
+
+
+
+
     public function register(){
 
         $countries = [
@@ -53,12 +57,13 @@ class AuthenticationController extends Controller
     }
     public function registerProcc(Request $request){
         // dd($request->all());
+
         $request->validate([
             'first_name' => 'required',
             'last_name'  => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
-            'phone' => 'required|unique:users,phone'
+            'phone' => 'required|unique:users,number'
         
         ]);
     
@@ -74,7 +79,7 @@ class AuthenticationController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
+        $user->number = $request->input('phone');
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -85,6 +90,7 @@ class AuthenticationController extends Controller
         // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
         if (Auth::attempt($request->only('email', 'password'))) {
             if (Auth::user()->is_admin == 0) {
+                $this->convertTemporaryIdToUserId();
                 return redirect('/')->with('success','Your account is created successfully');
             }
         }
@@ -134,4 +140,16 @@ class AuthenticationController extends Controller
         Session::flush();
         return redirect('/')->with('success','successfully logged out');
     }
+
+
+
+
+    public function convertTemporaryIdToUserId(){
+        $temporaryUserId = Session::get('temporaryUserId');
+        if($temporaryUserId){
+            DesignTemplate::where('temporary_id', $temporaryUserId)->update(['user_id' => Auth::id(), 'temporary_id' => null]);
+            Session::forget('temporaryUserId');
+        }
+    }
+    
 }

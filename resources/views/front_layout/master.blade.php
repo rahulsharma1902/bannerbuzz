@@ -24,14 +24,29 @@
     <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
 
-        <!-- Toaster -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    <!-- Toaster -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
     <!-- end toaster -->
+
     {{-- jquery CDN --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- dropbox cdn -->
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="{{env('DROPBOX_CLIENT_ID')}}"></script>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
+        /* Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
 
     <title>Home page</title>
 
@@ -85,18 +100,19 @@
                                         <span>My Account</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <span><i class="fa-regular fa-user"></i></span>
-                                        <span>My Designs</span></a>
-                                </li>
+                               
                                 <li class="logd_out">
                                     <a title="Logout" href="{{ url('logout') ?? '' }}" class="lg_out">
                                      <span><i class="fa-regular fa-user"></i></span>
                                      <span>Logout</span>
                                   </a>
                               </li>
-                            @endif  
+                            @endif
+                                <li>
+                                    <a href="{{ url('my-saved-designs') ?? '' }}">
+                                        <span><i class="fa-regular fa-user"></i></span>
+                                        <span>My Designs</span></a>
+                                </li>  
                             </ul>
                         </li>
                         <li>

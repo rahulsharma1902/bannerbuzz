@@ -53,6 +53,63 @@ var isDragging = false;
 document.addEventListener("DOMContentLoaded", function() {
   canvas = new fabric.Canvas('customCanvas');
 
+
+
+
+    document.addEventListener('keydown', function(event) {
+        const activeObject = canvas.getActiveObject();
+    
+        if (!activeObject) return;
+    
+        switch (event.key) {
+            case 'ArrowLeft':
+                activeObject.left -= 10;
+                canvas.renderAll();
+                break;
+            case 'ArrowRight':
+                activeObject.left += 10;
+                canvas.renderAll();
+                break;
+            case 'ArrowUp':
+                activeObject.top -= 10;
+                canvas.renderAll();
+                break;
+            case 'ArrowDown':
+                activeObject.top += 10;
+                canvas.renderAll();
+                break;
+            case 'Delete':
+                canvas.remove(activeObject);
+                break;
+            default:
+                break;
+        }
+    
+        if (event.ctrlKey) {
+            switch (event.key) {
+                case 'x':
+                    cutSelected()
+                    break;
+                case 'c':
+                    copySelected()
+                    break;
+                case 'v':
+                    paste();
+                    break;
+                case 'z':
+                    undo();
+                    console.log('Undo');
+                    break;
+                case 'y':
+                    redo();
+                    console.log('Redo');
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+
 //   this is use for add scalling border in canvas ::
 //   var canvas2=document.getElementById("canvasRuler");
 //   var ctx2=canvas2.getContext("2d");
@@ -366,6 +423,7 @@ function zoom(step) {
           });
           canvas.renderAll();
       });
+      
   } else {
       var text = new fabric.IText('Customize me!', {
           left: 300,
@@ -553,7 +611,29 @@ var countObj = 0;
         });
         canvas.renderAll();
     });
+
+
+    //  Function for make btn disabled
     
+    canvas.on('object:added', canvasStateChange);
+    canvas.on('object:removed', canvasStateChange);
+    function canvasStateChange() {
+        var canvasObjects = canvas.getObjects();    
+        if (canvasObjects.length === 0) { 
+            $('.previewImage').prop('disabled', true); 
+            $('.shareImage').prop('disabled', true);
+
+        } else {
+            $('.previewImage').prop('disabled', false);
+            $('.shareImage').prop('disabled', false);
+        }
+    }
+    canvasStateChange();
+
+
+    //  Function for make btn disabled end here 
+
+
     function addLine(points, id) {
         var line = new fabric.Line(points, {
             stroke: 'white',
@@ -858,18 +938,45 @@ $('.font-size').on('input', function() {
     var fontSize = parseInt($(this).val());
     updateSelectedTextObject('fontSize', fontSize);
 });
-$('.font-family').on('change', function() {
-    var fontFamily = $(this).val();
-    updateSelectedTextObject('fontFamily', fontFamily);
+// $('.font-family').on('change', function() {
+//     var fontFamily = $(this).val();
+//     updateSelectedTextObject('fontFamily', fontFamily);
+// });
+
+// function updateSelectedTextObject(property, value) {
+//     var activeObject = canvas.getActiveObject();
+//     if (activeObject && activeObject.type === 'i-text') {
+//         activeObject.set(property, value);
+//         canvas.renderAll();
+//     }
+// }
+var fontUrl = '/coustomizer/font/Noteworthy-Bold.woff2';
+
+// Load the font
+var font = new FontFace('Noteworthy', 'url(' + fontUrl + ')', {
+    style: 'normal',
+    weight: 'bold'
+});
+
+// Register and apply the font
+font.load().then(function(loadedFont) {
+    document.fonts.add(loadedFont);
+
+    // Update the font dropdown options
+    $('.font-family').on('change', function() {
+        var fontFamily = $(this).val();
+        updateSelectedTextObject('fontFamily', fontFamily);
+    });
 });
 
 function updateSelectedTextObject(property, value) {
     var activeObject = canvas.getActiveObject();
     if (activeObject && activeObject.type === 'i-text') {
         activeObject.set(property, value);
-        canvas.renderAll();
+        canvas.requestRenderAll(); // Use requestRenderAll instead of renderAll for better performance
     }
 }
+
 
 $('.bold-btn').on('click', function() {
     toggleTextStyle('bold');

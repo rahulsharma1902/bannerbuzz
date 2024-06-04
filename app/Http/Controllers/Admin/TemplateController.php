@@ -16,7 +16,7 @@ use App\Models\ShapeCategory;
 
 use App\Models\UploadImageTemplate;
 use Auth;
-
+use Session;
 class TemplateController extends Controller
 {
     public function index(Request $request){
@@ -119,6 +119,15 @@ class TemplateController extends Controller
 
     public function uploadImageTemplate(Request $request)
     {
+        $userType = Auth::check() ? 'User' : 'Guest';
+        $userId = Auth::id();
+        $temporaryUserId = Session::get('temporaryUserId');
+    
+        if (!$temporaryUserId && $userType === 'Guest') {
+            $temporaryUserId = (string) Str::uuid();
+            Session::put('temporaryUserId', $temporaryUserId);
+        }
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $extension = $image->getClientOriginalExtension();
@@ -132,7 +141,11 @@ class TemplateController extends Controller
             $image->move(public_path().'/UploadImages/', $imageName);
             $uploadImage = new UploadImageTemplate;
             $uploadImage->image = $imageName;
-            $uploadImage->user_id = $request->user_id;
+            if($userType == 'User'){
+                $uploadImage->user_id = $request->user_id;
+            }else{
+                $uploadImage->temporary_id = $temporaryUserId;
+            }
             $uploadImage->save();
             return response()->json(['success' => true, 'message' => $imageName]);
         } else {
@@ -156,7 +169,6 @@ class TemplateController extends Controller
     
 
     public function templateRemove(Request $request, $slug) {
-        $slug = $slug; // This line is redundant.
         if ($slug) {
             $template = Template::where('slug', $slug)->first();
             if ($template) {

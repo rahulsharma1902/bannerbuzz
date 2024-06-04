@@ -102,12 +102,18 @@ class ClipArtController extends Controller
             $clipart = Clipart::where('slug',$slug)->first();
             if ($clipart) {
                 $clipart->delete();
-                return response()->json('Clipart deleted successfully');
+                // return response()->json('Clipart deleted successfully');
+                return redirect()->back()->with('success', 'Clipart deleted successfully');
+
             } else {
-                return response()->json('Clipart not found');
+                return redirect()->back()->with('error', 'Clipart not found');
+
+                // return response()->json('Clipart not found');
             }
         } else {
-            return response()->json('Missing Clipart');
+            // return response()->json('Missing Clipart');
+            return redirect()->back()->with('error', 'Clipart not found');
+
         }
     }
 }

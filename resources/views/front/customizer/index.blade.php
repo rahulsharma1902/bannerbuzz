@@ -1,5 +1,23 @@
 @extends('front_layout/index')
 @section('content')
+<style>
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0; 
+    }
+    input#custom_width {
+    font-size: small;
+    }
+    input#custom_height {
+        font-size: small;
+    }
+    select#size_unit {
+    font-size: small;
+    }
+</style>
 <div class="main_div"></div>
 <header class="header_wrap">
     <nav class="navbar navbar-expand-lg">
@@ -234,8 +252,8 @@
                     </div>
                 </div>
                 <div class="hd_ryt_buttn ">
-                    <a hef="#" class="btn cta btn-pnk saveTemplate" template-data="{{ json_encode($templateData->templateData) ?? '' }}" template-id="{{ $templateData->id ?? '' }}">Save</a>
-                    <a hef="#" class="btn cta downloadCanvasToPng">Proceed & Checkout</a>
+                    <a href="#" class="btn cta btn-pnk saveTemplate" template-status="{{ $templateData->status ?? '0' }}" tempalte-data-variations="{{ $templateData->variations ?? '' }}" template-data="{{ json_encode($templateData->template_data) ?? '' }}" template-id="{{ $templateData->id ?? '' }}">Save</a>
+                    <a href="{{ url('review/designtool/' . $templateData->id) ?? '' }}" class="btn cta proceesToCheckouts">Proceed & Checkout</a>
                 </div>
             </div>
         </div>
@@ -412,7 +430,7 @@
 
                         <!-- <div class="tooltip toltp-10"> -->
 
-                        <!-- <button class="nav-link" data-for="step10"  id="v-pills-myd-tab" data-bs-toggle="pill"
+                        <button class="nav-link view_my_designs" data-for="step10w"  id="v-pills-myd-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-myd" type="button" role="tab" aria-controls="v-pills-myd"
                             aria-selected="false">
                             <span class="spride_img">
@@ -421,7 +439,7 @@
                                     alt=".." />
                             </span>
                             <p>My Design</p>
-                        </button> -->
+                        </button>
                         <!-- <div class="tooltip-text">
                                         My Design
                                     </div>
@@ -1353,8 +1371,8 @@
                     <div class="ryt-logo-img">
                         <div class="cusm-lgo">
                             <!-- <img src="{{ asset('coustomizer/img/custom-vinyl.png') }}" class="img-fluid" alt=".." /> -->
-                            @if($product->images)
-                                @php $imageArray = json_decode($product->images, true); @endphp
+                            @if($templateData->product['images'])
+                                @php $imageArray = json_decode($templateData->product['images'], true); @endphp
                                 @if(!empty($imageArray))
                                     @php $firstImage = array_shift($imageArray); @endphp
                                     <img src="{{ asset('product_Images/' . $firstImage) }}" class="img-fluid" alt=".." />
@@ -1364,7 +1382,7 @@
                             @endif
 
                         </div>
-                        <h6>{{ $product->name ?? '' }}</h6>
+                        <h6>{{ $templateData->product['name'] ?? '' }}</h6>
                     </div>
                     <div class="footer-size-main">
                         <a class="standard_size">Standard Size</a>
@@ -1372,75 +1390,122 @@
                     
                     <div id="table_custom_size" class="custom-size">
                         <ul class="custom_size">
-                        @if ($product->sizes->isNotEmpty())
+                        @if ($templateData->product['sizes']->isNotEmpty())
                                 
                             <li class="option sizeOptions">
                                 <div class="select_box">
-                                    <select id="select_size" name="select" class="form-control">
-                                        @foreach ($product->sizes as $size)
-                                        <option data-id="{{ $size->id }}" data-price="{{ $size->price }}" value="{{ $size->size_value }}">{{ $size->size_value }}</option>
-                                            @endforeach
-                                        <option value="custom">Custom</option>
-                                    </select>
+                                <select id="select_size" name="select" class="form-control">
+                                    @foreach ($templateData->product['sizes'] as $size)
+                                        <option data-id="{{ $size->id }}" data-price="{{ $size->price }}"
+                                            @if(!is_null($templateData->size_id) && $templateData->size_id == $size->id)
+                                                selected
+                                            @endif
+                                            value="{{ $size->size_value }}">{{ $size->size_value }}
+                                        </option>
+                                    @endforeach
+                                    <option value="custom"
+                                        @if(is_null($templateData->size_id) && !is_null($templateData->width) && !is_null($templateData->height))
+                                            selected
+                                        @endif
+                                    >Custom</option>
+                                </select>
+                               
                                 </div>
                             </li>
                             @endif
-                            <div style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
+                            <div style="display: {{ $templateData->product['sizes']->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
                             <li class="option">
                                 <div class="custome-size-title">W</div>
                                 <div class="customsize-wrapper sizeMeasurement">
-                                    <input data-unit="Ft" class="form-select form-control" type="number" name="custom_width" value="3" id="custom_width" placeholder="width">
+                                <input 
+                                data-unit="@php
+                                    switch(strtolower($templateData->dimension)) {
+                                        case 'ft':
+                                            echo 'Ft';
+                                            break;
+                                        case 'in':
+                                            echo 'In';
+                                            break;
+                                        case 'cm':
+                                            echo 'Cm';
+                                            break;
+                                        case 'mm':
+                                            echo 'Mm';
+                                            break;
+                                    }
+                                @endphp" 
+                                class="form-select form-control" min="1" type="number" name="custom_width" value="{{ $templateData->width ?? '3' }}" id="custom_width" placeholder="width" />
+
 
                                 </div>
                             </li>
                             </div>
-                            <div style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
+                            <div style="display: {{ $templateData->product['sizes']->isNotEmpty() ? 'none' : 'block' }};" class="custom_size_div" id="custom_size_div">
                                 <li class="option">
                                     <div class="custome-size-title">H</div>
                                     <div class="customsize-wrapper sizeMeasurement">
-                                        <input data-unit="Ft" class="form-select" type="number" name="custom_height" value="3" id="custom_height" placeholder="height">
+                                        <input data-unit="@php
+                                    switch(strtolower($templateData->dimension)) {
+                                        case 'ft':
+                                            echo 'Ft';
+                                            break;
+                                        case 'in':
+                                            echo 'In';
+                                            break;
+                                        case 'cm':
+                                            echo 'Cm';
+                                            break;
+                                        case 'mm':
+                                            echo 'Mm';
+                                            break;
+                                    }
+                                @endphp" class="form-select" type="number" min="1" name="custom_height" value="{{ $templateData->height ?? '3' }}" id="custom_height" placeholder="height">
 
                                     </div>
                                 </li>
-                                <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $product->price ?? '' }}">
+                                <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $templateData->product['price'] ?? '' }}">
                             </div>
                             <li class="option">
                                 <div class="select_box">
                                 <select id="size_unit" name="size_unit" class="form-select">
-                                    <option value="Ft">Ft</option>
-                                    <option value="In">inch</option>
-                                    <option value="Cm">Cm</option>
-                                    <option value="Mm">Mm</option>
+                                    <option value="Ft" @if(strtolower($templateData->dimension) == 'ft') selected @endif>Ft</option>
+                                    <option value="In" @if(strtolower($templateData->dimension) == 'in') selected @endif>Inch</option>
+                                    <option value="Cm" @if(strtolower($templateData->dimension) == 'cm') selected @endif>Cm</option>
+                                    <option value="Mm" @if(strtolower($templateData->dimension) == 'mm') selected @endif>Mm</option>
                                 </select>
+
                                 </div>
                             </li>
+
 
                            
                         </ul>
                     </div>
+                    <div><p class="errorShowSize text-start my-3 text-danger"></p></div>
                     <div class="ftr-size-price">
                     <div class="ftr-size-lft">
                         <p>
                             <span id="product_price">
-                                @if ($product->sizes->isNotEmpty())
-                                    ${{ $product->sizes->first()->price ?? '' }}
+                                @if ($templateData->product['sizes']->isNotEmpty())
+                                    ${{ $templateData->product['sizes']->first()->price ?? '' }}
                                 @else
-                                    {{ $product->price ?? '' }}
+                                    {{ $templateData->product['price'] ?? '' }}
                                 @endif
                             </span>
                             <span>Incl. VAT</span>
                         </p>
+                        
                     </div>
-
+                        
                         <div class="ftr-lnks">
-                            <a hef="#" style="display: {{ $product->sizes->isNotEmpty() ? 'none' : 'block' }};" class="btn cta applyBtn">Apply</a>
+                            <a hef="#" style="display: {{ $templateData->product['sizes']->isNotEmpty() ? 'none' : 'block' }};" class="btn cta applyBtn">Apply</a>
                         </div>
                     </div>
                     <div class="ryt-view-box">
                         <div class="editing-lnks">
                             <ul class="list-unstyled m-0">
                                 <li>
-                                    <button type="button" class="previewImage rytb btn" data-bs-toggle="modal"
+                                    <button disabled="disabled" type="button" class="previewImage rytb btn" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">
                                         <div class="tooltip tol-ryt">
                                             <span class="edt_lnk">
@@ -1455,7 +1520,7 @@
 
                                 </li>
                                 <li>
-                                    <button type="button" class="rytb btn shareImage" data-bs-toggle="modal"
+                                    <button type="button" disabled="disabled" class="rytb btn shareImage" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal2">
                                         <div class="tooltip tol-ryt">
                                             <span class="edt_lnk">
@@ -1563,24 +1628,24 @@
                                                 <ul class="top_li">
                                                     <li class="inpt_boxs">
                                                         <div class="form-group">
-                                                            <label class="mandate">Your Name</label>
+                                                            <label class="mandate">Your Name <span class="senderNameError text-danger"></span></label>
                                                             <input type="text" name="sendername" id="sendername"
-                                                                class="form-control" placeholder="Your Name" />
+                                                                class="form-control sendername" placeholder="Your Name" />
                                                         </div>
                                                     </li>
                                                     <li class="inpt_boxs">
                                                         <div class="form-group">
-                                                            <label class="mandate">Your Email</label>
+                                                            <label class="mandate">Your Email <span class="senderEmailError text-danger"></span></label>
                                                             <input type="text" name="senderemail" id="senderemail"
-                                                                class="form-control" placeholder="Receiver's Email" />
+                                                                class="form-control senderemail" placeholder="Receiver's Email" />
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li class="block-full">
                                                 <div class="form-group">
-                                                    <label>Email Notes</label>
-                                                    <textarea class="form-control" id="sendernotes" row="4" cols="10"
+                                                    <label>Email Notes <span class="senderNotesError text-danger"></span></label>
+                                                    <textarea class="form-control sendernotes" id="sendernotes" row="4" cols="10"
                                                         placeholder="Notes"></textarea>
                                                 </div>
                                             </li>
@@ -1589,7 +1654,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn cta">SEND ARTWORK</button>
+                                <button type="button" class="btn cta sendArtworkBtn">SEND ARTWORK</button>
                                 <button type="button" class="btn cta btn-pnk" data-bs-dismiss="modal">CANCEL</button>
                             </div>
                         </div>
@@ -1878,7 +1943,7 @@
                                                         <div class="form-group">
                                                             <label class="mandate">Template Name</label>
                                                             <input type="text" name="templateName" id="templateName"
-                                                                class="form-control" placeholder="Template Name" />
+                                                                class="form-control" placeholder="Template Name" value="{{ $templateData->name ?? '' }}"/>
                                                         </div>
                                                     </li>
                                                     
@@ -1899,20 +1964,51 @@
                     </div>
                 </div>
 <!-- end new html  -->
-<script src="{{ asset('coustomizer/js/template.js') ?? '' }}"></script>
+
+<!--  delete model end here -->
+<div class="modal fade" id="errorModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered class here -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="modelErrorData text-dark"></p>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="saveASData btn-pnk cta">OK</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+<!-- end new html  -->
+
+
+
 
 <script>
+        window.templateManagerData = {
+            saveDesignUrl: "{{ url('saveDesign') }}",
+            URL: "{{ url('') }}",
+            csrfToken: "{{ csrf_token() }}",
+            productId: "{{ $templateData->product['id'] ?? '' }}"
+        };
 </script>
+<script src="{{ asset('coustomizer/js/design.js') ?? '' }}"></script>
+
 <script>
 document.getElementById('imageUpload').addEventListener('change', function(e) {
     var imageFile = e.target.files[0];
     var formData = new FormData(); 
     formData.append('image', imageFile); 
-    formData.append('user_id', '{{ Auth::user()->id ?? '' }}');
-
+    formData.append('user_id', "{{ Auth::user()->id ?? '' }}");
+    console.warn(formData);
+    return false;
     $.ajax({
         method: 'POST',
-        url: '{{ url('admin-dashboard/template/uploadImage') }}',
+        url: "{{ url('admin-dashboard/template/uploadImage') }}",
         dataType: 'json',
         data: formData,
         processData: false,
@@ -1950,165 +2046,67 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
 });
 
 </script>
-<?php use Illuminate\Support\Facades\Session;
- ?>
-<script>
-$(document).ready( function(){
 
-    
-    var isAuthenticated = {!! json_encode(Auth::check()) !!};
-    $('.saveTemplate').on('click', function() {
-        var templateName = $('.templateName').val();
-        $("#exampleModal22").modal('show');
-            // saveTemplate();
-    });
-    $('.saveASData').on('click', function (){
-        var templateName  = " {{ session::get('lastTemplate') ?? '' }}";
-    });
-    $('.saveData').on('click', function (){
+ <!-- Save Functionality  -->
 
-    });
+<script src="{{ asset('coustomizer/js/saveDesign.js') }}?{{ time() }}"></script>
 
-    function saveTemplate() {
-        var canvasData = JSON.stringify(canvas.toJSON());
-        var sizeId = $('#select_size option:selected').data('id');
-        var productId = "{{ $product->id ?? '' }}";
-        var title = '';
-        // console.log(selectedOptionDataId);
-
-        console.log(sizeId);
-        var id = $('.saveTemplate').attr('template-id')
-            $.ajax({
-                type: 'POST',
-                url: '{{ url("saveDesign") ?? "" }}',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: id,
-                    sizeId:sizeId,
-                    productId:productId,
-                    title:title,
-                    templateDataFront: canvasData
-                },
-                success: function(response) {
-                    console.log(response);
-                    // alert('Template saved successfully!');
-                },
-                error: function(error) {
-                    console.error('Error saving template:', error);
-                }
-            });
-
-    }
-});
-</script>
 <script src="{{ asset('coustomizer/js/frontScript.js') }}?{{ time() }}"></script>
 
-
-
-
-<script>
-    
-    // $('#select_size').on('change', function() {
-
-    //     var size_value = $(this).val();
-
-    //     var selectedOption = this.options[this.selectedIndex];
-    //     var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
-    //     var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-    //     var totalPrice = 0;
-    //     $('.product_variation').each(function() {
-    //         var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-    //         totalPrice += selectedPrice;
-    //     });
-    //     $('#product_price_input').val(selectedprice);
-    //     $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice));
-    //     $('#product_price').text('$' + (selectedprice + totalPrice ));
-    // });
-
-    // $('#size_unit').on('change', function() {
-    //     var unit_value = $(this).val();
-    //     var productID = "{{ $product->id }}";
-    //     var selectedSize = $('#select_size').val();
-    //     updateSize(productID, unit_value, selectedSize);
-    // });
-
-    // function updateSize(id, value, selectedSize) {
-    //             $.ajax({
-    //                 url: "{{ url('/product/sizes/') }}" + "/" + id,
-    //                 type: 'GET',
-    //                 success: function(data) {
-    //                     var sizeSelect = $('#select_size');
-    //                     if (data.length > 0) {
-    //                         sizeSelect.show();
-    //                         sizeSelect.empty();
-    //                         if (value == 'In') {
-    //                             unit_value = 12;
-    //                         } else if (value == 'Cm') {
-    //                             unit_value = 30;
-    //                         } else if (value == 'Mm') {
-    //                             unit_value = 304;
-    //                         } else if (value == 'Ft') {
-    //                             unit_value = 1;
-    //                         }
-    //                         $.each(data, function(index, size) {
-    //                             if (size.size_type == 'wh' || size.size_type == 'DH') {
-    //                                 if (selectedSize == size.size_value) {
-    //                                     size_values = size.size_value.split('X');
-    //                                     sizeSelect.append('<option selected data-sizeType="' +
-    //                                         size
-    //                                         .size_type + '" data-price="' + size.price +
-    //                                         '" value="' + size.size_value + '">' +
-    //                                         +parseFloat(size_values[0]) * unit_value +
-    //                                         ' X ' +
-    //                                         parseFloat(size_values[1]) * unit_value +
-    //                                         '</option>');
-    //                                 } else {
-    //                                     size_values = size.size_value.split('X');
-    //                                     sizeSelect.append('<option data-sizeType="' + size
-    //                                         .size_type + '" data-price="' + size.price +
-    //                                         '" value="' + size.size_value + '">' +
-    //                                         +parseFloat(size_values[0]) * unit_value +
-    //                                         ' X ' +
-    //                                         parseFloat(size_values[1]) * unit_value +
-    //                                         '</option>');
-    //                                 }
-
-    //                             } else {
-    //                                 if (selectedSize == size.size_value) {
-    //                                     sizeSelect.append('<option selected data-sizeType="' +
-    //                                         size
-    //                                         .size_type + '" data-price="' + size.price +
-    //                                         '" value="' + size.size_value + '">' +
-    //                                         parseFloat(size.size_value) * unit_value +
-    //                                         '</option>');
-    //                                 } else {
-    //                                     sizeSelect.append('<option data-sizeType="' + size
-    //                                         .size_type + '" data-price="' + size.price +
-    //                                         '" value="' + size.size_value + '">' +
-    //                                         parseFloat(size.size_value) * unit_value +
-    //                                         '</option>');
-    //                                 }
-    //                             }
-    //                         });
-    //                     } else {
-    //                         sizeSelect.hide();
-    //                     }
-    //                 },
-    //             });
-    //         }
-
-</script>
 <script>
     $(document).ready( function (){
+
+        setTimeout(function() {
+            var productId = "{{ $templateData->product['id'] ?? '' }}";
+            var dimension = $('#size_unit option:selected').val();
+            var sizeId = $('#select_size option:selected').val();
+            var size = "{{ $templateData->size_id ?? '' }}";
+            if (size) {
+                updateSize(productId, dimension, sizeId);
+            } else {
+                $('#select_size').trigger("change");
+            }
+        }, 10); 
+
+        $('#custom_width, #custom_height').on('change',function(){
+            var unit = $(this).data('unit');
+
+            if (unit == 'In') {
+                min_value = 12;
+            } else if (unit == 'Cm') {
+                min_value = 30;
+            } else if (unit == 'Mm') {
+                min_value = 300;
+            } else if (unit == 'Ft') {
+                min_value = 1;
+            }
+
+            let width = $('#custom_width').val();
+            let height = $('#custom_height').val();
+
+            if(width < min_value ){
+                $('#custom_width').val(min_value);
+            }
+            if(height < min_value ){
+                $('#custom_height').val(min_value);
+            }
+        });
+
         // $('.applyBtn').hide();
         $('.standard_size').on('click', function (){
-            $('#select_size').prop("selectedIndex", 0);
+            // $('#select_size').prop("selectedIndex", 0);
             $('.applyBtn').hide();
+            
             $('.sizeOptions').show();
             $('.custom_size_div').hide();
-            $('#select_size').trigger('change');
-        })
-        async function customSize(){
+            // $('#select_size').trigger('change');
+            var productId = "{{ $templateData->product['id'] ?? '' }}";
+            var dimension = $('#size_unit option:selected').val();
+            var sizeId = $('#select_size option:selected').val();
+            updateSize(productId,dimension,sizeId);
+           
+        });
+            async function customSize(){
                 $('.custom_size_div').show();
                 var pricePerUnit = await priceratio();
                 
@@ -2145,7 +2143,6 @@ $(document).ready( function(){
 
             async function priceratio() {
                 var main_price = parseFloat($('#product_default_price').val());
-                console.warn(main_price);
                 var value =  $('#size_unit').val(); 
                 var unit_value;
 
@@ -2207,11 +2204,15 @@ $(document).ready( function(){
             $('#select_size').on('change', function() {
 
                 var size_value = $(this).val();
+
+                var unit_value = $('#size_unit').val();
                 if(size_value == 'custom'){
                     $('.sizeOptions').hide();
                     $('.applyBtn').show();
-                    $('.applyBtn').click();
+                    // $('.applyBtn').click();
+                    UpdateCustomSize(unit_value);
                     customSize();
+                    $('.applyBtn').click();
                 } else {
                     // $('#select_size').show();
                     $('.applyBtn').hide();
@@ -2259,12 +2260,14 @@ $(document).ready( function(){
                 var unit_value = $(this).val();
                 if(size_value == 'custom'){
                    UpdateCustomSize(unit_value);
-                } else {
+                   return true;
+                }
+                //  else {
                     var unit_value = $(this).val();
-                    var productID = "{{ $product->id }}";
+                    var productID = "{{ $templateData->product['id'] ?? '' }}";
                     var selectedSize = $('#select_size').val();
                     updateSize(productID, unit_value, selectedSize);
-                }
+                // }
                 
             
             });
@@ -2291,7 +2294,7 @@ $(document).ready( function(){
                                 if (size.size_type == 'wh' || size.size_type == 'DH') {
                                     if (selectedSize == size.size_value) {
                                         size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option selected data-sizeType="' +
+                                        sizeSelect.append('<option data-id="'+ size.id +' "selected data-sizeType="' +
                                             size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
@@ -2301,7 +2304,7 @@ $(document).ready( function(){
                                             '</option>');
                                     } else {
                                         size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option data-sizeType="' + size
+                                        sizeSelect.append('<option data-id="'+ size.id +' "data-sizeType="' + size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             +parseFloat(size_values[0]) * unit_value +
@@ -2312,14 +2315,14 @@ $(document).ready( function(){
 
                                 } else {
                                     if (selectedSize == size.size_value) {
-                                        sizeSelect.append('<option selected data-sizeType="' +
+                                        sizeSelect.append('<option data-id="'+ size.id +' "selected data-sizeType="' +
                                             size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             parseFloat(size.size_value) * unit_value +
                                             '</option>');
                                     } else {
-                                        sizeSelect.append('<option data-sizeType="' + size
+                                        sizeSelect.append('<option data-id="'+ size.id +' "data-sizeType="' + size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             parseFloat(size.size_value) * unit_value +
@@ -2345,8 +2348,6 @@ $(document).ready( function(){
                     },
                 });
             }
-
-        
         });
 </script>
 

@@ -264,52 +264,116 @@ function initializeSlick(){
     });
 
 
-var $slider = $(".arrivals_slider");
-var $progressBar = $(".arrivals_progress");
-var $progressBarLabel = $(".arrivals_progress .slider__label");
+    var $slider = $(".arrivals_slider");
+    var $progressBar = $(".arrivals_progress");
+    var $progressBarLabel = $(".arrivals_progress .slider__label");
 
-$slider.on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-    var calc = (nextSlide / (slick.slideCount - 1)) * 100;
+    $slider.on("beforeChange", function (event, slick, currentSlide, nextSlide) {
+        var calc = (nextSlide / (slick.slideCount - 1)) * 100;
 
-    $progressBar.css("background-size", calc + "% 100%").attr("aria-valuenow", calc);
+        $progressBar.css("background-size", calc + "% 100%").attr("aria-valuenow", calc);
 
-    $progressBarLabel.text(calc + "% completed");
-});
+        $progressBarLabel.text(calc + "% completed");
+    });
 
-$slider.slick({
-    infinite: true,
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
-    arrows: true,
-    prevArrow: '<button class="prev-arrow fa-solid fa-chevron-left"></button>',
-    nextArrow: '<button class="next-arrow fa-solid fa-chevron-right"></button>',
-    speed: 800,
-    dots: false,
-    autoplay: false,
-    responsive: [
-    ,
-    {
-        breakpoint: width,
-        settings: {
-            slidesToShow: slidesToShow,
-            slidesToScroll: 1,
+    $slider.slick({
+        infinite: true,
+        slidesToShow: slidesToShow,
+        slidesToScroll: 1,
+        arrows: true,
+        prevArrow: '<button class="prev-arrow fa-solid fa-chevron-left"></button>',
+        nextArrow: '<button class="next-arrow fa-solid fa-chevron-right"></button>',
+        speed: 800,
+        dots: false,
+        autoplay: false,
+        responsive: [
+        ,
+        {
+            breakpoint: width,
+            settings: {
+                slidesToShow: slidesToShow,
+                slidesToScroll: 1,
+            },
         },
-    },
-    {
-        breakpoint: width,
-        settings: {
-            slidesToShow: slidesToShow,
-            slidesToScroll: 1,
+        {
+            breakpoint: width,
+            settings: {
+                slidesToShow: slidesToShow,
+                slidesToScroll: 1,
+            },
         },
-    },
-    {
-        breakpoint: width,
-        settings: {
-            slidesToShow: slidesToShow,
-            slidesToScroll: 1,
+        {
+            breakpoint: width,
+            settings: {
+                slidesToShow: slidesToShow,
+                slidesToScroll: 1,
+            },
         },
-    },
-    ],
-});
+        ],
+    });
 }
 
+// function increaseValue(button, limit) {
+//     const numberInput = button.parentElement.querySelector(".number");
+//     var value = parseInt(numberInput.innerHTML, 10);
+//     if (isNaN(value)) value = 0;
+//     if (limit && value >= limit) return;
+//     numberInput.innerHTML = value + 1;
+// }
+
+// function decreaseValue(button) {
+//     const numberInput = button.parentElement.querySelector(".number");
+//     var value = parseInt(numberInput.innerHTML, 10);
+//     if (isNaN(value)) value = 0;
+//     if (value < 1) return;
+//     numberInput.innerHTML = value - 1;
+// }
+
+function increaseValue(button, limit) {
+    var numberInput = button.parentElement.querySelector(".number");
+    var value = parseInt(numberInput.value, 10);
+    if (isNaN(value)) value = 0;
+    if (limit && value >= limit) return;
+    numberInput.value = value + 1;
+    $(numberInput).trigger('change');
+}
+
+function decreaseValue(button) {
+    var numberInput = button.parentElement.querySelector(".number");
+    var value = parseInt(numberInput.value, 10);
+    if (isNaN(value)) value = 0;
+    if (value < 1) return;
+    numberInput.value = value - 1;
+    $(numberInput).trigger('change');
+}
+
+$(".tab-menu li a").on("click", function () {
+    var target = $(this).attr("data-rel");
+    $(".tab-menu li a").removeClass("active");
+    $(this).addClass("active");
+    $("#" + target)
+        .fadeIn("slow")
+        .siblings(".tab-box")
+        .hide();
+    return false;
+});
+
+var step = 100;
+var scrolling = true;
+
+// Wire up events for the 'scrollUp' link:
+$(".preSlide").bind("click", function (event) {
+    event.preventDefault();
+    // Animates the scrollTop property by the specified
+    // step.
+    $("div").animate({
+        scrollLeft: "+=" + step + "px"
+    });
+});
+
+$(".nextSlide").bind("click", function (event) {
+    event.preventDefault();
+    $("div").animate({
+        scrollLeft: "-=" + step + "px"
+    });
+});

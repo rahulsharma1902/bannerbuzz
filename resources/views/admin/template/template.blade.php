@@ -1113,6 +1113,7 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
+                                                <option style="font-family: 'Noteworthy';" value="Mona Sans">Noteworthy</option>
                                                 <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
                                                 <option style="font-family: 'Arial';" value="Arial">Arial</option>
                                                 <option style="font-family: 'Rockwell;';" value="Rockwell">Rockwell</option>
@@ -1371,7 +1372,7 @@
                         <div class="editing-lnks">
                             <ul class="list-unstyled m-0">
                                 <li>
-                                    <button type="button" class="rytb btn" data-bs-toggle="modal"
+                                    <button type="button" class="previewImage rytb btn" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">
                                         <div class="tooltip tol-ryt">
                                             <span class="edt_lnk">
@@ -1386,7 +1387,7 @@
 
                                 </li>
                                 <li>
-                                    <button type="button" class="rytb btn" data-bs-toggle="modal"
+                                    <button type="button" class="shareImage rytb btn" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal2">
                                         <div class="tooltip tol-ryt">
                                             <span class="edt_lnk">

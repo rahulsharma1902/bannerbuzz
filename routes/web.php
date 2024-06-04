@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\SiteControllers\HomeController;
 use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
 use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
 use App\Http\Controllers\Front\ViewController;
+use App\Http\Controllers\Front\CheckoutController;
+
 use App\Models\BlogCategory;
 
 /*
@@ -94,7 +96,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/clipart-view', [ClipArtController::class, 'index']);
     Route::get('admin-dashboard/clipart-edit/{slug}', [ClipArtController::class, 'edit']);
     Route::post('admin-dashboard/clipart-editProcc', [ClipArtController::class, 'editProcc']);
-    Route::post('admin-dashboard/clipart-remove/{slug}', [ClipArtController::class, 'editProcc']);
+    Route::any('admin-dashboard/clipart-remove/{slug}', [ClipArtController::class, 'remove']);
 
     // template Category  TemplateCategoryController  TemplateController
     Route::get('admin-dashboard/template-category', [TemplateCategoryController::class, 'index']);
@@ -193,12 +195,30 @@ Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('sp
 Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
 
 
+//::::::::::::::::::::::::Checkout Route :::::::::::::::::::::::::::::::://
+
+
+Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
+
+
+// :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
+
+
 
 // :::::::::::::::::Customizer 
 
-Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+// Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
+Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
+Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns']);
 
 Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
+Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
+
+Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
+
+
+Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
 
 // :::::::::::::::::Customizer route end here
 
@@ -213,6 +233,15 @@ Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildC
 Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
 Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
 
+Route::post('/upload-dropbox-file',[CustomizerController::class, 'uploadFile']);
+
+Route::get('dropbox/connect', function(){
+    return Dropbox::connect();
+});
+
+Route::get('dropbox/disconnect', function(){
+    return Dropbox::disconnect('app/dropbox');
+});
 
 
 

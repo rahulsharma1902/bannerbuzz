@@ -236,11 +236,13 @@ class AccessoriesController extends Controller
                                 $variation_data[$i]->value = $request->$var_value[$i];
                                 $variation_data[$i]->price = $request->$var_price[$i];
                                 $variation_data[$i]->description = $request->$var_description[$i];
-                                if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
-                                    $image = $request->file($var_images)[$i];
-                                    $filename = $request->$var_value[$i] . time() . '.' . $image->extension();
-                                    $image->move(public_path() . '/accessories_Images/', $filename);
-                                    $variation_data[$i]->image = $filename;
+                                if (isset($request->$var_images[$i])) {
+                                    if ($request->hasFile($var_images) && $request->file($var_images)[$i]->isValid()) {
+                                        $image = $request->file($var_images)[$i];
+                                        $filename = $request->$var_value[$i] . time() . '.' . $image->extension();
+                                        $image->move(public_path() . '/accessories_Images/', $filename);
+                                        $variation_data[$i]->image = $filename;
+                                    }
                                 }
                                 $variation_data[$i]->save();
                             } else {

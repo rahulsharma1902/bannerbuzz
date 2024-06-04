@@ -2,13 +2,17 @@ $(document).ready(function () {
 
     // Code for show canvas image in the model 
     function getCanvasImage(){
-        var canvas = document.getElementById('customCanvas');
+        // var canvas = document.getElementById('customCanvas');
         if (canvas) {
+            
+            canvas.discardActiveObject();
+            canvas.renderAll();
             var imageUrl = canvas.toDataURL("image/png");
             var img = $('<img>');
             img.attr('src', imageUrl);
             return img;
         }
+        
     }
     $('.previewImage').on('click', function () {
         $('.previewImageBody').html('');
