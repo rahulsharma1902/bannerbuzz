@@ -98,17 +98,25 @@ document.addEventListener("DOMContentLoaded", function() {
                     break;
                 case 'z':
                     undo();
-                    console.log('Undo');
                     break;
                 case 'y':
                     redo();
-                    console.log('Redo');
+                    break;
+                case 'l':
+                    leaveElement();
                     break;
                 default:
                     break;
             }
         }
     });
+    function leaveElement() {
+        const activeObject = canvas.getActiveObject();
+        if (activeObject) {
+            canvas.discardActiveObject();
+            canvas.renderAll();
+        }
+    }
 
 //   this is use for add scalling border in canvas ::
 //   var canvas2=document.getElementById("canvasRuler");
@@ -529,6 +537,7 @@ var countObj = 0;
     
         }
     });
+   
     // const horizontalLine = document.getElementById('horizontalLine');
     // const verticalLine = document.getElementById('verticalLine');
     // canvas.on('mouse:move', function(options) {
@@ -712,114 +721,64 @@ $('.undoButton').on('click', function() {
 $('.redoButton').on('click', function() {
     redo();
 });
-// $('.arcRadiusSlider').on('input', function() {
-//     var newRadius = parseInt($(this).val(), 10);
-//     simulateArcText(newRadius);
-// });
-
-// function simulateArcText(newRadius) {
-//     var activeObject = canvas.getActiveObject();
-//     if (activeObject) {
-//         var originalScaleY = activeObject.scaleY;
-//         var newScale = newRadius / 100; // Example calculation, adjust as needed
-
-//         activeObject.scaleY = newScale * originalScaleY; 
-        
-//         canvas.renderAll();
-//     }
-// }
-
 
 // end of undo and redo
 
 function changeState(){
     captureState();
 }
+
 function cngBackgroungColor(color) {
-    $('.adjustBtnClr').css({backgroundColor: color});
+    // Change button background color
+    $('.adjustBtnClr').css({ backgroundColor: color });
+
+    // Set the canvas background color
     canvas.backgroundColor = color;
 
-    // Check if there is a background image and remove it
-    canvas.getObjects().find(function(obj) {
-        if (obj.stroke === 'imageBgStroke') {
-            canvas.remove(obj);
-        }
-    });
-    // if (currentBgImageSrc) {
-    //     var existingBgImage = canvas.getObjects().find(function(obj) {
-    //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-    //     });
-
-    //     if (existingBgImage) {
-    //         canvas.remove(existingBgImage);
-    //         currentBgImageSrc = null; // Reset the current background image source
-    //     }
-    // }
-
+    // Render the canvas to apply the changes
     canvas.renderAll();
 }
 
-$('.colorChange').on('click', function() {
+$('.colorChange').on('click', function () {
     var bgColor = $(this).attr('bgColor');
-    if($('#hidden_color_picker').hasClass('changeShapeClr')){
+    if ($('#hidden_color_picker').hasClass('changeShapeClr')) {
         updateActiveObjectColor(bgColor);
-    }else{
-
+    } else {
         cngBackgroungColor(bgColor);
     }
 });
 
-
 function handleColorInput() {
     var color = document.getElementById('hidden_color_picker').value;
-    if($('#hidden_color_picker').hasClass('changeShapeClr')){
+    if ($('#hidden_color_picker').hasClass('changeShapeClr')) {
         updateActiveObjectColor(color);
-    }else{
-
+    } else {
         cngBackgroungColor(color);
     }
 }
 
-document.querySelectorAll('#background_color_picker, #trigger_color_picker').forEach(function(button) {
-    button.addEventListener('click', function() {
+document.querySelectorAll('#background_color_picker, #trigger_color_picker').forEach(function (button) {
+    button.addEventListener('click', function () {
         document.getElementById('hidden_color_picker').click();
     });
 });
 
 document.getElementById('hidden_color_picker').addEventListener('input', handleColorInput);
 
-
-// var currentBgImageSrc = null;
-
 function setBackground(imageSrc) {
     if (imageSrc) {
-        // if (currentBgImageSrc) {
-        //     var existingBgImage = canvas.getObjects().find(function(obj) {
-        //         return obj.type === 'image' && obj._element && obj._element.src === currentBgImageSrc;
-        //     });
-
-        //     if (existingBgImage) {
-        //         canvas.remove(existingBgImage);
-                
-        //     }
-        // }else{
-        //     var existingBgImage = canvas.getObjects().find(function(obj) {
-        //         if (obj.stroke === 'imageBgStroke') {
-        //             canvas.remove(obj);
-        //         }
-        //     });
-        // }
-        // currentBgImageSrc = imageSrc;
-        canvas.getObjects().find(function(obj) {
+        // Remove existing background image
+        canvas.getObjects().forEach(function (obj) {
             if (obj.stroke === 'imageBgStroke') {
                 canvas.remove(obj);
             }
         });
 
-        fabric.Image.fromURL(imageSrc, function(img) {
+        // Load and set the new background image
+        fabric.Image.fromURL(imageSrc, function (img) {
             // Get the scale to fit the image within the canvas
             var scale = Math.min(
-                canvas.width / img.width,    
+                canvas.width / img.width,
                 canvas.height / img.height
             );
 
@@ -831,17 +790,13 @@ function setBackground(imageSrc) {
                 top: (canvas.height / 2) - ((img.height * scale) / 2),
                 originX: 'left',
                 originY: 'top',
-                selectable: true,
-                hasControls: true,
-                hasBorders: false,
-                globalCompositeOperation: 'destination-over',
-                stroke:'imageBgStroke',
+                selectable: true, // Make the background image selectable
+                hasControls: true, // Enable controls for resizing
+                hasBorders: true,
+                stroke: 'imageBgStroke',
             });
 
-            // Do not change canvas dimensions
-            // canvas.setDimensions({width: imgWidth, height: imgHeight}, {backstoreOnly: false});
-
-            canvas.backgroundColor = 'rgba(0, 0, 0, 0)';
+            // Add the image to the canvas and send it to the back
             canvas.add(img);
             canvas.sendToBack(img);
             canvas.renderAll();
@@ -850,6 +805,7 @@ function setBackground(imageSrc) {
         console.error("Invalid image source:", imageSrc);
     }
 }
+
 
 
 //  Background function end here ::
@@ -938,36 +894,19 @@ $('.font-size').on('input', function() {
     var fontSize = parseInt($(this).val());
     updateSelectedTextObject('fontSize', fontSize);
 });
-// $('.font-family').on('change', function() {
-//     var fontFamily = $(this).val();
-//     updateSelectedTextObject('fontFamily', fontFamily);
-// });
-
-// function updateSelectedTextObject(property, value) {
-//     var activeObject = canvas.getActiveObject();
-//     if (activeObject && activeObject.type === 'i-text') {
-//         activeObject.set(property, value);
-//         canvas.renderAll();
-//     }
-// }
-var fontUrl = '/coustomizer/font/Noteworthy-Bold.woff2';
-
-// Load the font
-var font = new FontFace('Noteworthy', 'url(' + fontUrl + ')', {
-    style: 'normal',
-    weight: 'bold'
+$('.font-family').on('change', function() {
+    var fontFamily = $(this).val();
+    updateSelectedTextObject('fontFamily', fontFamily);
 });
 
-// Register and apply the font
-font.load().then(function(loadedFont) {
-    document.fonts.add(loadedFont);
+function updateSelectedTextObject(property, value) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set(property, value);
+        canvas.renderAll();
+    }
+}
 
-    // Update the font dropdown options
-    $('.font-family').on('change', function() {
-        var fontFamily = $(this).val();
-        updateSelectedTextObject('fontFamily', fontFamily);
-    });
-});
 
 function updateSelectedTextObject(property, value) {
     var activeObject = canvas.getActiveObject();
@@ -1067,10 +1006,12 @@ function setrangeValues() {
         var charSpacing = activeObject.get('charSpacing');
         var lineHeight = activeObject.get('lineHeight');
         var backgroundColor = activeObject.get('backgroundColor');
+        var borderColor = activeObject.get('stroke');
         
         $('.cngLetterSpace').val(charSpacing);
         $('.cngLetterHeight').val(lineHeight);
         $('.highlightBg').val(backgroundColor);
+        $('.borderColor').val(borderColor);
     }
 }
 
@@ -1086,6 +1027,40 @@ $('.highlightBg').on('input', function() {
     var highlightColor = $(this).val();
     changeHighlightColor(highlightColor);
 });
+$('.borderColor').on('input', function() {
+    var borderClr = $(this).val();
+    changeBorderColor(borderClr);
+});
+
+
+$('.cngBorderRadious').on('input', function() {
+    var borderRadius = $(this).val();
+    console.warn(borderRadius);
+    changeBorderWidth(borderRadius);
+});
+
+function changeBorderWidth(width) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject) {
+        if (activeObject.type === 'i-text') {
+            activeObject.set({ strokeWidth: width });
+            canvas.renderAll();
+        }
+    }
+}
+
+
+function changeBorderColor(color) {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject) {
+        if (activeObject.type === 'i-text') {
+            // Check if the object is an iText object
+            activeObject.set({ stroke: color });
+            canvas.renderAll();
+        }
+    }
+}
+
 
 function changeHighlightColor(color) {
     var activeObject = canvas.getActiveObject();

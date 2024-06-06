@@ -64,6 +64,11 @@
         <!-- malihu js link  -->
         <link rel="stylesheet" href="{{ asset('coustomizer/js/malihuJquery.js') }}?{{ time() }}">
         <!-- malihu js link end -->
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        </style>
+
     </head>
     <body>
         @yield('content')

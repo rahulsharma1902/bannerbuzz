@@ -49,6 +49,13 @@ class TemplateController extends Controller
                     $template->slug = $request->slug;
                     $template->category_id = $request->category_id;
                     if ($request->hasFile('image')) {
+                        if (!empty($template->image)) {
+                            $oldImagePath = public_path('TemplateImage') . '/' . $template->image;
+                            if (file_exists($oldImagePath)) {
+                                unlink($oldImagePath);
+                            }
+                        } 
+                        
                         $featuredImage = $request->file('image');
                         $extension = $featuredImage->getClientOriginalExtension();
                         $featuredImageName = 'template_'.rand(0,1000).time().'.'.$extension;;

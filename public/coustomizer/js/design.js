@@ -98,18 +98,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 break;
             case 'z':
                 undo();
-                console.log('Undo');
                 break;
             case 'y':
                 redo();
-                console.log('Redo');
                 break;
-            default:
+            case 'l':
+                leaveElement();
                 break;
+                default:
+                    break;
+            }
+        }
+    });
+    function leaveElement() {
+        const activeObject = canvas.getActiveObject();
+        if (activeObject) {
+            canvas.discardActiveObject();
+            canvas.renderAll();
         }
     }
-});
-
 
 
 //   this is use for add scalling border in canvas ::

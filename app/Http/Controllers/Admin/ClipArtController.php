@@ -75,11 +75,20 @@ class ClipArtController extends Controller
             }
             try {
                 $clipart = Clipart::find($request->id);
+                
                 $clipart->name = $request->name;
                 $clipart->slug = $request->slug;
                 $clipart->category_id = $request->category_id;
                 
                 if ($request->hasFile('image')) {
+
+                    if (!empty($clipart->image)) {
+                        $oldImagePath = public_path('ClipArtImage') . '/' . $clipart->image;
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    } 
+                    
                     $featuredImage = $request->file('image');
                     $extension = $featuredImage->getClientOriginalExtension();
                     $featuredImageName = 'Clipart_' . rand(0, 1000) . time() . '.' . $extension;

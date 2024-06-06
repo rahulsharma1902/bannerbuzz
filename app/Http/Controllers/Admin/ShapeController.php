@@ -79,6 +79,13 @@ class ShapeController extends Controller
                 $shape->category_id = $request->category_id;
                 
                 if ($request->hasFile('image')) {
+                    if (!empty($shape->image)) {
+                        $oldImagePath = public_path('ShapeImage') . '/' . $shape->image;
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    } 
+                    
                     $featuredImage = $request->file('image');
                     $extension = $featuredImage->getClientOriginalExtension();
                     $featuredImageName = 'Shape_' . rand(0, 1000) . time() . '.' . $extension;
@@ -98,16 +105,19 @@ class ShapeController extends Controller
     }
 
     public function remove(Request $request,$slug) {
+
         if ($slug) {
             $shape = Shape::where('slug',$slug)->first();
             if ($shape) {
                 $shape->delete();
+
+                return redirect()->back()->with('success', 'Shape deleted successfully');
                 return response()->json('shape deleted successfully');
             } else {
-                return response()->json('shape not found');
+                return redirect()->back()->with('error', 'Failed Shape Not Found');
             }
         } else {
-            return response()->json('Missing shape');
+            return redirect()->back()->with('error', 'Failed Shape Not Found.');
         }
     }
 }

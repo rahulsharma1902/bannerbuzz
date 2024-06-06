@@ -1113,9 +1113,11 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option style="font-family: 'Noteworthy';" value="Mona Sans">Noteworthy</option>
+                                                <option style="font-family: 'Noteworthy';" value="Noteworthy">Noteworthy</option>
+                                                <option style="font-family: 'Apple Chancery';" value="Apple Chancery">Apple Chancery</option>
+                                                <option style="font-family: 'Great Vibes';" value="Great Vibes">Great Vibes</option>
                                                 <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
-                                                <option style="font-family: 'Arial';" value="Arial">Arial</option>
+                                                <option style="font-family: ArialMT, latin;" value="Arial">Arial</option>
                                                 <option style="font-family: 'Rockwell;';" value="Rockwell">Rockwell</option>
                                                 <option style="font-family: 'emoji';" value="emoji">emoji</option>
                                                 <option style="font-family: 'math';" value="math">math</option> 
@@ -1594,6 +1596,10 @@
                                                             <div class="short-key">Ctrl + Y</div>
                                                         </li>
                                                         <li>
+                                                            <div class="short-name">Unselect Active Object</div>
+                                                            <div class="short-key">Ctrl + L</div>
+                                                        </li>
+                                                        <li>
                                                             <div class="short-name">Move object towards left</div>
                                                             <div class="short-key">Left</div>
                                                         </li>
@@ -1747,7 +1753,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display: flex; justify-content: space-between;">
             <div class="text-stroke-box" style="">
                 <label>Text Highlight</label>
                 <div class="stroke-box">
@@ -1765,7 +1771,40 @@
                         class="color_param_change" data-param="textBackgroundColor" data-type="text"
                         aria-label="Text Highlight">
                 </div>
+                
             </div>
+
+
+            <div class="text-stroke-box" style="">
+                <label>Text Border Color</label>
+                <div class="stroke-box">
+                    <div class="asColorPicker-wrap">
+                        <button title="Add Color" class="btnaddcolor" id="text_highlight_color_picker">
+                            <div class="color_picker">
+                                <input class="borderColor" type="color" id="favcolor" name="favcolor" value="#fff">
+                            </div>
+                        </button>
+                        <div class="asColorPicker-trigger">
+                            <span style=""></span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="text_background_color_box" id="text_background_color_box" value=""
+                        class="color_param_change" data-param="textBorderColor" data-type="text"
+                        aria-label="Text Border">
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="line-height">
+                <label>Border Radious</label>
+                <div class="range-slider">
+                    <input class="range-slider__range lineHeight cngBorderRadious" type="range" value="1" min="1" max="10" step="0.1"
+                        id="line_height_range_sliders">
+                    <span class="range-slider__value" id="line_height_slider_values"></span>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -1790,6 +1829,30 @@
                         </div>
 
 <!--  delete model end here -->
+
+
+
+<!--  delete model end here -->
+<div class="modal fade" id="errorModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered class here -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="modelErrorData text-dark"></p>
+            </div>
+            <div class="modal-footer" style="justify-content: center;" >
+                <button type="button" data-bs-dismiss="modal" class="btn-center btn-pnks cta">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- end new html  -->
+
+
 
 <!-- end new html  -->
 <script src="{{ asset('coustomizer/js/template.js') ?? '' }}"></script>
@@ -1859,10 +1922,14 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
             },
             success: function(response) {
                 console.log(response);
-                alert('Template saved successfully!');
+                // alert('Template saved successfully!');
+                $('.modelErrorData').text('Congratulations, Your Template has been saved successfully.');
+                $('#errorModel').modal('show'); 
             },
             error: function(error) {
                 console.error('Error saving template:', error);
+                $('.modelErrorData').text(error);
+                $('#errorModel').modal('show'); 
             }
         });
 

@@ -1,5 +1,6 @@
 @extends('front_layout.master')
 @section('content')
+
     <section class="vinyl_wrapper">
         <div class="container">
             <div class="">
@@ -9,6 +10,11 @@
             </div>
         </div>
     </section>
+    <div style="display: none;" id="overlay">
+		<div class="loader">
+			<div class="spinner"></div>
+		</div>
+	</div>
     @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0">
             <div class="container">
@@ -17,21 +23,20 @@
                         <div class="shop_dt_img">
                             @foreach (json_decode($product->images) as $index => $image)
                                 @if ($index == 0)
-                                    <div class="shop_dt_img_inner">
-                                        <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                    <div class="shop_dt_img_inner" >
+                                        <img id="main-image" src="{{ asset('product_Images') }}/{{ $image }}">
                                     </div>
                                     <ul>
-                                    @else
-                                        <li>
-                                            <img width="130px" height="60px"
-                                                src="{{ asset('product_Images') }}/{{ $image }}">
-                                        </li>
                                 @endif
+                                    <li class="list-image-container @if($index == 0) active @endif" >
+                                        <img class="list-image" width="130px" height="60px"
+                                            src="{{ asset('product_Images') }}/{{ $image }}">
+                                    </li>
                             @endforeach
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="shop_dt_cst">
                             <div class="shop_dt_view">
                                 <h3>{{ $product->name ?? '' }}</h3>
@@ -136,7 +141,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="shp_dt_art">
                             <p>
                                 @if ($product->sizes->isNotEmpty())
@@ -175,7 +180,7 @@
                                 <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $product->price ?? '' }}">
                             </p>
                             <div class="form-check one-modal" >
-                                <input class="form-check-input flexRadioDefault" type="radio" value="#UploadArtworkModel" name="flexRadioDefault"
+                                <input class="form-check-input flexRadioDefault" type="radio" data-type="uploadArtwork" value="#UploadArtworkModel" name="flexRadioDefault"
                                     id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     <strong>Upload Artwork</strong>
@@ -185,7 +190,7 @@
                                 </label>
                             </div>
                             <div class="form-check two-modal">
-                                <input class="form-check-input flexRadioDefault" value="#UploadArtworkModel" type="radio" name="flexRadioDefault"
+                                <input class="form-check-input flexRadioDefault" data-type="DesignOnline" value="#UploadArtworkModel" type="radio" name="flexRadioDefault"
                                     id="flexRadioDefault2" checked>
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     <strong>Design Online</strong>
@@ -195,7 +200,7 @@
                                 </label>
                             </div>
                             <div class="form-check three-modal" >
-                                <input class="form-check-input flexRadioDefault" type="radio" value="#HireDesignerModel" name="flexRadioDefault"
+                                <input class="form-check-input flexRadioDefault"  type="radio" value="#HireDesignerModel" name="flexRadioDefault"
                                     id="flexRadioDefault3" checked>
                                 <label class="form-check-label" for="flexRadioDefault3">
                                     <strong>Hire a Designer @ £9.99</strong>
@@ -221,7 +226,7 @@
                                                 <div class="tab-menu">
                                                     <ul>
                                                         <li>
-                                                            <a href="" class="btn active" data-rel="tab-1">
+                                                            <a href="" id="onlineDesign" class="btn  " data-rel="tab-1">
                                                                 <div class="triangle-down"></div>
 
                                                                 <div class="design-box">
@@ -236,7 +241,7 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="" class="btn" data-rel="tab-2">
+                                                            <a href="" id="upload_art" class="btn " data-rel="tab-2">
                                                                 <div class="triangle-down"></div>
 
                                                                 <div class="design-box">
@@ -254,7 +259,7 @@
                                                 </div>
 
                                                 <div class="tab-main-box">
-                                                    <div class="tab-box" id="tab-1" style="display: block;">
+                                                    <div class="tab-box" id="tab-1" >
                                                         <h2>Choose Design Template for Your Product</h2>
                                                         @if(isset($templatecategory))
                                                             <div class="multiple-items">
@@ -262,9 +267,11 @@
                                                                     <p>All</p>
                                                                 </div>
                                                                 @foreach($templatecategory as $temCat)
-                                                                    <div data-category-id="{{ $temCat->id ?? ''  }}" class="tab_slider_box template-category">
-                                                                        <p>{{ $temCat->name ?? '' }}</p>
-                                                                    </div>
+                                                                    @if($temCat->template->isNotEmpty())
+                                                                        <div data-category-id="{{ $temCat->id ?? ''  }}" class="tab_slider_box template-category">
+                                                                            <p>{{ $temCat->name ?? '' }}</p>
+                                                                        </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </div>
                                                         @endif
@@ -276,27 +283,6 @@
                                                                     </div>
                                                                 @endforeach
                                                             @endisset
-                                                            <!-- <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div>
-                                                            <div class="logos-imgs">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pngegg.png" />
-                                                            </div> -->
                                                         </div>
 
                                                         <div class="value_wrapper">
@@ -346,35 +332,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="tab-box" id="tab-2">
-                                                        <!-- <h2>Choose Design Template for Your Product</h2>
-                                                        <div class="multiple-items">
-                                                            <div class="tab_slider_box">
-                                                                <p>All</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>Sale</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>School</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>Opening Soon</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>Opening Soon</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>All</p>
-                                                            </div>
-                                                            <div class="tab_slider_box">
-                                                                <p>Sale</p>
-                                                            </div>
-                                                        </div> -->
-
                                                         <div id="upload-image-div" class="custom_radio product_select ">
-                                                            <input type="radio" id="featured-1" name="featured" checked>
+                                                            <input type="radio" value="Artwork" id="featured-1" name="featured" >
                                                             <label for="featured-1">
-                                                                <div class="Upload_wrapper">
+                                                                <div class="Upload_wrapper uploadArtworkMainWrap">
                                                                     <div class="vector_img">
                                                                         <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/vector.png">
                                                                     </div>
@@ -394,8 +355,8 @@
                                                                 <p>or</p>
                                                                 
                                                             </div>
-                                                            <br>
-                                                            <input type="radio" id="featured-2" name="featured">
+                                                            <!-- <br> -->
+                                                            <input type="radio" value="ArtworkLater" id="featured-2" name="featured">
                                                             <label for="featured-2">
                                                         
                                                                 <div class="Upload_wrapper art_box">
@@ -407,24 +368,21 @@
                                                                 </div>
                                                             </label>
                                                         </div>
-                                                        <div id="response-result" class="d-none" >
+                                                        <div id="response-result" class="d-none responseResultWrap" >
                                                             <div class="custom_radio product_select ">
-                                                                <div id="Upload_wrapper" >
+                                                                <!-- <div id="Upload_wrapper" class="uploadWrap">
                                                                    
-                                                                </div>
-                                                                <br>
-                                                                <label for="featured-1">
-                                                                    <div class="Upload_wrapper">
+                                                                </div> -->
+                                                                <!-- <br> -->
+                                                                <label class="label-wrap" for="featured-1">
+                                                                    <div class="Upload_wrapper uploadIconWrap">
                                                                         <!-- <div class="vector_img">
                                                                             <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/vector.png">
                                                                         </div> -->
-                                                                        <div class="Upload_wrapper-txt">
+                                                                        <div class="Upload_wrapper-txt add-icon-div">
                                                                         <input  type="file" class="file" name="imageInput" id="file2"  />
-                                                                        <label for="file2" class="btn-1">add more</label>
-                                                                            <div class="upload_img">
-                                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
-                                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png">
-                                                                            </div>
+                                                                        <label for="file2" class="btn-1"><i class="fa-solid fa-plus"></i></label>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </label>
@@ -455,7 +413,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="design_tool">
-                                                                <a id="upload-artwork-btn" type="button" data-product-id="{{ $product->id ?? '' }}">Add To Basket</a>
+                                                                <a id="upload-artwork-btn" class="add-to-basket" data-design-id="" type="button" data-product-id="{{ $product->id ?? '' }}">Add To Basket</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -586,7 +544,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="design_tool">
-                                                    <a href="">Proceed to Design Tool</a>
+                                                    <a  href="">Proceed to Design Tool</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -610,7 +568,7 @@
                                         £500.00
                                     </li>
                                     <li>
-                                      <a  type="button" id="proceedButton" data-bs-toggle="modal" data-bs-target="#UploadArtworkModel" >Proceed</a>  
+                                      <a  type="button" data-type="" id="proceedButton" data-bs-toggle="modal" data-bs-target="#UploadArtworkModel" >Proceed</a>  
                                     </li>
                                     <li>
                                         <img src="{{ asset('front/img/icons_1.png') }}"> Free Express shipping for orders over
@@ -768,15 +726,105 @@
         </div>
     </section>
     <script type="text/javascript">
-        
-    </script>
-    <script>
         $(document).ready(function(){
+            $('.list-image').on('click',function(){
+                var img_scr = $(this).attr('src');
+                $('#main-image').attr('src',img_scr);
+                $('.list-image-container').removeClass('active');
+                $(this).parent().addClass('active');
+            });
+            $('.add-to-basket').on('click', async function(){
+                design_id = $(this).data('design-id');
+                Qty = $('#product_quantity').val();
+                design_method =$('input[name="featured"]:checked').val();
 
+                if(design_method == 'ArtworkLater'){
+                    var formData = new FormData();
+
+                    var ProductID = "{{ $product->id ?? '' }}";
+                    var size_unit = $('#size_unit').val();
+                    var qty = $('#product_quantity').val();
+                    var variations = {};
+                    $('.product_variation').each(function() {
+                        var var_slug = $(this).data('slug');
+                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                        variations[var_slug]= selectedoption;
+                    });
+                    var size = $('#select_size').val();
+
+                    if(size == 'custom') {
+                        var width = $('#custom_width').val();
+                        var height = $('#custom_height').val();
+                        var size_id = null;
+
+                        formData.append('width', width);
+                        formData.append('height', height);
+
+                    } else {
+                        var width = null;
+                        var height = null;
+                        var selectedOption = $('#select_size option:selected');
+                        var size_id = selectedOption.data('id');
+                        formData.append('size_id', size_id);
+                    }
+                    // var_data =  JSON.stringify(variations);
+                    var_data =  variations;
+                    design_method = "Artwork";
+
+                    formData.append('product_id', ProductID);
+                    formData.append('dimension', size_unit);
+                    formData.append('qty', qty);
+                    formData.append('variations', JSON.stringify(var_data)); 
+                    formData.append('design_method', design_method);
+
+                    saveData = await saveDesignAjax(formData);
+                    if(saveData.template.id != null){
+                        addTobasket = await addTObasket(saveData.template.id,Qty);
+                        if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                            console.log(addTobasket.id );
+                            url = "{{ url('checkout/cart') }}";
+                            window.location.href = url;
+                        }
+                    }
+
+                } else {
+                    if(design_id != null && design_id != undefined){
+                        addTobasket = await addTObasket(design_id,Qty);
+                        console.log(addTobasket);
+                        if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                            console.log(addTobasket.id );
+                            url = "{{ url('checkout/cart') }}";
+                            window.location.href = url;
+                        }
+                    }
+                }
+                
+            });
+        
             $('input[name="flexRadioDefault"]').on('change',function() {
                 var newTarget = $(this).val();
+                var newType = $(this).data('type');
+                if(newType == 'uploadArtwork' && newType != undefined){
+                    $('#upload_art').addClass('active');
+                    $('#tab-2').css('display', 'block');
+                    $('#tab-1').css('display', 'none');
+                    $('#onlineDesign').removeClass('active');
+                } else {
+                    $('#onlineDesign').addClass('active');
+                    $('#upload_art').removeClass('active');
+                    $('#tab-1').css('display', 'block');
+                    $('#tab-2').css('display', 'none');
+                }
                 $('#proceedButton').attr('data-bs-target', newTarget);
+                $('#proceedButton').attr('data-type', newType);
             });
+
+            // $('#proceedButton').on('click',function(){
+            //     type_value = $(this).data('type');
+               
+            // });
 
             $('.flexRadioDefault').trigger('change');
 
@@ -801,101 +849,64 @@
                 $('.template-images').removeClass('selected');
                 $(this).addClass('selected');
             });
-        });
-        // $(document).on('load',function(){
-        //     $('.flexRadioDefault').trigger('change');
-        // });
-    </script>
-    <script>
-        function removeImage(button) {          // Removing uploaded images 
-            designID = $(button).data('design-id');
-            ImageIndex = $(button).data('img-index');
-            console.log(designID,ImageIndex);
-            if(designID != undefined && ImageIndex != undefined){
-                var formData = new FormData();
 
-                formData.append('ImageIndex',ImageIndex);
-                formData.append('design_id',designID );
-
-                var $parentDiv = $(button).closest('.Upload_wrapper');
-
-                $.ajax({
-                    url: "{{ url('updateDesign') }}",
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    success: function(data) {
-                        if(data.arrayCount < 1){
-                            $('#upload-image-div').removeClass('d-none');
-                            $('#response-result').addClass('d-none');
-                            $parentDiv.remove();
-                        } else {
-                            $parentDiv.remove();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error saving data', status, error);
-                    }
-                });
-            }
-        }
-        $(document).ready(function(){
+        
             $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
-                // var design_id = $(this).data('design-id');
+                var design_id = $(this).data('design-id');
 
-                // if(design_id == undefined || design_id == null || design_id == '') {
+                if(design_id == undefined || design_id == null || design_id == '') {
             
-                //     var formData = new FormData();
+                    var formData = new FormData();
 
-                //     var ProductID = "{{ $product->id ?? '' }}";
-                //     var size_unit = $('#size_unit').val();
-                //     var qty = $('#product_quantity').val();
-                //     var variations = {};
-                //     $('.product_variation').each(function() {
-                //         var var_slug = $(this).data('slug');
-                //         var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                //         variations[var_slug]= selectedoption;
-                //     });
-                //     var size = $('#select_size').val();
+                    var ProductID = "{{ $product->id ?? '' }}";
+                    var size_unit = $('#size_unit').val();
+                    var qty = $('#product_quantity').val();
+                    var variations = {};
+                    $('.product_variation').each(function() {
+                        var var_slug = $(this).data('slug');
+                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                        variations[var_slug]= selectedoption;
+                    });
+                    var size = $('#select_size').val();
 
-                //     if(size == 'custom') {
-                //         var width = $('#custom_width').val();
-                //         var height = $('#custom_height').val();
-                //         var size_id = null;
+                    if(size == 'custom') {
+                        var width = $('#custom_width').val();
+                        var height = $('#custom_height').val();
+                        var size_id = null;
 
-                //         formData.append('width', width);
-                //         formData.append('height', height);
+                        formData.append('width', width);
+                        formData.append('height', height);
 
-                //     } else {
-                //         var width = null;
-                //         var height = null;
-                //         var selectedOption = $('#select_size option:selected');
-                //         var size_id = selectedOption.data('id');
-                //         formData.append('size_id', size_id);
-                //     }
-                //     // var_data =  JSON.stringify(variations);
-                //     var_data =  variations;
-                //     design_method = "Artwork";
+                    } else {
+                        var width = null;
+                        var height = null;
+                        var selectedOption = $('#select_size option:selected');
+                        var size_id = selectedOption.data('id');
+                        formData.append('size_id', size_id);
+                    }
+                    // var_data =  JSON.stringify(variations);
+                    var_data =  variations;
+                    design_method = "Artwork";
 
-                //     formData.append('product_id', ProductID);
-                //     formData.append('size_unit', size_unit);
-                //     formData.append('qty', qty);
-                //     formData.append('variations', JSON.stringify(var_data)); 
-                //     formData.append('design_method', design_method);
-                // }
+                    formData.append('product_id', ProductID);
+                    formData.append('dimension', size_unit);
+                    formData.append('qty', qty);
+                    formData.append('variations', JSON.stringify(var_data)); 
+                    formData.append('design_method', design_method);
+                }
                 Dropbox.choose({
                     success: async function(files) {
-                        console.log(files);
-                        // files.forEach(function(file) {
-                        //     var downloadLink = document.createElement('a');
-                        //     downloadLink.href = file.link;
-                        //     downloadLink.download = '';
-                        //     downloadLink.click(); 
-                        // });
+
+
+                        files.forEach(file => {
+                            let link = file.link;
+                            let directLink = link.replace("dl=0", "raw=1");
+                            file.link=directLink;
+                        });
+
+
+                        console.log( files , " all the files after the link ")
+                        $('#overlay').show();
                         $.ajax({
                             url: '/upload-dropbox-file',
                             type: 'POST',
@@ -907,33 +918,36 @@
                             data: JSON.stringify({ files: files }), 
                             success: async function(data) {
                                 console.log(data);
-                               
-                                // if (data.files != null) {
+                                if (data.files != null) {
 
-                                //     formData.append('images', JSON.stringify(data.files) );
-                                //     saveData = await saveDesignAjax(formData);
+                                    formData.append('images', JSON.stringify(data.files) );
+                                    saveData = await saveDesignAjax(formData);
 
-                                //     if (saveData.imageArray != null) {
-                                //         $('#upload-image-div').addClass('d-none');
-                                //         $('#response-result').removeClass('d-none');
+                                    if (saveData.imageArray != null) {
+                                        $('#upload-image-div').addClass('d-none');
+                                        $('#response-result').removeClass('d-none');
                                         
-                                //         var HTML_data = '';
-                                //         Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
-                                //         HTML_data += `<div class="Upload_wrapper d-flex">
-                                //                         <div class="img">
-                                //                             <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
-                                //                         </div>
-                                //                         <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
-                                //                     </div>`;
-                                //         });
+                                        var HTML_data = '';
+                                        Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+                                        HTML_data += `<div class="Upload_wrapper image-div d-flex">
+                                                        <div class="img">
+                                                            <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+                                                        </div>
+                                                        <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
+                                                    </div>`;
+                                        });
 
-                                //         $('#Upload_wrapper').append(HTML_data);
-                                //         $('#file2').attr('data-design-id', saveData.template.id);
-                                //     }
-                                // }
+                                        // $('#Upload_wrapper').append(HTML_data);
+                                        $(HTML_data).insertBefore('.label-wrap');
+                                        $('#file2').attr('data-design-id', saveData.template.id);
+                                        $('.add-to-basket').attr('data-design-id', saveData.template.id);
+                                        $('#overlay').hide();
+                                    }
+                                } 
                             },
                             error: function(xhr, status, error) {
                                 console.error('Error:', error);
+                                $('#overlay').hide();
                             }
                         }); 
                     },
@@ -992,26 +1006,30 @@
                     
                     formData.append('image', fileInput.files[0]);
                     formData.append('product_id', ProductID);
-                    formData.append('size_unit', size_unit);
+                    formData.append('dimension', size_unit);
                     formData.append('qty', qty);
                     formData.append('variations', JSON.stringify(var_data)); 
                     
                 
                     formData.append('design_method', design_method);
+                    $('#overlay').show();
 
                     saveData = await saveDesignAjax(formData);
                     if(saveData.imageName != null){
                     
                         $('#upload-image-div').addClass('d-none');
                         $('#response-result').removeClass('d-none');
-                        var HTML_data = `<div class="Upload_wrapper d-flex">
+                        var HTML_data = `<div class="Upload_wrapper image-div d-flex">
                                             <div class="img">
                                                 <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
                                             </div>
                                             <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
                                         </div>`;
-                        $('#Upload_wrapper').append(HTML_data);
+                        // $('#Upload_wrapper').append(HTML_data);
+                        $(HTML_data).insertBefore('.label-wrap');
                         $('#file2').attr('data-design-id',saveData.template.id);
+                        $('.add-to-basket').attr('data-design-id',saveData.template.id);
+                        $('#overlay').hide();
                     }
 
                 } else {
@@ -1025,36 +1043,51 @@
 
                     formData.append('image', fileInput.files[0]);
                     formData.append('design_id',design_id );
-
-                    $.ajax({
-                        url: "{{ url('saveDesign') }}",
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        success: function(data) {
-                           if(data.imageName != null){
-                    
-                                $('#upload-image-div').addClass('d-none');
-                                $('#response-result').removeClass('d-none');
-                                var HTML_data = `<div class="Upload_wrapper">
-                                                    <div class="img">
-                                                <img data-design-id="${data.template.id}" src="{{ asset('designImage') }}/${data.imageName}">
-                                            </div>
-                                            <span data-design-id="${saveData.template.id}"  data-img-index="${data.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
-                                            </div>`;
-                                $('#Upload_wrapper').append(HTML_data);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error saving data', status, error);
-                        }
-                    });
+                    $('#overlay').show();
+                    saveData = await saveDesignAjax(formData);
+                    if(saveData.imageName != null){
+                        $('#overlay').hide();
+                        $('#upload-image-div').addClass('d-none');
+                        $('#response-result').removeClass('d-none');
+                        var HTML_data = `<div class="Upload_wrapper image-div d-flex">
+                                            <div class="img">
+                                        <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                    </div>
+                                    <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                    </div>`;
+                        // $('#Upload_wrapper').append(HTML_data);
+                        $(HTML_data).insertBefore('.label-wrap');
+                    }
+                    // $.ajax({
+                    //     url: "{{ url('saveDesign') }}",
+                    //     type: 'POST',
+                    //     data: formData,
+                    //     contentType: false,
+                    //     processData: false,
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    //     },
+                    //     success: function(data) {
+                                // if(data.imageName != null){
+                                //     $('#overlay').hide();
+                                //     $('#upload-image-div').addClass('d-none');
+                                //     $('#response-result').removeClass('d-none');
+                                //     var HTML_data = `<div class="Upload_wrapper image-div d-flex">
+                                //                         <div class="img">
+                                //                     <img data-design-id="${data.template.id}" src="{{ asset('designImage') }}/${data.imageName}">
+                                //                 </div>
+                                //                 <span data-design-id="${saveData.template.id}"  data-img-index="${data.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                //                 </div>`;
+                                //     // $('#Upload_wrapper').append(HTML_data);
+                                //     $(HTML_data).insertBefore('.label-wrap');
+                                // }
+                    //     },
+                    //     error: function(xhr, status, error) {
+                    //         console.error('Error saving data', status, error);
+                    //         $('#overlay').hide();
+                    //     }
+                    // });
                 }
-
             });
 
             $('#design-online-btn').on('click',async function(){        // Redirect to designer Tools 
@@ -1097,7 +1130,7 @@
                 
                 formData.append('product_id', ProductID);
                 formData.append('template_id', templateID);
-                formData.append('size_unit', size_unit);
+                formData.append('dimension', size_unit);
                 formData.append('qty', qty);
                 formData.append('variations', JSON.stringify(var_data)); 
           
@@ -1146,7 +1179,7 @@
 
                 formData.append('product_id', ProductID);
                 formData.append('template_id', templateID);
-                formData.append('size_unit', size_unit);
+                formData.append('dimension', size_unit);
                 formData.append('qty', qty);
                 formData.append('variations', JSON.stringify(var_data)); 
                 formData.append('design_method', design_method);
@@ -1159,44 +1192,143 @@
                 
             });
 
-            async function saveDesignAjax(formData) {            // save Template Ajax request 
-                return new Promise((resolve, reject) => {
-                    $.ajax({
-                        url: "{{ url('saveDesign') }}",
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        success: function(data) {
-                            resolve(data); 
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error saving data', status, error);
-                            reject(false); 
-                        }
-                    });
-                });
-            }
-            function ensurePositiveInteger(input) {
-                var value = input.val();
-
-                value = value.replace(/[^0-9]/g, '');
-
-                var numericValue = parseInt(value, 10);
-                if (isNaN(numericValue) || numericValue < 1) {
-                    numericValue = 1;
-                }
-
-                input.val(numericValue);
-            }
-
             $('#custom_width, #custom_height').on('input', function() {
                 ensurePositiveInteger($(this));
             });
         });
+        async function addTObasket(designID,Qty) {            // Add to Basket Ajax request 
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('add-to-basket') }}",
+                    type: 'POST',
+                    data: {
+                        'design_id' :designID,
+                        'qty' : Qty
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        resolve(data); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                        reject(false); 
+                    }
+                });
+            });
+        }
+        async function saveDesignAjax(formData) {            // save Template Ajax request 
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('saveDesign') }}",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        resolve(data); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                        reject(false); 
+                    }
+                });
+            });
+        }
+        
+        function ensurePositiveInteger(input) {
+            var value = input.val();
+
+            value = value.replace(/[^0-9]/g, '');
+
+            var numericValue = parseInt(value, 10);
+            if (isNaN(numericValue) || numericValue < 1) {
+                numericValue = 1;
+            }
+
+            input.val(numericValue);
+        }
+
+        function removeImage(button) {          // Removing uploaded images 
+            designID = $(button).data('design-id');
+            ImageIndex = $(button).data('img-index');
+            console.log(designID,ImageIndex);
+            if(designID != undefined && ImageIndex != undefined){
+                var formData = new FormData();
+
+                formData.append('ImageIndex',ImageIndex);
+                formData.append('design_id',designID );
+
+                var $parentDiv = $(button).closest('.Upload_wrapper');
+
+                $.ajax({
+                    url: "{{ url('updateDesign') }}",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        if(data.arrayCount < 1){
+                            $('#upload-image-div').removeClass('d-none');
+                            $('#response-result').addClass('d-none');
+                            $parentDiv.remove();
+                        } else {
+                            $parentDiv.remove();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                    }
+                });
+            }
+        }
+        async function getFormData()
+        {
+            var formData = new FormData();
+
+            var ProductID = "{{ $product->id ?? '' }}";
+            var size_unit = $('#size_unit').val();
+            var qty = $('#product_quantity').val();
+            var variations = {};
+            $('.product_variation').each(function() {
+                var var_slug = $(this).data('slug');
+                var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                variations[var_slug]= selectedoption;
+            });
+            var size = $('#select_size').val();
+
+            if(size == 'custom') {
+                var width = $('#custom_width').val();
+                var height = $('#custom_height').val();
+                var size_id = null;
+
+                formData.append('width', width);
+                formData.append('height', height);
+
+            } else {
+                var width = null;
+                var height = null;
+                var selectedOption = $('#select_size option:selected');
+                var size_id = selectedOption.data('id');
+                formData.append('size_id', size_id);
+            }
+            // var_data =  JSON.stringify(variations);
+            var_data =  variations;
+            design_method = "Artwork";
+
+            formData.append('product_id', ProductID);
+            formData.append('dimension', size_unit);
+            formData.append('qty', qty);
+            formData.append('variations', JSON.stringify(var_data)); 
+            formData.append('design_method', design_method);
+        }
     </script>
     <script>
         $(document).ready(function() {

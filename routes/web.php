@@ -17,11 +17,13 @@ use App\Http\Controllers\Admin\ClipArtController;
 use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
+use App\Http\Controllers\Admin\FontController;
 use App\Http\Controllers\Admin\SiteControllers\HomeController;
 use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
 use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
 use App\Http\Controllers\Front\ViewController;
 use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\BasketController;
 
 use App\Models\BlogCategory;
 
@@ -82,7 +84,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/shape-view', [ShapeController::class, 'index']);
     Route::get('admin-dashboard/shape-edit/{slug}', [ShapeController::class, 'edit']);
     Route::post('admin-dashboard/shape-editProcc', [ShapeController::class, 'editProcc']);
-    Route::post('admin-dashboard/shape-remove/{slug}', [ShapeController::class, 'editProcc']);
+    Route::get('admin-dashboard/shape-remove/{slug}', [ShapeController::class, 'remove']);
 
     // clip Art Category  ClipArtCategoryController  ClipArtController
     Route::get('admin-dashboard/clipart-category', [ClipArtCategoryController::class, 'index']);
@@ -164,6 +166,19 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/testimonials',[TestimonialController::class,'index']);
     Route::post('admin-dashboard/add-testimonial-procc',[TestimonialController::class,'AddProcc']);
     Route::get('admin-dashboard/remove-testimonial/{id}',[TestimonialController::class,'remove']);
+
+
+    // Routes for upload fonts 
+
+    Route::get('admin-dashboard/font-add', [FontController::class, 'add']);
+    Route::post('admin-dashboard/font-addProcc', [FontController::class, 'addProcc']);
+
+    Route::get('admin-dashboard/font-view', [FontController::class, 'index']);
+
+    Route::get('admin-dashboard/font-edit/{id}',[FontController::class,'edit']);
+    Route::post('admin-dashboard/font-editProcc',[FontController::class,'editProcc']);
+    Route::get('admin-dashboard/font-delete/{id}',[FontController::class,'delete']);
+
 });
 
 // FRONT LAYOUT
@@ -200,6 +215,8 @@ Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('p
 
 Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
 
+Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+
 
 // :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
 
@@ -215,10 +232,16 @@ Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns']);
 Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
 Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
 
+
+
 Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
 
 
 Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
+
+//::::::::::::::::::::::::: Add to basket ::::::::::::::::::::::::://
+Route::post('add-to-basket', [BasketController::class, 'AddToBasket']);
+Route::get('remove-item-from-basket', [BasketController::class, 'removeItem']);
 
 // :::::::::::::::::Customizer route end here
 

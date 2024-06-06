@@ -497,7 +497,13 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
 
-
+<script>
+        window.GlobalData = {
+            URL: "{{ url('') }}",
+            csrfToken: "{{ csrf_token() }}",
+        };
+</script>
+<script src="{{ asset('front/js/ajaxFunctions.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
 
 <script>

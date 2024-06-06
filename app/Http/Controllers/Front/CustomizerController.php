@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+
 use App\Models\Template;
 use App\Models\Clipart;
 use App\Models\ClipArtCategory;
@@ -97,16 +98,11 @@ class CustomizerController extends Controller
             $userType = '';
         
             $template_data = Template::find($request->template_id);
-
             if (!Auth::check()) {
-
                 $temporaryUserId = Session::get('temporaryUserId');
-
                 if (!$temporaryUserId) {
-
                     $temporaryUserId = (string) Str::uuid();
                     Session::put('temporaryUserId', $temporaryUserId);
-
                 }
                 $userType = 'Guest';
             } else {
@@ -164,6 +160,7 @@ class CustomizerController extends Controller
                     $imageArray[$imageName] = $imageName;
                     $template->image = json_encode($imageArray);   
 
+                    // $imageIndex = count($imageArray) - 1;
                 } else {
                     $imageName = null ;
                     $imageIndex = null;
@@ -210,6 +207,10 @@ class CustomizerController extends Controller
                 if (array_key_exists($imageIndex, $imageArray)) {
                     unset($imageArray[$imageIndex]);
                 }
+                $imagePath = public_path('designImage/'. $imageIndex) ;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                } 
                 $arrayCount = count($imageArray);
                 if($arrayCount < 1){
                     $template->delete();
@@ -332,7 +333,6 @@ class CustomizerController extends Controller
     // dropbox upload files
     public function uploadFile(Request $request)
     {
-        $accessToken = env('DROPBOX_ACCESS_TOKEN');
         $files = $request->input('files');
         $fileNames=[];
         foreach ($files as $file) {
@@ -341,68 +341,15 @@ class CustomizerController extends Controller
             $fileNames[$fileName]= $fileName;
 
             $fileUrl = $file['link'];
-
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $accessToken,
-            ])->get($fileUrl);
-
-            return $response;
+            $response = Http::get($fileUrl);
 
             if ($response->successful()) {
-                $fileMetadata = $response->json();
-                
-                $directDownloadLink = $fileMetadata['url'];
+                $fileContent = (string) $response->getBody();
 
-                $response = Http::get($directDownloadLink);
-
-                if ($response->successful()) {
-                    $filePath = public_path('designImage/' . $fileName);
-                    file_put_contents($filePath, $response->body());
-                } 
-            }
+                // return file_get_contents($fileUrl);
+                file_put_contents(public_path('designImage/'.$fileName),  $fileContent);
+            } 
         }
         return response()->json(['message' => 'Files uploaded successfully', 'files' => $fileNames]);
-    }
-
-    protected function extractFileContentFromHtml($html)
-    {
-        // Create a DOMDocument object
-        $dom = new DOMDocument();
-
-        // Suppress errors for invalid HTML
-        libxml_use_internal_errors(true);
-
-        // Load the HTML content into the DOMDocument
-        $dom->loadHTML($html);
-
-        // Restore error handling
-        libxml_clear_errors();
-
-        // Create a DOMXPath object to query the DOMDocument
-        $xpath = new DOMXPath($dom);
-
-        // Search for the img tag
-        $imgElement = $xpath->query('//img')->item(0);
-
-        if ($imgElement) {
-            // Extract the src attribute
-            $imgSrc = $imgElement->getAttribute('src');
-
-            // Fetch the image content from the src URL
-            $response = Http::get($imgSrc);
-
-            if ($response->successful()) {
-                // Return the image content
-                return $response->body();
-            } else {
-                // Log an error if the HTTP request to fetch the image content fails
-                \Log::error('Failed to fetch image content from src URL: '.$imgSrc.' | Status Code: '.$response->status());
-                return false;
-            }
-        } else {
-            // Log an error if the img tag is not found
-            \Log::error('img tag not found in HTML page');
-            return false;
-    }
     }
 }
