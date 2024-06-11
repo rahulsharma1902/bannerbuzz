@@ -15,11 +15,76 @@ class BasketController extends Controller
     {
         $design_id = $request->design_id;
         $qty = $request->qty;
+        $temporaryUserId = null;
+        $userId = null;
+        $userType = null;
         $designData = DesignTemplate::find($design_id);
-        $basket = new Basket();
 
-        if($design_id != null){
-            // $template_data = Template::find($request->template_id);
+        if (!Auth::check()) {
+            $temporaryUserId = Session::get('temporaryUserId');
+            if (!$temporaryUserId) {
+                $temporaryUserId = (string) Str::uuid();
+                Session::put('temporaryUserId', $temporaryUserId);
+            }
+            $userType = 'Guest';
+            
+        } else {
+            $userType = 'User';
+            $userId = Auth::id();
+        }
+        if( $userType == 'User' ) {
+            $basket = Basket::where('design_id',$design_id)->where('user_id',$userId)->first();
+        } else {
+            $basket = Basket::where('design_id',$design_id)->where('temporary_id',$temporaryUserId)->first();
+        }
+        
+        if(!$basket) {
+            $basket = new Basket();
+           
+        } 
+        $basket->user_id = $userId;
+        $basket->temporary_id = $temporaryUserId;
+        $basket->name = $designData->name ?? null; 
+        $basket->width = $designData->width ?? null;
+        $basket->height = $designData->height ?? null;
+        $basket->dimension = $designData->dimension;
+        // $basket->size_type =  $designData->size_type;
+        $basket->images =  $designData->image;
+        $basket->design_method = $designData->design_method;
+        $basket->product_id = $designData->product_id;
+        $basket->variations = $designData->variations;
+        $basket->size_id = $designData->size_id ?? null;
+        $basket->template_data = $designData->template_data;
+        // $basket->price = $designData->price;
+        $basket->design_id =  $design_id;
+        $basket->qty = $qty;
+        $basket->save();
+
+        return response()->json(['id'=> $basket->id ]);
+    }
+
+    public function removeItem(Request $request)
+    {
+        
+
+        $id = $request->item_id;
+        $basket_item = Basket::find($id);
+        if($basket_item){
+            $designData = DesignTemplate::find($basket_item->design_id);
+            if($designData){
+                if($designData->design_method == 'Artwork'){
+                    $imageArray = json_decode($designData->image, true);
+
+                    foreach ($imageArray as $imageIndex => $value) {
+                        $imagePath = public_path('designImage/'. $imageIndex) ;
+                        if (file_exists($imagePath)) {
+                            unlink($imagePath);
+                        } 
+                    }
+                }
+                $designData->delete();
+            }
+            $basket_item->delete();
             if (!Auth::check()) {
                 $temporaryUserId = Session::get('temporaryUserId');
                 if (!$temporaryUserId) {
@@ -27,40 +92,17 @@ class BasketController extends Controller
                     Session::put('temporaryUserId', $temporaryUserId);
                 }
                 $userType = 'Guest';
-                $basket->temporary_id = $temporaryUserId;
+                $basketItems = Basket::where('temporary_id',$temporaryUserId)->get();
             } else {
                 $userType = 'User';
                 $userId = Auth::id();
-                $basket->user_id = $userId;
+                $basketItems = Basket::where('user_id',$userId)->get();
             }
-            $basket->name = $designData->name ?? ""; 
-            $basket->width = $designData->width ?? null;
-            $basket->height = $designData->height ?? null;
-            $basket->dimension = $designData->dimension;
-            // $basket->size_type =  $designData->size_type;
-            $basket->images =  $designData->image;
-            $basket->design_method = $designData->design_method;
-            $basket->product_id = $designData->product_id;
-            $basket->variations = $designData->variations;
-            $basket->size_id = $designData->size_id ?? null;
-            $basket->template_data = $designData->template_data;
-            // $basket->price = $designData->price;
-            $basket->design_id =  $design_id;
-            $basket->qty = $qty;
-            $basket->save();
-
-            return response()->json(['id'=> $basket->id ]);
-        }
-
-    }
-
-    public function removeItem(Request $request)
-    {
-        $id = $request->item_id;
-        $basket_item = Basket::find($id);
-        if($basket_item){
-            $basket_item->delete();
-            return response()->json(true);
+            $total = 0;
+            if($basketItems){
+                $total = count($basketItems);
+            }
+            return response()->json(['result'=>true,'total'=>$total]);
         } else {
             return response()->json(false);
         }

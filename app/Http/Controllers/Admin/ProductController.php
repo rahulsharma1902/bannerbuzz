@@ -68,7 +68,7 @@ class ProductController extends Controller
             $product->addtional_info = $request->product_specification;
             $product->price = $request->default_price;
             $images = [];
-            if ($request->images !== null) {     // adding new images 
+            if ($request->images !== null) {      // adding new images 
                 $count = 1; 
                 foreach ($request->images as $image) {
                     if ($image->isValid()) {
@@ -85,8 +85,15 @@ class ProductController extends Controller
             } else {
                 $product->images = json_encode($images);
             }
+
             if(!empty($request->keys)){
-                $product->key_points = json_encode($request->keys);
+                $request_keys = [];
+                foreach($request->keys as $index => $key){
+                     if($key != null){
+                        $request_keys[] = $key;
+                     }
+                }
+                $product->key_points = json_encode($request_keys);
             }
             $product->save();
 
@@ -294,7 +301,13 @@ class ProductController extends Controller
             }
             $product->images = json_encode($images);
             if(!empty($request->keys)){
-                $product->key_points = json_encode($request->keys);
+                $request_keys = [];
+                foreach($request->keys as $index => $key){
+                     if($key != null){
+                        $request_keys[] = $key;
+                     }
+                }
+                $product->key_points = json_encode($request_keys);
             }
             $product->save();
 

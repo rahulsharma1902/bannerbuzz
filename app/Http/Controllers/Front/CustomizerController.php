@@ -72,23 +72,48 @@ class CustomizerController extends Controller
        
         if($design_id != null){
             $template = DesignTemplate::find($design_id);
-
+            $imageName = null ;
+            $imageIndex = null;
             if($template){
-                $imageArray = json_decode($template->image, true);
-                if ($request->hasFile('image')) {
-                    $featuredImage = $request->file('image');
-                    $extension = $featuredImage->getClientOriginalExtension();
-                    $imageName = 'image_'.rand(0,1000).time().'.'.$extension;;
-                    $featuredImage->move(public_path().'/designImage/',$imageName);
-                    
-                    $imageArray[$imageName] = $imageName;
-
-                    $template->image = json_encode($imageArray);
+                if($request->action == 'finalSave') {
+                    $template->design_method = $request->design_method;
+                    // $template->name = $request->name ?? ""; 
+                    $template->width = $request->width ?? null;
+                    $template->height = $request->height ?? null;
+                    $template->dimension = $request->dimension;
+                    $template->product_id = $request->product_id;
+                    $template->variations = $request->variations;
+                    $template->qty = $request->qty;
+                    $template->size_id = $request->size_id ?? null;
                     $template->save();
-
-                    // $imageIndex = count($imageArray) - 1;
-
+                    $imageArray = json_decode($template->image, true);
                     return response()->json(['template' => $template,'imageName'=> $imageName ,'imgIndex'=> $imageName], 201);
+                } else {
+
+                    $imageArray = json_decode($template->image, true);
+                    if ($request->hasFile('image')) {
+                        $featuredImage = $request->file('image');
+                        $extension = $featuredImage->getClientOriginalExtension();
+                        $imageName = 'image_'.rand(0,1000).time().'.'.$extension;;
+                        $featuredImage->move(public_path().'/designImage/',$imageName);
+                        
+                        $imageArray[$imageName] = $imageName;
+
+                        $template->image = json_encode($imageArray);
+                        
+
+                        // $imageIndex = count($imageArray) - 1;
+                      
+                        return response()->json(['template' => $template,'imageName'=> $imageName ,'imgIndex'=> $imageName], 201);
+                    }
+                    if($request->images){
+                        $template->image = $request->images; 
+                        $imageArray = $request->images;
+                    } else {
+                        $imageArray = null;
+                    }
+                    $template->save();
+                    return response()->json(['template' => $template,'imageName'=> $imageName ,'imgIndex'=> $imageName,'imageArray'=>$imageArray], 201);
                 }
             }
         } else {
@@ -212,7 +237,7 @@ class CustomizerController extends Controller
                     unlink($imagePath);
                 } 
                 $arrayCount = count($imageArray);
-                if($arrayCount < 1){
+                if($arrayCount < 1 && $request->is_saved == false){
                     $template->delete();
                 } else {
                     $template->image = json_encode($imageArray);
@@ -272,11 +297,15 @@ class CustomizerController extends Controller
     public function OverViewPage($id)
     {
         if (Auth::check()) {
-            $userId = Auth::id();
+            $userId = Auth::user()->id;
             $template = DesignTemplate::where('id', $id)->where('user_id', $userId)->first();
         } else {
             $temporaryUserId = Session::get('temporaryUserId');
-            $template = DesignTemplate::where('id', $id)->where('temporary_id', $temporaryUserId)->first();
+            if($temporaryUserId != null) {
+                $template = DesignTemplate::where('id', $id)->where('temporary_id', $temporaryUserId)->first();
+            } else {
+                $template = null;
+            }
         }
 
         if($template != null){

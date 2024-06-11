@@ -52,7 +52,7 @@
 
 </head>
 
-<body>
+<body class="bodyMainWrap">
 <?php $home_data = App\Models\HomeContent::first(); ?>
     <header>
         @if($home_data && $home_data->display_offer == 1)
@@ -118,7 +118,8 @@
                         <li>
                             <a href="javascript:void(0)">
                                 <img src="{{ asset('front/img/item.svg') }}" alt="" />
-                                <span>Item(s) <span style="color: #dc288a;">$0.00</span></span>
+                                <span>Item(s) <span style="color: #e4004e;">$0.00</span></span> 
+                                <!--  dc288a-->
                             </a>
                         </li>
                         <li>
@@ -599,6 +600,18 @@
             }
         });
     });
+    function callSuccessToster(message){
+        iziToast.success({
+            message: message,
+            position: 'topRight' 
+        });
+    }
+    function callErrorToster(message){
+        iziToast.error({
+            message: message,
+            position: 'topRight' 
+        });
+    }
 </script>
 </body>
 

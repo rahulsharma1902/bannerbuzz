@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('height')->nullable();
             $table->string('dimension')->nullable();
             $table->string('price')->nullable();
+            $table->string('product_type')->nullable(); //customizable non-customizable
             $table->string('size_type')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('design_id')->nullable();
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->longText('additionalInfo')->nullable();
             $table->longText('variations')->nullable();
             $table->longText('template_data')->nullable();
-            $table->string('design_method')->default('template')->nullable();  //tempalte  artwork uploadLater hireDesigner
+            $table->string('design_method')->default('template')->nullable();  //tempalte  artwork ArtworkLater hireDesigner
             $table->tinyInteger('status')->default(0)->nullable();
             $table->timestamps();
         });

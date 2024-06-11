@@ -142,8 +142,14 @@ class AccessoriesController extends Controller
             } else {
                 $type->images = json_encode($images);
             }
-            if($request->keys){
-                $type->key_points = json_encode($request->keys);
+            if(!empty($request->keys)){
+                $request_keys = [];
+                foreach($request->keys as $index => $key){
+                     if($key != null){
+                        $request_keys[] = $key;
+                     }
+                }
+                $type->key_points = json_encode($request_keys);
             }
             $type->save();
             if ($request->remove_size_id !== null) {      // remove  size 
@@ -307,17 +313,17 @@ class AccessoriesController extends Controller
             }
             return redirect()->back()->with('success', 'data updated successfully');
         } else {
-            // $request->validate([
-            //     'name' => 'required|unique:product_accessories,name',
-            //     'slug' => 'required|unique:product_accessories,slug',
-            //     'images' => 'required',
-            //     'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
-            //     'accessorie_type' => 'required',
-            //     'default_price' => 'required|numeric'
-            // ], [
-            //     'images.*.image' => 'The file must be an image.',
-            //     'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
-            // ]);
+            $request->validate([
+                'name' => 'required|unique:product_accessories,name',
+                'slug' => 'required|unique:product_accessories,slug',
+                'images' => 'required',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,svg,webp',
+                'accessorie_type' => 'required',
+                'default_price' => 'required|numeric'
+            ], [
+                'images.*.image' => 'The file must be an image.',
+                'images.*.mimes' => 'The image must be a file of type: jpeg, png, jpg, svg,webp.',
+            ]);
 
             $type = new ProductAccessories();
             $type->name = $request->name;
@@ -340,8 +346,14 @@ class AccessoriesController extends Controller
                 }
             }
             $type->images = json_encode($images);
-            if($request->keys){
-                $type->key_points = json_encode($request->keys);
+            if(!empty($request->keys)){
+                $request_keys = [];
+                foreach($request->keys as $index => $key){
+                     if($key != null){
+                        $request_keys[] = $key;
+                     }
+                }
+                $type->key_points = json_encode($request_keys);
             }
             $type->save();
             if ($request->width !== null || $request->sizeValue !== null) {

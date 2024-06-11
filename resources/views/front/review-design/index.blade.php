@@ -9,6 +9,11 @@
             </div>
         </div>
     </section>
+    <div style="display: none;" id="overlay">
+		<div class="loader">
+			<div class="spinner"></div>
+        </div>
+    </div>
     @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0 custom_buy_wrapper">
             <div class="container">
@@ -17,18 +22,30 @@
                         <div class="shop_dt_img">
                             <div class="shop_dt_img_inner">
                                 @if($template->design_method == 'Artwork')
-                                    @foreach(json_decode($template->image,true) as $index => $value)
-                                        @if($index == 0)
-                                            <img src="{{ asset('designImage/'.$value) }}">
-                                        @endif
-                                    @endforeach
+                                    <?php $count = 0; ?>
+                                    @if(!empty(json_decode($template->image,true)))
+                                        @foreach(json_decode($template->image,true) as $index => $value)
+                                            @if($count == 0)
+                                                <img src="{{ asset('designImage/'.$value) }}">
+                                            @endif
+                                            <?php $count++; ?>
+                                        @endforeach
+                                    @else
+                                        <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                    @endif
+                                @elseif($template->design_method == 'ArtworkLater')
+                                    <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                 @else
                                     <img src="{{ asset('designImage/'.$template->image) }}">
                                 @endif
                             </div>
                         </div>
                         <div class="EditDT">
-                            <a href="{{url('designtool/template')}}/{{ $template->id ?? '' }}" class="btn light_dark">Edit Design</a>
+                            @if($template->design_method == 'template')
+                                <a href="{{url('designtool/template')}}/{{ $template->id ?? '' }}" class="btn light_dark">Edit Design</a>
+                            @else
+                                <a class="btn light_dark" type="button" data-type="" id="proceedButton" data-bs-toggle="modal" data-bs-target="#UploadArtworkModel" >Upload Artwork</a> 
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-8 custom_buy_detail_col">
@@ -186,7 +203,7 @@
                                 <div class="productPriceBox hadPrice">
                                     <div class="newPrice">
                                         <div class="NewPriceBox  ">
-                                            <p><span itemprop="priceCurrency" content="GBP">£</span><span id="product_price" itemprop="price" content="1.90">{{ $total }}</span></p>
+                                            <p><span itemprop="priceCurrency" content="GBP"></span><span id="product_price" itemprop="price" content="1.90">£{{ $total }}</span></p>
                                             <div class="newExcl"><span>(Incl. VAT)</span></div>
                                         </div><span id="product_price_main" class="oldPrice">£{{ $total + 3 }}</span><span class="discountBox"> Save 40%</span>
                                         <div class="clearfix"></div>
@@ -197,12 +214,12 @@
                                         <div class="quantity-field" >
                                           <button id="decrease-button"
                                             class="value-button decrease-button" 
-                                            onclick="decreaseValue(this)" 
+                                            onclick="decreaseQtyValue(this)"
                                             title="Azalt">-</button>
                                             <div class="number"><input type="number" class="number" id="product_quantity" name="quantity"  min="1" maxlength="999" value="{{ $template->qty ?? '1' }}"></div>
                                           <button id="increase-button"
                                             class="value-button increase-button" 
-                                            onclick="increaseValue(this)"
+                                            onclick="increaseQtyValue(this)"
                                             title="Arrtır"
                                           >+
                                           </button>
@@ -212,7 +229,7 @@
                                 </div>
                                 <div class="buttonSet">
                                     <div class="formGroup">
-                                        <button type="button" class="btn light_dark">Add To Basket</button>
+                                        <button type="button" id="add-to-basket" data-design-id ="{{ $template->id }}" class="btn light_dark">Add To Basket</button>
                                     </div>
                                 </div>
                             </div>
@@ -223,77 +240,421 @@
             </div>
         </section>
     @endif
-    
+    <!-- Upload ArtWork model -->
+    <div class="modal fade" id="UploadArtworkModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Upload ArtWork
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body template-modal">
+                    <div class="tab-teaser p-2">
+                        <!-- <div class="tab-menu">
+                            <ul>
+                                <li>
+                                     <a href="" id="upload_art" class="btn " data-rel="tab-2">
+                                        <div class="triangle-down"></div>
+                                        <div class="design-box">
+                                            <div class="design-img">
+                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/Frame.png" />
+                                            </div>
+                                            <div class="design-txt">
+                                                <h6>Upload Artwork</h6>
+                                                <p>Upload your designs and get the design proofing</p>
+                                            </div>
+                                        </div>
+                                    </a> 
+                                </li>
+                            </ul>
+                        </div> -->
+                        <div class="tab-main-box mt-5">
+                            <div class="tab-box" id="tab-2" style="display: block;" >
+                                <div id="upload-image-div" class="custom_radio product_select @if($template->design_method == 'Artwork') d-none @endif">
+                                    <input type="radio" value="Artwork" id="featured-1" name="featured" @if($template->design_method == 'Artwork') checked @endif >
+                                    <label for="featured-1">
+                                        <div class="Upload_wrapper uploadArtworkMainWrap">
+                                            <div class="vector_img">
+                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/vector.png">
+                                            </div>
+                                            <div class="Upload_wrapper-txt">
+                                                <h6>Upload Artwork Now</h6>
+                                            <input type="file" data-design-id="{{ $template->id ?? '' }}" class="file" name="imageInput" id="file"  />
+                                            <label for="file" class="btn-1">Browse File</label>
+                                                <div class="upload_img">
+                                                    <img data-design-id="{{ $template->id ?? '' }}" id="dropboxChooserButton" src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
+                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png">
+                                                </div>
+                                                <p>For file(s) bigger than 400MB <br> upload them right here</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <div class="leter_or">
+                                        <p>or</p>
+                                    </div>
+                                    <!-- <br> -->
+                                    <input type="radio" value="ArtworkLater" id="featured-2" name="featured" @if($template->design_method == 'ArtworkLater') checked @endif>
+                                    <label for="featured-2">
+                                
+                                        <div class="Upload_wrapper art_box">
+                                            <div class="Upload_wrapper-txt">
+                                                <h6>Upload Artwork Later</h6>
+                                                <p>You can continue by placing the order, we will send you an e-mail with link to upload your artwork file(s)</p>
+                                            </div>
+                                            
+                                        </div>
+                                    </label>
+                                </div>
+                                <div id="response-result" class="@if($template->design_method != 'Artwork') d-none @endif responseResultWrap" >
+                                    <div class="custom_radio product_select ">
+                                        @if($template->design_method == 'Artwork')
+                                            @foreach(json_decode($template->image,true) as $index => $value)
+                                                <div class="Upload_wrapper image-div d-flex">
+                                                    <div class="img">
+                                                        <img data-design-id="{{ $template->id  }}" src="{{ asset('designImage') }}/{{ $value }}">
+                                                    </div>
+                                                    <span data-design-id="{{ $template->id  }}"  data-img-index="{{$index}}" onclick="removeImage(this)" class="remove-image">X</span>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                        <label class="label-wrap" for="featured-1">
+                                            <div class="Upload_wrapper uploadIconWrap">
+                                                <div class="Upload_wrapper-txt add-icon-div">
+                                                    <input  data-design-id="{{ $template->id ?? '' }}" type="file" class="file" name="imageInput" id="file2"  />
+                                                    <label for="file2" class="btn-1"><i class="fa-solid fa-plus"></i></label>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button id="uploadButton" type="hidden" data-product-id="{{ $product->id ?? '' }}" ></button>
+                                <div class="note-wrapper">
+                                    <div class="note_data">
+                                        <h6>*Note:-</h6>
+                                        <p>- Our designers may connect with you for any clarification <br>  
+                                        - Product will be printed after your approval (if opted on cart)</p>
+                                    </div>
+                                </div>
+                                <div class="price_box">
+                                    <div class="design_tool">
+                                        <div class="design_tool_data">
+                                            <h6 class="ModelPrice" >£{{ $total }}</h6>
+                                            <span>(Incl.VAT)</span>
+                                        </div>
+                                        <div class="save_data">
+                                            <del>£11.75</del>
+                                            <a href="">Save 40% </a>
+                                        </div>
+                                        <div class="quantity-field">
+                                            <button class="value-button decrease-button" onclick="decreaseValue(this)" title="Azalt">-</button>
+                                            <input class="number model-qty" type="number" min="1" value="{{ $template->qty ?? '1' }}">
+                                            <button class="value-button increase-button" onclick="increaseValue(this, 50)" title="Arrtır">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="design_tool">
+                                        <button id="SaveDesign" class="btn light_dark" data-design-id="{{ $template->id ?? '' }}" type="button" >Add to basket</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end Model -->
     <script>
         $(document).ready(function(){
-            $('.customize-btn').on('click',function(){
-                var ProductID = $(this).data('product-id');
-                var templateID = $(this).data('template-id');
-                var size_unit = $('#size_unit').val();
-                var qty = $('#product_quantity').val();
-                var variations = {};
-                $('.product_variation').each(function() {
-                    var var_slug = $(this).data('slug');
-                    var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                    variations[var_slug]= selectedoption;
-                });
-                var size = $('#select_size').val();
-
-                if(size == 'custom') {
-                    var width = $('#custom_width').val();
-                    var height = $('#custom_height').val();
-                    var size_id = null;
+            $('input[name="featured"]').on('change',function(){
+                $value = $('input[name="featured"]:checked').val();
+                const images = $('#response-result img');
+                if($value == 'Artwork' && images.length < 1){
+                    $('#add-to-basket,#SaveDesign').prop('disabled', true);
                 } else {
-                    var width = null;
-                    var height = null;
-                    var selectedOption = $('#select_size option:selected');
-                    var size_id = selectedOption.data('id');
+                    $('#add-to-basket,#SaveDesign').prop('disabled', false);
                 }
-
-                console.log(ProductID,size_unit,qty,variations,size_id,width,height);
-                var_data =  JSON.stringify(variations);
-                $.ajax({
-                    url: "{{ url('saveDesign') }}",
-                    type: 'POST',
-                    data: {
-                        product_id: ProductID,
-                        template_data : null,
-                        template_id: templateID,
-                        dimension: size_unit,
-                        qty: qty,
-                        variations: var_data,
-                        size_id: size_id,
-                        width: width,
-                        height: height,
-                        _token: '{{ csrf_token() }}' 
-                    },
-                    success: function(data) {
-                        // console.log('Data saved successfully', data);
-                        window.location.href = `{{ url('designtool/template') }}/${data.template.id}`;
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error saving data', status, error);
-                    }
-                });
             });
 
-            function ensurePositiveInteger(input) {
-                var value = input.val();
+            $('#file, #file2').on('change',async function() {         // Browse Files from system  
+                $('#overlay').show();
+                try {
+                    var formData = new FormData();
+                    design_id = "{{ $template->id }}";
+                    var fileInput = $(this)[0];
+                    if (fileInput.files.length === 0) {
+                        alert('Please select an image to upload.');
+                        return;
+                    }
 
-                value = value.replace(/[^0-9]/g, '');
-
-                var numericValue = parseInt(value, 10);
-                if (isNaN(numericValue) || numericValue < 1) {
-                    numericValue = 1;
+                    formData.append('image', fileInput.files[0]);
+                    formData.append('design_id',design_id );
+                    $('#overlay').show();
+                    saveData = await saveDesignAjax(formData);
+                    if(saveData.imageName != null){
+                        $('#overlay').hide();
+                        $('#upload-image-div').addClass('d-none');
+                        $('#response-result').removeClass('d-none');
+                        var HTML_data = `<div class="Upload_wrapper image-div d-flex">
+                                            <div class="img">
+                                        <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                    </div>
+                                    <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                    </div>`;
+                        // $('#Upload_wrapper').append(HTML_data);
+                        $(HTML_data).insertBefore('.label-wrap');
+                        $('input[name="featured"]').trigger('change');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                } finally {
+                    $('#overlay').hide();
                 }
+            });
 
-                input.val(numericValue);
-            }
+            $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
+                
+                try {
+                    var design_id =  "{{ $template->id }}";
+                    var formData = new FormData();
+                    formData.append('design_id',design_id );
+
+                    Dropbox.choose({
+                        success: async function(files) {
+                            $('#overlay').show();
+                            files.forEach(file => {
+                                let link = file.link;
+                                let directLink = link.replace("dl=0", "raw=1");
+                                file.link=directLink;
+                            });
+                            
+                            $.ajax({
+                                url: '/upload-dropbox-file',
+                                type: 'POST',
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                data: JSON.stringify({ files: files }), 
+                                success: async function(data) {
+                                    if (data.files != null) {
+
+                                        formData.append('images', JSON.stringify(data.files) );
+                                        saveData = await saveDesignAjax(formData);
+
+                                        if (saveData.imageArray != null) {
+                                            $('#upload-image-div').addClass('d-none');
+                                            $('#response-result').removeClass('d-none');
+                                            
+                                            var HTML_data = '';
+                                            Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+                                            HTML_data += `<div class="Upload_wrapper image-div d-flex">
+                                                            <div class="img">
+                                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+                                                            </div>
+                                                            <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
+                                                        </div>`;
+                                            });
+
+                                            $(HTML_data).insertBefore('.label-wrap');
+                                            $('#file2').attr('data-design-id', saveData.template.id);
+                                            $('.add-to-basket').attr('data-design-id', saveData.template.id);
+                                            $('input[name="featured"]').trigger('change');
+                                            $('#overlay').hide();
+                                        }
+                                    } 
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                    $('#overlay').hide();
+                                }
+                            }); 
+                        },
+                        cancel: function() {
+                            console.log('User canceled the chooser.');
+                        },
+                        linkType: 'preview',
+                        multiselect: true, 
+                        extensions: ['.jpg', '.jpeg', '.png'],
+                    });
+                } catch (error) {
+                      console.log(error);
+                } finally {
+                    $('#overlay').hide();
+                }
+            });
+
+            $('#add-to-basket,#SaveDesign').on('click',async function(){
+                $('#overlay').show();
+                try{
+                    $designID = "{{ $template->id }}";
+                    $qty = $('#product_quantity').val();
+
+                    current_designMethod = "{{ $template->design_method  }}";
+                    productID = "{{ $template->product_id  }}";
+
+                    if(current_designMethod != 'template'){
+                        design_method =$('input[name="featured"]:checked').val();
+                        
+                    } else {
+                        design_method = current_designMethod;
+                    }
+
+                    var formData = new FormData();
+
+                    var size_unit = $('#size_unit').val();
+                    var variations = {};
+                    $('.product_variation').each(function() {
+                        var var_slug = $(this).data('slug');
+                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                        variations[var_slug]= selectedoption;
+                    });
+                    var size = $('#select_size').val();
+
+                    if(size == 'custom') {
+                        var width = $('#custom_width').val();
+                        var height = $('#custom_height').val();
+                        var size_id = null;
+
+                        formData.append('width', width);
+                        formData.append('height', height);
+
+                    } else {
+                        var width = null;
+                        var height = null;
+                        var selectedOption = $('#select_size option:selected');
+                        var size_id = selectedOption.data('id');
+                        formData.append('size_id', size_id);
+                    }
+                    var_data =  variations;
+                    formData.append('product_id', productID);
+                    formData.append('design_id', $designID);
+                    formData.append('dimension', size_unit);
+                    formData.append('qty',  $qty);
+                    formData.append('variations', JSON.stringify(var_data)); 
+                    formData.append('design_method', design_method);
+                    formData.append('action', 'finalSave');
+
+                
+                    saveData = await saveDesignAjax(formData);
+
+                    if(saveData) {
+                        addTobasket = await addTObasket($designID,$qty);
+                        if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                            console.log(addTobasket.id );
+                            url = "{{ url('checkout/cart') }}";
+                            window.location.href = url;
+                        }
+                    }
+                } catch (error){
+
+                } finally {
+                    $('#overlay').hide();
+                }
+            });
 
             $('#custom_width, #custom_height').on('input', function() {
                 ensurePositiveInteger($(this));
             });
         });
+
+        function ensurePositiveInteger(input) {
+            var value = input.val();
+
+            value = value.replace(/[^0-9]/g, '');
+
+            var numericValue = parseInt(value, 10);
+            if (isNaN(numericValue) || numericValue < 1) {
+                numericValue = 1;
+            }
+
+            input.val(numericValue);
+        }
+
+        async function addTObasket(designID,Qty) {            // Add to Basket Ajax request 
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('add-to-basket') }}",
+                    type: 'POST',
+                    data: {
+                        'design_id' :designID,
+                        'qty' : Qty
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        resolve(data); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                        reject(false); 
+                    }
+                });
+            });
+        }
+        async function saveDesignAjax(formData) {            // save Template Ajax request 
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('saveDesign') }}",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        resolve(data); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                        reject(false); 
+                    }
+                });
+            });
+        }
+        function removeImage(button) {          // Removing uploaded images 
+            designID = $(button).data('design-id');
+            ImageIndex = $(button).data('img-index');
+            console.log(designID,ImageIndex);
+            if(designID != undefined && ImageIndex != undefined){
+                var formData = new FormData();
+
+                formData.append('ImageIndex',ImageIndex);
+                formData.append('design_id',designID );
+                formData.append('is_saved',true );
+
+                var $parentDiv = $(button).closest('.Upload_wrapper');
+
+                $.ajax({
+                    url: "{{ url('updateDesign') }}",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        if(data.arrayCount < 1){
+                            $('#upload-image-div').removeClass('d-none');
+                            $('#response-result').addClass('d-none');
+                            $parentDiv.remove();
+                            $('input[name="featured"]').trigger('change');
+                        } else {
+                            $parentDiv.remove();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                    }
+                });
+            }
+        }
     </script>
      <!-- @if ($template->dimension != null && strtolower($template->dimension) != 'ft')
                 var size_unit = $('#size_unit').val();
@@ -321,9 +682,6 @@
             @endif
 
             $('#custom_width, #custom_height').on('change', customSize);  // on chnage Custom height and width 
-            // $('#increase-button, #decrease-button').on('click',function(){
-            //     $('#product_quantity').trigger();
-            // });
 
             // changing size 
             $('#select_size').on('change', async function() {
@@ -359,9 +717,11 @@
 
             $('#product_quantity').on('change', function() {
                 var value = $(this).val();
+                $('.model-qty').val(value);
                 if (value < 1 || value > 999) {
                     value = 1;
                     $('#product_quantity').val(1);
+                    $('.model-qty').val(1);
                 }
                 var size_value = $('#select_size').val();
                 if(size_value == 'custom'){
@@ -373,8 +733,34 @@
                         totalPrice += selectedPrice;
                     });
                     var price = $('#product_price_input').val();
-                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 3) * value);
-                    $('#product_price').text((parseFloat(price) + totalPrice) * value);
+                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+                    $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+                    $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
+                }
+            });
+
+            $('.model-qty').on('change', function() {
+                var value = $(this).val();
+                $('#product_quantity').val(value);
+                $('.model-qty').val(value);
+                if (value < 1 || value > 999) {
+                    value = 1;
+                    $('#product_quantity').val(1);
+                    $('.model-qty').val(1);
+                }
+                var size_value = $('#select_size').val();
+                if(size_value == 'custom'){
+                   customSize();
+                } else {
+                    var totalPrice = 0;
+                    $('.product_variation').each(function() {
+                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                        totalPrice += selectedPrice;
+                    });
+                    var price = $('#product_price_input').val();
+                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+                    $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+                    $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
                 }
             });
 
@@ -397,36 +783,10 @@
                 // var totalPrice = parseFloat($('#select_size option:selected').data('price'));
                 var selectElement = $(this);
 
-
                 $('.product_variation').each(function() {
                     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
                     totalPrice += selectedPrice;
                 });
-
-                // console.log(totalPrice);
-                // adding price
-                // selectElement.find('option:selected').each(function() {
-                //     var option = $(this).get(0);
-                //     var price = parseFloat(option.dataset.price);
-                //     selectedOptions.push({
-                //         value: option.dataset.id,
-                //         price: price
-                //     });
-                //     totalPrice += price;
-                // });
-                // removing or changing price
-                // selectElement.find('option').each(function() {
-                //     var option = $(this).get(0);
-                //     if (!$(option).is(':selected')) {
-                //         var valueToRemove = option.dataset.id;
-                //         var index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                //         while (index !== -1) {
-                //             totalPrice -= selectedOptions[index].price;
-                //             selectedOptions.splice(index, 1);
-                //             index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                //         }
-                //     }
-                // });
 
                 // $('#product_price_input').val(totalPrice.toFixed(2));
                 var value = $('#product_quantity').val();
@@ -441,7 +801,7 @@
 
                 var width =parseFloat($('#custom_width').val());
                 var height = parseFloat($('#custom_height').val());
-                var newprice = pricePerUnit *( width + height); 
+                var newprice = Math.round(pricePerUnit *( width + height)); 
 
                 var Qty = parseFloat($('#product_quantity').val());
                 var variation_total_price = 0;
@@ -451,11 +811,11 @@
                 });
                 var totalPrice = (newprice + variation_total_price) * Qty;
                 if(formatPrice(totalPrice) !== true){
-                    var totalPrice = totalPrice.toFixed(1);
+                    var totalPrice = Math.round(totalPrice);
                 }
 
                 $('#product_price').text( totalPrice);
-                $('#product_price_input').val(newprice.toFixed(1));
+                $('#product_price_input').val(newprice);
                 $('#product_price_main').text('£' + (totalPrice + 3));
             }
 
@@ -471,17 +831,8 @@
             async function priceratio() {
                 var main_price = parseFloat($('#product_default_price').val());
                 var value =  $('#size_unit').val(); 
-                var unit_value;
-
-                if (value == 'In') {
-                    unit_value = 12;
-                } else if (value == 'Cm') {
-                    unit_value = 30;
-                } else if (value == 'Mm') {
-                    unit_value = 300;
-                } else if (value == 'Ft') {
-                    unit_value = 1;
-                }
+                var unit_value = await getUnitValue(value);
+              
                 PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
                 return PriceperUnit;
             }
@@ -489,17 +840,8 @@
             // Update Custom size on size unit change
             async function UpdateCustomSize(value) {
                 var last_unit = $('#custom_width').data('unit');
-                var unit_value;
+                var unit_value = await getUnitValue(last_unit);
 
-                if (last_unit == 'In') {
-                    unit_value = 12; 
-                } else if (last_unit == 'Cm') {
-                    unit_value = 30; 
-                } else if (last_unit == 'Mm') {
-                    unit_value = 300; 
-                } else if (last_unit == 'Ft') {
-                    unit_value = 1; 
-                }
 
                 var width = parseFloat($('#custom_width').val());
                 var height = parseFloat($('#custom_height').val());
@@ -507,20 +849,10 @@
                 var width_in_inches = width / unit_value;
                 var height_in_inches = height / unit_value;
 
-                var new_unit_value;
+                var new_unit_value = await getUnitValue(value);
 
-                if (value == 'In') {
-                    new_unit_value = 12; 
-                } else if (value == 'Cm') {
-                    new_unit_value = 30; 
-                } else if (value == 'Mm') {
-                    new_unit_value = 300; 
-                } else if (value == 'Ft') {
-                    new_unit_value = 1; 
-                }
-
-                var new_width = width_in_inches * new_unit_value;
-                var new_height = height_in_inches * new_unit_value;
+                var new_width = Math.round(width_in_inches * new_unit_value);
+                var new_height = Math.round(height_in_inches * new_unit_value);
 
                 $('#custom_width').val(new_width);
                 $('#custom_height').val(new_height);
@@ -531,24 +863,18 @@
                 return true;
             }
 
-            function updateSize(id, value, selectedSize) {
+            async function updateSize(id, value, selectedSize) {
                 $.ajax({
                     url: "{{ url('/product/sizes/') }}" + "/" + id,
                     type: 'GET',
-                    success: function(data) {
+                    success: async function(data) {
                         var sizeSelect = $('#select_size');
                         if (data.length > 0) {
                             sizeSelect.show();
                             sizeSelect.empty();
-                            if (value == 'In') {
-                                unit_value = 12;
-                            } else if (value == 'Cm') {
-                                unit_value = 30;
-                            } else if (value == 'Mm') {
-                                unit_value = 304;
-                            } else if (value == 'Ft') {
-                                unit_value = 1;
-                            }
+
+                            unit_value = await getUnitValue(value);
+                           
                             $.each(data, function(index, size) {
                                 if (size.size_type == 'wh' || size.size_type == 'DH') {
                                     if (selectedSize == size.size_value) {
@@ -603,6 +929,22 @@
             }
         });
 
+        async function getUnitValue(value){
+            return new Promise((resolve, reject) => {
+                var unit_value;
+                if (value == 'In') {
+                    unit_value = 12;
+                } else if (value == 'Cm') {
+                    unit_value = 30;
+                } else if (value == 'Mm') {
+                    unit_value = 304;
+                } else if (value == 'Ft') {
+                    unit_value = 1;
+                }
+
+                resolve(unit_value);
+            });
+        }
         function increaseValue(button, limit) {
             const numberInput = button.parentElement.querySelector("input.number");
             var value = parseInt(numberInput.value, 10);
@@ -620,6 +962,18 @@
                 numberInput.value = value - 1;
                 $(numberInput).trigger('change');
             }
+        }
+        function decreaseQtyValue(btn){
+            var qty_value = parseInt($('#product_quantity').val());
+            new_qty = qty_value -1;
+            $('#product_quantity').val(new_qty);
+            $('#product_quantity').trigger('change');
+        }
+        function increaseQtyValue(btn){
+            var qty_value = parseInt($('#product_quantity').val());
+            new_qty = qty_value +1;
+            $('#product_quantity').val(new_qty);
+            $('#product_quantity').trigger('change');
         }
     </script>
 @endsection

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Basket;
 use Auth;
 use Session;
+use Stripe\{Stripe,SetupIntent,Customer,PaymentIntent,Charge};
 
 class CheckoutController extends Controller
 {
@@ -29,6 +30,16 @@ class CheckoutController extends Controller
     }
     public function checkout()
     {
-        return view('front.checkout.index');
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $setup_intent = SetupIntent::create();
+        $client_secret = $setup_intent->client_secret;
+        
+        return view('front.checkout.index', compact('setup_intent', 'client_secret'));
+    }
+
+    public function checkoutProcc(Request $request){
+        echo '<pre>';
+        print_r($request->all());
     }
 }

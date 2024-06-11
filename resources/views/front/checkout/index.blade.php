@@ -46,10 +46,20 @@
                                         <div class="check-ship">
                                             <h5>Account Details</h5>
                                             <div class="checkout-block">
-                                                <div class="guest">
-                                                    <a href="javascript:void" style="color:#DC288A">Guest Checkout</a>
-                                                    <a href="javascript:void" style="color:#7C7C7C">Login/Sign Up</a>
-                                                </div>
+                                                @if (!Auth::check())
+                                                    <div class="guest">
+                                                        <!-- <a href="javascript:void" style="color:#DC288A">Guest Checkout</a> -->
+                                                        <p style="color:#DC288A">You need to login for checkout</p>
+                                                        <!-- <a href="javascript:void" style="color:#7C7C7C"> -->
+                                                        <p style="color:#7C7C7C">
+                                                             <a href="{{ url('login') ?? ''}}" style="color:#7C7C7C">Login</a> 
+                                                             /
+                                                             <a href="{{ url('register') ?? ''}}" style="color:#7C7C7C">Sign Up</a>
+                                                        <!-- </a> -->
+                                                        </p>
+                                                    </div>  
+                                                @endif
+                                                
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <input type="email" class="form-control" placeholder="Email">
@@ -66,52 +76,53 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="check-ship">
+                                        <div class="check-ship shippingAddresWrap">
                                             <h5>Shipping Address</h5>
                                             <div class="checkout-block">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <input type="text" class="form-control"
-                                                            placeholder="First Name">
+                                                            placeholder="First Name" name="first_name">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" class="form-control" placeholder="Last Name">
+                                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="first_name">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="number" class="form-control"
-                                                            placeholder="Phone Number">
+                                                        <input type="number" class="form-control phnNumberCng"
+                                                            placeholder="Phone Number" data-to="phnNumberData"  name="phone" id="phone">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input type="email" class="form-control"
-                                                            placeholder="Email Address">
+                                                            placeholder="Email Address emailDataCng" data-to="mailAddrData" name="email" id="email">
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="text" class="form-control"
-                                                            placeholder="Company Name">
+                                                            placeholder="Company Name"  name="company_name" id="company_name">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                   
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Address Line" data-to="addressData" name="address_line" id="address_line">
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="text" class="form-control"
-                                                            placeholder="Address Line">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Street/Road">
+                                                            placeholder="Street/Road" name="street">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" class="form-control" placeholder="City">
+                                                        <input type="text" class="form-control" data-to="cityData" placeholder="City" name="city" id="city">
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <select class="form-control">
+                                                        <select class="form-control" name="state" data-to="stateData">
                                                             <option value="">State</option>
                                                             <option value="">2</option>
                                                             <option value="">3</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" class="form-control" placeholder="Zip Code">
+                                                        <input type="text" class="form-control" data-to="zipCodeData" placeholder="Zip Code" name="zip_code" id="zip_code">
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <select class="form-control">
+                                                        <select class="form-control" data-to="countryData" name="country" id="country">
                                                             <option value="">Country</option>
                                                             <option value="">2</option>
                                                             <option value="">3</option>
@@ -185,7 +196,9 @@
                                         </div>
                                         <div class="check_btn">
                                             <button type="button" class="back_button btn light_dark">Back</button>
-                                            <button type="button" class="next_button btn light_dark">Continue</button>
+                                            <!-- <button type="button" disabled class="next_button btn light_dark">Continue</button> -->
+                                            <button type="button" class="next_button btn light_dark ">Continue</button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -322,18 +335,32 @@
                                                 <div class="ship-add">
                                                     <p>
                                                     <h6>Address:</h6>
-                                                    <span>Zabiro Vasemashkovat, 2089 Rockford Road Westborough, 01581,
+                                                    <span class="addressData"></span>
+                                                    <span class="shippingAddressData"> 
+                                                        <span class="zipCodeData"></span>
+                                                        <span class="cityData"></span>
+                                                        <span class="stateData"></span>
+                                                        <span class="countryData"></span>
+                                                        <!-- Zabiro Vasemashkovat,
+                                                        2089 Rockford Road Westborough,
+                                                        01581,
                                                         MA,
-                                                        India</span></p>
+                                                        India -->
+                                                    </span></p>
                                                 </div>
                                                 <div class="ship-add">
                                                     <h6>Contact information:</h6>
-                                                    <span><a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a>
-                                                        <a href="tel:77463 34445"></a> 77463 34445</span>
+                                                    <span class="contactInfoData">
+                                                        <span class="mailAddrData" >zabirovasemashkovat@schule-breklum.de</span>
+                                                        <span class="phnNumberData" >77463 34445</span>
+                                                        <!-- <a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a> -->
+                                                        <!-- <a href="tel:77463 34445"></a> -->
+                                                        
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="edit">
-                                                <a href="javascript:void"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <div class="edit editAdressInfo">
+                                                <span><i class="fa-solid fa-pen-to-square"></i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -423,37 +450,106 @@
 </section>
 <script>
     $(document).ready(function () {
-        var current = 0;
+        var current = 1; // Start with the second tab
         var tabs = $(".tab");
         var tabs_pill = $(".tab-pills");
+        var steps = $(".steps li");
+
+        // Check if user is logged in
+        var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
         loadFormData(current);
 
         function loadFormData(n) {
-            $(tabs_pill[n]).addClass("active");
-            $(tabs[n]).removeClass("d-none");
-            $(".back_button").prop("disabled", n === 0);
-            $(".next_button").prop("disabled", n === tabs.length - 1);
+            $(tabs_pill).removeClass("active"); // Remove active class from all tab pills
+            $(tabs).addClass("d-none"); // Hide all tabs
+            $(tabs_pill[n - 1]).addClass("active"); // Add active class to the current tab pill
+            $(tabs[n - 1]).removeClass("d-none"); // Show the current tab
+
+            $(".back_button").prop("disabled", n === 1);
+
+            // Disable the "next" button if the user is not logged in or if it's the last tab
+            if (!isLoggedIn || n === tabs.length) {
+                $(".next_button").prop("disabled", true);
+            } else {
+                $(".next_button").prop("disabled", false);
+            }
+
+            // Update steps classes
+            step();
         }
 
         function next() {
-            $(tabs[current]).addClass("d-none");
-            $(tabs_pill[current]).removeClass("active");
+            if (current < tabs.length) {
+                $(tabs[current - 1]).addClass("d-none");
+                $(tabs_pill[current - 1]).removeClass("active");
 
-            current++;
-            loadFormData(current);
+                current++;
+                loadFormData(current);
+            }
         }
 
         function back() {
-            $(tabs[current]).addClass("d-none");
-            $(tabs_pill[current]).removeClass("active");
+            if (current > 1) {
+                $(tabs[current - 1]).addClass("d-none");
+                $(tabs_pill[current - 1]).removeClass("active");
 
-            current--;
-            loadFormData(current);
+                current--;
+                loadFormData(current);
+            }
+        }
+
+        function goToFirstTab() {
+            current = 1; // Set current to 1 to start from the second tab
+            loadFormData(current); // Load the second tab
+            $('html, body').animate({
+                scrollTop: $(".shippingAddresWrap").offset().top
+            }, 500); // Scroll to the shippingAddresWrap div
+        }
+
+        function step() {
+            steps.removeClass("is-active completed"); // Remove all classes
+            steps.eq(0).addClass("is-active completed"); // Mark the first step as completed
+
+            steps.each(function (index) {
+                if (index > 0 && index < current) { // Mark previous steps as completed
+                    $(this).addClass("is-active completed");
+                }
+                if (index === current) {
+                    $(this).addClass("is-active");
+                }
+            });
         }
 
         $(".back_button").on("click", back);
         $(".next_button").on("click", next);
+        $(".editAdressInfo").on("click", goToFirstTab); // Attach goToFirstTab function to click event
     });
 </script>
+
+
+
+<!-- script for add address and email data In Shipping address -->
+<script>
+$(document).ready(function() {
+    $('input[data-to]').keyup(function() {
+        var targetClass = $(this).data('to');
+
+        if (targetClass) {
+            var inputValue = $(this).val();
+            
+            if ($('.shippingAddressData .' + targetClass).length > 0) {
+                inputValue = ', ' + inputValue;
+            }
+            
+            $('.' + targetClass).text(inputValue);
+        }
+    });
+});
+
+
+</script>
+
+
+
 @endsection

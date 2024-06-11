@@ -196,7 +196,8 @@ class TemplateManager {
                 size_id: sizeId,
                 variations: variations,
                 action: action,
-                image: imageUrl, 
+                image: imageUrl,
+                design_method : 'template',
                 status: status
             },
             success: (response) => {

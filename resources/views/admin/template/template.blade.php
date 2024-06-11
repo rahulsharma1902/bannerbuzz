@@ -1,5 +1,16 @@
 @extends('front_layout/index')
 @section('content')
+
+@foreach ($fonts as $font)
+    <style>
+        @font-face {
+            font-family: "{{ $font->name }}";
+            src: url("{{ asset($font->path) }}");
+        }
+    </style>
+@endforeach
+
+
 <div class="main_div"></div>
 <header class="header_wrap">
     <nav class="navbar navbar-expand-lg">
@@ -1126,6 +1137,12 @@
                                                 <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
                                                 <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
                                                 <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
+                                                @foreach ($fonts as $font)
+                                                    <option style="font-family: '{{ $font->name ?? '' }}';" value="{{ $font->name ?? '' }}">
+                                                        {{ $font->name ?? 'Roboto' }}
+                                                    </option>
+                                                @endforeach
+
 
                                             </select>
                                         </div>

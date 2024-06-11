@@ -571,6 +571,11 @@
   .basket-rgt {
     padding: 20px;
   }
+  .bodyMainWrap header .search_content .navbar-brand img {
+    height: 100px;
+    width: 100px;
+    object-fit: fill;
+}
 }
 
 @media only screen and (max-width: 991px) {
@@ -1311,6 +1316,10 @@
   .checkout-block.ship {
     gap: 30px;
 }
+.bodyMainWrap .bars {
+  background-color: #e4004e;
+}
+
 }
 
 @media only screen and (max-width: 767px) {
@@ -1738,6 +1747,10 @@
 .responseResultWrap .custom_radio.product_select {
   gap: 10px;
 }
+.bodyMainWrap .get_in_sec .get-in-content{
+  margin-top: 50px;
+}
+
 }
 
 @media only screen and (max-width: 575px) {

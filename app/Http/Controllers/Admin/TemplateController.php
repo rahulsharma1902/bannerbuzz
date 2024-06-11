@@ -12,6 +12,7 @@ use App\Models\BackgroundCategory;
 use App\Models\Clipart;
 use App\Models\ClipArtCategory;
 use App\Models\Shape;
+use App\Models\Font;
 use App\Models\ShapeCategory;
 
 use App\Models\UploadImageTemplate;
@@ -111,12 +112,14 @@ class TemplateController extends Controller
                 $shapes = ShapeCategory::with('shape')->get();
                 $cliparts = ClipArtCategory::with('clipart')->get();
                 $uploadedImages = UploadImageTemplate::where('user_id',Auth::user()->id ?? '')->get();
+
+                $fonts = Font::all();
                 // echo '<pre>';
                 // print_r($shapes);
                 // die();
                 // $shapes = Shape::all();
                 // $cliparts = Clipart::all();
-                return view('admin.template.template',compact('templateCategorys','templateData','shapes','backgrounds','cliparts','templates','uploadedImages'));
+                return view('admin.template.template',compact('fonts','templateCategorys','templateData','shapes','backgrounds','cliparts','templates','uploadedImages'));
             }else{
                 return redirect()->back()->with('error','Invalid Template');
             }

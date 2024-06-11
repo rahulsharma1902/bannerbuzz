@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
             $table->string('dimension')->nullable();
+            $table->string('size_type')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('size_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->longText('image')->nullable();
             $table->longText('variations')->nullable();
             $table->longText('template_data')->nullable();
-            $table->string('design_method')->default('template')->nullable();  //tempalte  artwork
+            $table->string('design_method')->default('template')->nullable();  //tempalte  artwork ArtworkLater hireDesigner
             $table->tinyInteger('status')->default(0)->nullable();
             $table->timestamps();
         

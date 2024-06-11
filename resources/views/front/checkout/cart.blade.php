@@ -1,10 +1,11 @@
 @extends('front_layout.master')
 @section('content')
+<?php $all_total =[]; ?>
     <section class="checkout-sec p_100">
         <div class="container">
-            <div class="wrapper">
+            <div id="wrapper" class="wrapper">
                 <h3>Shopping Basket</h3>
-                @if(isset($allBasket) && $allbasket->isNotEmpty())
+                @if(isset($allbasket) && $allbasket->isNotEmpty())
                     <ul class="steps">
                         <li class="is-active completed">
                             <div class="step">
@@ -59,76 +60,100 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($allbasket as $basket)
-                                                    <tr class="basket-items-list">
-                                                        <td>
-                                            
-                                                            <div class="prdt">
-                                                                <div class="prdt-img">
-                                                                    @if($basket->design->design_method == 'Artwork')
-                                                                        <?php $count = 0; ?> 
-                                                                        @foreach(json_decode($basket->design->image,true) as $index => $value)
-                                                                            @if($count == 0)
-                                                                                <img src="{{ asset('designImage/'.$value) }}">
-                                                                            @endif
-                                                                            <?php  $count++ ?>
-                                                                        @endforeach
-                                                                    @elseif($basket->design_method == 'ArtworkLater')
-                                                                        <img src="{{ asset('Site_Images/sendartworklater.png') }}">
-                                                                    @else
-                                                                        <img src="{{ asset('designImage/'.$basket->design->image) }}">
+                                                    @if(isset($basket->design))
+                                                        <tr class="basket-items-list">
+                                                            <td>
+                                                
+                                                                <div class="prdt">
+                                                                    <div class="prdt-img">
+                                                                        @if($basket->design_method == 'Artwork')
+                                                                            <?php $count = 0; ?> 
+                                                                            
+                                                                            @foreach(json_decode($basket->design->image,true) as $index => $value)
+                                                                                @if($count == 0)
+                                                                                    <img src="{{ asset('designImage/'.$value) }}">
+                                                                                @endif
+                                                                                <?php  $count++ ?>
+                                                                            @endforeach
+                                                                        @elseif($basket->design_method == 'ArtworkLater')
+                                                                            <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                        @else
+                                                                            <img src="{{ asset('designImage/'.$basket->design->image) }}">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="prdt-name">
+                                                                        <?php $variation_price = [] ; ?>
+                                                                        <h6>{{ $basket->design->product->name ?? '' }} <br>
+                                                                            @foreach($basket->design->product->variations as $variation)  
+                                                                                @if ($variation->variationData->isNotEmpty())  
+                                                                                    @foreach(json_decode($basket->design->variations) as $key => $value)
+                                                                                        @if($key == $variation->var_slug)
+                                                                                            @foreach ($variation->variationData as $data)
+                                                                                                @if($value == $data->id)
+                                                                                                    {{ $key }} : {{ $data->value }} <br>
+                                                                                                    <?php $variation_price [] = $data->price; ?>
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            @if($basket->design->size_id != null)
+                                                                @foreach($basket->design->product->sizes as $size)
+                                                                    @if($size->id == $basket->design->size_id)
+                                                                    @php
+                                                                        $value = $basket->design->dimension;
+                                                                        if ($value == 'In') {
+                                                                            $unit_value = 12;
+                                                                        } else if ($value == 'Cm') {
+                                                                            $unit_value = 30;
+                                                                        } else if ($value == 'Mm') {
+                                                                            $unit_value = 304;
+                                                                        } else if ($value == 'Ft') {
+                                                                            $unit_value = 1;
+                                                                        }
+
+                                                                        $size_value = explode('X' ,$size->size_value);
+                                                                        $width = $size_value[0];
+                                                                        $heigth = $size_value[1];
+
+                                                                        $converted_width = $width * $unit_value; 
+                                                                        $converted_height = $heigth * $unit_value; 
+                                                                    @endphp
+                                                                        <td>Size (W X H): {{ $converted_width }}X{{ $converted_height }} ({{ $basket->design->dimension }})</td>
+                                                                        <?php $size_price = $size->price; ?>
                                                                     @endif
+                                                                @endforeach
+                                                            @else
+                                                                <td>Size (W X H): {{ $basket->design->width }} x {{ $basket->design->height }} ({{ $basket->design->dimension }})</td>
+                                                                <?php $size_price = $basket->price; ?>
+                                                            @endif
+                                                            @php
+                                                                $var_price = array_sum($variation_price);
+                                                                $total_without_qty = $size_price + $var_price;
+                                                                $total =( $size_price + $var_price) * $basket->qty;
+                                                            @endphp
+                                                            <td>
+                                                                <div class="quantity">
+                                                                    <span class="minus">-</span>
+                                                                    <input type="text" data-product-id="{{ $basket->id }}" data-withoutqtyprice="{{ $total_without_qty }}" data-withqtyprice="{{ $total }}" class="qtyInput" value="{{ $basket->qty }}">
+                                                                    <span class="plus">+</span>
                                                                 </div>
-                                                                <div class="prdt-name">
-                                                                <?php $variation_price = [] ; ?>
-                                                                    <h6>{{ $basket->design->product->name ?? '' }} <br>
-                                                                        @foreach($basket->design->product->variations as $variation)  
-                                                                            @if ($variation->variationData->isNotEmpty())  
-                                                                                @foreach(json_decode($basket->design->variations) as $key => $value)
-                                                                                    @if($key == $variation->var_slug)
-                                                                                        @foreach ($variation->variationData as $data)
-                                                                                            @if($value == $data->id)
-                                                                                                {{ $key }} : {{ $data->value }}
-                                                                                                <?php $variation_price [] = $data->price; ?>
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        @endforeach
-                                                                    </h6>
+                                                            </td>
+                                                            <td id="product_total{{ $basket->id }}" >£{{ $total }}</td>
+                                                            <?php $all_total[] = $total ?>
+                                                            <td>
+                                                                <div class="edit">
+                                                                    <span><a href="{{ url('review/designtool') }}/{{ $basket->design_id }}"><i class="fa-solid fa-pencil"></i></a></span>
+                                                                    <span class="remove-design" data-id="{{ $basket->id ?? '' }}" ><i class="fa-solid fa-xmark"></i></span>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                        @if($basket->design->size_id != null)
-                                                            @foreach($basket->design->product->sizes as $size)
-                                                                @if($size->id == $basket->design->size_id)
-                                                                    <td>Size (W X H): {{ $size->size_value }} ({{ $basket->design->dimension }})</td>
-                                                                    <?php $size_price = $size->price; ?>
-                                                                @endif
-                                                            @endforeach
-                                                        @else
-                                                            <td>Size (W X H): {{ $basket->design->width }} x {{ $basket->design->height }} ({{ $basket->design->dimension }})</td>
-                                                            <?php $size_price = $basket->price; ?>
-                                                        @endif
-                                                        <td>
-                                                            <div class="quantity">
-                                                                <span class="minus">-</span>
-                                                                <input type="text" value="{{ $basket->qty }}">
-                                                                <span class="plus">+</span>
-                                                            </div>
-                                                        </td>
-                                                        @php
-                                                            $var_price = array_sum($variation_price);
-                                                            $total =( $size_price + $var_price) * $basket->qty;
-                                                        @endphp
-                                                        <td>£{{ $total }}</td>
-                                                        <td>
-                                                            <div class="edit">
-                                                                <span><a href="{{ url('review/designtool') }}/{{ $basket->design_id }}"></a><i class="fa-solid fa-pencil"></i></span>
-                                                                <span class="remove-design" data-id="{{ $basket->id ?? '' }}" ><i class="fa-solid fa-xmark"></i></span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -240,32 +265,32 @@
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>Subtotal</p>
-                                                    <span>$6.99</span>
+                                                    <span class="subtotal"  >${{array_sum($all_total) }}</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>Shipping <span>(Estimated delivery Thu, Feb <br> 1st 2024 -
                                                             Express)</span></p>
-                                                    <span>$5.00</span>
+                                                    <span>$00</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>VAT</p>
-                                                    <span>$1.40</span>
+                                                    <span>$00</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content grand">
                                                     <p>Grand Total:</p>
-                                                    <span>$13.39</span>
+                                                    <span class="totalprice" >${{array_sum($all_total) }}</span>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="cart-btm">
-                                        <a href="javascript:void(0)" class="btn light_dark">Proceed to checkout</a>
+                                        <a href="{{ url('checkout') ?? '' }}" class="btn light_dark">Proceed to checkout</a>
                                         <span>or</span>
                                         <a href="javascript:void(0)" class="img-btn"><img
                                                 src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pwa.png" alt=""></a>
@@ -306,10 +331,69 @@
                 basket_id = $(this).data('id');
                 if(basket_id != undefined && basket_id != null){
                     remove_basket = await removeBasketItem(basket_id);
-                    if(remove_basket == true){
-                        $(this).closest('tr').remove();
+                    if(remove_basket.result == true){
+                        if(remove_basket.total < 1) {
+                            $('#wrapper').empty();
+                            _html_ = ` <h3>Shopping Basket</h3>
+                                    <div class="cart-content">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <div class="shop-basket">
+                                                    <div class="basket-top">
+                                                        <h4>Your Basket: 0 Items</h4>
+                                                        <span><a href="{{ url('/') }}">Continue Shopping</a></span>
+                                                    </div>
+                                                    <p>Your basket is empty <a href="{{ url('/') }}">Go to homepage</a> </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            $('#wrapper').append(_html_);
+                        } else {
+                            $(this).closest('tr').remove();
+                        }
                     }
                 } 
+            });
+
+            $('.minus').on('click',function(){
+                 parentContainer = $(this).closest('.quantity');
+                 inputField = parentContainer.find('input.qtyInput');
+                $qty = parseInt(inputField.val());
+                price_without_qty = parseInt(inputField.data('withoutqtyprice'));
+                $ID = inputField.data('product-id');
+
+                new_qty = $qty - 1;
+                inputField.val(new_qty);
+                
+                new_total_price = parseInt(price_without_qty * new_qty);
+                inputField.attr('data-withqtyprice',new_total_price);
+
+                product_total = $('#product_total'+$ID);
+                product_total.text('$' + new_total_price);
+
+                // console.log(parentContainer,inputField,$qty,price_without_qty,$ID,new_qty,new_total_price)
+                changePrice();
+            });
+
+            $('.plus').on('click',function(){
+                 parentContainer = $(this).closest('.quantity');
+                 inputField = parentContainer.find('input.qtyInput');
+                $qty = parseInt(inputField.val());
+                price_without_qty = parseInt(inputField.data('withoutqtyprice'));
+                $ID = inputField.data('product-id');
+
+                new_qty = $qty + 1;
+                inputField.val(new_qty);
+                
+                new_total_price = parseInt(price_without_qty * new_qty);
+                inputField.attr('data-withqtyprice',new_total_price);
+
+                product_total = $('#product_total'+$ID);
+                product_total.text('$' + new_total_price);
+
+                // console.log(parentContainer,inputField,$qty,price_without_qty,$ID,new_qty,new_total_price)
+                changePrice();
             });
         });
         async function removeBasketItem(basket_id){
@@ -332,6 +416,15 @@
                     }
                 });
             });
+        }
+        function  changePrice(){
+            var totalPrice = 0;
+            $('.qtyInput').each(function(){
+                // console.warn(parseInt($(this).attr('data-withqtyprice')));
+                totalPrice += parseInt($(this).attr('data-withqtyprice'));
+            });
+            $('.subtotal').text('$'+totalPrice);
+            $('.totalprice').text('$'+totalPrice);
         }
     </script>
     <script>

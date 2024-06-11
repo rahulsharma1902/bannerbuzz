@@ -10,28 +10,27 @@
         </div>
     </section>
     @if (isset($product))
-        <section class="shop_dt_wrapper p_100 pt-0">
+        <section class="shop_dt_wrapper p_100 pt-0 custom_buy_wrapper">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-4">
+                <div class="row custom_buy_row">
+                    <div class="col-lg-4 custom_buy_image_col">
                         <div class="shop_dt_img">
                             @foreach (json_decode($product->images) as $index => $image)
                                 @if ($index == 0)
-                                    <div class="shop_dt_img_inner">
-                                        <img src="{{ asset('accessories_Images') }}/{{ $image }}">
+                                    <div class="shop_dt_img_inner" >
+                                        <img id="main-image" src="{{ asset('accessories_Images') }}/{{ $image }}">
                                     </div>
                                     <ul>
-                                    @else
-                                        <li>
-                                            <img width="130px" height="60px"
-                                                src="{{ asset('accessories_Images') }}/{{ $image }}">
-                                        </li>
                                 @endif
+                                    <li class="list-image-container @if($index == 0) active @endif" >
+                                        <img class="list-image" width="130px" height="60px"
+                                            src="{{ asset('accessories_Images') }}/{{ $image }}">
+                                    </li>
                             @endforeach
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-8 custom_buy_detail_col">
                         <div class="shop_dt_cst">
                             <div class="shop_dt_view">
                                 <h3>{{ $product->name ?? '' }}</h3>
@@ -86,14 +85,14 @@
                                                 </select>
                                             @endif
                                         @endif
-                                        <label for="product_quantity">Qty:</label>
+                                        <!-- <label for="product_quantity">Qty:</label>
                                         @if ($selected_qty != null)
                                             <input type="number" value="{{ $selected_qty }}" id="product_quantity"
                                                 name="quantity" placeholder="Qty" class="form-select">
                                         @else
                                             <input type="number" value="1" id="product_quantity" name="quantity"
                                                 placeholder="Qty" class="form-select">
-                                        @endif
+                                        @endif -->
                                     </div>
                                 </div>
                                 @if ($product->variations->isNotEmpty())
@@ -123,94 +122,76 @@
                                 @endif
                             </form>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="shp_dt_art">
-                            <p>
-                                @if ($product->sizes->isNotEmpty())
-                                    <?php
-                                    foreach ($product->sizes as $size) {
-                                        if ($selected_size == $size->size_value) {
-                                            $size_price = $size->price;
-                                        }
-                                    }
-                                    if (!$selected_size) {
-                                        $size_price = $product->sizes->first()->price;
-                                    }
-                                    if ($selected_qty != null) {
-                                        $total = ($size_price + array_sum($variation_price)) * $selected_qty;
-                                    } else {
-                                        $total = $size_price + array_sum($variation_price);
-                                    } ?>
-                                    <span id="product_price_main">${{ $total + 10 }}</span>
-                                    <strong id="product_price">£{{ $total }}</strong>
-                                    (Incl. VAT)
-                                    <input type="hidden" id="product_price_input" name="product_price"
-                                        value="{{ $size_price }}">
-                                @else
-                                    <?php
-                                    if ($selected_qty != null) {
-                                        $total = ($product->price + array_sum($variation_price)) * $selected_qty;
-                                    } else {
-                                        $total = $product->price + array_sum($variation_price);
-                                    } ?>
-                                    <span id="product_price_main">£{{ $total + 10 }}</span>
-                                    <strong id="product_price">£{{ $total }}</strong>
-                                    (Incl. VAT)
-                                    <input type="hidden" id="product_price_input" name="product_price"
-                                        value="{{ $product->price }}">
-                                @endif
-                            </p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    <strong>Upload Artwork</strong>
-                                    <p>
-                                        Upload your designs and get the design proofing done
-                                    </p>
-                                </label>
+                        @if ($product->sizes->isNotEmpty())
+                            <?php
+                            foreach ($product->sizes as $size) {
+                                if ($selected_size  === $size->size_value) {
+                                    $size_price = $size->price;
+                                }
+                            }
+                            if (!$selected_size) {
+                                $size_price = $product->sizes->first()->price;
+                            }
+                            if ($selected_qty != null) {
+                                $total = ($size_price + array_sum($variation_price)) * $selected_qty;
+                            } else {
+                                $total = $size_price + array_sum($variation_price);
+                            } ?>
+                            <input type="hidden" id="product_price_input" name="product_price"
+                                    value="{{ $size_price }}">
+                        @else
+                            <?php
+                            if ($selected_qty != null) {
+                                $total = ($product->price + array_sum($variation_price)) * $selected_qty;
+                            } else {
+                                $total = $product->price + array_sum($variation_price);
+                            } ?>
+                            <input type="hidden" id="product_price_input" name="product_price"
+                                value="{{ $product->price }}">
+                        @endif
+                        <input type="hidden" name="product_default_price" id="product_default_price" value="{{ $product->price ?? '' }}">
+                        <div class="sc-ee3dbf1f-0 IeOYH productPriceMainBox sticky-box is-bottom is-sticky mt-5">
+                            <div class=" proPriceBox newProductPriceBox PopupDesignBox  " id="proPriceBox">
+                                <div class="productPriceBox hadPrice">
+                                    <div class="newPrice">
+                                        <div class="NewPriceBox  ">
+                                            <p><span itemprop="priceCurrency" content="GBP"></span><span id="product_price" itemprop="price" content="1.90">£{{ $total }}</span></p>
+                                            <div class="newExcl"><span>(Incl. VAT)</span></div>
+                                        </div><span id="product_price_main" class="oldPrice">£{{ $total + 3 }}</span><span class="discountBox"> Save 40%</span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="newQuantityBox quantityBox">
+                                    <div class="formGroup">
+                                        <div class="quantity-field" >
+                                          <button id="decrease-button"
+                                            class="value-button decrease-button" 
+                                            onclick="decreaseQtyValue(this)"
+                                            title="Azalt">-</button>
+                                            <div class="number"><input type="number" class="number" id="product_quantity" name="quantity"  min="1" maxlength="999" value="{{ $selected_qty ?? '1' }}"></div>
+                                          <button id="increase-button"
+                                            class="value-button increase-button" 
+                                            onclick="increaseQtyValue(this)"
+                                            title="Arrtır"
+                                          >+
+                                          </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="buttonSet">
+                                    <div class="formGroup">
+                                        <button type="button" id="add-to-basket" data-design-id ="{{ $product->id }}" class="btn light_dark">Add To Basket</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    <strong>Design Online</strong>
-                                    <p>
-                                        Use the Design Tool with Templates to create your design
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault3" checked>
-                                <label class="form-check-label" for="flexRadioDefault3">
-                                    <strong>Hire a Designer @ £9.99</strong>
-                                    <p>
-                                        Let a professional Designer create your design @ £9.99
-                                    </p>
-                                </label>
-                            </div>
-                            <ul>
-                                <li>
-                                    <img src="{{ asset('front/img/icons_2.svg') }}"> FREE Designing for Basket Value above
-                                    £500.00
-                                </li>
-                                <li>
-                                    Upload Artwork & Checkout
-                                </li>
-                                <li>
-                                    <img src="{{ asset('front/img/icons_1.png') }}"> Free Express shipping for orders over
-                                    £99.00
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     @endif
-    <section class="template_wrapper p_100" style="background-color: #141414">
+    <!-- <section class="template_wrapper p_100" style="background-color: #141414">
         <div class="container">
             <div class="view_hd text-center">
                 <h2>Templates of Custom Vinyl Banners</h2>
@@ -269,7 +250,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <section class="descript_wrapper p_100 pb-0">
         <div class="container">
@@ -390,77 +371,223 @@
             var size_prices = [];
             @if ($product->sizes->isNotEmpty())
                 size_prices.push({
-                    value: {{ $product->sizes->first()->id }},
-                    price: {{ $product->sizes->first()->price }}
+                    value: "{{ $product->sizes->first()->id }}",
+                    price: "{{ $product->sizes->first()->price }}"
                 });
             @endif
-            $('#select_size').on('change', function() {
+
+            // change product image on click
+            $('.list-image').on('click',function() {  // change product image 
+
+                var img_scr = $(this).attr('src');
+                $('#main-image').attr('src',img_scr);
+                $('.list-image-container').removeClass('active');
+                $(this).parent().addClass('active');
+
+            });
+
+            // $('#custom_width, #custom_height').on('change', customSize);  // on chnage Custom height and width 
+
+            // changing size 
+            $('#select_size').on('change', async function() {
 
                 var size_value = $(this).val();
-                var Qty = parseFloat($('#product_quantity').val());
+                var size_unit = $('#size_unit').val();
+                if(size_value == 'custom'){
+                    // $('#select_size').hide();
+                    var UpdateSize = await UpdateCustomSize(size_unit);
+                    
+                    if(UpdateSize == true){
+                        customSize();
+                    }
+                   
+                } else {
+                    // $('#select_size').show();
+                    // $('#custom_size_div').hide();
+                    var Qty = parseFloat($('#product_quantity').val());
 
-                var selectedOption = this.options[this.selectedIndex];
-                var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
-                var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-                var totalPrice = 0;
-                $('.product_variation').each(function() {
-                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                    totalPrice += selectedPrice;
-                });
-                $('#product_price_input').val(selectedprice);
-                $('#product_price_main').text('$' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
-                $('#product_price').text('$' + (selectedprice + totalPrice) * Qty);
+                    var selectedOption = this.options[this.selectedIndex];
+                    var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+                    var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+                    var totalPrice = 0;
+                    $('.product_variation').each(function() {
+                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                        totalPrice += selectedPrice;
+                    });
+                    $('#product_price_input').val(selectedprice);
+                    $('#product_price_main').text('£' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
+                    $('#product_price').text('£' + (selectedprice + totalPrice )* Qty);
+                    // $('.ModelPrice').text('£' + (selectedprice + totalPrice )* Qty);
+                }
             });
 
             $('#product_quantity').on('change', function() {
                 var value = $(this).val();
+                // $('.model-qty').val(value);
                 if (value < 1 || value > 999) {
                     value = 1;
                     $('#product_quantity').val(1);
+                    // $('.model-qty').val(1);
                 }
-                var totalPrice = 0;
+                var size_value = $('#select_size').val();
+                if(size_value == 'custom'){
+                   customSize();
+                } else {
+                    var totalPrice = 0;
+                    $('.product_variation').each(function() {
+                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                        totalPrice += selectedPrice;
+                    });
+                    var price = $('#product_price_input').val();
+                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+                    $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+                    // $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
+                }
+            });
+
+            // $('.model-qty').on('change', function() {
+            //     var value = $(this).val();
+            //     $('#product_quantity').val(value);
+            //     $('.model-qty').val(value);
+            //     if (value < 1 || value > 999) {
+            //         value = 1;
+            //         $('#product_quantity').val(1);
+            //         $('.model-qty').val(1);
+            //     }
+            //     var size_value = $('#select_size').val();
+            //     if(size_value == 'custom'){
+            //        customSize();
+            //     } else {
+            //         var totalPrice = 0;
+            //         $('.product_variation').each(function() {
+            //             var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+            //             totalPrice += selectedPrice;
+            //         });
+            //         var price = $('#product_price_input').val();
+            //         $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+            //         $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+            //         $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
+            //     }
+            // });
+
+            // converting size units
+            $('#size_unit').on('change',async function() {
+                var size_value = $('#select_size').val();
+                var unit_value = $(this).val();
+                var productID = "{{ $product->id }}";
+                if(size_value == 'custom'){
+                    var UpdateSize = await  UpdateCustomSize(unit_value);
+                } 
+                updateSize(productID, unit_value, size_value);
+            
+            });
+
+            // adding and removing variation data 
+            var selectedOptions = [];
+            $('.product_variation').on('change', function() {
+                var totalPrice = parseFloat($('#product_price_input').val());
+                var selectElement = $(this);
+
                 $('.product_variation').each(function() {
                     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
                     totalPrice += selectedPrice;
                 });
-                var price = $('#product_price_input').val();
-                $('#product_price_main').text('$' + (parseFloat(price) + totalPrice + 5) * value);
-                $('#product_price').text('$' + (parseFloat(price) + totalPrice) * value);
+
+                // $('#product_price_input').val(totalPrice.toFixed(2));
+                
+                var value = $('#product_quantity').val();
+                $('#product_price_main').text('£' + (totalPrice + 5) * value);
+                $('#product_price').text('£' + value * totalPrice);
+                $('.ModelPrice').text('£' + value * totalPrice);
             });
 
-            // converting size units
-            $('#size_unit').on('change', function() {
-                var unit_value = $(this).val();
-                var productID = "{{ $product->id }}";
-                console.log(productID);
-                var selectedSize = $('#select_size').val();
-                updateSize(productID, unit_value, selectedSize);
-            });
+            // //  Custom size function 
+            // async function customSize(){
+            //     $('#custom_size_div').show();
+            //     var pricePerUnit = await priceratio();
 
-            function updateSize(id, value, selectedSize) {
+            //     var width =parseFloat($('#custom_width').val());
+            //     var height = parseFloat($('#custom_height').val());
+            //     var newprice = Math.round(pricePerUnit *( width + height)); 
+
+            //     var Qty = parseFloat($('#product_quantity').val());
+            //     var variation_total_price = 0;
+            //     $('.product_variation').each(function() {
+            //         var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+            //         variation_total_price += selectedPrice;
+            //     });
+            //     var totalPrice = (newprice + variation_total_price) * Qty;
+            //     if(formatPrice(totalPrice) !== true){
+            //         var totalPrice = Math.round(totalPrice);
+            //     }
+
+            //     $('#product_price').text('£' + totalPrice);
+            //     $('#product_price_input').val(newprice);
+            //     $('#product_price_main').text('£' + (totalPrice + 5));
+            //     $('.ModelPrice').text('£' + totalPrice);
+            // }
+
+            // function formatPrice(price) {
+            //     if (Number.isInteger(price)) {
+            //         return true; 
+            //     } else {
+            //         return false; 
+            //     }
+            // }
+
+            // // Finding price ratio 
+            // async function priceratio() {
+            //     var main_price = parseFloat($('#product_default_price').val());
+            //     var value =  $('#size_unit').val(); 
+            //     var unit_value = await getUnitValue(value);
+
+            //     PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
+            //     return PriceperUnit;
+            // }
+
+            // // Update Custom size on size unit change
+            // async function UpdateCustomSize(value) {
+            //     var last_unit = $('#custom_width').data('unit');
+            //     var unit_value = await getUnitValue(last_unit);
+
+            //     var width = parseFloat($('#custom_width').val());
+            //     var height = parseFloat($('#custom_height').val());
+
+            //     var width_in_inches = width / unit_value;
+            //     var height_in_inches = height / unit_value;
+
+            //     var new_unit_value = await getUnitValue(value);
+                    
+
+            //     var new_width = Math.round( width_in_inches * new_unit_value);
+            //     var new_height = Math.round(height_in_inches * new_unit_value);
+
+            //     $('#custom_width').val(new_width);
+            //     $('#custom_height').val(new_height);
+
+            //     $('#custom_width').data('unit', value);
+            //     $('#custom_height').data('unit', value);
+
+            //     return true;
+            // }
+
+            async function updateSize(id, value, selectedSize) {
                 $.ajax({
-                    url: "{{ url('/accessories/sizes/') }}" + "/" + id,
+                    url: "{{ url('/product/sizes/') }}" + "/" + id,
                     type: 'GET',
-                    success: function(data) {
+                    success: async function(data) {
                         var sizeSelect = $('#select_size');
-                        console.log(data);
                         if (data.length > 0) {
                             sizeSelect.show();
                             sizeSelect.empty();
-                            if (value == 'In') {
-                                unit_value = 12;
-                            } else if (value == 'Cm') {
-                                unit_value = 30;
-                            } else if (value == 'Mm') {
-                                unit_value = 304;
-                            } else if (value == 'Ft') {
-                                unit_value = 1;
-                            }
+
+                            var unit_value = await getUnitValue(value);
+
                             $.each(data, function(index, size) {
                                 if (size.size_type == 'wh' || size.size_type == 'DH') {
                                     if (selectedSize == size.size_value) {
                                         size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option selected data-sizeType="' +
+                                        sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
                                             size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
@@ -470,7 +597,7 @@
                                             '</option>');
                                     } else {
                                         size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option data-sizeType="' + size
+                                        sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             +parseFloat(size_values[0]) * unit_value +
@@ -481,14 +608,14 @@
 
                                 } else {
                                     if (selectedSize == size.size_value) {
-                                        sizeSelect.append('<option selected data-sizeType="' +
+                                        sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
                                             size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             parseFloat(size.size_value) * unit_value +
                                             '</option>');
                                     } else {
-                                        sizeSelect.append('<option data-sizeType="' + size
+                                        sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
                                             .size_type + '" data-price="' + size.price +
                                             '" value="' + size.size_value + '">' +
                                             parseFloat(size.size_value) * unit_value +
@@ -496,49 +623,48 @@
                                     }
                                 }
                             });
+                            // if(selectedSize == 'custom'){
+                            //     sizeSelect.append('<option selected value="custom">Custom</option>');
+                            // } else {
+                            //     sizeSelect.append('<option value="custom">Custom</option>');
+                            // }
+                            // $('#custom_width').data('unit', value);
                         } else {
-                            console.log('none');
                             sizeSelect.hide();
                         }
                     },
                 });
             }
-
-            // adding and removing variation data 
-            var selectedOptions = [];
-            $('.product_variation').on('change', function() {
-                var totalPrice = parseFloat($('#product_price_input').val());
-                var selectElement = $(this);
-
-                // adding price
-                selectElement.find('option:selected').each(function() {
-                    var option = $(this).get(0);
-                    var price = parseFloat(option.dataset.price);
-                    selectedOptions.push({
-                        value: option.dataset.id,
-                        price: price
-                    });
-                    totalPrice += price;
-                });
-
-                // removing or changing price
-                selectElement.find('option').each(function() {
-                    var option = $(this).get(0);
-                    if (!$(option).is(':selected')) {
-                        var valueToRemove = option.dataset.id;
-                        var index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                        while (index !== -1) {
-                            totalPrice -= selectedOptions[index].price;
-                            selectedOptions.splice(index, 1);
-                            index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                        }
-                    }
-                });
-                $('#product_price_input').val(totalPrice.toFixed(2));
-                var value = $('#product_quantity').val();
-                $('#product_price_main').text('$' + (totalPrice + 5) * value);
-                $('#product_price').text('$' + value * totalPrice);
-            });
         });
+        async function getUnitValue(value){
+            return new Promise((resolve, reject) => {
+                var unit_value;
+                if (value == 'In') {
+                    unit_value = 12;
+                } else if (value == 'Cm') {
+                    unit_value = 30;
+                } else if (value == 'Mm') {
+                    unit_value = 304;
+                } else if (value == 'Ft') {
+                    unit_value = 1;
+                }
+
+                resolve(unit_value);
+            });
+        }
+    </script>
+    <script>
+         function decreaseQtyValue(btn){
+            var qty_value = parseInt($('#product_quantity').val());
+            new_qty = qty_value -1;
+            $('#product_quantity').val(new_qty);
+            $('#product_quantity').trigger('change');
+        }
+        function increaseQtyValue(btn){
+            var qty_value = parseInt($('#product_quantity').val());
+            new_qty = qty_value +1;
+            $('#product_quantity').val(new_qty);
+            $('#product_quantity').trigger('change');
+        }
     </script>
 @endsection

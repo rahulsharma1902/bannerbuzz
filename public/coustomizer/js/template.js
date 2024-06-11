@@ -1041,14 +1041,11 @@ $('.cngBorderRadious').on('input', function() {
 
 function changeBorderWidth(width) {
     var activeObject = canvas.getActiveObject();
-    if (activeObject) {
-        if (activeObject.type === 'i-text') {
-            activeObject.set({ strokeWidth: width });
-            canvas.renderAll();
-        }
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set({ strokeWidth: width });
+        canvas.renderAll();
     }
 }
-
 
 function changeBorderColor(color) {
     var activeObject = canvas.getActiveObject();

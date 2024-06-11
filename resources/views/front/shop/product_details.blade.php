@@ -93,10 +93,10 @@
                                         <label for="product_quantity">Qty:</label>
                                         @if ($selected_qty != null)
                                             <input type="number" value="{{ $selected_qty }}" id="product_quantity"
-                                                name="quantity" placeholder="Qty" class="form-select">
+                                                name="quantity" placeholder="Qty" class="form-select number">
                                         @else
                                             <input type="number" value="1" id="product_quantity" name="quantity"
-                                                placeholder="Qty" class="form-select">
+                                                placeholder="Qty" class="form-select number">
                                         @endif
                                     </div>
                                 </div>
@@ -333,7 +333,7 @@
                                                     </div>
                                                     <div class="tab-box" id="tab-2">
                                                         <div id="upload-image-div" class="custom_radio product_select ">
-                                                            <input type="radio" value="Artwork" id="featured-1" name="featured" >
+                                                            <input type="radio" value="Artwork" id="featured-1" name="featured"  checked>
                                                             <label for="featured-1">
                                                                 <div class="Upload_wrapper uploadArtworkMainWrap">
                                                                     <div class="vector_img">
@@ -727,112 +727,100 @@
     </section>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.list-image').on('click',function(){
+
+            $('.list-image').on('click',function() {  // change product image 
+
                 var img_scr = $(this).attr('src');
                 $('#main-image').attr('src',img_scr);
                 $('.list-image-container').removeClass('active');
                 $(this).parent().addClass('active');
+
             });
-            $('.add-to-basket').on('click', async function(){
+
+            $('.add-to-basket').on('click', async function() {      // add design to basket
+
                 design_id = $(this).data('design-id');
                 Qty = $('#product_quantity').val();
                 design_method =$('input[name="featured"]:checked').val();
 
-                if(design_method == 'ArtworkLater'){
-                    var formData = new FormData();
+                $('#overlay').show();
 
-                    var ProductID = "{{ $product->id ?? '' }}";
-                    var size_unit = $('#size_unit').val();
-                    var qty = $('#product_quantity').val();
-                    var variations = {};
-                    $('.product_variation').each(function() {
-                        var var_slug = $(this).data('slug');
-                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                        variations[var_slug]= selectedoption;
-                    });
-                    var size = $('#select_size').val();
+                try {
 
-                    if(size == 'custom') {
-                        var width = $('#custom_width').val();
-                        var height = $('#custom_height').val();
-                        var size_id = null;
+                    if(design_method == 'ArtworkLater'){
+                        const formData = new FormData();
 
-                        formData.append('width', width);
-                        formData.append('height', height);
+                        getFormData(formData);
+                    
+                        formData.append('design_method', design_method);
+
+                        saveData = await saveDesignAjax(formData);
+                        if(saveData.template.id != null){
+                            addTobasket = await addTObasket(saveData.template.id,Qty);
+                            if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                                console.log(addTobasket.id );
+                                url = "{{ url('checkout/cart') }}";
+                                window.location.href = url;
+                            }
+                        }
 
                     } else {
-                        var width = null;
-                        var height = null;
-                        var selectedOption = $('#select_size option:selected');
-                        var size_id = selectedOption.data('id');
-                        formData.append('size_id', size_id);
-                    }
-                    // var_data =  JSON.stringify(variations);
-                    var_data =  variations;
-                    design_method = "Artwork";
+                        if(design_id != null && design_id != undefined){
+                            addTobasket = await addTObasket(design_id,Qty);
+                            console.log(addTobasket);
+                            if(addTobasket.id !== null && addTobasket.id !== 0){
 
-                    formData.append('product_id', ProductID);
-                    formData.append('dimension', size_unit);
-                    formData.append('qty', qty);
-                    formData.append('variations', JSON.stringify(var_data)); 
-                    formData.append('design_method', design_method);
-
-                    saveData = await saveDesignAjax(formData);
-                    if(saveData.template.id != null){
-                        addTobasket = await addTObasket(saveData.template.id,Qty);
-                        if(addTobasket.id !== null && addTobasket.id !== 0){
-
-                            console.log(addTobasket.id );
-                            url = "{{ url('checkout/cart') }}";
-                            window.location.href = url;
+                                console.log(addTobasket.id );
+                                url = "{{ url('checkout/cart') }}";
+                                window.location.href = url;
+                            }
                         }
                     }
+                } catch (error){
+                    console.error('An error occurred:', error);
+                    $('#overlay').hide();
 
-                } else {
-                    if(design_id != null && design_id != undefined){
-                        addTobasket = await addTObasket(design_id,Qty);
-                        console.log(addTobasket);
-                        if(addTobasket.id !== null && addTobasket.id !== 0){
-
-                            console.log(addTobasket.id );
-                            url = "{{ url('checkout/cart') }}";
-                            window.location.href = url;
-                        }
-                    }
+                } finally {
+                    $('#overlay').hide();
                 }
                 
             });
         
             $('input[name="flexRadioDefault"]').on('change',function() {
+
                 var newTarget = $(this).val();
                 var newType = $(this).data('type');
-                if(newType == 'uploadArtwork' && newType != undefined){
+
+                if(newType == 'uploadArtwork' && newType != undefined) {
+
                     $('#upload_art').addClass('active');
                     $('#tab-2').css('display', 'block');
                     $('#tab-1').css('display', 'none');
                     $('#onlineDesign').removeClass('active');
+
                 } else {
+
                     $('#onlineDesign').addClass('active');
                     $('#upload_art').removeClass('active');
                     $('#tab-1').css('display', 'block');
                     $('#tab-2').css('display', 'none');
+
                 }
+
                 $('#proceedButton').attr('data-bs-target', newTarget);
                 $('#proceedButton').attr('data-type', newType);
             });
 
-            // $('#proceedButton').on('click',function(){
-            //     type_value = $(this).data('type');
-               
-            // });
-
             $('.flexRadioDefault').trigger('change');
 
             $('.template-category').on('click',function() {
+
                 $('.template-category').removeClass('active');
                 $(this).addClass('active');
                 var Cat_id = $(this).data('category-id');
-                if(Cat_id != 0){
+                if(Cat_id != 0) {
+
                     $('.template-images').each(function() {
                         var id = $(this).data('category-id');
                         if(Cat_id != id){
@@ -841,6 +829,7 @@
                             $(this).removeClass('d-none');
                         }
                     });
+
                 } else {
                     $('.template-images').removeClass('d-none');
                 }
@@ -850,346 +839,199 @@
                 $(this).addClass('selected');
             });
 
-        
             $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
-                var design_id = $(this).data('design-id');
-
-                if(design_id == undefined || design_id == null || design_id == '') {
+                // var design_id = $(this).data('design-id');
             
+                try{
                     var formData = new FormData();
 
-                    var ProductID = "{{ $product->id ?? '' }}";
-                    var size_unit = $('#size_unit').val();
-                    var qty = $('#product_quantity').val();
-                    var variations = {};
-                    $('.product_variation').each(function() {
-                        var var_slug = $(this).data('slug');
-                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                        variations[var_slug]= selectedoption;
+                    getFormData(formData);
+                    formData.append('design_method', 'Artwork');
+                    Dropbox.choose({
+                        success: async function(files) {
+                            $('#overlay').show();
+                            files.forEach(file => {
+                                let link = file.link;
+                                let directLink = link.replace("dl=0", "raw=1");
+                                file.link=directLink;
+                            });
+
+                            $.ajax({
+                                url: '/upload-dropbox-file',
+                                type: 'POST',
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                data: JSON.stringify({ files: files }), 
+                                success: async function(data) {
+                                    console.log(data);
+                                    if (data.files != null) {
+
+                                        formData.append('images', JSON.stringify(data.files) );
+                                        saveData = await saveDesignAjax(formData);
+
+                                        if (saveData.imageArray != null) {
+                                            $('#upload-image-div').addClass('d-none');
+                                            $('#response-result').removeClass('d-none');
+                                            
+                                            var HTML_data = '';
+                                            Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+                                            HTML_data += `<div class="Upload_wrapper image-div d-flex">
+                                                            <div class="img">
+                                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+                                                            </div>
+                                                            <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
+                                                        </div>`;
+                                            });
+
+                                            // $('#Upload_wrapper').append(HTML_data);
+                                            $(HTML_data).insertBefore('.label-wrap');
+                                            $('#file2').attr('data-design-id', saveData.template.id);
+                                            $('.add-to-basket').attr('data-design-id', saveData.template.id);
+                                            $('#overlay').hide();
+                                        }
+                                    } 
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            }); 
+                        },
+                        cancel: function() {
+                            console.log('User canceled the chooser.');
+                        },
+                        linkType: 'preview',
+                        multiselect: true, 
+                        extensions: ['.jpg', '.jpeg', '.png'],
                     });
-                    var size = $('#select_size').val();
-
-                    if(size == 'custom') {
-                        var width = $('#custom_width').val();
-                        var height = $('#custom_height').val();
-                        var size_id = null;
-
-                        formData.append('width', width);
-                        formData.append('height', height);
-
-                    } else {
-                        var width = null;
-                        var height = null;
-                        var selectedOption = $('#select_size option:selected');
-                        var size_id = selectedOption.data('id');
-                        formData.append('size_id', size_id);
-                    }
-                    // var_data =  JSON.stringify(variations);
-                    var_data =  variations;
-                    design_method = "Artwork";
-
-                    formData.append('product_id', ProductID);
-                    formData.append('dimension', size_unit);
-                    formData.append('qty', qty);
-                    formData.append('variations', JSON.stringify(var_data)); 
-                    formData.append('design_method', design_method);
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                    
+                } finally {
+                    $('#overlay').hide();
                 }
-                Dropbox.choose({
-                    success: async function(files) {
-
-
-                        files.forEach(file => {
-                            let link = file.link;
-                            let directLink = link.replace("dl=0", "raw=1");
-                            file.link=directLink;
-                        });
-
-
-                        console.log( files , " all the files after the link ")
-                        $('#overlay').show();
-                        $.ajax({
-                            url: '/upload-dropbox-file',
-                            type: 'POST',
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            data: JSON.stringify({ files: files }), 
-                            success: async function(data) {
-                                console.log(data);
-                                if (data.files != null) {
-
-                                    formData.append('images', JSON.stringify(data.files) );
-                                    saveData = await saveDesignAjax(formData);
-
-                                    if (saveData.imageArray != null) {
-                                        $('#upload-image-div').addClass('d-none');
-                                        $('#response-result').removeClass('d-none');
-                                        
-                                        var HTML_data = '';
-                                        Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
-                                        HTML_data += `<div class="Upload_wrapper image-div d-flex">
-                                                        <div class="img">
-                                                            <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
-                                                        </div>
-                                                        <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
-                                                    </div>`;
-                                        });
-
-                                        // $('#Upload_wrapper').append(HTML_data);
-                                        $(HTML_data).insertBefore('.label-wrap');
-                                        $('#file2').attr('data-design-id', saveData.template.id);
-                                        $('.add-to-basket').attr('data-design-id', saveData.template.id);
-                                        $('#overlay').hide();
-                                    }
-                                } 
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error:', error);
-                                $('#overlay').hide();
-                            }
-                        }); 
-                    },
-                    cancel: function() {
-                        console.log('User canceled the chooser.');
-                    },
-                    linkType: 'preview',
-                    multiselect: true, 
-                    extensions: ['.jpg', '.jpeg', '.png'],
-                });
             });
 
             $('#file, #file2').on('change',async function() {         // Browse Files from system  
 
                 var design_id = $(this).data('design-id');
 
-                if(design_id == undefined || design_id == null || design_id == '') {
-               
-                    var formData = new FormData();
+                $('#overlay').show();
+                try {
+                
+                    if(design_id == undefined || design_id == null || design_id == '') {
+                
+                        const formData = new FormData();
+                        design_method = "Artwork";
 
-                    var ProductID = "{{ $product->id ?? '' }}";
-                    var size_unit = $('#size_unit').val();
-                    var qty = $('#product_quantity').val();
-                    var variations = {};
-                    $('.product_variation').each(function() {
-                        var var_slug = $(this).data('slug');
-                        var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                        variations[var_slug]= selectedoption;
-                    });
-                    var size = $('#select_size').val();
+                        var fileInput = $(this)[0];
+                        if (fileInput.files.length === 0) {
+                            alert('Please select an image to upload.');
+                            return;
+                        }
+                        getFormData(formData);
+                        formData.append('image', fileInput.files[0]);
+                        formData.append('design_method', design_method);
 
-                    if(size == 'custom') {
-                        var width = $('#custom_width').val();
-                        var height = $('#custom_height').val();
-                        var size_id = null;
-
-                        formData.append('width', width);
-                        formData.append('height', height);
+                        saveData = await saveDesignAjax(formData);
+                        if(saveData.imageName != null){
+                        
+                            $('#upload-image-div').addClass('d-none');
+                            $('#response-result').removeClass('d-none');
+                            var HTML_data = `<div class="Upload_wrapper image-div d-flex">
+                                                <div class="img">
+                                                    <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                                </div>
+                                                <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                            </div>`;
+                            // $('#Upload_wrapper').append(HTML_data);
+                            $(HTML_data).insertBefore('.label-wrap');
+                            $('#file2').attr('data-design-id',saveData.template.id);
+                            $('.add-to-basket').attr('data-design-id',saveData.template.id);
+                        }
 
                     } else {
-                        var width = null;
-                        var height = null;
-                        var selectedOption = $('#select_size option:selected');
-                        var size_id = selectedOption.data('id');
-                        formData.append('size_id', size_id);
-                    }
-                    // var_data =  JSON.stringify(variations);
-                    var_data =  variations;
-                    design_method = "Artwork";
+                        const formData = new FormData();
 
-                    var fileInput = $(this)[0];
-                    if (fileInput.files.length === 0) {
-                        alert('Please select an image to upload.');
-                        return;
-                    }
-                    
-                    formData.append('image', fileInput.files[0]);
-                    formData.append('product_id', ProductID);
-                    formData.append('dimension', size_unit);
-                    formData.append('qty', qty);
-                    formData.append('variations', JSON.stringify(var_data)); 
-                    
-                
-                    formData.append('design_method', design_method);
-                    $('#overlay').show();
+                        var fileInput = $(this)[0];
+                        if (fileInput.files.length === 0) {
+                            alert('Please select an image to upload.');
+                            return;
+                        }
 
-                    saveData = await saveDesignAjax(formData);
-                    if(saveData.imageName != null){
-                    
-                        $('#upload-image-div').addClass('d-none');
-                        $('#response-result').removeClass('d-none');
-                        var HTML_data = `<div class="Upload_wrapper image-div d-flex">
-                                            <div class="img">
-                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
-                                            </div>
-                                            <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                        formData.append('image', fileInput.files[0]);
+                        formData.append('design_id',design_id );
+                        saveData = await saveDesignAjax(formData);
+                        if(saveData.imageName != null){
+                            $('#upload-image-div').addClass('d-none');
+                            $('#response-result').removeClass('d-none');
+                            var HTML_data = `<div class="Upload_wrapper image-div d-flex">
+                                                <div class="img">
+                                            <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                        </div>
+                                        <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
                                         </div>`;
-                        // $('#Upload_wrapper').append(HTML_data);
-                        $(HTML_data).insertBefore('.label-wrap');
-                        $('#file2').attr('data-design-id',saveData.template.id);
-                        $('.add-to-basket').attr('data-design-id',saveData.template.id);
-                        $('#overlay').hide();
+                            // $('#Upload_wrapper').append(HTML_data);
+                            $(HTML_data).insertBefore('.label-wrap');
+                        }
                     }
-
-                } else {
-                    var formData = new FormData();
-
-                    var fileInput = $(this)[0];
-                    if (fileInput.files.length === 0) {
-                        alert('Please select an image to upload.');
-                        return;
-                    }
-
-                    formData.append('image', fileInput.files[0]);
-                    formData.append('design_id',design_id );
-                    $('#overlay').show();
-                    saveData = await saveDesignAjax(formData);
-                    if(saveData.imageName != null){
-                        $('#overlay').hide();
-                        $('#upload-image-div').addClass('d-none');
-                        $('#response-result').removeClass('d-none');
-                        var HTML_data = `<div class="Upload_wrapper image-div d-flex">
-                                            <div class="img">
-                                        <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
-                                    </div>
-                                    <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
-                                    </div>`;
-                        // $('#Upload_wrapper').append(HTML_data);
-                        $(HTML_data).insertBefore('.label-wrap');
-                    }
-                    // $.ajax({
-                    //     url: "{{ url('saveDesign') }}",
-                    //     type: 'POST',
-                    //     data: formData,
-                    //     contentType: false,
-                    //     processData: false,
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    //     },
-                    //     success: function(data) {
-                                // if(data.imageName != null){
-                                //     $('#overlay').hide();
-                                //     $('#upload-image-div').addClass('d-none');
-                                //     $('#response-result').removeClass('d-none');
-                                //     var HTML_data = `<div class="Upload_wrapper image-div d-flex">
-                                //                         <div class="img">
-                                //                     <img data-design-id="${data.template.id}" src="{{ asset('designImage') }}/${data.imageName}">
-                                //                 </div>
-                                //                 <span data-design-id="${saveData.template.id}"  data-img-index="${data.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
-                                //                 </div>`;
-                                //     // $('#Upload_wrapper').append(HTML_data);
-                                //     $(HTML_data).insertBefore('.label-wrap');
-                                // }
-                    //     },
-                    //     error: function(xhr, status, error) {
-                    //         console.error('Error saving data', status, error);
-                    //         $('#overlay').hide();
-                    //     }
-                    // });
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                } finally {
+                    $('#overlay').hide();
                 }
             });
 
             $('#design-online-btn').on('click',async function(){        // Redirect to designer Tools 
-
-                var formData = new FormData();
-
-                var ProductID = $(this).data('product-id');
-                var templateID = $('.template-images.selected').data('template-id');
-                console.log(templateID);
-                var size_unit = $('#size_unit').val();
-                var qty = $('#product_quantity').val();
-                var variations = {};
-                $('.product_variation').each(function() {
-                    var var_slug = $(this).data('slug');
-                    var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                    variations[var_slug]= selectedoption;
-                });
-                var size = $('#select_size').val();
-
-                if(size == 'custom') {
-                    var width = $('#custom_width').val();
-                    var height = $('#custom_height').val();
-
-                    formData.append('width', width);
-                    formData.append('height', height);
-
-                    var size_id = null;
-                } else {
-                    var width = null;
-                    var height = null;
-                    var selectedOption = $('#select_size option:selected');
-                    var size_id = selectedOption.data('id');
-                    formData.append('size_id', size_id);
-
-                }
-                // var_data =  JSON.stringify(variations);
-                var_data =  variations;
-                design_method = "template";
-
                 
-                formData.append('product_id', ProductID);
-                formData.append('template_id', templateID);
-                formData.append('dimension', size_unit);
-                formData.append('qty', qty);
-                formData.append('variations', JSON.stringify(var_data)); 
-          
-                formData.append('design_method', design_method);
+                try{
+                    $('#overlay').show();
+                    const formData = new FormData();
 
-                saveData = await saveDesignAjax(formData);
-                if(saveData != null){
-                    window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
-                }
+                    var templateID = $('.template-images.selected').data('template-id');
+                    console.log(templateID);
+                    
+                    design_method = "template";
+                    getFormData(formData);
+                    formData.append('template_id', templateID);
+                    formData.append('design_method', design_method);
+
+                    saveData = await saveDesignAjax(formData);
+                    if(saveData != null){
+                        window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                } finally {
+                    $('#overlay').hide();
+                } 
             });
             
             $('.customize-btn').on('click',async function() {            // Redirect to designer Tools 
-
-                var formData = new FormData();
-
-                var ProductID = $(this).data('product-id');
-                var templateID = $(this).data('template-id');
-                var size_unit = $('#size_unit').val();
-                var qty = $('#product_quantity').val();
-                var variations = {};
-                $('.product_variation').each(function() {
-                    var var_slug = $(this).data('slug');
-                    var selectedoption = parseInt($(this).find('option:selected').data('id'));
-                    variations[var_slug]= selectedoption;
-                });
-                var size = $('#select_size').val();
-
-                if(size == 'custom') {
-                    var width = $('#custom_width').val();
-                    var height = $('#custom_height').val();
-
-                    formData.append('width', width);
-                    formData.append('height', height);
-
-                    var size_id = null;
-                } else {
-                    var width = null;
-                    var height = null;
-                    var selectedOption = $('#select_size option:selected');
-                    var size_id = selectedOption.data('id');
-                    formData.append('size_id', size_id);
-
-                }
-                var_data =  variations;
-                design_method = "template";
-
-                formData.append('product_id', ProductID);
-                formData.append('template_id', templateID);
-                formData.append('dimension', size_unit);
-                formData.append('qty', qty);
-                formData.append('variations', JSON.stringify(var_data)); 
-                formData.append('design_method', design_method);
-
-                saveData = await saveDesignAjax(formData);          
-
-                if(saveData != null ){
-                    window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
-                }
                 
+                try{
+                    $('#overlay').show();
+                    const formData = new FormData();
+                    var templateID = $(this).data('template-id');
+                    design_method = "template";
+
+                    getFormData(formData);
+
+                    formData.append('template_id', templateID);
+                    formData.append('design_method', design_method);
+
+                    saveData = await saveDesignAjax(formData);          
+
+                    if(saveData != null ){
+                        window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                } finally {
+                    $('#overlay').hide();
+                } 
             });
 
             $('#custom_width, #custom_height').on('input', function() {
@@ -1262,6 +1104,7 @@
 
                 formData.append('ImageIndex',ImageIndex);
                 formData.append('design_id',designID );
+                formData.append('is_saved',false );
 
                 var $parentDiv = $(button).closest('.Upload_wrapper');
 
@@ -1289,9 +1132,8 @@
                 });
             }
         }
-        async function getFormData()
+        async function getFormData(formData)    // getting form data
         {
-            var formData = new FormData();
 
             var ProductID = "{{ $product->id ?? '' }}";
             var size_unit = $('#size_unit').val();
@@ -1321,13 +1163,11 @@
             }
             // var_data =  JSON.stringify(variations);
             var_data =  variations;
-            design_method = "Artwork";
 
             formData.append('product_id', ProductID);
             formData.append('dimension', size_unit);
             formData.append('qty', qty);
             formData.append('variations', JSON.stringify(var_data)); 
-            formData.append('design_method', design_method);
         }
     </script>
     <script>
@@ -1453,30 +1293,6 @@
                     totalPrice += selectedPrice;
                 });
 
-                // // adding price
-                // selectElement.find('option:selected').each(function() {
-                //     var option = $(this).get(0);
-                //     var price = parseFloat(option.dataset.price);
-                //     selectedOptions.push({
-                //         value: option.dataset.id,
-                //         price: price
-                //     });
-                //     totalPrice += price;
-                // });
-
-                // // removing or changing price
-                // selectElement.find('option').each(function() {
-                //     var option = $(this).get(0);
-                //     if (!$(option).is(':selected')) {
-                //         var valueToRemove = option.dataset.id;
-                //         var index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                //         while (index !== -1) {
-                //             totalPrice -= selectedOptions[index].price;
-                //             selectedOptions.splice(index, 1);
-                //             index = selectedOptions.findIndex(item => item.value === valueToRemove);
-                //         }
-                //     }
-                // });
                 // $('#product_price_input').val(totalPrice.toFixed(2));
                 
                 var value = $('#product_quantity').val();
@@ -1492,7 +1308,7 @@
 
                 var width =parseFloat($('#custom_width').val());
                 var height = parseFloat($('#custom_height').val());
-                var newprice = pricePerUnit *( width + height); 
+                var newprice = Math.round(pricePerUnit *( width + height)); 
 
                 var Qty = parseFloat($('#product_quantity').val());
                 var variation_total_price = 0;
@@ -1502,11 +1318,11 @@
                 });
                 var totalPrice = (newprice + variation_total_price) * Qty;
                 if(formatPrice(totalPrice) !== true){
-                    var totalPrice = totalPrice.toFixed(1);
+                    var totalPrice = Math.round(totalPrice);
                 }
 
                 $('#product_price').text('£' + totalPrice);
-                $('#product_price_input').val(newprice.toFixed(1));
+                $('#product_price_input').val(newprice);
                 $('#product_price_main').text('£' + (totalPrice + 5));
                 $('.ModelPrice').text('£' + totalPrice);
             }
@@ -1523,17 +1339,8 @@
             async function priceratio() {
                 var main_price = parseFloat($('#product_default_price').val());
                 var value =  $('#size_unit').val(); 
-                var unit_value;
+                var unit_value = await getUnitValue(value);
 
-                if (value == 'In') {
-                    unit_value = 12;
-                } else if (value == 'Cm') {
-                    unit_value = 30;
-                } else if (value == 'Mm') {
-                    unit_value = 300;
-                } else if (value == 'Ft') {
-                    unit_value = 1;
-                }
                 PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
                 return PriceperUnit;
             }
@@ -1541,17 +1348,7 @@
             // Update Custom size on size unit change
             async function UpdateCustomSize(value) {
                 var last_unit = $('#custom_width').data('unit');
-                var unit_value;
-
-                if (last_unit == 'In') {
-                    unit_value = 12; 
-                } else if (last_unit == 'Cm') {
-                    unit_value = 30; 
-                } else if (last_unit == 'Mm') {
-                    unit_value = 300; 
-                } else if (last_unit == 'Ft') {
-                    unit_value = 1; 
-                }
+                var unit_value = await getUnitValue(last_unit);
 
                 var width = parseFloat($('#custom_width').val());
                 var height = parseFloat($('#custom_height').val());
@@ -1559,20 +1356,11 @@
                 var width_in_inches = width / unit_value;
                 var height_in_inches = height / unit_value;
 
-                var new_unit_value;
+                var new_unit_value = await getUnitValue(value);
+                    
 
-                if (value == 'In') {
-                    new_unit_value = 12; 
-                } else if (value == 'Cm') {
-                    new_unit_value = 30; 
-                } else if (value == 'Mm') {
-                    new_unit_value = 300; 
-                } else if (value == 'Ft') {
-                    new_unit_value = 1; 
-                }
-
-                var new_width = width_in_inches * new_unit_value;
-                var new_height = height_in_inches * new_unit_value;
+                var new_width = Math.round( width_in_inches * new_unit_value);
+                var new_height = Math.round(height_in_inches * new_unit_value);
 
                 $('#custom_width').val(new_width);
                 $('#custom_height').val(new_height);
@@ -1583,24 +1371,18 @@
                 return true;
             }
 
-            function updateSize(id, value, selectedSize) {
+            async function updateSize(id, value, selectedSize) {
                 $.ajax({
                     url: "{{ url('/product/sizes/') }}" + "/" + id,
                     type: 'GET',
-                    success: function(data) {
+                    success: async function(data) {
                         var sizeSelect = $('#select_size');
                         if (data.length > 0) {
                             sizeSelect.show();
                             sizeSelect.empty();
-                            if (value == 'In') {
-                                unit_value = 12;
-                            } else if (value == 'Cm') {
-                                unit_value = 30;
-                            } else if (value == 'Mm') {
-                                unit_value = 304;
-                            } else if (value == 'Ft') {
-                                unit_value = 1;
-                            }
+
+                            var unit_value = await getUnitValue(value);
+
                             $.each(data, function(index, size) {
                                 if (size.size_type == 'wh' || size.size_type == 'DH') {
                                     if (selectedSize == size.size_value) {
@@ -1655,21 +1437,6 @@
             }
         });
 
-        // $(document).ready(function () {
-
-        //   $('.multiple-items').slick({
-        //     infinite: false,
-        //     slidesToShow: 3,
-        //     slidesToScroll: 1,
-        //     initialSlide: 1,
-        //     dots: false,
-        //     arrows: true,
-        //     prevArrow: '<span class="slide-arrow prev-arrow"><i class="fa-solid fa-arrow-left"></i></span>',
-        //     nextArrow: '<span class="slide-arrow next-arrow"><i class="fa-solid fa-arrow-right"></i></span>',
-
-        //   });
-        // })
-
         $(function() {
             $('.multiple-items').slick({
                 infinite: false,
@@ -1687,5 +1454,21 @@
 
         });
 
+        async function getUnitValue(value){
+            return new Promise((resolve, reject) => {
+                var unit_value;
+                if (value == 'In') {
+                    unit_value = 12;
+                } else if (value == 'Cm') {
+                    unit_value = 30;
+                } else if (value == 'Mm') {
+                    unit_value = 304;
+                } else if (value == 'Ft') {
+                    unit_value = 1;
+                }
+
+                resolve(unit_value);
+            });
+        }
     </script>
 @endsection
