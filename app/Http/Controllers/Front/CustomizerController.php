@@ -17,6 +17,8 @@ use App\Models\BackgroundCategory;
 use App\Models\DesignTemplate;
 use App\Models\shareArtwork;
 use App\Models\UploadImageTemplate;
+use App\Models\Font;
+
 use App\Mail\ShareArtworkMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -59,7 +61,8 @@ class CustomizerController extends Controller
                 $shapes = ShapeCategory::with('shape')->get();
                 $cliparts = ClipArtCategory::with('clipart')->get();
                 $uploadedImages = UploadImageTemplate::where('user_id',Auth::user()->id ?? '')->get();
-                return view('front.customizer.index', compact('uploadedImages','templateCategorys','templateData','templates', 'backgrounds', 'cliparts', 'shapes'));
+                $fonts = Font::all();
+                return view('front.customizer.index', compact('fonts','uploadedImages','templateCategorys','templateData','templates', 'backgrounds', 'cliparts', 'shapes'));
             }
         }
     
@@ -152,6 +155,7 @@ class CustomizerController extends Controller
         
             if (!$template) {
                 $template = new DesignTemplate();
+                $template->qty = $request->qty;
             }
         
             $template->design_method = $request->design_method;
@@ -161,7 +165,7 @@ class CustomizerController extends Controller
             $template->dimension = $request->dimension;
             $template->product_id = $request->product_id;
             $template->variations = $request->variations;
-            $template->qty = $request->qty;
+            // $template->qty = $request->qty;
             $template->size_id = $request->size_id ?? null;
             if($request->template_id){
                 $template->template_data = $template_data->templateData;

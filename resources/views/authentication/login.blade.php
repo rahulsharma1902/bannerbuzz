@@ -34,6 +34,7 @@
                                 <img class="logo-dark logo-img logo-img-lg" src="{{asset('admin-theme/images/logo-dark.png')}}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark"> -->
                                 <div class="middle">
                                     <h1>Login</h1>
+        
                                 </div>
                             </a>
                         </div>
@@ -42,11 +43,12 @@
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Sign-In</h4>
-                                      
+                                            
                                     </div>
                                 </div>
                                 <form action="{{ url('loginProcc') }}" method="post">
                                     @csrf
+                                   
                                     <div class="form-group">
                                         <div class="form-label-group">
                                             <label class="form-label" for="default-01">Email</label>

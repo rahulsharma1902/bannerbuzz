@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('number', 255)->unique();
             $table->string('password');
             $table->integer('is_admin')->default(0);
+            $table->string('stripe_customer_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

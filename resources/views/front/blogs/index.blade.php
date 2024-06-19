@@ -153,7 +153,7 @@
                             <div class="blog-blocks">
                                 <h5> About Cre8ive Printer</h5>
                                 <div class="about">
-                                    <img src="{{ asset('front/img/aboutcr8.png') }}" alt="">
+                                    <img src="{{ asset('front/img/clogo.svg') }}" alt="">
                                     <h6>Design Print Banner, LLC (DBA: cre8iveprinter.co.uk) was established with a
                                         vision to capture online retail markets. With our parent company’s 20+ years of
                                         experience in the sign business and our…</h6>

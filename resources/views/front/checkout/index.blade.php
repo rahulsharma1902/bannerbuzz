@@ -8,25 +8,25 @@
                 <li class="is-active completed">
                     <div class="step">
                         <span class="circle">1</span>
-                        <span class="text">Customize Product</span>
+                        <span class="text">Shopping Basket</span>
                     </div>
                 </li>
                 <li class="is-active">
                     <div class="step">
                         <span class="circle">2</span>
-                        <span class="text">Shopping Basket</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="step">
-                        <span class="circle">3</span>
                         <span class="text">Shipping Address</span>
                     </div>
                 </li>
                 <li>
                     <div class="step">
+                        <span class="circle">3</span>
+                        <span class="text">Payment Details</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step">
                         <span class="circle">4</span>
-                        <span class="text">Payment</span>
+                        <span class="text">Confirm Order</span>
                     </div>
                 </li>
                 <li>
@@ -40,7 +40,8 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="checkout-form">
-                            <form>
+                            <form id="checkout_form" action="{{ url('/checkout-process') }}" method="POST" >
+                                @csrf
                                 <div class="tab">
                                     <div class="ship-wrap">
                                         <div class="check-ship">
@@ -52,9 +53,9 @@
                                                         <p style="color:#DC288A">You need to login for checkout</p>
                                                         <!-- <a href="javascript:void" style="color:#7C7C7C"> -->
                                                         <p style="color:#7C7C7C">
-                                                             <a href="{{ url('login') ?? ''}}" style="color:#7C7C7C">Login</a> 
+                                                             <a onclick="login()" style="color:#7C7C7C">Login</a> 
                                                              /
-                                                             <a href="{{ url('register') ?? ''}}" style="color:#7C7C7C">Sign Up</a>
+                                                             <a onclick="register()" style="color:#7C7C7C">Sign Up</a>
                                                         <!-- </a> -->
                                                         </p>
                                                     </div>  
@@ -62,12 +63,15 @@
                                                 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input type="email" class="form-control" placeholder="Email">
+                                                        <input type="email" class="form-control" id="confirmation_email" name="confirmation_email" placeholder="Email" value="{{ auth()->user()->email ?? '' }}" >
+                                                        <span id="confirmation_email_error" class="text-danger"></span>
+                                                       
                                                     </div>
+                                                    
                                                     <div class="col-md-6">
                                                         <div class="rem">
-                                                            <a href="javascript:void(0)"
-                                                                class="btn light_dark">Continue</a>
+                                                            <!-- <a href="javascript:void(0)"
+                                                                class="btn light_dark">Continue</a> -->
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -79,62 +83,90 @@
                                         <div class="check-ship shippingAddresWrap">
                                             <h5>Shipping Address</h5>
                                             <div class="checkout-block">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="First Name" name="first_name">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="first_name">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="number" class="form-control phnNumberCng"
-                                                            placeholder="Phone Number" data-to="phnNumberData"  name="phone" id="phone">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="email" class="form-control"
-                                                            placeholder="Email Address emailDataCng" data-to="mailAddrData" name="email" id="email">
+                                                <div class="row checkoutFormWrap">
+                                                    <div class="row checkoutFormWrap" id="shipping_details">
+                                                        <input type="hidden" name="address[id]" value="{{ auth()->user()->userMeta->id ?? '' }}" >
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="First Name" name="address[first_name]" value="{{ auth()->user()->userMeta->first_name ?? '' }}" id="first_name" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="first_name"></span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" placeholder="Last Name" name="address[last_name]" id="last_name" value="{{ auth()->user()->userMeta->last_name ?? '' }}" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="last_name"></span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="number" class="form-control phnNumberCng"
+                                                                placeholder="Phone Number" data-to="phnNumberData"  name="address[phone]" id="phone"  value="{{ auth()->user()->userMeta->phone_number ?? '' }}" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="phone"></span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="email" class="form-control"
+                                                                placeholder="Email Address" data-to="mailAddrData" name="address[email]" id="email" value="{{ auth()->user()->userMeta->email ?? '' }}"  data-required="required">
+                                                            <span class="text-danger validation_error" error-for="email"></span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Company Name"  name="address[company_name]" id="company_name" value="{{ auth()->user()->userMeta->company_name ?? ''}}" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="company_name"></span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                    
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Address Line" data-to="addressData" value="{{ auth()->user()->userMeta->address ?? ''}}" name="address[address_line]" id="address_line" data-required="required"> 
+                                                            <span class="text-danger validation_error" error-for="address_line"></span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" id="street_addr"
+                                                                placeholder="Street/Road" name="address[street]" value="{{ auth()->user()->userMeta->additional_address ?? '' }}" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="street"></span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" data-to="cityData" placeholder="City" value="{{ auth()->user()->userMeta->city ?? '' }}" name="address[city]" id="city" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="city"></span>
+                                                        </div>
+                                                        <!-- <div class="col-md-4">
+                                                            <select class="form-control" name="state" data-to="stateData">
+                                                                <option value="">State</option>
+                                                                <option value="">2</option>
+                                                                <option value="">3</option>
+                                                            </select>
+                                                        </div> -->
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" data-to="stateData" value="{{ auth()->user()->userMeta->state ?? '' }}" placeholder="State" name="address[state]" id="state" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="state"></span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" data-to="zipCodeData" value="{{ auth()->user()->userMeta->zip_code ?? '' }}" placeholder="Zip Code" name="address[zip_code]" id="zip_code" data-required="required">
+                                                            <span class="text-danger validation_error" error-for="zip_code"></span>
+                                                        </div>
+                                                        <?php  $countries = CountryArray(); ?>
+                                                        <div class="col-md-12">
+                                                            <select class="form-control" data-to="countryData" name="address[country]" id="country">
+                                                                @foreach($countries as $c_code => $c_name)
+                                                                    @if(isset(auth()->user()->userMeta->country))
+                                                                    <?php $userCountry = auth()->user()->userMeta->country; 
+                                                                        // print_r($userCountry);
+                                                                    ?>
+                                                                        @if($userCountry == $c_code)
+                                                                            <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}" selected>{{ $c_name ?? '' }}</option>
+                                                                        @else
+                                                                            <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                                                        @endif
+                                                                    @else
+                                                                        <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Company Name"  name="company_name" id="company_name">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                   
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Address Line" data-to="addressData" name="address_line" id="address_line">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Street/Road" name="street">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <input type="text" class="form-control" data-to="cityData" placeholder="City" name="city" id="city">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control" name="state" data-to="stateData">
-                                                            <option value="">State</option>
-                                                            <option value="">2</option>
-                                                            <option value="">3</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <input type="text" class="form-control" data-to="zipCodeData" placeholder="Zip Code" name="zip_code" id="zip_code">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <select class="form-control" data-to="countryData" name="country" id="country">
-                                                            <option value="">Country</option>
-                                                            <option value="">2</option>
-                                                            <option value="">3</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                          <input type="radio" id="html" name="fav" value="ad">
-                                                          <label for="ad">Use same address for billing</label>
+                                                        <input type="radio" id="html" name="additional_billing" value="same" checked>
+                                                        <label for="ad">Use same address for billing</label>
                                                         <div class="tool-div" style="position: relative;">
-                                                              <input type="radio" id="drop-ship" name="fav"
+                                                            <input type="radio" id="drop-ship2" name="additional_billing"
                                                                 value="drop">
-                                                              <label for="drop">Drop-ship</label>
+                                                            <label for="drop">Drop-ship</label>
                                                             <div class="req">
                                                                 <span><i class="fa-solid fa-circle-question"></i></span>
                                                                 <div class="req-info">
@@ -177,27 +209,104 @@
                                                                                 proofing process entirely. Make sure you
                                                                                 upload
                                                                                 the right file
-                                                                                though!</li>
+                                                                                though!
+                                                                            </li>
                                                                             <li>Keep in mind that in all cases where
                                                                                 proof is
                                                                                 sent, the actual
                                                                                 delivery date depends on the proof
                                                                                 approval
-                                                                                date.</li>
+                                                                                date.
+                                                                            </li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div id="additional_billing_address" class="additional_billing_address row checkoutFormWrap" style="display:none;" >
+                                                            <div class="col-md-6">
+                                                                <input type="hidden" name="ship_addr[id]" >
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="First Name" name="ship_addr[first_name]" value="{{ auth()->user()->billingAddr->first_name ?? '' }}" id="billing_first_name" data-required="required">
+                                                                    <span class="text-danger validation_error" error-for="first_name"></span>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="text" class="form-control" placeholder="Last Name" name="ship_addr[last_name]" id="billing_last_name" value="{{ auth()->user()->billingAddr->last_name ?? '' }}" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="last_name"></span>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="number" class="form-control phnNumberCng"
+                                                                    placeholder="Phone Number" data-to="phnNumberData"  name="ship_addr[phone]" id="billing_phone"  value="{{ auth()->user()->billingAddr->phone_number ?? '' }}" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="phone"></span>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="email" class="form-control"
+                                                                    placeholder="Email Address" data-to="mailAddrData" name="ship_addr[email]" id="billing_email" value="{{ auth()->user()->billingAddr->email ?? '' }}"  data-required="required">
+                                                                <span class="text-danger validation_error" error-for="email"></span>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Company Name"  name="ship_addr[company_name]" id="billing_company_name" value="{{ auth()->user()->billingAddr->company_name ?? '' }}" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="company_name"></span>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                        
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Address Line" data-to="addressData" value="{{ auth()->user()->billingAddr->address ?? '' }}" name="ship_addr[address_line]" id="billing_address_line" data-required="required"> 
+                                                                <span class="text-danger validation_error" error-for="address_line"></span>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" id="billing_street_addr"
+                                                                    placeholder="Street/Road" name="ship_addr[street]" value="{{ auth()->user()->billingAddr->additional_address ?? '' }}" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="street"></span>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" data-to="cityData" placeholder="City" value="{{ auth()->user()->billingAddr->city ?? '' }}" name="ship_addr[city]" id="billing_city" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="city"></span>
+                                                            </div>
+                                                            <!-- <div class="col-md-4">
+                                                                <select class="form-control" name="state" data-to="stateData">
+                                                                    <option value="">State</option>
+                                                                    <option value="">2</option>
+                                                                    <option value="">3</option>
+                                                                </select>
+                                                            </div> -->
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" data-to="stateData" value="{{ auth()->user()->billingAddr->state ?? '' }}" placeholder="State" name="ship_addr[state]" id="billing_state" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="state"></span>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" data-to="zipCodeData" value="{{ auth()->user()->billingAddr->zip_code ?? '' }}" placeholder="Zip Code" name="ship_addr[zip_code]" id="billing_zip_code" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="zip_code"></span>
+                                                            </div>
+                                                            <?php  $countries = CountryArray(); ?>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" data-to="countryData" name="ship_addr[country]" id="billing_country">
+                                                                    @foreach($countries as $c_code => $c_name)
+                                                                        @if(isset(auth()->user()->billingAddr->country))
+                                                                            <?php $user_billing_Country = auth()->user()->billingAddr->country; 
+                                                                                // print_r($userCountry);
+                                                                            ?>
+                                                                            @if($user_billing_Country == $c_code)
+                                                                                <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}" selected>{{ $c_name ?? '' }}</option>
+                                                                            @else
+                                                                                <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                                                            @endif
+                                                                        @else
+                                                                            <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="check_btn">
-                                            <button type="button" class="back_button btn light_dark">Back</button>
+                                            <a href="{{ url('/checkout/cart') }}" class="back_button btn light_dark">Back</a>
                                             <!-- <button type="button" disabled class="next_button btn light_dark">Continue</button> -->
-                                            <button type="button" class="next_button btn light_dark ">Continue</button>
+                                            <button type="button" class="next_button btn light_dark first_next_btn">Continue</button>
 
                                         </div>
                                     </div>
@@ -210,7 +319,7 @@
                                                 <div class="ship-info">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault1">
+                                                            name="delivery_type" value="express" id="flexRadioDefault1" checked>
                                                         <label class="form-check-label" for="flexRadioDefault1">
                                                             Express
                                                         </label>
@@ -223,7 +332,7 @@
                                                 <div class="ship-info">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault2">
+                                                            name="delivery_type" value="priority" id="flexRadioDefault2">
                                                         <label class="form-check-label" for="flexRadioDefault2">
                                                             Priority
                                                         </label>
@@ -243,8 +352,8 @@
                                                         <div class="paylatter_wrapper active">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="exampleRadios3" id="exampleRadios1"
-                                                                    value="option1" checked="">
+                                                                    name="payment_method" id="stripe"
+                                                                    value="stripe"  checked>
                                                                 <label class="form-check-label" for="exampleRadios3">
                                                                     Credit card
                                                                 </label>
@@ -254,73 +363,83 @@
                                                                     alt="">
                                                             </div>
                                                         </div>
-                                                        <div class="row border-0 custom-mx">
+                                                        <div class="row border-0 custom-mx checkoutFormWrap" id="payment_details">
+
                                                             <div class="col-lg-12 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Card Number">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardIMG.svg"
-                                                                    alt="">
+                                                                <input type="text" class="form-control" id ="card_holder_name"
+                                                                    placeholder="Name On Card" name="name_on_card" data-required="required">
+                                                                <span class="text-danger validation_error" error-for="name_on_card"></span>
                                                             </div>
-                                                            <div class="col-lg-12 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Name On Card">
+
+                                                            <div class="col-lg-12 custom-px" >
+                                                                <div id="card-number"></div> 
+                                                                <span class="text-danger validation_error" error-for="card_number"></span>
                                                             </div>
-                                                            <div class="col-lg-6 custom-px">
-                                                                <input type="number" class="form-control" id="number"
-                                                                    placeholder="Expiration Date(MM/YY)">
+                                                            
+                                                            <div class="col-lg-6 custom-px" > 
+                                                                <div id="card-expiry"></div> 
+                                                                <span class="text-danger validation_error" error-for="expiration_date"></span>
                                                             </div>
-                                                            <div class="col-lg-6 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Security Code">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/InfoMark.png"
-                                                                    alt="">
+
+                                                            <div class="col-lg-6 custom-px" > 
+                                                                <div id="card-cvc"></div> 
+                                                                <span class="text-danger validation_error" error-for="security_code"></span>
                                                             </div>
+
                                                         </div>
                                                         <div class="paylatter_bg">
-                                                        <div class="paylatter_wrapper">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="exampleRadios3" id="exampleRadios1"
-                                                                value="option1">
-                                                            <label class="form-check-label" for="exampleRadios3">
-                                                                Pay With Paypal
-                                                            </label>
+                                                            <div class="paylatter_wrapper">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="payment_method" id="paypal"
+                                                                        value="paypal">
+                                                                    <label class="form-check-label" for="exampleRadios3">
+                                                                        Pay With Paypal
+                                                                    </label>
+                                                                </div>
+                                                                <div class="img-pay">
+                                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardGrp.png"
+                                                                        alt="">
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="row border-0 custom-mx checkoutFormWrap" id="paypal_details">
+                                                                <div class="col-lg-12 custom-px">
+                                                                    <input type="number" class="form-control"
+                                                                        placeholder="Card Number" name="card_number" data-required="required">
+                                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardIMG.svg"
+                                                                        alt="">
+                                                                    <span class="text-danger validation_error" error-for="card_number"></span>
+                                                                </div>
+                                                                <div class="col-lg-12 custom-px">
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="Name On Card" name="name_on_card" data-required="required">
+                                                                    <span class="text-danger validation_error" error-for="name_on_card"></span>
+                                                                </div>
+                                                                <div class="col-lg-6 custom-px">
+                                                                    <input type="number" class="form-control" id="number"
+                                                                        placeholder="Expiration Date(MM/YY)" name="expiration_date" data-required="required">
+                                                                    <span class="text-danger validation_error" error-for="expiration_date"></span>
+                                                                </div>
+                                                                <div class="col-lg-6 custom-px">
+                                                                    <input type="number" class="form-control"
+                                                                        placeholder="Security Code" name="security_code"  data-required="required">
+                                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/InfoMark.png"
+                                                                        alt="">
+                                                                    <span class="text-danger validation_error" error-for="security_code"></span>
+                                                                </div>
+                                                            </div> -->
                                                         </div>
-                                                            <div class="img-pay">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardGrp.png"
-                                                                    alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row border-0 custom-mx">
-                                                            <div class="col-lg-12 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Card Number">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardIMG.svg"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="col-lg-12 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Name On Card">
-                                                            </div>
-                                                            <div class="col-lg-6 custom-px">
-                                                                <input type="number" class="form-control" id="number"
-                                                                    placeholder="Expiration Date(MM/YY)">
-                                                            </div>
-                                                            <div class="col-lg-6 custom-px">
-                                                                <input type="number" class="form-control"
-                                                                    placeholder="Security Code">
-                                                                <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/InfoMark.png"
-                                                                    alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="check_btn">
                                             <button type="button" class="back_button btn light_dark">Back</button>
-                                            <button type="button" class=" next_button btn light_dark">Continue</button>
+                                            @if(Auth::check())
+                                                <button type="button" data-secret="{{ $client_secret ?? '' }}" class=" next_button btn light_dark second_next_btn">Continue</button>
+                                            @else
+                                                <button type="button" id="second_next_btn"  class=" next_button btn light_dark second_next_btn" disabled>Continue</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -333,30 +452,41 @@
                                         <div class="checkout-block ship align-items-start address">
                                             <div class="adres">
                                                 <div class="ship-add">
-                                                    <p>
-                                                    <h6>Address:</h6>
-                                                    <span class="addressData"></span>
-                                                    <span class="shippingAddressData"> 
-                                                        <span class="zipCodeData"></span>
-                                                        <span class="cityData"></span>
-                                                        <span class="stateData"></span>
-                                                        <span class="countryData"></span>
-                                                        <!-- Zabiro Vasemashkovat,
-                                                        2089 Rockford Road Westborough,
-                                                        01581,
-                                                        MA,
-                                                        India -->
-                                                    </span></p>
+                                                    <p id="billing_address_div">
+                                                        <!-- <h6>Address:</h6>
+                                                        <span class="addressData"></span>
+                                                        <span class="shippingAddressData"> 
+                                                            <span class="zipCodeData"></span>
+                                                            <span class="cityData"></span>
+                                                            <span class="stateData"></span>
+                                                            <span class="countryData"></span>
+                                                        </span> -->
+                                                    </p>
                                                 </div>
-                                                <div class="ship-add">
-                                                    <h6>Contact information:</h6>
+                                                <div class="ship-add" id="ship-add">
+                                                    <!-- <h6>Contact information:</h6>
                                                     <span class="contactInfoData">
                                                         <span class="mailAddrData" >zabirovasemashkovat@schule-breklum.de</span>
                                                         <span class="phnNumberData" >77463 34445</span>
-                                                        <!-- <a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a> -->
-                                                        <!-- <a href="tel:77463 34445"></a> -->
+                                                            <a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a>
+                                                            <a href="tel:77463 34445"></a>
                                                         
-                                                    </span>
+                                                    </span> -->
+                                                </div>
+                                            </div>
+                                            <div class="edit editAdressInfo">
+                                                <span><i class="fa-solid fa-pen-to-square"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="checkout-block ship align-items-start address" id="addres_detail" style="display:none;">
+                                            <div class="billingadres">
+                                                <div class="billing_ship-add">
+                                                    <p id="b_address_div">
+                                                       
+                                                    </p>
+                                                </div>
+                                                <div class="billing_ship-add" id="billing_ship-add">
+                                                   
                                                 </div>
                                             </div>
                                             <div class="edit editAdressInfo">
@@ -370,12 +500,15 @@
                                                 <h6>Payment</h6>
                                             </div>
                                             <div class="checkout-block">
+                                                <div id="payment-info">
+
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="dilv ship-add">
                                             <div class="check_btn">
                                                 <button type="button" class="back_button btn light_dark">Back</button>
-                                                <button type="button" class="next_button btn light_dark">Place Your
+                                                <button type="button" id="final-btn" class="next_button btn light_dark ">Place Your
                                                     Order</button>
                                             </div>
                                         </div>
@@ -389,38 +522,242 @@
                             <div class="summary_wrap">
                                 <h5>Order Summary</h5>
                                 <div class="summary-table">
+                                    <div class="summary-table">
+                                        <div class="table-wrap">
+                                            <div class="panel ">
+                                                <div id="" class="panel-title">
+                                                    <h6 class="toggle-collapse">Price <span>({{ count($allbasket) ?? '' }} Items)</span></h6><a
+                                                        class="linkButton editLinks" href="{{ url('checkout/cart') ?? '' }}">View
+                                                        Basket</a>
+                                                </div>
+                                                <div class="panel-collapse">
+                                                    <div class="panel-content">
+                                                    <?php $all_total = []; ?>
+                                                    @foreach($allbasket as $basket)
+                                                        @if($basket->product_type != 'accessories')
+                                                            @if(isset($basket->design))
+                                                                <div class="productDetails">
+                                                                    <div class="product-dtl">
+                                                                            <div class="cart-product-wrapper">
+                                                                            <div class="image-box">
+                                                                            @if($basket->design_method == 'Artwork')
+                                                                                <?php $count = 0; ?> 
+                                                                                
+                                                                                @foreach(json_decode($basket->design->image,true) as $index => $value)
+                                                                                    @if($count == 0)
+                                                                                        <img class="img-fluid" src="{{ asset('designImage/'.$value) }}">
+                                                                                    @endif
+                                                                                    <?php  $count++ ?>
+                                                                                @endforeach
+                                                                            @elseif($basket->design_method == 'ArtworkLater')
+                                                                                <img class="img-fluid" src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                            @else
+                                                                                <img class="img-fluid" src="{{ asset('designImage/'.$basket->design->image) }}">
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="product-text">
+                                                                            <p>{{ $basket->product->name }} <br />
+                                                                            @if($basket->size_id != null)
+                                                                                @foreach($basket->product->sizes as $size)
+                                                                                    @if($size->id == $basket->size_id)
+                                                                                        @php
+                                                                                            $value = $basket->dimension;
+                                                                                            if ($value == 'In') {
+                                                                                                $unit_value = 12;
+                                                                                            } else if ($value == 'Cm') {
+                                                                                                $unit_value = 30;
+                                                                                            } else if ($value == 'Mm') {
+                                                                                                $unit_value = 304;
+                                                                                            } else if ($value == 'Ft') {
+                                                                                                $unit_value = 1;
+                                                                                            }
+
+                                                                                            $size_value = explode('X' ,$size->size_value);
+                                                                                            $width = $size_value[0];
+                                                                                            $heigth = $size_value[1];
+
+                                                                                            $converted_width = $width * $unit_value; 
+                                                                                            $converted_height = $heigth * $unit_value; 
+                                                                                        @endphp
+                                                                                        <?php $size_price = $size->price; ?>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                                <!-- Size (W X H): {{ $converted_width }} x {{ $converted_height }} ({{ $basket->dimension }}) -->
+                                                                            @elseif($basket->width != null && $basket->height != null )
+                                                                                @php
+                                                                                    $value = $basket->dimension;
+                                                                                    if ($value == 'In') {
+                                                                                        $unit_value = 12;
+                                                                                    } else if ($value == 'Cm') {
+                                                                                        $unit_value = 30;
+                                                                                    } else if ($value == 'Mm') {
+                                                                                        $unit_value = 304;
+                                                                                    } else if ($value == 'Ft') {
+                                                                                        $unit_value = 1;
+                                                                                    }
+
+                                                                                    $product_price = $basket->product->price;
+                                                                                    $price_pre_unit = ($product_price / $unit_value) / 2;
+                                                                                    $size_price = round(($basket->width + $basket->height) * $price_pre_unit);
+                                                                                    
+                                                                                @endphp
+                                                                            @else 
+                                                                                <?php $size_price = $basket->product->price; ?>
+                                                                            @endif
+                                                                            <?php $variation_price = []; ?>
+                                                                            @foreach($basket->product->variations as $variation)  
+                                                                                @if ($variation->variationData->isNotEmpty())  
+                                                                                    @foreach(json_decode($basket->variations) as $key => $value)
+                                                                                        @if($key == $variation->var_slug)
+                                                                                            @foreach ($variation->variationData as $data)
+                                                                                                @if($value == $data->id)
+                                                                                                    <?php $variation_price [] = $data->price; ?>
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            @endforeach
+                                                                            @php
+                                                                                $var_price = array_sum($variation_price);
+                                                                                $total_without_qty = $size_price + $var_price;
+                                                                                $total =( $size_price + $var_price) * $basket->qty;
+                                                                            @endphp
+                                                                            Qty: <span class="product-amount">{{ $basket->qty ?? '1' }}</span>
+                                                                            <!-- Price: <span id="product_total{{ $basket->id }}" >${{ $total }}</span></p> -->
+                                                                            <?php $all_total[] = $total ?>
+                                                                        </div>
+                                                                    </div>
+                                                                        <div class="quantity">
+                                                                        <span id="product_total{{ $basket->id ?? ''}}" >${{ $total ?? ''}}</span>
+                                                                            <!-- <span class="product-amount">{{ $basket->qty ?? '1' }}</span> -->
+                                                                            <!-- <span class="minus">-</span>
+                                                                            <input type="text" data-product-id="15"
+                                                                                data-withoutqtyprice="14" data-withqtyprice="14"
+                                                                                class="qtyInput" value="1">
+                                                                            <span class="plus">+</span> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif    
+                                                            @else
+                                                            <div class="productDetails">
+                                                                <div class="product-dtl">
+                                                                    <div class="cart-product-wrapper">
+                                                                        <div class="image-box">
+                                                                            @if($basket->accessorie)
+                                                                                <?php $count = 0; ?> 
+                                                                                
+                                                                                @foreach(json_decode($basket->accessorie->images,true) as $index => $value)
+                                                                                    @if($count == 0)
+                                                                                        <img class="img-fluid" src="{{ asset('accessories_Images/'.$value) }}">
+                                                                                    @endif
+                                                                                    <?php  $count++ ?>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="product-text">
+                                                                            <p>{{ $basket->accessorie->name }} <br />
+                                                                                @if($basket->size_id != null)
+                                                                                    @foreach($basket->accessorie->sizes as $size)
+                                                                                        @if($size->id == $basket->size_id)
+                                                                                            @php
+                                                                                                $value = $basket->dimension;
+                                                                                                if ($value == 'In') {
+                                                                                                    $unit_value = 12;
+                                                                                                } else if ($value == 'Cm') {
+                                                                                                    $unit_value = 30;
+                                                                                                } else if ($value == 'Mm') {
+                                                                                                    $unit_value = 304;
+                                                                                                } else if ($value == 'Ft') {
+                                                                                                    $unit_value = 1;
+                                                                                                }
+
+                                                                                                $size_value = explode('X' ,$size->size_value);
+                                                                                                $width = $size_value[0];
+                                                                                                $heigth = $size_value[1];
+
+                                                                                                $converted_width = $width * $unit_value; 
+                                                                                                $converted_height = $heigth * $unit_value; 
+                                                                                            @endphp
+                                                                                            <?php $size_price = $size->price; ?>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                    <!-- Size (W X H): {{ $converted_width }} x {{ $converted_height }} ({{ $basket->dimension }}) -->
+                                                                                @elseif($basket->width != null && $basket->height != null )
+                                                                                    @php
+                                                                                        $value = $basket->dimension;
+                                                                                        if ($value == 'In') {
+                                                                                            $unit_value = 12;
+                                                                                        } else if ($value == 'Cm') {
+                                                                                            $unit_value = 30;
+                                                                                        } else if ($value == 'Mm') {
+                                                                                            $unit_value = 304;
+                                                                                        } else if ($value == 'Ft') {
+                                                                                            $unit_value = 1;
+                                                                                        }
+
+                                                                                        $product_price = $basket->accessorie->price;
+                                                                                        $price_pre_unit = ($product_price / $unit_value) / 2;
+                                                                                        $size_price = round(($basket->width + $basket->height) * $price_pre_unit);
+                                                                                        
+                                                                                    @endphp
+                                                                                @else 
+                                                                                    <?php $size_price = $basket->accessorie->price; ?>
+                                                                                @endif
+                                                                                <?php $variation_price = []; ?>
+                                                                                @foreach($basket->accessorie->variations as $variation)  
+                                                                                    @if ($variation->variationData->isNotEmpty())  
+                                                                                        @foreach(json_decode($basket->variations) as $key => $value)
+                                                                                            @if($key == $variation->var_slug)
+                                                                                                @foreach ($variation->variationData as $data)
+                                                                                                    @if($value == $data->id)
+                                                                                                        <?php $variation_price [] = $data->price; ?>
+                                                                                                    @endif
+                                                                                                @endforeach
+                                                                                            @endif
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                @endforeach
+                                                                                @php
+                                                                                    $var_price = array_sum($variation_price);
+                                                                                    $total_without_qty = $size_price + $var_price;
+                                                                                    $total =( $size_price + $var_price) * $basket->qty;
+                                                                                @endphp
+                                                                                Qty :<span>{{ $basket->qty ?? '1' }}</span>
+                                                                                <!-- Price: <span id="product_total{{ $basket->id }}" >${{ $total }}</span></p>
+                                                                                <?php $all_total[] = $total ?> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        <!-- <td> -->
+                                                            <div class="quantity">
+                                                                <span> <span id="product_total{{ $basket->id ?? '' }}" >${{ $total ?? ''}}</span></span>
+                                                                <!-- <span class="minus">-</span>
+                                                                <input type="text" data-product-id="{{ $basket->id }}" data-withoutqtyprice="{{ $total_without_qty }}" data-withqtyprice="{{ $total }}" class="qtyInput" value="{{ $basket->qty ?? '1' }}">
+                                                                <span class="plus">+</span> -->
+                                                            </div>
+                                                        <!-- </td> -->
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    @endforeach
+                                                                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                     <table>
-                                        <thead>
+                                        <!-- <thead>
                                             <tr>
                                                 <td>Product</td>
                                                 <td>Qty</td>
                                             </tr>
-                                        </thead>
+                                        </thead> -->
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="cart-product-wrapper">
-                                                        <div class="image-box">
-                                                            <img class="img-fluid"
-                                                                src="https://cre8iveprinter.cre8iveprinter.co.uk/product_Images/polyester-fabric-banners11708952523.jpg"
-                                                                alt="Card image cap">
-                                                        </div>
-                                                        <div class="product-text">
-                                                            <p>Custom Vinyl Banners
-                                                                Size (W X H): 3 x 2 (FT)
-                                                                Price:$6.99</p>
-                                                        </div>
-                                                    </div>
-
-                                                </td>
-                                                <td>
-                                                    <div class="quantity">
-                                                        <span class="minus">-</span>
-                                                        <input type="text" value="1">
-                                                        <span class="plus">+</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                          <!-- old code here -->
                                             <tr>
                                                 <td>
                                                     <p>Subtotal</p>
@@ -428,14 +765,13 @@
                                                     <p>VAT</p>
                                                 </td>
                                                 <td>
-                                                    <p>$6.99
-                                                    </p>
-                                                    <p> $5.00</p> $1.40<p></p>
+                                                    <p class="subtotal"  >${{array_sum($all_total) }}</p>
+                                                    <p id="shipping_price"> $5.00</p> $0.00<p></p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Grand Total:</td>
-                                                <td>$13.39</td>
+                                                <td class="totalprice" id="totalprice" data-price = "{{array_sum($all_total) }}" >${{(array_sum($all_total) +5)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -448,17 +784,105 @@
         </div>
     </div>
 </section>
+<!-- script for stripe card payment  -->
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     $(document).ready(function () {
+        // :::::::: Mount Stripe Card ::::::::: //
+        const stripe = Stripe("{{ env('STRIPE_KEY') }}");
+
+        const elements = stripe.elements();
+
+        var cardNumber = elements.create('cardNumber',{
+            showIcon: true,
+        });
+
+        cardNumber.mount('#card-number');
+
+        var cardExpiry = elements.create('cardExpiry');
+        cardExpiry.mount('#card-expiry');
+
+        var cardCvc = elements.create('cardCvc');
+        cardCvc.mount('#card-cvc');
+
+        // :::::::::: End ::::::::::::: //
+
         var current = 1; // Start with the second tab
         var tabs = $(".tab");
         var tabs_pill = $(".tab-pills");
         var steps = $(".steps li");
 
         // Check if user is logged in
-        var isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+        var isLoggedIn = "{{ Auth::check() ? 'true' : 'false' }}";
 
         loadFormData(current);
+
+        
+        async function validPaymentFields(){
+            // console.log("enter");
+
+            action = true;
+
+            payment_method = $('input[name=payment_method]:checked').val();
+            var form = $('#checkout_form');
+            cardHolderName = $('#card_holder_name').val();
+            // secret_value = $(cardBtn).data('secret');
+            secret_value = "{{ $client_secret }}";
+
+            if(payment_method == 'stripe'){
+                // console.log("stripe");
+                const { setupIntent, error } = await stripe.confirmCardSetup(
+                    secret_value, {
+                        payment_method: {
+                            card: cardNumber,
+                            billing_details: {
+                                name: cardHolderName
+                            }   
+                        }
+                    }
+                ) 
+
+                if(error){
+                    // cardBtn.disable = false
+                    // console.log("error");
+                    if(error.message != ''){
+                        $("#card-error-message").html(error.message);
+                    }
+                    action = false;
+                }else{
+                    // console.log(setupIntent.payment_method);
+                    let token = document.createElement('input')
+                    token.setAttribute('type', 'hidden')
+                    token.setAttribute('name', 'token')
+                    token.setAttribute('value', setupIntent.payment_method)
+
+                    
+                    let payment_gateway = document.createElement('input')
+                    payment_gateway.setAttribute('type','hidden')
+                    payment_gateway.setAttribute('name', 'payment_gateway')
+                    payment_gateway.setAttribute('value', 'stripe')
+
+                    form.append(token)
+                    form.append(payment_gateway)
+                    action = true;
+                   
+                }
+            } else {
+                // console.log("paypal");
+                let payment_gateway = document.createElement('input')
+                payment_gateway.setAttribute('type','hidden')
+                payment_gateway.setAttribute('name', 'payment_gateway')
+                payment_gateway.setAttribute('value', 'paypal')
+
+                form.append(payment_gateway)
+                action = true;
+            }
+
+            if(action == false){
+               return false;
+            }
+            next();
+        }
 
         function loadFormData(n) {
             $(tabs_pill).removeClass("active"); // Remove active class from all tab pills
@@ -469,7 +893,11 @@
             $(".back_button").prop("disabled", n === 1);
 
             // Disable the "next" button if the user is not logged in or if it's the last tab
-            if (!isLoggedIn || n === tabs.length) {
+            console.warn(isLoggedIn);
+            console.warn(n);
+
+            // if (isLoggedIn === 'false'|| n === tabs.length) 
+            if (isLoggedIn === 'false'){
                 $(".next_button").prop("disabled", true);
             } else {
                 $(".next_button").prop("disabled", false);
@@ -521,35 +949,257 @@
             });
         }
 
+        function validFields(){
+            action = true;
+            $('#shipping_details input[type=text]').each(function(){
+                var field_name = $(this).attr('id');
+                field_name = field_name.split('_');
+                for(i=0;i<field_name.length;i++){
+                    field_name[i] = field_name[i].charAt(0).toUpperCase() + field_name[i].slice(1);
+                }
+                name = field_name.join(' ');
+                if($(this).attr('data-required') === "required"){
+                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                        $(this).next('.validation_error').html(name+'&nbsp;is required');
+                        action = false;
+                    }else{
+                        $(this).next('.validation_error').html('');
+                    }
+                }
+            });
+
+            $('#shipping_details input[type=number]').each(function(){
+                var phone = $(this).attr('name');
+                if($(this).attr('data-required') === "required"){
+                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                        $(this).next('.validation_error').html('Phone Number is required');
+                        action = false;
+                    }else{
+                        $(this).next('.validation_error').html('');
+                    }
+                }
+            });
+
+            $('#shipping_details input[type=email]').each(function(){
+                email = $(this).attr('name');
+                if($(this).attr('data-required') === "required"){
+                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                        $(this).next('.validation_error').html('Email Address is required');
+                        action = false;
+                    }else{
+                        $(this).next('.validation_error').html('');
+                    }
+                }
+            });
+
+            confirmation_email_validate = $('#confirmation_email').val();
+
+            if(confirmation_email_validate == undefined || confirmation_email_validate == null || confirmation_email_validate == "") {
+                $('#confirmation_email_error').text('confirmation email is required');
+                action = false;
+            }
+           
+            var input_value_billing = $('input[name=additional_billing]:checked').val();
+            if(input_value_billing === 'drop'){
+                $('#additional_billing_address input[type=text]').each(function(){
+                    var field_name = $(this).attr('id');
+                    field_name = field_name.split('_');
+                    for(i=0;i<field_name.length;i++){
+                        field_name[i] = field_name[i].charAt(0).toUpperCase() + field_name[i].slice(1);
+                    }
+                    name = field_name.join(' ');
+                    if($(this).attr('data-required') === "required"){
+                        if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                            $(this).next('.validation_error').html(name+'&nbsp;is required');
+                            action = false;
+                        }else{
+                            $(this).next('.validation_error').html('');
+                        }
+                    }
+                });
+
+                $('#additional_billing_address input[type=number]').each(function(){
+                    var phone = $(this).attr('name');
+                    if($(this).attr('data-required') === "required"){
+                        if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                            $(this).next('.validation_error').html('Phone Number is required');
+                            action = false;
+                        }else{
+                            $(this).next('.validation_error').html('');
+                        }
+                    }
+                });
+
+                $('#additional_billing_address input[type=email]').each(function(){
+                    email = $(this).attr('name');
+                    if($(this).attr('data-required') === "required"){
+                        if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                            $(this).next('.validation_error').html('Email Address is required');
+                            action = false;
+                        }else{
+                            $(this).next('.validation_error').html('');
+                        }
+                    }
+                }); 
+                
+                billing_company_name = $('#billing_company_name').val();
+                billing_zip_code = $('#billing_zip_code').val();
+                billing_state = $('#billing_state').val();
+                billing_city = $('#billing_city').val();
+                billing_country = $('#billing_country').val();
+                billing_email = $('#billing_email').val();
+                billing_phone = $('#billing_phone').val();
+                var country_tag = $('#billing_country').find(':selected');
+                var country = country_tag.data('value');
+                
+                $('#addres_detail').show();
+                Billing_html = `<h6>Address:</h6>
+                                <span class="billing_company">${billing_company_name}</span>
+                                <span class="shippingAddressData"> 
+                                    <span class="zip_billing">${billing_zip_code}</span>
+                                    <span class="city_billing">${billing_city}</span>
+                                    <span class="state_billing">${billing_state}</span>
+                                    <span class="country_billing">${country}</span>
+                                </span>`
+                billing_contact = `<h6>Contact information:</h6>
+                                <span class="contactInfoData">
+                                    <span class="ship_mailAddrData">${billing_email}</span>
+                                    <span class="ship_phnNumberData">${billing_phone}</span>
+                                </span>`
+                $('#b_address_div').html(Billing_html);
+                $('#billing_ship-add').html(billing_contact);
+            }
+
+
+            if(action == false){
+                return false;
+            }
+
+            Company_name = $('#company_name').val();
+            zip_code = $('#zip_code').val();
+            state = $('#state').val();
+            city = $('#city').val();
+            country = $('#country').val();
+            email = $('#email').val();
+            phone_number = $('#phone').val();
+            var country_tag = $('#country').find(':selected');
+            var country = country_tag.data('value');
+            Html_data =`<h6>Address:</h6>
+                        <span class="ship_addressData">${Company_name}</span>
+                        <span class="shippingAddressData"> 
+                            <span class="ship_zipCodeData">${zip_code}</span>
+                            <span class="ship_cityData">${city}</span>
+                            <span class="ship_stateData">${state}</span>
+                            <span class="ship_countryData">${country}</span>
+                        </span>`
+            contact_html = `<h6>Contact information:</h6>
+                                <span class="contactInfoData">
+                                    <span class="ship_mailAddrData">${email}</span>
+                                    <span class="ship_phnNumberData">${phone_number}</span>
+                                </span>`
+
+            $('#billing_address_div').html(Html_data);
+            $('#ship-add').html(contact_html);
+            next();
+        }
+
+        $('#final-btn').on('click',function(){
+            $('#checkout_form').submit();
+        });
+
         $(".back_button").on("click", back);
-        $(".next_button").on("click", next);
+        $(".first_next_btn").on("click",validFields);
+        $(".second_next_btn").on("click",validPaymentFields);
         $(".editAdressInfo").on("click", goToFirstTab); // Attach goToFirstTab function to click event
+       
     });
+    
 </script>
 
 
 
 <!-- script for add address and email data In Shipping address -->
 <script>
-$(document).ready(function() {
-    $('input[data-to]').keyup(function() {
-        var targetClass = $(this).data('to');
+    $(document).ready(function() {
+        $('input[data-to]').keyup(function() {
+            var targetClass = $(this).data('to');
 
-        if (targetClass) {
-            var inputValue = $(this).val();
-            
-            if ($('.shippingAddressData .' + targetClass).length > 0) {
-                inputValue = ', ' + inputValue;
+            if (targetClass) {
+                var inputValue = $(this).val();
+                
+                if ($('.shippingAddressData .' + targetClass).length > 0) {
+                    inputValue = ', ' + inputValue;
+                }
+                
+                $('.' + targetClass).text(inputValue);
             }
-            
-            $('.' + targetClass).text(inputValue);
-        }
+        });
+       $('input[name=additional_billing]').on('change',function(){
+            input_value_billing = $('input[name=additional_billing]:checked').val();
+            if(input_value_billing == 'drop'){
+                $('#additional_billing_address').show();
+            } else {
+                $('#additional_billing_address').hide();
+            }
+       });
+       $('input[name=payment_method]').on('change',function(){
+            input_value_payment = $('input[name=payment_method]:checked').val();
+            $('.paylatter_wrapper').removeClass('active');
+            main_div = $(this).closest('.paylatter_wrapper');
+            main_div.addClass('active');
+            if(input_value_payment == 'paypal'){
+                $('#payment_details').hide();
+            } else {
+                $('#payment_details').show();
+            }
+            updatePaymentInfo(input_value_payment);
+       });
+       $('input[name=delivery_type]').on('change',function(){
+            input_value_shipping = $('input[name=delivery_type]:checked').val();
+            grand_total = $('#totalprice').data('price');
+            if(input_value_shipping == 'express'){
+                $('#shipping_price').text('$5');
+                $('#totalprice').text('$'+(5+parseInt(grand_total)));
+            } else {
+                $('#shipping_price').text('$8');
+                $('#totalprice').text('$'+(8+parseInt(grand_total)));
+            }
+       });
     });
-});
+    function updatePaymentInfo(method) {
+        var info = $('#payment-info');
+        info.empty(); 
 
-
+        if (method === 'paypal') {
+            console.log($('input[name=cardnumber]').val());
+            info.append('<img class="logo paypal-logo" src="{{ asset("front/img/paypal.png") }}" alt="PayPal Logo">');
+            info.append('Pay with PayPal');
+        } else if (method === 'stripe') {
+            
+            info.append('<img class="logo stripe-logo" src="{{ asset("front/img/stripe_logo.png") }}" alt="Stripe Logo">');
+            info.append('Pay with Stripe');
+            info.append('<span class="edit">Edit</span>');
+        }
+    }
+</script>
+<script>
+    document.querySelector('.toggle-collapse').addEventListener('click', function () {
+        var panel = document.querySelector('.panel-collapse');
+        panel.classList.toggle('open');
+    });
 </script>
 
+<script>
+    function login(){
+        url = "{{ url('checkout') }}";
+        location.href = `{{ url('login') }}?url=${url}`;
+    }
 
+    function register(){
+        url = "{{ url('checkout') }}";
+        location.href = `{{ url('register') }}?url=${url}`;
+    }
+ 
+</script>
 
 @endsection

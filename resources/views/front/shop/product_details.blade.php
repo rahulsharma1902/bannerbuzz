@@ -728,13 +728,27 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            $('.list-image').on('click',function() {  // change product image 
+            // $('.list-image').on('click',function() {  // change product image 
 
-                var img_scr = $(this).attr('src');
-                $('#main-image').attr('src',img_scr);
+            //     var img_scr = $(this).attr('src');
+            //     $('#main-image').attr('src',img_scr);
+            //     $('.list-image-container').removeClass('active');
+            //     $(this).parent().addClass('active');
+
+            // });
+            $('.list-image').on('click', function() {  
+                var img_src = $(this).attr('src');
+                var mainImage = $('#main-image');
+
+                mainImage.addClass('fade');
+
+                setTimeout(function() {
+                    mainImage.attr('src', img_src);
+                    mainImage.removeClass('fade');
+                }, 500);
+                
                 $('.list-image-container').removeClass('active');
                 $(this).parent().addClass('active');
-
             });
 
             $('.add-to-basket').on('click', async function() {      // add design to basket
@@ -1470,5 +1484,31 @@
                 resolve(unit_value);
             });
         }
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('.template_slider').slick({
+                infinite: true,
+                slidesToShow:4,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1
+                        }
+                    },
+                    {
+                        breakpoint: 576,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+        });    
     </script>
 @endsection

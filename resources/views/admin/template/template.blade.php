@@ -1,14 +1,28 @@
 @extends('front_layout/index')
 @section('content')
 
-@foreach ($fonts as $font)
-    <style>
-        @font-face {
-            font-family: "{{ $font->name }}";
-            src: url("{{ asset($font->path) }}");
-        }
-    </style>
-@endforeach
+<!-- @if(isset($fonts) && is_iterable($fonts) && count($fonts) > 0)
+    @foreach ($fonts as $font)
+        @php
+            $fontFaceCss = "";
+            $fontFaceAttributes = json_decode($font->font_face ?? '[]');
+            if (json_last_error() === JSON_ERROR_NONE) {
+                foreach ($fontFaceAttributes as $attribute) {
+                    $fontFaceCss .= e($attribute->key) . ": " . e($attribute->value) . ";\n";
+                }
+            }
+        @endphp
+        <style>
+            @font-face {
+                font-family: "{{ e($font->name ?? '') }}";
+                src: url("{{ asset($font->path ?? '') }}");
+                {!! $fontFaceCss !!}
+            }
+        </style>
+    @endforeach
+@endif -->
+
+
 
 
 <div class="main_div"></div>
@@ -1124,7 +1138,8 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option style="font-family: 'Noteworthy';" value="Noteworthy">Noteworthy</option>
+                                                <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
+                                                <!-- <option style="font-family: 'Noteworthy';" value="Noteworthy">Noteworthy</option>
                                                 <option style="font-family: 'Apple Chancery';" value="Apple Chancery">Apple Chancery</option>
                                                 <option style="font-family: 'Great Vibes';" value="Great Vibes">Great Vibes</option>
                                                 <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
@@ -1134,14 +1149,15 @@
                                                 <option style="font-family: 'math';" value="math">math</option> 
                                                 <option style="font-family: 'monospace';" value="monospace">Monospace</option>
                                                 <option style="font-family: 'system-ui';" value="system-ui">System-ui</option>
-                                                <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
                                                 <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
-                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
-                                                @foreach ($fonts as $font)
-                                                    <option style="font-family: '{{ $font->name ?? '' }}';" value="{{ $font->name ?? '' }}">
-                                                        {{ $font->name ?? 'Roboto' }}
-                                                    </option>
-                                                @endforeach
+                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option> -->
+                                                @if(isset($fonts) && is_iterable($fonts) && count($fonts) > 0)
+                                                    @foreach ($fonts as $font)
+                                                        <option style="font-family: '{{ $font->name ?? '' }}';" value="{{ $font->name ?? '' }}">
+                                                            {{ $font->name ?? 'Roboto' }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
 
 
                                             </select>

@@ -199,7 +199,7 @@
                                             @endforeach
                                             <div class="cust_btn_wreap">
                                                 <a href="{{ url('accessories') }}/{{ $product->slug ?? '' }}"
-                                                    class="btn cust_btn" tabindex="0">Customize </a>
+                                                    class="btn cust_btn" tabindex="0">Explore</a>
                                             </div>
                                         </div>
                                         <div class="card-body">

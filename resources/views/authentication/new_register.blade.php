@@ -21,6 +21,7 @@
             @endif
             <form action="{{ url('registerProcc') }}" method="post">
                 @csrf
+                <input type="hidden" name="url" value="{{ request()->get('url') ?? '' }}">
                 <div class="formgroup-box">
                     <div class="formGroup halfGroup"><input type="text" name="first_name" aria-label="First Name" placeholder="First Name*" value="" />
                     @if ($errors->has('first_name'))

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'stripe_customer_id'
     ];
 
     /**
@@ -43,4 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function billingAddr()
+    {
+        return $this->hasOne(UserBilling::class,'user_id','id');
+    }
+
+    public function userMeta()
+    {
+        return $this->hasOne(UserMeta::class,'user_id','id');
+    }
 }

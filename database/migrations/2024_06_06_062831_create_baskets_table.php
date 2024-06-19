@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('product_type')->nullable(); //customizable non-customizable
             $table->string('size_type')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('accessorie_id')->nullable();
             $table->unsignedBigInteger('design_id')->nullable();
             $table->unsignedBigInteger('size_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

@@ -8,6 +8,7 @@ use Auth;
 use Hash;
 use App\Models\User;
 use App\Models\DesignTemplate;
+use App\Models\Basket;
 use Session;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
@@ -20,8 +21,6 @@ class AuthenticationController extends Controller
         return view('authentication.index');
     }
     public function loginProcc(Request $request){
-       
-
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -32,8 +31,13 @@ class AuthenticationController extends Controller
                 if(Auth::user()->is_admin == 1){
                     return redirect('/admin-dashboard')->with('success','Successfully loggedin! Welcome Come Admin');
                 }elseif(Auth::user()->is_admin == 0){
-                    $this->convertTemporaryIdToUserId();
-                    return redirect('/')->with('success','Successfully loggedin');
+                    $changeID =  $this->convertTemporaryIdToUserId();
+                    if($request->url != null){
+                        return redirect($request->url);
+                    }else{
+                        return redirect('/')->with('success','Successfully loggedin');
+                    }
+                   
                 }else{
                     Auth::logout();
                     return redirect()->back()->with('error','failed! Something went wrong');
@@ -42,9 +46,6 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error','failed to login');
         }
     }
-
-
-
 
     public function register(){
 
@@ -90,8 +91,13 @@ class AuthenticationController extends Controller
         // $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
         if (Auth::attempt($request->only('email', 'password'))) {
             if (Auth::user()->is_admin == 0) {
-                $this->convertTemporaryIdToUserId();
-                return redirect('/')->with('success','Your account is created successfully');
+                $changeID =  $this->convertTemporaryIdToUserId();
+                if($request->url != null){
+                    return redirect($request->url);
+                }else{                    
+                    return redirect('/')->with('success','Your account is created successfully');
+                }
+               
             }
         }
         // return redirect('/')->with('success','Your account is created successfully');
@@ -144,12 +150,19 @@ class AuthenticationController extends Controller
 
 
 
-    public function convertTemporaryIdToUserId(){
+    function convertTemporaryIdToUserId(){
         $temporaryUserId = Session::get('temporaryUserId');
         if($temporaryUserId){
             DesignTemplate::where('temporary_id', $temporaryUserId)->update(['user_id' => Auth::id(), 'temporary_id' => null]);
+            Basket::where('temporary_id', $temporaryUserId)->update(['user_id' => Auth::id(), 'temporary_id' => null]);
             Session::forget('temporaryUserId');
         }
+        if(!Session::has('temporaryUserId')) {
+            return true;
+        } else {
+            return true;
+        }
+       
     }
     
 }

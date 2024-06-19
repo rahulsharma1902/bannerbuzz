@@ -102,7 +102,7 @@
                                                 <label class="form-label">{{ $variation->name }}:</label>
                                                 @if ($variation->variationData->isNotEmpty())
                                                     <?php $variation_price[] = $variation->variationData->first()->price ?? '0'; ?>
-                                                    <select name="{{ $variation->var_slug }}"
+                                                    <select data-slug ="{{ $variation->var_slug }}" name="{{ $variation->var_slug }}" 
                                                         class="product_variation form-select">
                                                         @foreach ($variation->variationData as $data)
                                                             <option data-id="{{ $data->id }}"
@@ -338,7 +338,7 @@
                                     @endforeach
                                     <div class="cust_btn_wreap">
                                         <a href="{{ url('accessories') }}/{{ $r_product->slug ?? '' }}"
-                                            class="btn cust_btn" tabindex="0">Customize </a>
+                                            class="btn cust_btn" tabindex="0">Eplore </a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -360,6 +360,79 @@
             @endif
         </div>
     </section>
+    <script>
+        $(document).ready(function(){
+            $('#add-to-basket').on('click',async function(){
+                $product_type = 'accessories';
+                const formData = new FormData();
+
+                var ProductID = "{{ $product->id ?? '' }}";
+                
+                var qty = $('#product_quantity').val();
+                var variations = {};
+                $('.product_variation').each(function() {
+                    var var_slug = $(this).data('slug');
+                    var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                    variations[var_slug]= selectedoption;
+                });
+                var size_unit = $('#size_unit').val();
+                if(size_unit != undefined && size_unit != null){
+                    var size = $('#select_size').val();
+
+                    if(size == 'custom') {
+                        var width = $('#custom_width').val();
+                        var height = $('#custom_height').val();
+                        var size_id = null;
+
+                        formData.append('width', width);
+                        formData.append('height', height);
+
+                    } else {
+                        var width = null;
+                        var height = null;
+                        var selectedOption = $('#select_size option:selected');
+                        var size_id = selectedOption.data('id');
+                        formData.append('size_id', size_id);
+                    }
+                    formData.append('dimension', size_unit);
+                }
+                var_data =  variations;
+
+                formData.append('product_id', ProductID);
+                formData.append('product_type', $product_type);
+                formData.append('qty', qty);
+                formData.append('variations', JSON.stringify(var_data)); 
+                addTobasket = await addTObasket(formData);  
+                if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                    console.log(addTobasket.id );
+                    url = "{{ url('checkout/cart') }}";
+                    window.location.href = url;
+                }              
+            });
+        });
+        async function addTObasket(formData) {            // Add to Basket Ajax request 
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('add-to-basket') }}",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        resolve(data); 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving data', status, error);
+                        reject(false); 
+                    }
+                });
+            });
+        }
+    </script>
     <script>
         $(document).ready(function() {
             @if ($selected_size_unit != null && $selected_size_unit != 'Ft')

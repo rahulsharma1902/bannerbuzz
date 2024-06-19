@@ -32,14 +32,14 @@
 }
 
 
-@font-face {
+/* @font-face {
     font-family: 'Apple Chancery';
     src: url('../font/Apple-Chancery.woff2') format('woff2'),
         url('../font/Apple-Chancery.woff') format('woff');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
-}
+} */
 .great-vibes-regular {
     font-family: "Great Vibes", cursive;
     font-weight: 400;

@@ -33,6 +33,7 @@
                 </div>
                 <form action="{{ url('loginProcc') }}" method="post">
                   @csrf
+                    <input type="hidden" name="url" value="{{ request()->get('url') ?? '' }}">
                     <div class="form_info">
                         <input type="email" id="email" name="email" placeholder="Your Email">
                     @if ($errors->has('email'))

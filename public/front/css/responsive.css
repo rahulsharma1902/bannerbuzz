@@ -1320,6 +1320,9 @@
   background-color: #e4004e;
 }
 
+.bodyMainWrap header .free-exp>ul:nth-child(2){
+  display: none;
+}
 }
 
 @media only screen and (max-width: 767px) {
@@ -1751,6 +1754,10 @@
   margin-top: 50px;
 }
 
+.checkout-sec .step .circle {
+  height: 60px;
+  width: 60px;
+}
 }
 
 @media only screen and (max-width: 575px) {
@@ -2357,5 +2364,8 @@
   height: 23px !important;
   width: 23px !important;
   font-size: 10px;
+}
+.bodyMainWrap header .search_wrapper .dropdown{
+  width: 50%;
 }
 }

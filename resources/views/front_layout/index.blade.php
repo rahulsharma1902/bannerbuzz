@@ -68,7 +68,30 @@
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
         </style>
-
+        @php
+            use App\Models\Font;
+            $fonts = Font::all();
+        @endphp
+        @if(isset($fonts) && $fonts->isNotEmpty())
+            @foreach ($fonts as $font)
+                @php
+                    $fontFaceCss = "";
+                    $fontFaceAttributes = json_decode($font->font_face ?? '[]');
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        foreach ($fontFaceAttributes as $attribute) {
+                            $fontFaceCss .= e($attribute->key) . ": " . e($attribute->value) . ";\n";
+                        }
+                    }
+                @endphp
+                <style>
+                    @font-face {
+                        font-family: "{{ e($font->name ?? '') }}";
+                        src: url("{{ asset($font->path ?? '') }}");
+                        {!! $fontFaceCss !!}
+                    }
+                </style>
+            @endforeach
+        @endif
     </head>
     <body>
         @yield('content')

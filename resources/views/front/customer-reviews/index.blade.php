@@ -33,7 +33,7 @@
                 satisfaction and 100% smiles.
             </p>
             <div class="view_all">
-                <img src="{{ asset('front/img/view_logo.png') }}">
+                <img src="{{ asset('front/img/clogo.svg') }}">
                 <ul>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>

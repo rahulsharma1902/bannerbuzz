@@ -41,10 +41,14 @@ use App\Models\BlogCategory;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+// :::::::::::::::::::::::: AuthenticationController Routes ::::::::::::::::::::::::::::::://
+
 Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
 Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
+
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 //logout Route 
 Route::get('logout',[AuthenticationController::class,'logout']);
@@ -172,22 +176,19 @@ Route::group(['middleware' => ['admin']], function () {
 
     Route::get('admin-dashboard/font-add', [FontController::class, 'add']);
     Route::post('admin-dashboard/font-addProcc', [FontController::class, 'addProcc']);
-
     Route::get('admin-dashboard/font-view', [FontController::class, 'index']);
-
     Route::get('admin-dashboard/font-edit/{id}',[FontController::class,'edit']);
     Route::post('admin-dashboard/font-editProcc',[FontController::class,'editProcc']);
     Route::get('admin-dashboard/font-delete/{id}',[FontController::class,'delete']);
 
 });
 
-// FRONT LAYOUT
-
 // Route::get('/',[CustomizerController::class,'index']);
 
 //:::::::::::::::::::::: Front Routes ::::::::::::::::::::::::::::::::::::://
 
 //:::::::::::::::   ViewController Routes ::::::::::::::::::::::::://
+
 Route::get('/', [ViewController::class, 'index'])->name('home');
 Route::get('about-us', [ViewController::class, 'aboutUs'])->name('about-us');
 Route::get('contact-us', [ViewController::class, 'contactUs'])->name('contact-us');
@@ -195,57 +196,16 @@ Route::get('customer-reviews', [ViewController::class, 'customerReviews'])->name
 Route::get('privacy-policy', [ViewController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('upload-artwork', [ViewController::class, 'uploadArtwork'])->name('upload-artwork');
 Route::get('order-tracking', [ViewController::class, 'ordertracking'])->name('order-tracking');
-
-// blogs ViewController //
 Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');
-Route::get('blog/{slug}', [ViewController::class, 'blogDetails']);
+Route::get('blog/{slug}', [ViewController::class, 'blogDetails'])->name('blog');
+Route::get('search',[ViewController::class,'searchProduct'])->name('search');
 
-//Seachproduct//
-Route::get('search',[ViewController::class,'searchProduct']);
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 //:::::::::::::::::::;:: ShopController Routes ::::::::::::::::::::::::::::::::://
 Route::get('shop/{slug}', [ShopController::class, 'shop'])->name('shop');
 Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('special-offers');
 Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
-
-
-//::::::::::::::::::::::::Checkout Route :::::::::::::::::::::::::::::::://
-
-
-Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
-
-Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-
-
-// :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
-
-
-
-// :::::::::::::::::Customizer 
-
-// Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
-Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
-Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
-Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns']);
-
-Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
-Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
-
-
-
-Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
-
-
-Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
-
-//::::::::::::::::::::::::: Add to basket ::::::::::::::::::::::::://
-Route::post('add-to-basket', [BasketController::class, 'AddToBasket']);
-Route::get('remove-item-from-basket', [BasketController::class, 'removeItem']);
-
-// :::::::::::::::::Customizer route end here
-
-
 // Accessories Routes //
 Route::get('accessories', [ShopController::class, 'accessories']);
 Route::get('accessories/{slug}', [ShopController::class, 'AccessoriesDetails']);
@@ -256,18 +216,47 @@ Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildC
 Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
 Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
 
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
+
+// :::::::::::::::::::::::::: CustomizerController :::::::::::::::::::::::::::::::::::// 
+
+// Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
+Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
+Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns']);
+
+Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
+Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
+
+Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
+Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
 Route::post('/upload-dropbox-file',[CustomizerController::class, 'uploadFile']);
+// :::::::::::::::::::::: Customizer route end here :::::::::::::::::::::::::://
 
-Route::get('dropbox/connect', function(){
-    return Dropbox::connect();
+//::::::::::::::::::::::::: Add to basket ::::::::::::::::::::::::://
+
+Route::post('add-to-basket', [BasketController::class, 'AddToBasket']);
+Route::get('remove-item-from-basket', [BasketController::class, 'removeItem']);
+
+// ::::::::::::::::::::::: basket Route End here :::::::::::::::::::::::::::://
+
+//:::::::::::::::::::::::: Checkout Route :::::::::::::::::::::::::::::::://
+
+Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
+Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+
+// :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
+
+// ::::::::::::::::: Authenticated Routes ::::::::::::::::::::::::::::://
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::post('/checkout-process',[CheckoutController::class,'checkoutProcc']);
+    Route::get('checkout/success',[CheckoutController::class,'checkoutSuccess'])->name('checkout.success');
+    Route::get('/paypal/payment/success',[CheckoutController::class,'paypalPaymentSuccess'])->name('payment.success');
+    Route::get('/paypal/payment/fail',[CheckoutController::class,'paypalPaymentfail'])->name('payment.fail');
+    Route::get('/order-received/{order_num}',[CheckoutController::class,'OrderReceived'])->name('order.received');
 });
-
-Route::get('dropbox/disconnect', function(){
-    return Dropbox::disconnect('app/dropbox');
-});
-
-
-
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 

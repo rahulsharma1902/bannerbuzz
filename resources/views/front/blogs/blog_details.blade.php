@@ -58,7 +58,7 @@
                                     </form>
                                 </div>
                                 <div class="posts" id="search_result_div" style="display:none">
-                                <div id="search_div_text_div" style="display: none;" >Not Found</div>
+                                    <div id="search_div_text_div" style="display: none;" >Not Found</div>
                                     <ul >
                                         @if ($allblogs->isNotEmpty())
                                             @foreach ($allblogs as $blog)
@@ -108,7 +108,7 @@
                             <div class="blog-blocks">
                                 <h5>About Cre8ive Printer</h5>
                                 <div class="about">
-                                    <img src="{{ asset('front/img/aboutcr8.png') }}" alt="" />
+                                    <img src="{{ asset('front/img/clogo.svg') }}" alt="" />
                                     <h6>
                                         Design Print Banner, LLC (DBA: cre8iveprinter.co.uk) was
                                         established with a vision to capture online retail
