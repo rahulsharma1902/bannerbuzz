@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('transaction_id')->unique()->nullable();
             $table->string('payment_status')->default('pending'); // e.g., 'pending', 'completed', 'failed'
             $table->text('payment_details')->nullable(); // JSON or text for storing extra details
+            $table->integer('status')->default(false);
             $table->timestamps();
         });
     }

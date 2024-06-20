@@ -326,7 +326,7 @@
                                                     </div>
                                                     <div class="form-control">
                                                         <span>Thu, Feb 1st</span>
-                                                        <strong>$5.00</strong>
+                                                        <strong>£5.00</strong>
                                                     </div>
                                                 </div>
                                                 <div class="ship-info">
@@ -339,7 +339,7 @@
                                                     </div>
                                                     <div class="form-control">
                                                         <span>Tue, Jan 30th</span>
-                                                        <strong>$8.00</strong>
+                                                        <strong>£8.00</strong>
                                                     </div>
                                                 </div>
                                             </div>
@@ -373,19 +373,19 @@
 
                                                             <div class="col-lg-12 custom-px" >
                                                                 <div id="card-number"></div> 
-                                                                <span class="text-danger validation_error" error-for="card_number"></span>
+                                                                <span class="text-danger validation_error" id="card_number_error" error-for="card_number"></span>
                                                             </div>
-                                                            
-                                                            <div class="col-lg-6 custom-px" > 
-                                                                <div id="card-expiry"></div> 
-                                                                <span class="text-danger validation_error" error-for="expiration_date"></span>
-                                                            </div>
+                                                            <div class="exp-div-wrap">
+                                                                <div class="col-lg-6 custom-px" > 
+                                                                    <div id="card-expiry"></div> 
+                                                                    <span class="text-danger validation_error" id="expiration_date_error" error-for="expiration_date"></span>
+                                                                </div>
 
-                                                            <div class="col-lg-6 custom-px" > 
-                                                                <div id="card-cvc"></div> 
-                                                                <span class="text-danger validation_error" error-for="security_code"></span>
+                                                                <div class="col-lg-6 custom-px" > 
+                                                                    <div id="card-cvc"></div> 
+                                                                    <span class="text-danger validation_error" id="security_code_error" error-for="security_code"></span>
+                                                                </div>
                                                             </div>
-
                                                         </div>
                                                         <div class="paylatter_bg">
                                                             <div class="paylatter_wrapper">
@@ -397,8 +397,8 @@
                                                                         Pay With Paypal
                                                                     </label>
                                                                 </div>
-                                                                <div class="img-pay">
-                                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/cardGrp.png"
+                                                                <div class="img-pay paypal-image">
+                                                                    <img src="{{ asset("front/img/paypal.png") }}"
                                                                         alt="">
                                                                 </div>
                                                             </div>
@@ -452,6 +452,16 @@
                                         <div class="checkout-block ship align-items-start address">
                                             <div class="adres">
                                                 <div class="ship-add">
+                                                    <div class="ship-add" id="ship-add">
+                                                        <!-- <h6>Contact information:</h6>
+                                                        <span class="contactInfoData">
+                                                            <span class="mailAddrData" >zabirovasemashkovat@schule-breklum.de</span>
+                                                            <span class="phnNumberData" >77463 34445</span>
+                                                                <a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a>
+                                                                <a href="tel:77463 34445"></a>
+                                                            
+                                                        </span> -->
+                                                    </div>
                                                     <p id="billing_address_div">
                                                         <!-- <h6>Address:</h6>
                                                         <span class="addressData"></span>
@@ -463,20 +473,14 @@
                                                         </span> -->
                                                     </p>
                                                 </div>
-                                                <div class="ship-add" id="ship-add">
-                                                    <!-- <h6>Contact information:</h6>
-                                                    <span class="contactInfoData">
-                                                        <span class="mailAddrData" >zabirovasemashkovat@schule-breklum.de</span>
-                                                        <span class="phnNumberData" >77463 34445</span>
-                                                            <a href="mailto:Zzabirovasemashkovat@schule-breklum.de">zabirovasemashkovat@schule-breklum.de</a>
-                                                            <a href="tel:77463 34445"></a>
-                                                        
-                                                    </span> -->
-                                                </div>
                                             </div>
                                             <div class="edit editAdressInfo">
-                                                <span><i class="fa-solid fa-pen-to-square"></i></span>
+                                                <span class="edit-icon-span" ><i class="fa-solid fa-pen"></i></span>
                                             </div>
+                                        </div>
+                                        <br>
+                                        <div class="ship_head" id="addres_detail_head" style="display:none;">
+                                            <h6>Billing Address</h6>
                                         </div>
                                         <div class="checkout-block ship align-items-start address" id="addres_detail" style="display:none;">
                                             <div class="billingadres">
@@ -485,12 +489,9 @@
                                                        
                                                     </p>
                                                 </div>
-                                                <div class="billing_ship-add" id="billing_ship-add">
-                                                   
-                                                </div>
                                             </div>
                                             <div class="edit editAdressInfo">
-                                                <span><i class="fa-solid fa-pen-to-square"></i></span>
+                                                <span class="edit-icon-span"><i class="fa-solid fa-pen"></i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -501,7 +502,11 @@
                                             </div>
                                             <div class="checkout-block">
                                                 <div id="payment-info">
-
+                                                    <div class="img-text-wrap">
+                                                        <img class="logo stripe-logo" src="" alt="Stripe Logo" id="card-image">
+                                                        <p id="payment-text">Pay with visa</p>
+                                                    </div>
+                                                    <span class="edit-icon-span"><i class="fa-solid fa-pen"></i></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -538,98 +543,107 @@
                                                             @if(isset($basket->design))
                                                                 <div class="productDetails">
                                                                     <div class="product-dtl">
-                                                                            <div class="cart-product-wrapper">
+                                                                        <div class="cart-product-wrapper">
                                                                             <div class="image-box">
-                                                                            @if($basket->design_method == 'Artwork')
-                                                                                <?php $count = 0; ?> 
-                                                                                
-                                                                                @foreach(json_decode($basket->design->image,true) as $index => $value)
-                                                                                    @if($count == 0)
-                                                                                        <img class="img-fluid" src="{{ asset('designImage/'.$value) }}">
-                                                                                    @endif
-                                                                                    <?php  $count++ ?>
-                                                                                @endforeach
-                                                                            @elseif($basket->design_method == 'ArtworkLater')
-                                                                                <img class="img-fluid" src="{{ asset('Site_Images/sendartworklater.png') }}">
-                                                                            @else
-                                                                                <img class="img-fluid" src="{{ asset('designImage/'.$basket->design->image) }}">
-                                                                            @endif
-                                                                        </div>
-                                                                        <div class="product-text">
-                                                                            <p>{{ $basket->product->name }} <br />
-                                                                            @if($basket->size_id != null)
-                                                                                @foreach($basket->product->sizes as $size)
-                                                                                    @if($size->id == $basket->size_id)
-                                                                                        @php
-                                                                                            $value = $basket->dimension;
-                                                                                            if ($value == 'In') {
-                                                                                                $unit_value = 12;
-                                                                                            } else if ($value == 'Cm') {
-                                                                                                $unit_value = 30;
-                                                                                            } else if ($value == 'Mm') {
-                                                                                                $unit_value = 304;
-                                                                                            } else if ($value == 'Ft') {
-                                                                                                $unit_value = 1;
-                                                                                            }
-
-                                                                                            $size_value = explode('X' ,$size->size_value);
-                                                                                            $width = $size_value[0];
-                                                                                            $heigth = $size_value[1];
-
-                                                                                            $converted_width = $width * $unit_value; 
-                                                                                            $converted_height = $heigth * $unit_value; 
-                                                                                        @endphp
-                                                                                        <?php $size_price = $size->price; ?>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                                <!-- Size (W X H): {{ $converted_width }} x {{ $converted_height }} ({{ $basket->dimension }}) -->
-                                                                            @elseif($basket->width != null && $basket->height != null )
-                                                                                @php
-                                                                                    $value = $basket->dimension;
-                                                                                    if ($value == 'In') {
-                                                                                        $unit_value = 12;
-                                                                                    } else if ($value == 'Cm') {
-                                                                                        $unit_value = 30;
-                                                                                    } else if ($value == 'Mm') {
-                                                                                        $unit_value = 304;
-                                                                                    } else if ($value == 'Ft') {
-                                                                                        $unit_value = 1;
-                                                                                    }
-
-                                                                                    $product_price = $basket->product->price;
-                                                                                    $price_pre_unit = ($product_price / $unit_value) / 2;
-                                                                                    $size_price = round(($basket->width + $basket->height) * $price_pre_unit);
+                                                                                @if($basket->design_method == 'Artwork')
+                                                                                    <?php $count = 0; ?> 
                                                                                     
-                                                                                @endphp
-                                                                            @else 
-                                                                                <?php $size_price = $basket->product->price; ?>
-                                                                            @endif
-                                                                            <?php $variation_price = []; ?>
-                                                                            @foreach($basket->product->variations as $variation)  
-                                                                                @if ($variation->variationData->isNotEmpty())  
-                                                                                    @foreach(json_decode($basket->variations) as $key => $value)
-                                                                                        @if($key == $variation->var_slug)
-                                                                                            @foreach ($variation->variationData as $data)
-                                                                                                @if($value == $data->id)
-                                                                                                    <?php $variation_price [] = $data->price; ?>
-                                                                                                @endif
-                                                                                            @endforeach
+                                                                                    @foreach(json_decode($basket->design->image,true) as $index => $value)
+                                                                                        @if($count == 0)
+                                                                                            <img class="img-fluid" src="{{ asset('designImage/'.$value) }}">
+                                                                                        @endif
+                                                                                        <?php  $count++ ?>
+                                                                                    @endforeach
+                                                                                @elseif($basket->design_method == 'ArtworkLater')
+                                                                                    <img class="img-fluid" src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                                @elseif($basket->design_method == 'hireDesigner')
+                                                                                    @foreach (json_decode($basket->product->images) as $index => $image)
+                                                                                        @if ($index == 0)
+                                                                                            <img src="{{ asset('product_Images') }}/{{ $image }}">
                                                                                         @endif
                                                                                     @endforeach
+                                                                                @else
+                                                                                    <img class="img-fluid" src="{{ asset('designImage/'.$basket->design->image) }}">
                                                                                 @endif
-                                                                            @endforeach
-                                                                            @php
-                                                                                $var_price = array_sum($variation_price);
-                                                                                $total_without_qty = $size_price + $var_price;
-                                                                                $total =( $size_price + $var_price) * $basket->qty;
-                                                                            @endphp
-                                                                            Qty: <span class="product-amount">{{ $basket->qty ?? '1' }}</span>
-                                                                            <!-- Price: <span id="product_total{{ $basket->id }}" >${{ $total }}</span></p> -->
-                                                                            <?php $all_total[] = $total ?>
+                                                                            </div>
+                                                                            <div class="product-text">
+                                                                                <p>{{ $basket->product->name }} <br />
+                                                                                @if($basket->size_id != null)
+                                                                                    @foreach($basket->product->sizes as $size)
+                                                                                        @if($size->id == $basket->size_id)
+                                                                                            @php
+                                                                                                $value = $basket->dimension;
+                                                                                                if ($value == 'In') {
+                                                                                                    $unit_value = 12;
+                                                                                                } else if ($value == 'Cm') {
+                                                                                                    $unit_value = 30;
+                                                                                                } else if ($value == 'Mm') {
+                                                                                                    $unit_value = 304;
+                                                                                                } else if ($value == 'Ft') {
+                                                                                                    $unit_value = 1;
+                                                                                                }
+
+                                                                                                $size_value = explode('X' ,$size->size_value);
+                                                                                                $width = $size_value[0];
+                                                                                                $heigth = $size_value[1];
+
+                                                                                                $converted_width = $width * $unit_value; 
+                                                                                                $converted_height = $heigth * $unit_value; 
+                                                                                            @endphp
+                                                                                            <?php $size_price = $size->price; ?>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                    <!-- Size (W X H): {{ $converted_width }} x {{ $converted_height }} ({{ $basket->dimension }}) -->
+                                                                                @elseif($basket->width != null && $basket->height != null )
+                                                                                    @php
+                                                                                        $value = $basket->dimension;
+                                                                                        if ($value == 'In') {
+                                                                                            $unit_value = 12;
+                                                                                        } else if ($value == 'Cm') {
+                                                                                            $unit_value = 30;
+                                                                                        } else if ($value == 'Mm') {
+                                                                                            $unit_value = 304;
+                                                                                        } else if ($value == 'Ft') {
+                                                                                            $unit_value = 1;
+                                                                                        }
+
+                                                                                        $product_price = $basket->product->price;
+                                                                                        $price_pre_unit = ($product_price / $unit_value) / 2;
+                                                                                        $size_price = round(($basket->width + $basket->height) * $price_pre_unit);
+                                                                                        
+                                                                                    @endphp
+                                                                                @else 
+                                                                                    <?php $size_price = $basket->product->price; ?>
+                                                                                @endif
+                                                                                <?php $variation_price = []; ?>
+                                                                                @foreach($basket->product->variations as $variation)  
+                                                                                    @if ($variation->variationData->isNotEmpty())  
+                                                                                        @foreach(json_decode($basket->variations) as $key => $value)
+                                                                                            @if($key == $variation->var_slug)
+                                                                                                @foreach ($variation->variationData as $data)
+                                                                                                    @if($value == $data->id)
+                                                                                                        <?php $variation_price [] = $data->price; ?>
+                                                                                                    @endif
+                                                                                                @endforeach
+                                                                                            @endif
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                @endforeach
+                                                                                @php
+                                                                                    $var_price = array_sum($variation_price);
+                                                                                    $total_without_qty = $size_price + $var_price;
+                                                                                    $total =( $size_price + $var_price) * $basket->qty;
+                                                                                    if($basket->design_method == 'hireDesigner') {
+                                                                                        $total += 10;
+                                                                                    }
+                                                                                @endphp
+                                                                                Qty: <span class="product-amount">{{ $basket->qty ?? '1' }}</span>
+                                                                                <!-- Price: <span id="product_total{{ $basket->id }}" >${{ $total }}</span></p> -->
+                                                                                <?php $all_total[] = $total ?>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
                                                                         <div class="quantity">
-                                                                        <span id="product_total{{ $basket->id ?? ''}}" >${{ $total ?? ''}}</span>
+                                                                            <span id="product_total{{ $basket->id ?? ''}}" >£{{ $total ?? ''}}</span>
                                                                             <!-- <span class="product-amount">{{ $basket->qty ?? '1' }}</span> -->
                                                                             <!-- <span class="minus">-</span>
                                                                             <input type="text" data-product-id="15"
@@ -640,7 +654,7 @@
                                                                     </div>
                                                                 </div>
                                                             @endif    
-                                                            @else
+                                                        @else
                                                             <div class="productDetails">
                                                                 <div class="product-dtl">
                                                                     <div class="cart-product-wrapper">
@@ -732,7 +746,7 @@
                                                                 </div>
                                                         <!-- <td> -->
                                                             <div class="quantity">
-                                                                <span> <span id="product_total{{ $basket->id ?? '' }}" >${{ $total ?? ''}}</span></span>
+                                                                <span> <span id="product_total{{ $basket->id ?? '' }}" >£{{ $total ?? ''}}</span></span>
                                                                 <!-- <span class="minus">-</span>
                                                                 <input type="text" data-product-id="{{ $basket->id }}" data-withoutqtyprice="{{ $total_without_qty }}" data-withqtyprice="{{ $total }}" class="qtyInput" value="{{ $basket->qty ?? '1' }}">
                                                                 <span class="plus">+</span> -->
@@ -765,13 +779,13 @@
                                                     <p>VAT</p>
                                                 </td>
                                                 <td>
-                                                    <p class="subtotal"  >${{array_sum($all_total) }}</p>
-                                                    <p id="shipping_price"> $5.00</p> $0.00<p></p>
+                                                    <p class="subtotal"  >£{{array_sum($all_total) }}</p>
+                                                    <p id="shipping_price"> £5.00</p> £0.00<p></p>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Grand Total:</td>
-                                                <td class="totalprice" id="totalprice" data-price = "{{array_sum($all_total) }}" >${{(array_sum($all_total) +5)}}</td>
+                                                <td class="totalprice" id="totalprice" data-price = "{{array_sum($all_total) }}" >£{{(array_sum($all_total) +5)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -805,6 +819,29 @@
         var cardCvc = elements.create('cardCvc');
         cardCvc.mount('#card-cvc');
 
+        cardNumber.on('change', function (event) {
+            const card = event.brand === 'Unknown' ? (event.complete ? event : null) : event;
+            if (card) {
+                let brand = card.brand;
+                if(brand === 'amex'){
+                    var cardimg = "{{ asset('front/img/amex.png') }}";
+                    $('#payment-text').text('Pay with'+brand);
+                    $('#card-image').attr('src',cardimg); 
+                }else if(brand === 'discover'){
+                    $('#payment-text').text('Pay with'+brand);
+                    var cardimg = "{{ asset('front/img/discover.png') }}";
+                    $('#card-image').attr('src',cardimg); 
+                }else if(brand === 'mastercard'){
+                    $('#payment-text').text('Pay with'+brand);
+                    var cardimg = "{{ asset('front/img/mastercard.png') }}";
+                    $('#card-image').attr('src',cardimg); 
+                }else if(brand === 'visa'){
+                    $('#payment-text').text('Pay with'+brand);
+                    var cardimg = "{{ asset('front/img/visa.png') }}";
+                    $('#card-image').attr('src',cardimg); 
+                }
+            }
+        });
         // :::::::::: End ::::::::::::: //
 
         var current = 1; // Start with the second tab
@@ -817,67 +854,99 @@
 
         loadFormData(current);
 
+        // validate payment details 
+        var isCardNumberValid = false;
+        var isCardExpiryValid = false;
+        var isCardCvcValid = false;
+        var isCardHolderName = false;
         
-        async function validPaymentFields(){
-            // console.log("enter");
+        $('#card_holder_name').on('change',function (){
+            if($(this).val() == undefined || $(this).val() == null  || $(this).val() == '' ) {
+                isCardHolderName = false;
+                $('#card_holder_name').next('.validation_error').html('Card holder name&nbsp;is required');
+            } else {
+                isCardHolderName = true;
+                $('#card_holder_name').next('.validation_error').html('');
+            }
+            updateAction();
+        });
 
-            action = true;
+        cardNumber.on('change', function(event) {
+            isCardNumberValid = event.complete && event.error === undefined;
+            
+            if(!isCardNumberValid) {
+                $('#card_number_error').text('please enter a valid Card Number');
+            } else {
+                $('#card_number_error').text('');
+            }
+            updateAction();
+        });
+
+        cardExpiry.on('change', function(event) {
+            isCardExpiryValid = event.complete && event.error === undefined;
+            
+            if(!isCardExpiryValid) {
+                $('#expiration_date_error').text('Card Expire');
+            } else {
+                $('#expiration_date_error').text('');
+            }
+            updateAction();
+        });
+
+        cardCvc.on('change', function(event) {
+            isCardCvcValid = event.complete && event.error === undefined;
+            
+            if(!isCardCvcValid) {
+                $('#security_code_error').text('please enter a valid CVC');
+            } else {
+                $('#security_code_error').text('');
+            }
+            updateAction();
+        });
+
+        function updateAction() {
+            if (isCardNumberValid && isCardExpiryValid && isCardCvcValid && isCardHolderName) {
+                action = true;
+            } else {
+                action = false;
+            }
+        }
+
+        async function validPaymentFields(){
+            action == true;
 
             payment_method = $('input[name=payment_method]:checked').val();
-            var form = $('#checkout_form');
             cardHolderName = $('#card_holder_name').val();
-            // secret_value = $(cardBtn).data('secret');
-            secret_value = "{{ $client_secret }}";
 
-            if(payment_method == 'stripe'){
-                // console.log("stripe");
-                const { setupIntent, error } = await stripe.confirmCardSetup(
-                    secret_value, {
-                        payment_method: {
-                            card: cardNumber,
-                            billing_details: {
-                                name: cardHolderName
-                            }   
-                        }
-                    }
-                ) 
-
-                if(error){
-                    // cardBtn.disable = false
-                    // console.log("error");
-                    if(error.message != ''){
-                        $("#card-error-message").html(error.message);
-                    }
-                    action = false;
-                }else{
-                    // console.log(setupIntent.payment_method);
-                    let token = document.createElement('input')
-                    token.setAttribute('type', 'hidden')
-                    token.setAttribute('name', 'token')
-                    token.setAttribute('value', setupIntent.payment_method)
-
-                    
-                    let payment_gateway = document.createElement('input')
-                    payment_gateway.setAttribute('type','hidden')
-                    payment_gateway.setAttribute('name', 'payment_gateway')
-                    payment_gateway.setAttribute('value', 'stripe')
-
-                    form.append(token)
-                    form.append(payment_gateway)
-                    action = true;
-                   
+            if(payment_method == 'paypal') {
+                action == true;
+            } else if(payment_method == 'stripe') {
+                if(cardHolderName == undefined || cardHolderName == null  || cardHolderName == '' ) {
+                    isCardHolderName = false;
+                    $('#card_holder_name').next('.validation_error').html('Card holder name&nbsp;is required');
+                    updateAction();
+                } else {
+                    isCardHolderName = true;
+                    updateAction();
                 }
-            } else {
-                // console.log("paypal");
-                let payment_gateway = document.createElement('input')
-                payment_gateway.setAttribute('type','hidden')
-                payment_gateway.setAttribute('name', 'payment_gateway')
-                payment_gateway.setAttribute('value', 'paypal')
 
-                form.append(payment_gateway)
-                action = true;
+                if (isCardNumberValid && isCardExpiryValid && isCardCvcValid && isCardHolderName) {
+                    action = true;
+                } else {
+                    action = false;
+                    if(!isCardCvcValid) {
+                        $('#security_code_error').text('CVC is required');
+                    }
+
+                    if(!isCardExpiryValid) {
+                        $('#expiration_date_error').text('Expiry Date is required');
+                    }
+
+                    if(!isCardNumberValid) {
+                        $('#card_number_error').text('Card Number is required');
+                    }
+                }
             }
-
             if(action == false){
                return false;
             }
@@ -885,16 +954,16 @@
         }
 
         function loadFormData(n) {
-            $(tabs_pill).removeClass("active"); // Remove active class from all tab pills
-            $(tabs).addClass("d-none"); // Hide all tabs
+            $(tabs_pill).removeClass("active");  // Remove active class from all tab pills
+            $(tabs).addClass("d-none");          // Hide all tabs
             $(tabs_pill[n - 1]).addClass("active"); // Add active class to the current tab pill
             $(tabs[n - 1]).removeClass("d-none"); // Show the current tab
 
             $(".back_button").prop("disabled", n === 1);
 
             // Disable the "next" button if the user is not logged in or if it's the last tab
-            console.warn(isLoggedIn);
-            console.warn(n);
+            // console.warn(isLoggedIn);
+            // console.warn(n);
 
             // if (isLoggedIn === 'false'|| n === tabs.length) 
             if (isLoggedIn === 'false'){
@@ -1043,39 +1112,44 @@
                 }); 
                 
                 billing_company_name = $('#billing_company_name').val();
+                billing_address_line = $('#billing_address_line').val();
+                billing_additional_address = $('#billing_street_addr').val();
                 billing_zip_code = $('#billing_zip_code').val();
                 billing_state = $('#billing_state').val();
                 billing_city = $('#billing_city').val();
                 billing_country = $('#billing_country').val();
                 billing_email = $('#billing_email').val();
                 billing_phone = $('#billing_phone').val();
+                billing_name = $('#billing_first_name').val();
+                billing_lname = $('#billing_last_name').val();
                 var country_tag = $('#billing_country').find(':selected');
                 var country = country_tag.data('value');
                 
                 $('#addres_detail').show();
-                Billing_html = `<h6>Address:</h6>
-                                <span class="billing_company">${billing_company_name}</span>
+                $('#addres_detail_head').show();
+                Billing_html = `
                                 <span class="shippingAddressData"> 
-                                    <span class="zip_billing">${billing_zip_code}</span>
-                                    <span class="city_billing">${billing_city}</span>
-                                    <span class="state_billing">${billing_state}</span>
-                                    <span class="country_billing">${country}</span>
-                                </span>`
-                billing_contact = `<h6>Contact information:</h6>
-                                <span class="contactInfoData">
-                                    <span class="ship_mailAddrData">${billing_email}</span>
-                                    <span class="ship_phnNumberData">${billing_phone}</span>
+                                    <p><strong>Address: </strong><span class="ship_AddrData">${billing_address_line},${billing_additional_address}</span></p>
+                                    <p><strong>Name: </strong><span class="ship_nameAddrData">${billing_name} ${billing_lname}</span></p>
+                                    <p><strong>Email: </strong><span class="ship_mailAddrData">${billing_email}</span></p>
+                                    <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${billing_phone}</span></p>
+                                    <p><strong>Company Name: </strong><span class="billing_company">${billing_company_name}</span></p>
+                                    <p><strong>Zip Code: </strong><span class="zip_billing">${billing_zip_code}</span></p>
+                                    <p><strong>City: </strong><span class="city_billing">${billing_city}</span></p>
+                                    <p><strong>State: </strong><span class="state_billing">${billing_state}</span></p>
+                                    <p><strong>Country: </strong><span class="country_billing">${country}</span></p>
                                 </span>`
                 $('#b_address_div').html(Billing_html);
-                $('#billing_ship-add').html(billing_contact);
+                
             }
-
-
+            
             if(action == false){
                 return false;
             }
 
             Company_name = $('#company_name').val();
+            address_line = $('#address_line').val();
+            additional_address = $('#street_addr').val();
             zip_code = $('#zip_code').val();
             state = $('#state').val();
             city = $('#city').val();
@@ -1084,18 +1158,19 @@
             phone_number = $('#phone').val();
             var country_tag = $('#country').find(':selected');
             var country = country_tag.data('value');
-            Html_data =`<h6>Address:</h6>
-                        <span class="ship_addressData">${Company_name}</span>
+            Html_data =`
                         <span class="shippingAddressData"> 
-                            <span class="ship_zipCodeData">${zip_code}</span>
-                            <span class="ship_cityData">${city}</span>
-                            <span class="ship_stateData">${state}</span>
-                            <span class="ship_countryData">${country}</span>
+                            <p><strong>Address:</strong><span class="ship_addressData"> ${address_line},${additional_address}</span></p>
+                            <p><strong>Company Name: </strong><span class="ship_addresscompanyData">${Company_name}</span></p>
+                            <p><strong>Zip Code: </strong><span class="ship_zipCodeData">${zip_code}</span></p>
+                            <p><strong>City: </strong><span class="ship_cityData">${city}</span></p>
+                            <p><strong>State: </strong><span class="ship_stateData">${state}</span></p>
+                            <p><strong>Country: </strong><span class="ship_countryData">${country}</span></p>
                         </span>`
             contact_html = `<h6>Contact information:</h6>
                                 <span class="contactInfoData">
-                                    <span class="ship_mailAddrData">${email}</span>
-                                    <span class="ship_phnNumberData">${phone_number}</span>
+                                    <p><strong>Email: </strong><span class="ship_mailAddrData">${email}</span></p>
+                                    <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${phone_number}</span></p>
                                 </span>`
 
             $('#billing_address_div').html(Html_data);
@@ -1103,8 +1178,60 @@
             next();
         }
 
-        $('#final-btn').on('click',function(){
-            $('#checkout_form').submit();
+        $('#final-btn').on('click',async function(){
+
+            payment_method = $('input[name=payment_method]:checked').val();
+            var form = $('#checkout_form');
+            cardHolderName = $('#card_holder_name').val();
+            // secret_value = $(cardBtn).data('secret');
+            secret_value = "{{ $client_secret }}";
+
+            if(payment_method == 'stripe'){
+                
+                const { setupIntent, error } = await stripe.confirmCardSetup(
+                    secret_value, {
+                        payment_method: {
+                            card: cardNumber,
+                            billing_details: {
+                                name: cardHolderName
+                            }   
+                        }
+                    }
+                ) 
+                
+               
+                if(error){
+ 
+                    if(error.message != ''){
+                        $("#card-error-message").html(error.message);
+                    }
+                    action = false;
+                }else{
+                    let token = document.createElement('input')
+                    token.setAttribute('type', 'hidden')
+                    token.setAttribute('name', 'token')
+                    token.setAttribute('value', setupIntent.payment_method)
+
+                    
+                    let payment_gateway = document.createElement('input')
+                    payment_gateway.setAttribute('type','hidden')
+                    payment_gateway.setAttribute('name', 'payment_gateway')
+                    payment_gateway.setAttribute('value', 'stripe')
+
+                    form.append(token)
+                    form.append(payment_gateway)
+                    form.submit();
+                }
+            } else {
+                // console.log("paypal");
+                let payment_gateway = document.createElement('input')
+                payment_gateway.setAttribute('type','hidden')
+                payment_gateway.setAttribute('name', 'payment_gateway')
+                payment_gateway.setAttribute('value', 'paypal')
+
+                form.append(payment_gateway)
+                form.submit();
+            }
         });
 
         $(".back_button").on("click", back);
@@ -1138,8 +1265,12 @@
             input_value_billing = $('input[name=additional_billing]:checked').val();
             if(input_value_billing == 'drop'){
                 $('#additional_billing_address').show();
+                $('#addres_detail').show();
+                $('#addres_detail_head').show();
             } else {
                 $('#additional_billing_address').hide();
+                $('#addres_detail').hide();
+                $('#addres_detail_head').hide();
             }
        });
        $('input[name=payment_method]').on('change',function(){
@@ -1158,11 +1289,11 @@
             input_value_shipping = $('input[name=delivery_type]:checked').val();
             grand_total = $('#totalprice').data('price');
             if(input_value_shipping == 'express'){
-                $('#shipping_price').text('$5');
-                $('#totalprice').text('$'+(5+parseInt(grand_total)));
+                $('#shipping_price').text('£5');
+                $('#totalprice').text('£'+(5+parseInt(grand_total)));
             } else {
-                $('#shipping_price').text('$8');
-                $('#totalprice').text('$'+(8+parseInt(grand_total)));
+                $('#shipping_price').text('£8');
+                $('#totalprice').text('£'+(8+parseInt(grand_total)));
             }
        });
     });
@@ -1171,14 +1302,21 @@
         info.empty(); 
 
         if (method === 'paypal') {
-            console.log($('input[name=cardnumber]').val());
-            info.append('<img class="logo paypal-logo" src="{{ asset("front/img/paypal.png") }}" alt="PayPal Logo">');
-            info.append('Pay with PayPal');
-        } else if (method === 'stripe') {
-            
-            info.append('<img class="logo stripe-logo" src="{{ asset("front/img/stripe_logo.png") }}" alt="Stripe Logo">');
-            info.append('Pay with Stripe');
-            info.append('<span class="edit">Edit</span>');
+            html_payment_data = `<div class="img-text-wrap">
+                                    <img id="card-image" class="logo paypal-logo" src="{{ asset("front/img/paypal.png") }}" alt="PayPal Logo">
+                                    <p id="payment-text" >Pay with PayPal</p>
+                                </div>
+                                <span class="edit-icon-span"><i class="fa-solid fa-pen"></i></span>`;
+
+            info.append(html_payment_data);
+        } else if (method === 'stripe') { 
+            html_payment_data = `<div class="img-text-wrap">
+                                    <img class="logo stripe-logo" src="" alt="Stripe Logo" id="card-image">
+                                    <p id="payment-text">Pay with visa</p>
+                                </div>
+                                <span class="edit-icon-span"><i class="fa-solid fa-pen"></i></span>`;
+
+            info.append(html_payment_data);
         }
     }
 </script>
@@ -1200,6 +1338,7 @@
         location.href = `{{ url('register') }}?url=${url}`;
     }
  
+
 </script>
 
 @endsection

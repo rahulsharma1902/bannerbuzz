@@ -35,6 +35,12 @@
                                     @endif
                                 @elseif($template->design_method == 'ArtworkLater')
                                     <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                @elseif($template->design_method == 'hireDesigner')
+                                    @foreach (json_decode($template->product->images) as $index => $image)
+                                        @if ($index == 0)
+                                            <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                        @endif
+                                    @endforeach
                                 @else
                                     <img src="{{ asset('designImage/'.$template->image) }}">
                                 @endif
@@ -43,7 +49,7 @@
                         <div class="EditDT">
                             @if($template->design_method == 'template')
                                 <a href="{{url('designtool/template')}}/{{ $template->id ?? '' }}" class="btn light_dark">Edit Design</a>
-                            @else
+                            @elseif($template->design_method == 'ArtworkLater' || $template->design_method == 'Artwork')
                                 <a class="btn light_dark" type="button" data-type="" id="proceedButton" data-bs-toggle="modal" data-bs-target="#UploadArtworkModel" >Upload Artwork</a> 
                             @endif
                         </div>
@@ -193,7 +199,8 @@
                                 $total = ($product->price + array_sum($variation_price)) * $template->qty;
                             } else {
                                 $total = $product->price + array_sum($variation_price);
-                            } ?>
+                            }
+                             ?>
                             <input type="hidden" id="product_price_input" name="product_price"
                                 value="{{ $product->price }}">
                         @endif

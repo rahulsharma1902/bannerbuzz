@@ -118,12 +118,12 @@
                         </li>
                         <?php 
                             if(Auth::check()){
-                                $cartdata = App\Models\Basket::where('user_id',Auth::user()->id)->get();
+                                $cartdata = App\Models\Basket::where('user_id',Auth::user()->id)->where('status',false)->get();
                                 
                             }else{
                                 $temp_id = Session::get('temporaryUserId');
                                 if($temp_id != null) {
-                                    $cartdata = App\Models\Basket::where('temporary_id',$temp_id)->get(); 
+                                    $cartdata = App\Models\Basket::where('temporary_id',$temp_id)->where('status',false)->get(); 
                                 } else {
                                     $cartdata = null;
                                 }
@@ -175,6 +175,12 @@
                                                                                                     @endforeach
                                                                                                 @elseif($cart->design_method == 'ArtworkLater')
                                                                                                     <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                                                @elseif($cart->design_method == 'hireDesigner')
+                                                                                                    @foreach (json_decode($cart->product->images) as $index => $image)
+                                                                                                        @if ($index == 0)
+                                                                                                            <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                                                                                        @endif
+                                                                                                    @endforeach
                                                                                                 @else
                                                                                                     <img src="{{ asset('designImage/'.$cart->design->image) }}">
                                                                                                 @endif
@@ -252,6 +258,9 @@
                                                                                                 $var_price = array_sum($variation_price);
                                                                                                 $total_without_qty = $size_price + $var_price;
                                                                                                 $total =( $size_price + $var_price) * $cart->qty;
+                                                                                                if($cart->design_method == 'hireDesigner') {
+                                                                                                    $total += 10;
+                                                                                                }
                                                                                             @endphp
                                                                                             <!-- <p><span>Size (W X H) : 3 x 2 (FT) | £6.99</span><span>Hanging Options: No grommets</span> -->
                                                                                         
@@ -389,6 +398,7 @@
                                                     <div class="miniCartGridBox">
                                                         <div class="dataTableMain">
                                                             <p>Uh-oh! Looks like your Basket is empty.</p>
+                                                            <span class="icon-wrap"><i class="fa-solid fa-xmark"></i></span> 
                                                         </div>
                                                     </div>
                                                 </div>
@@ -755,6 +765,7 @@
                                                             </table>
                                                         </div>
                                                     </div>
+                                                    
                                                     <div class="buttonSet" id="buttonSet_mb">
                                                         <div class="cartSubTotal">Shopping Basket - Subtotal <span class="price">£{{array_sum($all_total_mb) }}</span></div>
                                                         <input type="hidden" id="total_price" value="{{ array_sum($all_total_mb) }}">
@@ -765,19 +776,20 @@
                                         </div>
                                     </div>
                                     @else
-                                    <div class="cart-preview-inner">
-                                        <div class="previewCart">
-                                            <div class="modal-body">
-                                                <div class="cartItemsBox">
-                                                    <div class="miniCartGridBox">
-                                                        <div class="dataTableMain">
-                                                            <p>Uh-oh! Looks like your Basket is empty.</p>
+                                        <div class="cart-preview-inner">
+                                            <div class="previewCart">
+                                                <div class="modal-body">
+                                                    <div class="cartItemsBox">
+                                                        <div class="miniCartGridBox">
+                                                            <div class="dataTableMain">
+                                                                <p>Uh-oh! Looks like your Basket is empty.</p>
+                                                            </div>
+                                                            <span class="icon-wrap"><i class="fa-solid fa-xmark"></i></span> 
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endif
                                 </div>
                             </li>
@@ -1163,17 +1175,18 @@
 
 </script>
 <script>
-    $(document).ready(function(){
-        total_price = $('#total_price').val();
-        price = '$'+total_price+'.00';
-        if(total_price !== undefined){
-            $('#item-price').text(price);
-        }else{
-            price = '$0.00';
-            $('#item-price').text(price);
-        }
-    });
-
+    @if(isset($cartdata) && $cartdata != null && $cartdata->isNotEmpty())
+        $(document).ready(function(){
+            total_price = $('#total_price').val();
+            price = '£'+total_price+'.00';
+            if(total_price !== undefined){
+                $('#item-price').text(price);
+            }else{
+                price = '£0.00';
+                $('#item-price').text(price);
+            }
+        });
+    @endif
     function viewCheckout(){
         location.href = "{{ url('checkout/cart') }}";
     }
@@ -1186,13 +1199,13 @@
             price_left = total_price-basket_price;
             $('#total_price').val(price_left);
             price = '£'+price_left;
-            item_price = '$'+price_left+'.00';
+            item_price = '£'+price_left+'.00';
             
             if(basket_id != undefined && basket_id != null){
                 remove_basket = await removeBasketItem(basket_id);
                 //  console.log(remove_basket);
-                if(remove_basket.result === true){
-                    if(remove_basket.total === 0) {
+                if(remove_basket.result == true){
+                    if(remove_basket.total < 1) {
                         _html_ = ` <div class="cart-preview-inner">
                                     <div class="previewCart">
                                         <div class="modal-body">
@@ -1200,6 +1213,7 @@
                                                 <div class="miniCartGridBox">
                                                     <div class="dataTableMain">
                                                         <p>Uh-oh! Looks like your Basket is empty.</p>
+                                                        <span class="icon-wrap"><i class="fa-solid fa-xmark"></i></span> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -1218,7 +1232,11 @@
                 }
             } 
         });
+        $('.icon-wrap').on('click',function(){
+            $('#cart-preview-dropdown').hide();
+        });
     });
+
 
     async function removeBasketItem(basket_id){
         return new Promise((resolve, reject) => {

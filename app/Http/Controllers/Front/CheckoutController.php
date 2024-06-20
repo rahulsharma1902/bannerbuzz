@@ -14,7 +14,7 @@ use App\Models\ProductSize;
 use App\Models\AccessoriesSize;
 use App\Models\Order;
 use App\Models\Payment;
-use Stripe\{Stripe,SetupIntent,Customer,PaymentIntent,Charge};
+use Stripe\{Stripe,SetupIntent,Customer,PaymentIntent,Charge,PaymentMethod};
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Auth;
 use Exception;
@@ -41,7 +41,11 @@ class CheckoutController extends Controller
             $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
         } else {
             $temp_id = Session::get('temporaryUserId');
-            $allbasket = Basket::where('temporary_id',$temp_id)->where('status',0)->get();
+            if( $temp_id != null) {
+                $allbasket = Basket::where('temporary_id',$temp_id)->where('status',0)->get();
+            } else {
+                $allbasket = null;
+            }
         }
         if($allbasket){
             $total = count($allbasket);
@@ -69,16 +73,13 @@ class CheckoutController extends Controller
             $total = 0;
             return view('front.checkout.cart',compact('allbasket','total'));
         }
-
-        
     }
 
     public function checkoutProcc(Request $request)
     {
         // echo '<pre>';
         // print_r($request->all());
-
-        // Stripe::setApiKey(env('STRIPE_SECRET'));
+        // die();
       
         if($request->address != null){
 
@@ -91,6 +92,7 @@ class CheckoutController extends Controller
         }
 
         $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
+        // dd($allbasket);
         $basket_ids = [];
         if($allbasket) {
             $order_data = $this->SaveUserDesignData($request,$allbasket);
@@ -107,6 +109,8 @@ class CheckoutController extends Controller
             foreach($allbasket as $basket_data){
                 $basket_ids[] =  $basket_data->id;
             }
+        } else {
+            return redirect()->back()->with('error','something went wrong please try again later!');
         }
 
         if($request->delivery_type == 'express') {
@@ -115,7 +119,7 @@ class CheckoutController extends Controller
             $ship_amount = 8;
         }
 
-        $orderNum = 'Ord-'.strtoupper(Str::random(10));
+        $orderNum = 'Ord_'.strtoupper(Str::random(10));
 
         $order_details = new Order();
         $order_details->user_id = Auth::user()->id;
@@ -128,7 +132,7 @@ class CheckoutController extends Controller
         $order_details->shipping_charges = $ship_amount;
         $order_details->additional_charges = null;
         $order_details->total_price = array_sum($total_price) + $ship_amount;
-        $order_details->currency = 'USD';
+        $order_details->currency = 'GBP';
         $order_details->status = 'pending';
         $order_details->payment_method = $request->payment_method;
         // $order_details->basket_data = json_encode($basket_ids);
@@ -172,8 +176,9 @@ class CheckoutController extends Controller
                 $paymentdata['stripe_customer_id'] = $stripe_customer_id;
             }
 
+            $paymentMethod = PaymentMethod::retrieve($request->token);
+            $paymentMethod->attach(['customer' => $paymentdata['stripe_customer_id']]);
             $paymentObj = $this->PaymentWithStripe($paymentdata);
-
 
             if($paymentObj != null) {
                 $payment_data = new Payment();
@@ -195,6 +200,8 @@ class CheckoutController extends Controller
                     $order->status = $paymentObj->status;
                     $order->save();
 
+                    $mail_data = $this->SendOrderMail($payment_data->id,$order->id);
+
                     return redirect('/order-received/'.$order->order_number)->with('success','payment success');
                 } else {
                     // $payment_data->status = false;
@@ -202,10 +209,12 @@ class CheckoutController extends Controller
 
                     return redirect('checkout')->with('error' , 'Something went wrong.');
                 }
+            } else {
+                return redirect('checkout')->with('error' , 'Something went wrong.');
             }
         } 
         if($request->payment_method == 'paypal'){
-            // dd("working on it");
+            
             $paymentdata['payment_error_url'] = url('checkout');
             $paypal = $this->PaymentWithPaypal($request,$paymentdata);
 
@@ -224,8 +233,6 @@ class CheckoutController extends Controller
 
     public function PaymentWithStripe($data)          // payment using stripe 
     {
-        // Stripe::setApiKey(env('STRIPE_SECRET'));
-
         try{
 
             $paymentIntentObject = PaymentIntent::create([
@@ -244,14 +251,13 @@ class CheckoutController extends Controller
             return $paymentIntentObject;
 
         } catch(Exception $e){
-            // saveAppLog($e->getMessage());
-            return null ; 
+            // dd($e);
+            return null; 
         }
         
     }
     function CreateStripeCustomer($request)        // create stripe customer
     {
-        // Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $stripeCustomer = Customer::create([
             'name' => $request['name_on_card'],
@@ -276,24 +282,6 @@ class CheckoutController extends Controller
         try {
             $successData = base64_encode(json_encode($paymentdata));
             $cancelData = base64_encode(json_encode($paymentdata));
-            // $jsonData = json_decode('{
-            //     "intent": "CAPTURE",
-            //     "purchase_units": [
-            //         {
-            //             "amount": {
-            //                 "currency_code": "' . $paymentdata['currency'] . '",
-            //                 "value": "' . $paymentdata['total_price'] . '"
-            //             }
-            //         }
-            //     ],
-            //     "application_context" : {
-            //         "user_action" : "PAY_NOW",
-            //         "return_url": "' . route('payment.success', [ 'meta_data' => $successData]) . '",
-            //         "cancel_url": "' . route('payment.fail', [ 'redirect_to' => $cancelData]) . '"    
-            //     }
-            // }', true);
-            // $order = $this->paypalProvider->createOrder($jsonData);
-            // return $order;
 
             $response = $this->paypalProvider->createOrder([
                 "intent" => "CAPTURE",
@@ -496,6 +484,21 @@ class CheckoutController extends Controller
                             if($size){
                                 $product_price  = $size->price;
                             }
+                        } elseif($basket->width != null && $basket->height != null) {
+                            $value = $basket->dimension;
+                            if ($value == 'In') {
+                                $unit_value = 12;
+                            } else if ($value == 'Cm') {
+                                $unit_value = 30;
+                            } else if ($value == 'Mm') {
+                                $unit_value = 304;
+                            } else if ($value == 'Ft') {
+                                $unit_value = 1;
+                            }
+
+                            $default_product_price = $basket->product->price;
+                            $price_pre_unit = ($default_product_price / $unit_value) / 2;
+                            $product_price = round(($basket->width + $basket->height) * $price_pre_unit);
                         } else {
                             $product_price = $basket->product->price;
                         }
@@ -534,12 +537,18 @@ class CheckoutController extends Controller
     {
         $order_num = $request->order_num;
         // dd($order_num);
-        // $order = Order::where('order_number',$order_num)->first();
-        // if($order){
-        //     return view('front.checkout.order_received',compact('order_num'));
-        // } else {
-        //     abort(404);
-        // }
+        $order = Order::where('order_number',$order_num)->first();
+        if($order){
+            return view('front.checkout.order_received',compact('order_num'));
+        } else {
+            abort(404);
+        }
         return view('front.checkout.order_received',compact('order_num'));
+    }
+
+    // order confirmation mail
+    function SendOrderMail($payment_id,$order_id) 
+    {
+        
     }
 }

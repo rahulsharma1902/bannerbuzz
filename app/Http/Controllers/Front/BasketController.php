@@ -35,9 +35,9 @@ class BasketController extends Controller
                 $userId = Auth::id();
             }
             if( $userType == 'User' ) {
-                $basket = Basket::where('design_id',$design_id)->where('user_id',$userId)->first();
+                $basket = Basket::where('design_id',$design_id)->where('user_id',$userId)->where('status',false)->first();
             } else {
-                $basket = Basket::where('design_id',$design_id)->where('temporary_id',$temporaryUserId)->first();
+                $basket = Basket::where('design_id',$design_id)->where('temporary_id',$temporaryUserId)->where('status',false)->first();
             }
             
             if(!$basket) {
@@ -81,9 +81,9 @@ class BasketController extends Controller
                 $userId = Auth::id();
             }
             if( $userType == 'User' ) {
-                $basket = Basket::where('accessorie_id',$request->product_id)->where('user_id',$userId)->first();
+                $basket = Basket::where('accessorie_id',$request->product_id)->where('user_id',$userId)->where('status',false)->first();
             } else {
-                $basket = Basket::where('accessorie_id',$request->product_id)->where('temporary_id',$temporaryUserId)->first();
+                $basket = Basket::where('accessorie_id',$request->product_id)->where('temporary_id',$temporaryUserId)->where('status',false)->first();
             }
             
             if(!$basket) {
@@ -135,11 +135,11 @@ class BasketController extends Controller
                     Session::put('temporaryUserId', $temporaryUserId);
                 }
                 $userType = 'Guest';
-                $basketItems = Basket::where('temporary_id',$temporaryUserId)->get();
+                $basketItems = Basket::where('temporary_id',$temporaryUserId)->where('status',false)->get();
             } else {
                 $userType = 'User';
                 $userId = Auth::id();
-                $basketItems = Basket::where('user_id',$userId)->get();
+                $basketItems = Basket::where('user_id',$userId)->where('status',false)->get();
             }
             $total = 0;
             if($basketItems){

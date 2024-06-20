@@ -7882,3 +7882,306 @@ body.loading {
 }
 
 /*19 june css by shiwani*/
+
+.get_in_sec .get-in-content {
+    margin-top: 0!important;
+    padding: 80px 170px;
+}
+.get_in_sec {
+    padding: 100px 0px;
+}
+.get_in_sec .get-in-content {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    background: rgba(255,255,255,0.5)!important;
+    border: none;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.get_in_sec .get-in-content .order-received-div h3 {
+    color: #6d6968;
+    margin-bottom: 20px;
+    font-family: Mona-Sans;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 34.81px;
+    text-align: center;
+}
+
+.get_in_sec .get-in-content .order-received-div .img-wrap {
+    margin-bottom: 40px;
+}
+
+.get_in_sec .get-in-content .order-received-div .text-wrap h6 {
+    margin-bottom: 10px;
+    font-family: Mona-Sans;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 21.27px;
+    text-align: center;
+    color:#6d6968;
+}
+
+.get_in_sec .get-in-content .order-received-div .text-wrap p {
+    font-family: Mona-Sans;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    text-align: center;
+    color: #6d6968;
+    margin-bottom: 0;
+}
+.checkout-sec .basket-wraper {
+    border-top: 1px solid rgb(245, 245, 245);
+    border-bottom: 1px solid rgb(245, 245, 245);
+    padding: 30px 0px;
+}
+
+
+.checkout-sec .basket-wraper {
+    text-align: center;
+}
+
+.checkout-sec .basket-wraper .image-wraper {
+    margin-bottom: 30px;
+}
+
+.checkout-sec .basket-wraper .text-wraper h3 {
+    margin-bottom: 10px;
+}
+
+.checkout-sec .basket-wraper .text-wraper .btn-wrap {
+    margin-top: 35px;
+}
+
+.checkout-sec .basket-wraper .text-wraper p {
+    margin-bottom: 0;
+}
+.checkout-sec .basket-wraper .text-wraper .btn-wrap a.rgstr_btn {
+    border: 1px solid #e4004e;
+    padding: 18px 42px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    border-radius: 5px;
+    color: #e4004e;
+    transition: all 0.5s ease-in-out;
+}
+.checkout-sec .basket-wraper .text-wraper .btn-wrap a.rgstr_btn:hover {
+    color: #fff;
+    background:#e4004e;
+}
+
+
+.print_box_wrapp ul li:nth-child(2) {
+    padding-left: 30px!important;
+    padding-bottom: 30px!important;
+}
+.additional_billing_address {
+    margin-top: 20px;
+}
+.bodyMainWrap .ship-wrap .checkout-block {
+    padding-bottom: 15px;
+}
+
+.checkout-sec .StripeElement {
+    padding: 20px;
+    background: transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 13.54px;
+    text-align: left;
+    border: 1px solid #1b1b1b30;
+    color: #000;
+}
+
+.checkout-sec .exp-div-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    padding-left: 10px;
+}
+
+.paylatter_bg .paylatter_wrapper .img-pay.paypal-image {
+    max-width: 50px;
+}
+
+.paylatter_bg .paylatter_wrapper {
+    align-items: center;
+/*    padding-top: 0;*/
+}
+.paylatter_wrapper.active {
+    padding-top: 20px;
+}
+.paylatter_bg .custom-mx {
+    padding-bottom: 0;
+}
+
+
+.cartItemsBox .miniCartGridBox {
+    height: 122px;
+    padding: 5px;
+}
+
+.cartItemsBox .miniCartGridBox .dataTableMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+@media only screen and (max-width: 1599px) {
+.get_in_sec .get-in-content {
+    margin-top: 0!important;
+    padding: 70px 100px!important;
+}
+}
+
+@media only screen and (max-width: 1399px) {
+.get_in_sec .get-in-content {
+    max-width: 700px;
+}
+.get_in_sec .get-in-content .order-received-div .img-wrap {
+    margin-bottom: 20px;
+}
+.get_in_sec .get-in-content {
+    padding: 70px 80px!important;
+}
+}
+
+@media only screen and (max-width: 1199px) {
+.get_in_sec .get-in-content .order-received-div h3 {
+    margin-bottom: 10px;
+    font-size: 30px;
+    line-height: 1.2;
+   
+}
+}
+
+@media only screen and (max-width: 991px) {
+.get_in_sec .get-in-content {
+    margin-top: 0!important;
+    padding: 60px 70px!important;
+}
+.get_in_sec .get-in-content .order-received-div .text-wrap h6 {
+   font-size: 20px;
+   line-height: 1.2;
+  
+}
+.get_in_sec .get-in-content .order-received-div .text-wrap p {
+    font-size: 16px;
+    line-height: 30px;
+  
+  }
+  .paylatter_wrapper.active {
+    padding-top: 20px;
+}
+
+.checkout-sec .exp-div-wrap {
+    flex-direction: column;
+    padding-right: 10px;
+}
+
+.checkout-sec .exp-div-wrap .col-lg-6.custom-px {
+    width: 100%;
+}
+}
+
+@media only screen and (max-width: 767px) {
+
+.get_in_sec .get-in-content {
+    padding: 40px 50px!important;
+}
+.get_in_sec .get-in-content .order-received-div h3 {
+    font-size: 25px;
+   
+}
+.get_in_sec .get-in-content .order-received-div .img-wrap {
+    max-width: 80px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+.checkout-sec .basket-wraper .text-wraper .btn-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.checkout-sec .shop-basket .basket-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 15px;
+}
+.checkout-sec .basket-wraper .text-wraper .btn-wrap {
+    margin-top: 25px;
+}
+.print_box_wrapp ul li:nth-child(2) {
+    padding-left: 20px!important;
+    padding-bottom: 20px!important;
+}
+.ship-wrap .checkoutFormWrap>div:not(:last-child) {
+    margin-bottom: 15px;
+}
+}
+
+@media only screen and (max-width: 575px) {
+ .get_in_sec .get-in-content {
+    padding: 20px!important;
+}
+.get_in_sec .get-in-content .order-received-div h3 {
+    font-size: 22px;
+}
+.get_in_sec .get-in-content .order-received-div .text-wrap h6 {
+    font-size: 18px;
+}
+.get_in_sec .get-in-content .order-received-div .text-wrap p {
+    font-size: 16px;
+    line-height: 1.4;
+}
+.get_in_sec .get-in-content .order-received-div .img-wrap {
+    max-width: 70px;
+    margin-bottom: 10px;
+}
+.checkout-sec .basket-wraper .text-wraper .btn-wrap a.rgstr_btn {
+     padding: 15px;
+    font-size: 14px;
+  }
+  .checkout-sec .basket-wraper .image-wraper {
+    margin-bottom: 20px;
+}
+.print_box_wrapp ul li:nth-child(2) {
+    padding-left: 15px!important;
+    padding-bottom: 15px!important;
+}
+.print_box_wrapp ul li {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.ship-wrap .checkoutFormWrap>div {
+    margin-bottom: 15px;
+}
+.ship-wrap .check_btn {
+    flex-direction: column;
+    gap: 10px;
+}
+.checkout-sec .StripeElement {
+    padding: 15px;
+  }
+  .bodyMainWrap .paylatter_bg .paylatter_wrapper.active {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 15px;
+}
+.paylatter_bg .custom-mx {
+    padding: 15px;
+}
+.paylatter_bg .paylatter_wrapper {
+    padding: 15px;
+}
+}

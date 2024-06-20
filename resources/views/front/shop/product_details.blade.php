@@ -544,7 +544,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="design_tool">
-                                                    <a  href="">Proceed to Design Tool</a>
+                                                    <button id="hireDesigner-btn" class="btn light_dark "  type="button" data-product-id="{{ $product->id ?? '' }}">Add to basket</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -749,6 +749,36 @@
                 
                 $('.list-image-container').removeClass('active');
                 $(this).parent().addClass('active');
+            });
+
+            $('#hireDesigner-btn').on('click',async function(){
+                $('#overlay').show();
+                try {
+                    Qty = $('#product_quantity').val();
+                    var desc_data = $('#w3review').val();
+                    const formData = new FormData();
+
+                    getFormData(formData);
+                    formData.append('design_description', desc_data);
+                    formData.append('design_method', 'hireDesigner');
+
+                    saveData = await saveDesignAjax(formData);
+                    if(saveData.template.id != null){
+                        addTobasket = await addTObasket(saveData.template.id,Qty);
+                        if(addTobasket.id !== null && addTobasket.id !== 0){
+
+                            console.log(addTobasket.id );
+                            url = "{{ url('checkout/cart') }}";
+                            window.location.href = url;
+                        }
+                    }
+                } catch (error){
+                    console.error('An error occurred:', error);
+                    $('#overlay').hide();
+
+                } finally {
+                    $('#overlay').hide();
+                }
             });
 
             $('.add-to-basket').on('click', async function() {      // add design to basket
@@ -991,6 +1021,7 @@
                             $(HTML_data).insertBefore('.label-wrap');
                         }
                     }
+                    $('#overlay').hide();
                 } catch (error) {
                     console.error('An error occurred:', error);
                 } finally {

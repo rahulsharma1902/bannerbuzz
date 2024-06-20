@@ -5,7 +5,7 @@
         <div class="container">
             <div id="wrapper" class="wrapper">
                 <h3>Shopping Basket</h3>
-                @if(isset($allbasket) && $allbasket->isNotEmpty())
+                @if(isset($allbasket) && $allbasket != null && $allbasket->isNotEmpty())
                     <ul class="steps">
                         <li class="is-active completed">
                             <div class="step">
@@ -43,7 +43,7 @@
                             <div class="col-lg-8">
                                 <div class="shop-basket">
                                     <div class="basket-top">
-                                        <h4>Your Basket: {{ $total }} Items</h4>
+                                        <h4 id="basketCount" >Your Basket: {{ $total }} Items</h4>
                                         <span><a href="{{ url('/') }}">Continue Shopping</a></span>
                                     </div>
 
@@ -78,6 +78,12 @@
                                                                                 @endforeach
                                                                             @elseif($basket->design_method == 'ArtworkLater')
                                                                                 <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                            @elseif($basket->design_method == 'hireDesigner')
+                                                                                @foreach (json_decode($basket->product->images) as $index => $image)
+                                                                                    @if ($index == 0)
+                                                                                        <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                                                                    @endif
+                                                                                @endforeach
                                                                             @else
                                                                                 <img src="{{ asset('designImage/'.$basket->design->image) }}">
                                                                             @endif
@@ -156,6 +162,9 @@
                                                                     $var_price = array_sum($variation_price);
                                                                     $total_without_qty = $size_price + $var_price;
                                                                     $total =( $size_price + $var_price) * $basket->qty;
+                                                                    if($basket->design_method == 'hireDesigner') {
+                                                                        $total += 10;
+                                                                    }
                                                                 @endphp
                                                                 <td>
                                                                     <div class="quantity">
@@ -264,6 +273,9 @@
                                                                 $var_price = array_sum($variation_price);
                                                                 $total_without_qty = $size_price + $var_price;
                                                                 $total =( $size_price + $var_price) * $basket->qty;
+                                                                if($basket->design_method == 'hireDesigner') {
+                                                                    $total += 10;
+                                                                }
                                                             @endphp
                                                             <td>
                                                                 <div class="quantity">
@@ -290,7 +302,7 @@
                             <div class="col-lg-4">
                                 <div class="basket-rgt">
                                     <div class="ylw-bar">
-                                        <h6>Shop for $85.02 more and grab your free shipping now.</h6>
+                                        <h6>Shop for £85.02 more and grab your free shipping now.</h6>
                                     </div>
                                     <div class="check">
                                         <div class="form-check">
@@ -392,26 +404,26 @@
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>Subtotal</p>
-                                                    <span class="subtotal"  >${{array_sum($all_total) }}</span>
+                                                    <span class="subtotal"  >£{{array_sum($all_total) }}</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>Shipping <span>(Estimated delivery Thu, Feb <br> 1st 2024 -
                                                             Express)</span></p>
-                                                    <span>$00</span>
+                                                    <span>£00</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>VAT</p>
-                                                    <span>$00</span>
+                                                    <span>£00</span>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="shipping_content grand">
                                                     <p>Grand Total:</p>
-                                                    <span class="totalprice" >${{array_sum($all_total) }}</span>
+                                                    <span class="totalprice" >£{{array_sum($all_total) }}</span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -437,7 +449,7 @@
                 @else
                     <div class="cart-content">
                         <div class="row">
-                            <div class="col-lg-8">
+                            <div class="col-lg-12">
                                 <div class="shop-basket">
                                     <div class="basket-top">
                                         <h4>Your Basket: {{ $total }} Items</h4>
@@ -445,13 +457,21 @@
                                     </div>
                                     <div class="basket-wraper">
                                         <div class="image-wraper">
-                                            <img src="" alt="">
+                                            <img src="{{ asset('Site_Images/cart-empty.svg') }}" alt="">
                                         </div>
                                         <div class="text-wraper">
-                                            <p>Your basket is empty <a href="{{ url('/') }}">Go to homepage</a> </p>
+                                            <h3>Your basket is empty </h3>
+                                            @if(!Auth::check())
+                                                <p>Already a member? Login now to view your Basket</p>
+                                            @endif
+                                            <div class="btn-wrap" >
+                                                <a class="btn rgstr_btn" href="{{ url('/') }}">Continue Shopping</a>
+                                                @if(!Auth::check())
+                                                    <a class="btn light_dark" href="{{ url('/login') }}"> Login Here</a>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>
@@ -472,19 +492,37 @@
                             _html_ = ` <h3>Shopping Basket</h3>
                                     <div class="cart-content">
                                         <div class="row">
-                                            <div class="col-lg-8">
+                                            <div class="col-lg-12">
                                                 <div class="shop-basket">
                                                     <div class="basket-top">
-                                                        <h4>Your Basket: 0 Items</h4>
+                                                        <h4  >Your Basket: 0 Items</h4>
                                                         <span><a href="{{ url('/') }}">Continue Shopping</a></span>
                                                     </div>
-                                                    <p>Your basket is empty <a href="{{ url('/') }}">Go to homepage</a> </p>
+                                                    <div class="basket-wraper">
+                                                        <div class="image-wraper">
+                                                            <img src="{{ asset('Site_Images/cart-empty.svg') }}" alt="">
+                                                        </div>
+                                                        <div class="text-wraper">
+                                                            <h3>Your basket is empty </h3>
+                                                            @if(!Auth::check())
+                                                                <p>Already a member? Login now to view your Basket</p>
+                                                            @endif
+                                                            <div class="btn-wrap" >
+                                                                <a class="btn rgstr_btn" href="{{ url('/') }}">Go to homepage</a>
+                                                                @if(!Auth::check())
+                                                                    <a class="btn light_dark" href="{{ url('/login') }}">Login</a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
                             $('#wrapper').append(_html_);
                         } else {
+                            $('#basketCount').text('Your Basket: '+ remove_basket.total +' Items')
                             $(this).closest('tr').remove();
                         }
                     }
@@ -506,7 +544,7 @@
                     inputField.attr('data-withqtyprice',new_total_price);
 
                     product_total = $('#product_total'+$ID);
-                    product_total.text('$' + new_total_price);
+                    product_total.text('£' + new_total_price);
 
                     // console.log(parentContainer,inputField,$qty,price_without_qty,$ID,new_qty,new_total_price)
                     changePrice();
@@ -528,7 +566,7 @@
                     inputField.attr('data-withqtyprice',new_total_price);
 
                     product_total = $('#product_total'+$ID);
-                    product_total.text('$' + new_total_price);
+                    product_total.text('£' + new_total_price);
 
                     // console.log(parentContainer,inputField,$qty,price_without_qty,$ID,new_qty,new_total_price)
                     changePrice();
@@ -562,8 +600,8 @@
                 // console.warn(parseInt($(this).attr('data-withqtyprice')));
                 totalPrice += parseInt($(this).attr('data-withqtyprice'));
             });
-            $('.subtotal').text('$'+totalPrice);
-            $('.totalprice').text('$'+totalPrice);
+            $('.subtotal').text('£'+totalPrice);
+            $('.totalprice').text('£'+totalPrice);
         }
     </script>
     <script>
