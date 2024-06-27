@@ -10,11 +10,6 @@
             </div>
         </div>
     </section>
-    <div style="display: none;" id="overlay">
-		<div class="loader">
-			<div class="spinner"></div>
-		</div>
-	</div>
     @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0">
             <div class="container">
@@ -159,7 +154,7 @@
                                     } else {
                                         $total = $size_price + array_sum($variation_price);
                                     } ?>
-                                    <span id="product_price_main">${{ $total + 10 }}</span>
+                                    <span id="product_price_main">£{{ $total + 10 }}</span>
                                     <strong id="product_price">£{{ $total }}</strong>
                                     (Incl. VAT)
                                     <input type="hidden" id="product_price_input" name="product_price"

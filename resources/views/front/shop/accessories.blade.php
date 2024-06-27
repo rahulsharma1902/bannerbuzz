@@ -28,7 +28,7 @@
                                 <img src="{{ asset('front/img/free.svg') }}" alt="" />
                                 <div class="text">
                                     <p>Free Shipping</p>
-                                    <span>on order above $99.00</span>
+                                    <span>on order above  £99.00</span>
                                 </div>
                             </div>
                         </li>
@@ -95,8 +95,8 @@
                     </div>
                 </form>
                 <div class="shop_size_txt">
-                    <p>Price: <span><del id="main_price">$11.75</del></span> <strong data-price=""
-                            id="size_price">$11.75</strong></p>
+                    <p>Price: <span><del id="main_price">£11.75</del></span> <strong data-price=""
+                            id="size_price">£11.75</strong></p>
                     <input type="hidden" id="product_price" name="product_price" value="">
                     <button type="button" id="buy_now" class="btn light_dark">Buy Now</a>
                 </div>
@@ -369,9 +369,9 @@
                                 }
                                 var qty = parseFloat($('#product_qty').val());
                                 $('#product_price').val(price * qty);
-                                $('#size_price').text('$' + price * qty);
+                                $('#size_price').text('£' + price * qty);
                                 $('#size_price').attr('data-price', price * qty);
-                                $('#main_price').text('$' + (price + 10) * qty);
+                                $('#main_price').text('£' + (price + 10) * qty);
                                 $.each(data, function(index, size) {
                                     if (size.size_type == 'wh' || size.size_type == 'DH') {
                                         size_values = size.size_value.split('X');
@@ -392,9 +392,9 @@
                                 selectsizediv.hide();
                                 var qty = parseFloat($('#product_qty').val());
                                 $('#product_price').val(parseFloat(productprice) * qty);
-                                $('#size_price').text('$' + parseFloat(productprice) * qty);
+                                $('#size_price').text('£' + parseFloat(productprice) * qty);
                                 $('#size_price').attr('data-price', parseFloat(productprice) * qty);
-                                $('#main_price').text('$' + (parseFloat(productprice) + 10) * qty);
+                                $('#main_price').text('£' + (parseFloat(productprice) + 10) * qty);
                             }
                         },
                     });
@@ -426,9 +426,9 @@
                         var selectedprice = parseFloat(selectedOption.data('price'));
                         var newPrice = parseFloat(selectedprice) * parseFloat(value);
                         $('#product_price').val(newPrice);
-                        $('#size_price').text('$' + newPrice);
+                        $('#size_price').text('£' + newPrice);
                         $('#size_price').attr('data-price', newPrice);
-                        $('#main_price').text('$' + (newPrice + 10));
+                        $('#main_price').text('£' + (newPrice + 10));
                     } else {
                         var selectproduct = $('#product_select');
                         var selectedOption = selectproduct.find(':selected');
@@ -436,9 +436,9 @@
                         console.log(price);
                         var newPrice = parseFloat(price) * parseFloat(value);
                         $('#product_price').val(newPrice);
-                        $('#size_price').text('$' + newPrice);
+                        $('#size_price').text('£' + newPrice);
                         $('#size_price').attr('data-price', newPrice);
-                        $('#main_price').text('$' + (newPrice + 10));
+                        $('#main_price').text('£' + (newPrice + 10));
                     }
                 });
 
@@ -471,9 +471,9 @@
                                 }
                                 var qty = parseFloat($('#product_qty').val());
                                 $('#product_price').val(selectedprice * qty);
-                                $('#size_price').text('$' + selectedprice * qty);
+                                $('#size_price').text('£' + selectedprice * qty);
                                 $('#size_price').attr('data-price', selectedprice * qty);
-                                $('#main_price').text('$' + (selectedprice * qty + 10));
+                                $('#main_price').text('£' + (selectedprice * qty + 10));
                                 if (value == 'In') {
                                     unit_value = 12;
                                 } else if (value == 'Cm') {
@@ -536,8 +536,8 @@
                     var selectedprice = selectedOption.getAttribute('data-price');
                     var qty = $('#product_qty').val();
                     var price = parseFloat(selectedprice) * parseFloat(qty);
-                    $('#size_price').text('$' + price);
-                    $('#main_price').text('$' + (price + 10));
+                    $('#size_price').text('£' + price);
+                    $('#main_price').text('£' + (price + 10));
                     $('#product_price').val(price);
                 });
 

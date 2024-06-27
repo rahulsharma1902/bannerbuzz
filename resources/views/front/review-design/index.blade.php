@@ -9,11 +9,6 @@
             </div>
         </div>
     </section>
-    <div style="display: none;" id="overlay">
-		<div class="loader">
-			<div class="spinner"></div>
-        </div>
-    </div>
     @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0 custom_buy_wrapper">
             <div class="container">
@@ -502,7 +497,7 @@
                     current_designMethod = "{{ $template->design_method  }}";
                     productID = "{{ $template->product_id  }}";
 
-                    if(current_designMethod != 'template'){
+                    if(current_designMethod != 'template' && current_designMethod != 'hireDesigner'){
                         design_method =$('input[name="featured"]:checked').val();
                         
                     } else {

@@ -165,6 +165,7 @@ class CustomizerController extends Controller
             $template->dimension = $request->dimension;
             $template->product_id = $request->product_id;
             $template->variations = $request->variations;
+            $template->additional_info = $request->design_description ?? '';
             // $template->qty = $request->qty;
             $template->size_id = $request->size_id ?? null;
             if($request->template_id){

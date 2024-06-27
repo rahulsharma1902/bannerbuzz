@@ -28,18 +28,18 @@
                                 <img src="{{ asset('front/img/free.svg') }}" alt="" />
                                 <div class="text">
                                     <p>Free Shipping</p>
-                                    <span>on order above $99.00</span>
+                                    <span>on order above £99.00</span>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
                 @if(isset($home_content))
-                <div class="banner-img">
-                    <a href="{{$home_content->header_image_url ?? ''}}">
-                        <img src="{{ asset('Site_Images') }}/{{$home_content->header_image ?? ''}}" alt="" />
-                    </a>
-                </div>
+                    <div class="banner-img">
+                        <a href="{{$home_content->header_image_url ?? ''}}">
+                            <img src="{{ asset('Site_Images') }}/{{$home_content->header_image ?? ''}}" alt="" />
+                        </a>
+                    </div>
                 @endif
             </div>
         </div>
@@ -67,7 +67,7 @@
                                     </div> 
                                     <span>9’321</span>
                                 </div>
-                                <span>Starts at: $3.99</span>
+                                <span>Starts at: £3.99</span>
                                 <div class="view">
                                     <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
@@ -91,7 +91,7 @@
                                     </div>
                                     <span>9’321</span>
                                 </div>
-                                <span>Starts at: $3.99</span>
+                                <span>Starts at: £3.99</span>
                                 <div class="view">
                                     <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
@@ -115,7 +115,7 @@
                                     </div>
                                     <span>9’321</span>
                                 </div>
-                                <span>Starts at: $3.99</span>
+                                <span>Starts at: £3.99</span>
                                 <div class="view">
                                     <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
@@ -139,7 +139,7 @@
                                     </div>
                                     <span>9’321</span>
                                 </div>
-                                <span>Starts at: $3.99</span>
+                                <span>Starts at: £3.99</span>
                                 <div class="view">
                                     <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
@@ -161,10 +161,10 @@
                         <select class="form-select" id="parent_category" data-slug="" name="parent_category"
                             aria-label="Default select example">
                             @if ($product_categories->isNotEmpty())
-                            @foreach ($product_categories as $category)
-                            <option data-slug="{{ $category->slug }}" value="{{ $category->id }}">
-                                {{ $category->name }}</option>
-                            @endforeach
+                                @foreach ($product_categories as $category)
+                                    <option data-slug="{{ $category->slug }}" value="{{ $category->id }}">
+                                        {{ $category->name }}</option>
+                                @endforeach
                             @endif
                         </select>
                     </div>
@@ -238,33 +238,33 @@
                 <p>Boost Sales with Top-Charting Categories</p>
                 <div class="our_best_grid">
                     @if ($product_categories->isNotEmpty())
-                    @foreach ($product_categories as $category)
-                    <div class="card" onclick="categoryUrl('{{$category->slug}}')">
-                        <div class="our_best_img">
-                            <img height="60px" width="100px" src="{{ asset('category_Images') }}/{{ $category->cat_image ?? '' }}">
-                        </div>
-                        <div class="card-body">
-                            <p><a style="color: rgb(235, 65, 93)" href="{{ url('shop') }}/{{ $category->slug }}">{{
-                                    $category->name }}</a>
-                            </p>
-                        </div>
-                    </div>
-                    @endforeach
+                        @foreach ($product_categories as $category)
+                            <div class="card" onclick="categoryUrl('{{$category->slug}}')">
+                                <div class="our_best_img">
+                                    <img height="60px" width="100px" src="{{ asset('category_Images') }}/{{ $category->cat_image ?? '' }}">
+                                </div>
+                                <div class="card-body">
+                                    <p><a style="color: rgb(235, 65, 93)" href="{{ url('shop') }}/{{ $category->slug }}">{{
+                                            $category->name }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
                     @endif
                 </div>
                 @if(isset($home_content))
-                <ul class="shop_wreap">
-                    <li>
-                        <a href="{{$home_content->ads_image_1_url ?? ''}}">
-                            <img src="{{ asset('Site_Images') }}/{{$home_content->ads_image_1 ?? ''}}">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{$home_content->ads_image_2_url ?? ''}}">
-                            <img src="{{ asset('Site_Images') }}/{{$home_content->ads_image_2 ?? ''}}">
-                        </a>
-                    </li>
-                </ul>
+                    <ul class="shop_wreap">
+                        <li>
+                            <a href="{{$home_content->ads_image_1_url ?? ''}}">
+                                <img src="{{ asset('Site_Images') }}/{{$home_content->ads_image_1 ?? ''}}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{$home_content->ads_image_2_url ?? ''}}">
+                                <img src="{{ asset('Site_Images') }}/{{$home_content->ads_image_2 ?? ''}}">
+                            </a>
+                        </li>
+                    </ul>
                 @endif
             </div>
         </div>
@@ -287,7 +287,7 @@
                         </div>
                         <div class="card-body">
                             <h5>Product Name 01</h5>
-                            <p><span>$187.00</span> <strong>$150.00</strong></p>
+                            <p><span>£187.00</span> <strong>£150.00</strong></p>
                         </div>
                     </div>
                     <div class="card">
@@ -299,7 +299,7 @@
                         </div>
                         <div class="card-body">
                             <h5>Product Name 02</h5>
-                            <p><span>$187.00</span> <strong>$150.00</strong></p>
+                            <p><span>£187.00</span> <strong>£150.00</strong></p>
                         </div>
                     </div>
                     <div class="card">
@@ -311,7 +311,7 @@
                         </div>
                         <div class="card-body">
                             <h5>Product Name 03</h5>
-                            <p><span>$187.00</span> <strong>$150.00</strong></p>
+                            <p><span>£187.00</span> <strong>£150.00</strong></p>
                         </div>
                     </div>
                     <div class="card">
@@ -323,7 +323,7 @@
                         </div>
                         <div class="card-body">
                             <h5>Product Name 04</h5>
-                            <p><span>$187.00</span> <strong>$150.00</strong></p>
+                            <p><span>£187.00</span> <strong>£150.00</strong></p>
                         </div>
                     </div>
                     <div class="card">
@@ -335,7 +335,7 @@
                         </div>
                         <div class="card-body">
                             <h5>Product Name 03</h5>
-                            <p><span>$187.00</span> <strong>$150.00</strong></p>
+                            <p><span>£187.00</span> <strong>£150.00</strong></p>
                         </div>
                     </div>
                 </div>
@@ -353,23 +353,23 @@
             </div>
             <div class="arrivals_slider">
                 @if ($products->isNotEmpty())
-                @foreach ($products as $product)
-                <div class="card" onclick="productUrl('{{$product->slug}}')">
-                    <div class="busines_img">
-                        @foreach (json_decode($product->images) as $index => $image)
-                        @if ($index == 0)
-                        <img src="{{ asset('product_Images') }}/{{ $image }}">
-                        @endif
-                        @endforeach
-                    </div>
-                    <div class="card-body">
-                        <h5>{{ $product->name }}</h5>
-                        <p><span>${{ $product->price + 15 }}</span>
-                            <strong>${{ $product->price }}</strong>
-                        </p>
-                    </div>
-                </div>
-                @endforeach
+                    @foreach ($products as $product)
+                        <div class="card" onclick="productUrl('{{$product->slug}}')">
+                            <div class="busines_img">
+                                @foreach (json_decode($product->images) as $index => $image)
+                                    @if ($index == 0)
+                                        <img src="{{ asset('product_Images') }}/{{ $image }}">
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="card-body">
+                                <h5>{{ $product->name }}</h5>
+                                <p><span>£{{ $product->price + 15 }}</span>
+                                    <strong>£{{ $product->price }}</strong>
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
                 @endif
             </div>
             <div class="progress arrivals_progress" role="progressbar" aria-valuemin="25" aria-valuemax="100">
@@ -383,7 +383,7 @@
             <div class="multi_shop_grid">
                 @if ($product_categories->isNotEmpty())
                     <?php $count = 0; ?>
-                @foreach ($product_categories as $category)
+                    @foreach ($product_categories as $category)
                         <?php
                             $minPrice = PHP_INT_MAX;
                             $minPriceProduct = null;
@@ -407,10 +407,10 @@
                             }
                         ?>
                         @if ($count < 4) 
-                        <div class="multi_shop_cont"style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
+                            <div class="multi_shop_cont"style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
                                 <div class="multi_shop_txt">
-                                        <h5>{{ $category->name ?? '' }}</h5>
-                                        <p>Starting at <strong>${{ $minPriceProduct->price ?? '0' }}</strong></p>
+                                    <h5>{{ $category->name ?? '' }}</h5>
+                                    <p>Starting at <strong>${{ $minPriceProduct->price ?? '0' }}</strong></p>
                                     <a href="{{ url('shop') }}/{{ $category->slug ?? '' }}" class="btn btn_dark">Explore
                                         Now</a>
                                 </div>
@@ -419,7 +419,7 @@
                                             src="{{ asset('category_Images') }}/{{ $category->cat_image ?? '' }}"></a>
                                 </div>
                             </div>
-                                <?php $count++; ?>
+                            <?php $count++; ?>
                         @endif
                     @endforeach
                 @endif
@@ -434,27 +434,27 @@
                 </div>
                 <div class="view_slider m-0">
                     @foreach($testimonials as $cust)
-                    <div class="testimonial-para">
-                        <div class="test_view">
-                            <div class="test_img">
-                                <img src="{{ asset('Site_Images') }}/{{$cust->image ?? ''}}">
-                            </div>
-                            <div class="test_hd">
-                                <h6>{{ $cust->name ?? ''}}</h6>
-                                <div class="star_wreap">
-                                    @if($cust->stars)
-                                        @for($i=1; $i <= $cust->stars; $i++)
-                                           <i class="fa-solid fa-star"></i> 
-                                        @endfor
-                                    @endif
-                                    <span>{{ $cust->created_at->format('j F,Y')}}</span>
+                        <div class="testimonial-para">
+                            <div class="test_view">
+                                <div class="test_img">
+                                    <img src="{{ asset('Site_Images') }}/{{$cust->image ?? ''}}">
+                                </div>
+                                <div class="test_hd">
+                                    <h6>{{ $cust->name ?? ''}}</h6>
+                                    <div class="star_wreap">
+                                        @if($cust->stars)
+                                            @for($i=1; $i <= $cust->stars; $i++)
+                                                <i class="fa-solid fa-star"></i> 
+                                            @endfor
+                                        @endif
+                                        <span>{{ $cust->created_at->format('j F,Y')}}</span>
+                                    </div>
                                 </div>
                             </div>
+                            <p>
+                                <?php echo $cust->description; ?>
+                            </p>
                         </div>
-                        <p>
-                            <?php echo $cust->description; ?>
-                        </p>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -463,13 +463,13 @@
     <section class="quality_wrapper p_100">
         <div class="container">
             @if(isset($home_content))
-            <div class="quality_content">
-                <h5>{{$home_content->bottom_title ?? ''}}}</h5>
-                <p>
-                    <?php echo $home_content->bottom_description; ?>
-                </p>
-                <!-- <p>Buy these customised <a href="#" class="btn link-btn">Read More</a></p> -->
-            </div>
+                <div class="quality_content">
+                    <h5>{{$home_content->bottom_title ?? ''}}</h5>
+                    <p>
+                        <?php echo $home_content->bottom_description; ?>
+                    </p>
+                    <!-- <p>Buy these customised <a href="#" class="btn link-btn">Read More</a></p> -->
+                </div>
             @endif
         </div>
     </section>
@@ -481,38 +481,38 @@
                 </div>
                 <div class="row">
                     @foreach ($blogs as $key => $blog)
-                    @if ($key == 0)
-                    <div class="col-lg-6" onclick="GotoBlog('{{$blog->slug}}')">
-                        <div class="blgs_lt">
-                            <img width="100%" src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}">
-                            <span class="d-block">{{ $blog->created_at->format('F jS, Y') ?? '' }}</span>
-                            <div class="blgs_lt_content">
-                                <h4>{{ $blog->title ?? '' }} </h4>
-                                <?php $short_des = substr($blog->short_description, 0, 250); ?>
-                                <p class="">
-                                    <?php echo $short_des; ?>..<a href="{{url('blog')}}/{{$blog->slug ?? ''}}">Read more</a>
-                                </p>
+                        @if ($key == 0)
+                            <div class="col-lg-6" onclick="GotoBlog('{{$blog->slug}}')">
+                                <div class="blgs_lt">
+                                    <img width="100%" src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}">
+                                    <span class="d-block">{{ $blog->created_at->format('F jS, Y') ?? '' }}</span>
+                                    <div class="blgs_lt_content">
+                                        <h4>{{ $blog->title ?? '' }} </h4>
+                                        <?php $short_des = substr($blog->short_description, 0, 250); ?>
+                                        <p class="">
+                                            <?php echo $short_des; ?>..<a href="{{url('blog')}}/{{$blog->slug ?? ''}}">Read more</a>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <ul class="blog_list">
+                            <div class="col-lg-6">
+                                <ul class="blog_list">
                             @else
-                            <li onclick="GotoBlog('{{$blog->slug}}')">
-                                <div class="blog_list_img">
-                                    <img width="250px" height="200px" src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}">
-                                </div>
-                                <div class="blog_list_txt">
-                                    <span>{{ $blog->created_at->format('F jS, Y') }}</span>
-                                    <h6>{{ $blog->title ?? '' }} </h6>
-                                    <?php $short_des = substr($blog->short_description, 0, 100); ?>
-                                    <p class="">
-                                        <?php echo $short_des; ?>.. <a href="{{url('blog')}}/{{$blog->slug ?? ''}}">Read
-                                            more</a>
-                                    </p>
-                                </div>
-                            </li>
-                            @endif
+                                    <li onclick="GotoBlog('{{$blog->slug}}')">
+                                        <div class="blog_list_img">
+                                            <img width="250px" height="200px" src="{{ asset('blog_Images') }}/{{ $blog->image ?? '' }}">
+                                        </div>
+                                        <div class="blog_list_txt">
+                                            <span>{{ $blog->created_at->format('F jS, Y') }}</span>
+                                            <h6>{{ $blog->title ?? '' }} </h6>
+                                            <?php $short_des = substr($blog->short_description, 0, 100); ?>
+                                            <p class="">
+                                                <?php echo $short_des; ?>.. <a href="{{url('blog')}}/{{$blog->slug ?? ''}}">Read
+                                                    more</a>
+                                            </p>
+                                        </div>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     </div>
@@ -556,25 +556,25 @@
             </div>
         </div>
     </section>
-   @if ($product_categories->isNotEmpty())
+    @if ($product_categories->isNotEmpty())
         <script>
             $(document).ready(function () {
                 var width = '';
                 var slidesToShow = '';
                 var screenWidth = $(window).width();
-                    if (screenWidth > 1200) {
-                        width = 3000;
-                        slidesToShow = 3;
-                    } else if (screenWidth > 992) {
-                        width = 1200;
-                        slidesToShow = 2;
-                    } else if (screenWidth > 768) {
-                        width = 992;
-                        slidesToShow = 2;
-                    } else if (screenWidth < 768) {
-                        width = 768;
-                        slidesToShow = 1;
-                    }
+                if (screenWidth > 1200) {
+                    width = 3000;
+                    slidesToShow = 3;
+                } else if (screenWidth > 992) {
+                    width = 1200;
+                    slidesToShow = 2;
+                } else if (screenWidth > 768) {
+                    width = 992;
+                    slidesToShow = 2;
+                } else if (screenWidth < 768) {
+                    width = 768;
+                    slidesToShow = 1;
+                }
                 $('.busines_slider2').slick({
                     infinite: true,
                     slidesToShow: slidesToShow,
@@ -586,27 +586,27 @@
                     dots: false,
                     autoplay: false,
                     responsive: [
-                    {
-                        breakpoint: width,
-                        settings: {
-                            slidesToShow: slidesToShow,
-                            slidesToScroll: 1,
+                        {
+                            breakpoint: width,
+                            settings: {
+                                slidesToShow: slidesToShow,
+                                slidesToScroll: 1,
+                            },
                         },
-                    },
-                    {
-                        breakpoint:width,
-                        settings: {
-                            slidesToShow: slidesToShow,
-                            slidesToScroll: 1,
+                        {
+                            breakpoint:width,
+                            settings: {
+                                slidesToShow: slidesToShow,
+                                slidesToScroll: 1,
+                            },
                         },
-                    },
-                    {
-                        breakpoint: width,
-                        settings: {
-                            slidesToShow: slidesToShow,
-                            slidesToScroll: 1,
+                        {
+                            breakpoint: width,
+                            settings: {
+                                slidesToShow: slidesToShow,
+                                slidesToScroll: 1,
+                            },
                         },
-                    },
                     ],
                 });
                 
@@ -641,7 +641,7 @@
                                             <i class="fa-solid fa-star"></i>
                                             <span>9’321</span>
                                         </div>
-                                        <p>Starts at: $<span>${product.price}</span></p>
+                                        <p>Starts at: £<span>${product.price}</span></p>
                                     </div>
                                 </div>`;
                                 cardhtml.push(singleCardHtml);
@@ -706,7 +706,6 @@
                 $('#parent_category').val(defaultParentId);
             });
 
-
             function productUrl(slug) {
                 url = "{{url('details')}}/" + slug;
                 window.location.href = url;
@@ -725,14 +724,13 @@
                  $slider.slick('slickRemove', null, null, true);
             }
         </script>
-        
     @endif
     @if(Session::has('success'))
-    <script>
-        iziToast.success({
-            message: '{{ Session::get("success") }}',
-            position: 'topRight'
-        });
-    </script>
-@endif
+        <script>
+            iziToast.success({
+                message: '{{ Session::get("success") }}',
+                position: 'topRight'
+            });
+        </script>
+    @endif
 @endsection

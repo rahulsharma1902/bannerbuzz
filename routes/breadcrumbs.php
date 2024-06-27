@@ -90,3 +90,15 @@ Breadcrumbs::for('product', function (Generator $trail, Product $product) {
 
     $trail->push($product->name, route('product', $product->slug));
 });
+
+
+// user dashboard 
+// Breadcrumbs::for('user-dashboard',function(Generator $trail){
+//     $trail->parent('home');
+//     $trail->push('User Dashboard',route('user.dashboard'));
+// });
+
+// Breadcrumbs::for('profile',function(Generator $trail){
+//     $trail->parent('user-dashboard');
+//     $trail->push('Profile',route('user.profile'));
+// });

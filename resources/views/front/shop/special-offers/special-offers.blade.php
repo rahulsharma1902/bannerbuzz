@@ -40,7 +40,7 @@
                                     <h5>SuperBowl Prep Sale</h5>
                                     <span>Up to 30% off Sitewide</span>
                                     <p>
-                                        Free express shipping for<br> all orders above $99.
+                                        Free express shipping for<br> all orders above £99.
                                     </p>
                                     <a href="#">Terms and Conditions</a>
                                 </div>
@@ -59,7 +59,7 @@
                                     <h5>SuperBowl Prep Sale</h5>
                                     <span>Up to 30% off Sitewide</span>
                                     <p>
-                                        Free express shipping for<br> all orders above $99.
+                                        Free express shipping for<br> all orders above £99.
                                     </p>
                                     <a href="#">Terms and Conditions</a>
                                 </div>
@@ -78,7 +78,7 @@
                                     <h5>SuperBowl Prep Sale</h5>
                                     <span>Up to 30% off Sitewide</span>
                                     <p>
-                                        Free express shipping for<br> all orders above $99.
+                                        Free express shipping for<br> all orders above £99.
                                     </p>
                                     <a href="#">Terms and Conditions</a>
                                 </div>
@@ -97,7 +97,7 @@
                                     <h5>SuperBowl Prep Sale</h5>
                                     <span>Up to 30% off Sitewide</span>
                                     <p>
-                                        Free express shipping for<br> all orders above $99.
+                                        Free express shipping for<br> all orders above £99.
                                     </p>
                                     <a href="#">Terms and Conditions</a>
                                 </div>
@@ -116,7 +116,7 @@
                                     <h5>SuperBowl Prep Sale</h5>
                                     <span>Up to 30% off Sitewide</span>
                                     <p>
-                                        Free express shipping for<br> all orders above $99.
+                                        Free express shipping for<br> all orders above £99.
                                     </p>
                                     <a href="#">Terms and Conditions</a>
                                 </div>

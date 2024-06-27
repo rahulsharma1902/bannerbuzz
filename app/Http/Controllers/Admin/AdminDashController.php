@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hash;
@@ -68,5 +69,16 @@ class AdminDashController extends Controller
         }
 
         return redirect()->back()->with(['error' => 'The old password is incorrect.']);
+    }
+
+    public function orders()
+    {
+        $orders = Order::all();
+        return view('admin.Orders.order_list',compact('orders'));
+    }
+    public function orderDetail($order_num)
+    {
+        $order = Order::where('order_number',$order_num)->first();
+        return view('admin.Orders.order_detail',compact('order'));
     }
 }

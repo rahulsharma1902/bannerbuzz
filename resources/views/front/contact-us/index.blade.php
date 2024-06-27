@@ -1,5 +1,6 @@
 @extends('front_layout.master')
 @section('content')
+
 <section class="brad_inner">
     <div class="container">
         <div class="">
@@ -39,42 +40,97 @@
                         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
                             Inquiry Form <span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
                         </button>
-                        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <!-- <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
                             Contact Address<span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
                         </button>
                         <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
                             Send Us a Message<span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
-                        </button>
+                        </button> -->
                     </div>
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <h5>Inquiry Form</h5>
-                            <form action="{{ url('/send-mail') }}" method="Post">
+                            <form action="{{ url('/contact-send-process') }}" method="Post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" id="fname" placeholder="First Name" name="name" required />
+                                            <label for="">Full Name*</label>
+                                            <input type="text" class="form-control form-control-lg" id="fname" name="name"  />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="number" class="form-control form-control-lg" placeholder="Phone Number" name="Member" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" placeholder="Your Email" name="email" required />
+                                            <label for="">Email Address*</label>
+                                            <input type="email" class="form-control form-control-lg" id="email" name="email"  />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-lg" placeholder="Company Name" name="company_name" />
+                                            <label for="">Phone Number</label>
+                                            <input type="text" name="number" class="form-control form-control-lg" id="member" name="Member" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Company Name</label>
+                                            <input type="text" class="form-control form-control-lg" placeholder="Company Name" id="company_name" name="company_name" />
+                                        </div>
+                                    </div>
+                                    <h5>Contact Address </h5>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Address</label>
+                                            <input type="text" class="form-control form-control-lg" id="address" name="address" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Country</label>
+                                            <?php
+                                                $country_array = CountryArray();
+                                            ?>
+                                            <select name="country" id="country">
+                                               
+                                                @foreach($country_array as $key => $country_name)
+                                                <option value="{{$key}}">{{ $country_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">State*</label>
+                                            <input type="text" class="form-control form-control-lg" id="state" name="state" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">City</label>
+                                            <input type="text" class="form-control form-control-lg" id="city" name="city" />
+                                        </div>
+                                    </div>
+                                    <h5>Send Us a Message </h5>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Email Topic*</label>
+                                            <input type="text" class="form-control form-control-lg" id="email_topic" name="email_topic" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Subject*</label>
+                                            <input type="text" class="form-control form-control-lg" id="subject" name="subject" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Inquiry</label>
+                                            <textarea type="text" class="form-control" rows="2" cols="30" id="inquiry" name="inquiry"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="upld-lnk"><button type="submit" class="btn light_dark">Submit</button></div>
+                               <button type="submit" class="btn light_dark submit-btn">Submit Your Inquiry</button></div>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
@@ -149,4 +205,14 @@ Las Vegas, NV 89117</a></p>
         </div>
     </div>
 </section>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('.submit-btn').on('click', function(e){
+            let name = $('#fname').val();
+            console.log(name);
+
+        });
+    });
+</script>
 @endsection

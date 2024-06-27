@@ -8185,3 +8185,204 @@ body.loading {
     padding: 15px;
 }
 }
+
+
+/*27 june 2024*/
+/*order details css starts here*/
+
+
+.order-detail-sec {
+    padding: 100px 0px;
+}
+
+.order-detail-sec .order-main-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-detail-sec .order-main-hd h5 {
+    font-size: 16px;
+    color: #3a3a3a;
+}
+
+.order-detail-sec .order-main-hd .invc-bttn a.btn-ryt {
+    color: #fff;
+    background: #e4004e;
+    display: inline-block;
+    max-width: 100%;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.order-detail-sec .order-main-hd .invc-bttn a.btn-ryt i {
+    padding-right: 4px;
+}
+
+/*.order-products table.all-products thead tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}*/
+
+.order-products table.all-products thead tr th {
+    padding: 15px;
+    white-space: nowrap;
+}
+table.all-products .product-detl {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+table.all-products .product-detl .product-img {
+    background: #fff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 0 0 15%;
+    max-width: 72px;
+    text-align: center;
+    height: auto;
+}
+
+table.all-products .product-detl .product-text {
+  max-width: 100%;
+}
+
+table.all-products .product-detl .product-text h5 {
+    margin-bottom: 0;
+}
+
+table.all-products .product-detl .product-text h5 a.product_link {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #6d6968;
+}
+
+table.all-products .product-detl .product-text p {
+    font-size: 15px;
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+table.all-products td {
+    padding: 0.75rem 0.6rem;
+    white-space: nowrap;
+}
+
+.order-detail-sec .lft-content .card {
+    border: none;
+}
+
+.order-detail-sec .lft-content .card .card-header {
+    border: none;
+    background: rgba(58, 58, 58, 0.1);
+}
+
+.order-detail-sec .order-products {
+    background: rgba(58, 58, 58, 0.1);
+}
+
+.order-detail-sec .lft-content .card .card-body {
+    padding: 0;
+}
+
+.order-detail-sec .order-products table.all-products {
+    display: table;
+    width: 100%;
+}
+
+.order-detail-sec .order-products table.all-products thead {
+    background: #fff;
+}
+
+.order-detail-sec tr.totl {
+    border-top: 1px dashed #fff;
+}
+
+.order-detail-sec .totl-pay{
+   border-top: 1px dashed #fff;
+}
+.order-detail-sec .lft-content {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    background: rgba(58, 58, 58, 0.1);
+}
+.custmer-details {
+    background: rgba(58, 58, 58, 0.1);
+    margin-bottom: 25px;
+}
+
+.custmer-details .custm-hd-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.custmer-details .custm-hd-text h5 {
+    font-size: 16px;
+    color: #3a3a3a;
+    margin-bottom: 0;
+}
+.custmer-details .custm-hd-text .vw-profile a {
+    display: inline-block;
+    font-size: 14px;
+}
+.custmer-details .custmer-info{
+  padding: 15px;
+}
+.custmer-details .custmer-info p {
+    margin-bottom: 0;
+}
+
+.custmer-details .custmer-info> div {
+    margin-bottom: 10px;
+}
+.custmer-details .custmer-info ul li {
+    margin-bottom: 10px;
+    color: #6d6968;
+    font-size: 14px;
+    font-weight: 400;
+}
+.custmer-details .custm-hd-text.custm-hdnew {
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+}
+
+.custmer-details .custm-hd-text.custm-hdnew span {
+    line-height: 1;
+}
+.custmer-details .custmer-info p {
+    font-size: 16px;
+}
+.custmer-details .custmer-info .custm-text {
+    gap: 10px;
+}
+.custmer-details .custmer-info .custm-text a {
+    color: #6d6968;
+    font-size: 14px;
+    font-weight: 400;
+}
+.custmer-details .custmer-info .pymnt-detl {
+    gap: 10px;
+}
+
+.custmer-details .custmer-info .pymnt-detl p {
+    color: #6d6968;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.custmer-details .custmer-info .pymnt-detl h6 {
+    color: #6d6968;
+    font-size: 14px;
+}

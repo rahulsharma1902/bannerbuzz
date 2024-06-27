@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('accessorie_id')->nullable();
             $table->string('product_type')->nullable();       // customizable or not
             $table->unsignedBigInteger('design_id')->nullable();
+            $table->unsignedBigInteger('basket_id')->nullable();
             $table->string('design_method')->default('template')->nullable();   //tempalte  artwork ArtworkLater hireDesigner
             $table->longText('images')->nullable();
             $table->unsignedBigInteger('size_id')->nullable();

@@ -18,12 +18,15 @@ use App\Http\Controllers\Admin\ClipArtCategoryController;
 use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\FontController;
+use App\Http\Controllers\Admin\DesignerController;
 use App\Http\Controllers\Admin\SiteControllers\HomeController;
 use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
 use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
 use App\Http\Controllers\Front\ViewController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\BasketController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\UserDashboardController;
 
 use App\Models\BlogCategory;
 
@@ -43,15 +46,17 @@ use App\Models\BlogCategory;
 // });
 // :::::::::::::::::::::::: AuthenticationController Routes ::::::::::::::::::::::::::::::://
 
+Route::post('notify', [ViewController::class, 'emailnotify'])->name('notify');
+
 Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
 Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
-
+Route::get('/what-is-my-ip', function(){ return request()->ip();});
 //logout Route 
-Route::get('logout',[AuthenticationController::class,'logout']);
+Route::get('logout',[AuthenticationController::class,'logout'])->name('logout');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
@@ -181,6 +186,15 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('admin-dashboard/font-editProcc',[FontController::class,'editProcc']);
     Route::get('admin-dashboard/font-delete/{id}',[FontController::class,'delete']);
 
+    //  Create Designer 
+    Route::get('admin-dashboard/designers',[DesignerController::class,'index'])->name('designer.list');
+    Route::get('admin-dashboard/create-designer',[DesignerController::class,'AddDesigner'])->name('designer.add');
+    Route::post('admin-dashboard/add-designer-process',[DesignerController::class,'DesignerAddProcc'])->name('designer.add.procc');
+
+    // orders 
+    Route::get('admin-dashboard/orders',[AdminDashController::class,'orders'])->name('orders.list');
+    Route::get('admin-dashboard/order/{order_num}',[AdminDashController::class,'orderDetail'])->name('order.detail');   
+
 });
 
 // Route::get('/',[CustomizerController::class,'index']);
@@ -200,6 +214,7 @@ Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.catego
 Route::get('blog/{slug}', [ViewController::class, 'blogDetails'])->name('blog');
 Route::get('search',[ViewController::class,'searchProduct'])->name('search');
 
+Route::post('contact-send-process', [ViewController::class, 'ContactProcess'])->name('contact.send.process');
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 //:::::::::::::::::::;:: ShopController Routes ::::::::::::::::::::::::::::::::://
@@ -224,7 +239,7 @@ Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
 // Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
 Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
 Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
-Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns']);
+Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns'])->name('saved.designs');
 
 Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
 Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
@@ -256,10 +271,27 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/paypal/payment/success',[CheckoutController::class,'paypalPaymentSuccess'])->name('payment.success');
     Route::get('/paypal/payment/fail',[CheckoutController::class,'paypalPaymentfail'])->name('payment.fail');
     Route::get('/order-received/{order_num}',[CheckoutController::class,'OrderReceived'])->name('order.received');
+
+
+    // userDashboard Routes
+    Route::get('user-dashboard',[UserDashboardController::class,'index'])->name('user.dashboard'); 
+    Route::get('user-dashboard/profile',[UserProfileController::class,'profile'])->name('user.profile');
+    Route::post('user-dashboard/profile/update',[UserProfileController::class,'updateProfile'])->name('user.profile.update');
+    Route::post('user-dashboard/password/update',[UserProfileController::class,'updatePassword'])->name('user.password.update');
+    Route::get('user-dashboard/address',[UserProfileController::class,'Address'])->name('user.address');
+    Route::post('user-dashboard/address/add',[UserProfileController::class,'addressAddProcess'])->name('user.address.add');
+    Route::get('user-dashboard/orders',[UserDashboardController::class,'Orders'])->name('user.orders');
+    Route::get('user-dashboard/order-detail/',[UserDashboardController::class,'OrderDetail'])->name('user.order.detail');
+    Route::get('user-dashboard/my-cards',[UserDashboardController::class,'MyCards'])->name('user.cards');
+    Route::post('user-dashboard/add-card',[UserDashboardController::class,'AddCard'])->name('user.add.card');
+    Route::get('user-dashboard/remove-card/{card_id}',[UserDashboardController::class,'RemoveCard'])->name('user.remove.card');
+
+    Route::post('user-dashboard/change/email',[UserProfileController::class,'updateEmail']);
+    Route::post('user-dashboard/verifyOtp',[UserProfileController::class,'verifyOtp']);
 });
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
-
+ 
 // fallback route 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);

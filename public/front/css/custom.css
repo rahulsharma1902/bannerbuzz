@@ -1,0 +1,908 @@
+
+
+.user_dashboard_sec {
+    padding: 100px 0px;
+}
+.user_dashboard_sec .myAccountBtn {
+    display: none;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side {
+    background: #3A3A3A;
+    border-radius: 25px;
+    padding: 80px 0px;
+    padding-left: 40px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menu_text {
+    font-family: Mona Sans;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 19.34px;
+    text-align: left;
+    color: #fff;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s linear;
+     padding: 20px 0px 20px 35px;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menuIcons i {
+    color: #FFFFFF;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li {
+    margin-bottom: 20px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span {
+    display: inline-flex;
+    background: #fff;
+    box-shadow: 0px 6px 13px 0px #00000014;
+    padding: 25px;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
+    font-size: 30px;
+    color: #CFCFCF;
+}
+
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal h1 {
+    font-family: Mona Sans;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 23.21px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p.subItile {
+    margin-bottom: 0;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p.subItile a {
+    font-family: Mona Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15.47px;
+    text-align: left;
+    color: #6D6968;
+    margin-right: 5px;
+}
+
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p a.lg_out {
+    font-weight: 700;
+    color: #6D6968;
+    margin-left: 5px;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox {
+    margin: 60px 0px;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul li {
+    flex: 0 0 49%;
+    border: 1px solid #6D6968;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt .shop_img {
+    background: rgba(228, 0, 78, 0.1);
+    padding: 24px 20px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt h6 {
+    font-family: Mona Sans;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 21.27px;
+    text-align: left;
+    color: #6D6968;
+}
+
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop span i {
+    color: #6D6968;
+}
+
+
+
+.recent_order_box .your_order_choice {
+    border-bottom: 1px solid #6D6968;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.recent_order_box .your_order_choice h6 {
+    font-family: Mona Sans;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 23.21px;
+    text-align: left;
+    color: #6D6968;
+}
+
+.recent_order_box .your_order_choice p {
+    font-family: Mona Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15.47px;
+    text-align: left;
+    color: #909090;
+    margin-bottom: 0;
+}
+
+.user_dashboard_sec .user_dashboard_content .ryt_side_contnt {
+    padding-left: 40px;
+    padding-top: 70px;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a:hover, .user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a.active {
+    border-radius: 100px 0px 0px 100px;
+    background: #fff;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a:hover span.menuIcons i, .user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a.active span.menuIcons i {
+    color: #E4004E;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a:hover span.menu_text, .user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a.active span.menu_text {
+    color: #6D6968;
+    font-weight: 600;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menuIcons {
+    display: inline-block;
+}
+
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menuIcons i {
+    font-size: 24px;
+}
+.user_dashboard_sec .edit_detail {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-right: 10px;
+}
+
+.user_dashboard_sec .edit_detail span {
+    font-family: Mona Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15.47px;
+    text-align: left;
+    color: #6D6968;
+}
+.user_dashboard_sec .recent_order_box p {
+    margin-bottom: 0px;
+    font-family: Mona Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15.47px;
+    color: #909090;
+}
+.user_dashboard_sec .recent_order_box:not(:last-child) {
+    margin-bottom: 60px;
+}
+
+/*profile page css here*/
+
+.user_dashboard_sec .profl_tabs .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #fff;
+    color: #3B5998;
+}
+
+
+.user_dashboard_sec .profl_tabs .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #3B5998;
+    background-color: #fff;
+    font-weight: 600;
+}
+.user_dashboard_sec .profl_tabs {
+    margin: 60px 0px;
+}
+
+.user_dashboard_sec .profl_tabs ul {
+    border-bottom: 1px solid #6D6968;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+
+
+.user_dashboard_sec .profl_tabs ul li.nav-item button {
+    font-family: Mona Sans;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 21.27px;
+    color: #6D6968;
+    padding: 0;
+    padding-bottom: 20px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit {
+    max-width: 706px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox{
+    margin-bottom: 30px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox.frmgrp {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input#phone {
+    margin-bottom: 30px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input.form-control {
+    border: 1px solid #6D6968;
+    padding: 20px 15px;
+    font-family: Mona-Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 13.54px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #6D6968;
+    border-radius: 5px!important;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #6D6968;
+    border-radius: 2px;
+}
+
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+.sml_text {
+    font-family: Mona Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 15.47px;
+    text-align: left;
+    color: #909090;
+    word-wrap: break-word;
+}
+
+/*.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox label {
+    display: inline-flex;
+    align-items:center;
+    gap: 12px;
+}*/
+.ltl_txt {
+    font-family: Mona-Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 13.54px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.btnSet {
+    display: flex;
+    max-width: 100%;
+    margin-top: 55px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.btnSet button {
+    background: #344182;
+    padding: 20px 100px;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.btnSet button.btn_back{
+    background: none!important;
+    padding: 0;
+   color: #6D6968;
+}
+
+.btnSet button.btn_back span.lft_icn {
+    margin-right: 10px;
+}
+
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input.form-control::placeholder {
+    color: #6D6968;
+}
+.user_dashboard_sec .profl_tabs ul li.nav-item button.nav-link.active {
+    position: relative;
+}
+
+.user_dashboard_sec .profl_tabs ul li.nav-item button.nav-link.active::after {
+    position: absolute;
+    content: '';
+    background: #3B5998;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+}
+
+.user_dashboard_sec .profl_tabs.addres_tabs .profile_edit .formGroupBox input#phone {
+    margin-bottom: 0;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox textarea.form-control {
+    border: 1px solid #6D6968;
+    padding: 20px 15px;
+    font-family: Mona-Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 13.54px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #6D6968;
+    border-radius: 5px!important;
+    resize: none;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox select.form-select {
+    border: 1px solid #6D6968;
+    padding: 20px 15px;
+    font-family: Mona-Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 13.54px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #6D6968;
+    border-radius: 5px!important;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox p {
+    margin-top: 10px;
+}
+
+/*saved_cards paged css start here*/
+
+
+.user_dashboard_sec .seved_cards .savd_card_content .card_oner {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+}
+
+.user_dashboard_sec .seved_cards .savd_card_content .card_img {
+    background: #F0F0F0;
+    padding: 35px 28px;
+    border-radius: 5px;
+}
+
+.user_dashboard_sec .seved_cards .savd_card_content .card_detail p {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+.user_dashboard_sec .seved_cards .savd_card_content .card_detail p span {
+    white-space: nowrap;
+    flex: 0 0 35%;
+    font-family: Mona-Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13.54px;
+    letter-spacing: 0.02em;
+    text-align: left;
+    color: #6D6968;
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_detail p span.hldr_name {
+    font-weight: 500;
+}
+.user_dashboard_sec .seved_cards .apply_cards {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ 
+}
+
+
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn a {
+    display: inline-block;
+    border: 1px solid #6D6968;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.user_dashboard_sec .seved_cards .savd_card_content {
+    border: 1px solid #6D6968;
+    padding: 24px;
+    border-radius: 5px;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.aply_btn a {
+    padding: 20px 80px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.remv_btn a {
+    padding: 20px 40px;
+    font-weight: 300;
+}
+.btnSet.bttn_ryt {
+    justify-content: flex-end;
+}
+
+.btnSet.bttn_ryt button {
+    padding: 15px 24px;
+}
+
+.btnSet.bttn_ryt button span {
+    line-height: 1;
+    padding-left: 12px;
+}
+
+/*saved card page css end here*/
+
+/* sk css file */
+
+.detail-tabs.profl_tabs ul {
+    margin-bottom: 30px;
+}
+.user_dashboard_sec .ticket-tabs .ticket-page-content {
+    /* margin-top: 30px; */
+}
+.user_dashboard_sec .ticket-tabs ul {
+    /* margin-bottom: 30px; */
+}
+.user_dashboard_sec .ticket-tabs .ticket-page-content ul {
+    border-bottom: none;
+}
+.user_dashboard_sec .ticket-tabs .ticket-page-content ul li {
+    flex: 1;
+    padding: 12px;
+}
+.user_dashboard_sec .ticket-tabs .ticket-page-content ul li .shop_img {
+    flex: 0 0 73px;
+    width: 73px;
+    height: 73px;
+}
+.user_dashboard_sec .ticket-tabs .ticket-page-content ul li a.ordr_shop .lft_txt h6 {
+    font-family: Mona Sans;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 13.54px;
+    text-align: left;
+}
+table.record-table {
+    width: 100%;
+    table-layout: fixed;
+    border-radius: 5px;
+    font-size: 14px;
+}
+table.record-table thead {
+    background: #344182;
+    color: #fff;
+    border-radius: 5px;
+}
+table.record-table thead tr th {
+    padding: 19px;
+}
+table.record-table tbody {
+    margin-top: 22px;
+    display: table-caption;
+}
+
+
+/*Responsive css starts here*/
+
+@media only screen and (max-width: 1599px){
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.aply_btn a {
+    padding: 20px 60px;
+}
+}
+
+@media only screen and (max-width: 1499px){
+    .user_dashboard_sec .profl_tabs ul {
+    margin-bottom: 50px;
+}
+.user_dashboard_sec .profl_tabs {
+    margin: 50px 0px;
+}
+.btnSet {
+    margin-top: 50px;
+}
+}
+
+@media only screen and (max-width: 1399px){
+ .user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span {
+     padding: 20px;
+   
+}
+.user_dashboard_sec .user_dashboard_content .lft_side {
+    padding: 60px 0px;
+    padding-left: 35px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a {
+    gap: 15px;
+ padding: 15px 0px 15px 25px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menuIcons i {
+    font-size: 22px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menu_text {
+    font-size: 18px;
+    
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li {
+    margin-bottom: 10px;
+}
+.user_dashboard_sec .user_dashboard_content .ryt_side_contnt {
+    padding-left: 30px;
+    padding-top: 40px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal h1 {
+      font-size: 22px;
+     line-height: 1.2;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox {
+    margin: 50px 0px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
+    font-size: 25px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul li {
+    padding: 15px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt .shop_img {
+    padding: 18px 16px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt {
+    gap: 10px;
+ 
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt h6 {
+     font-size: 20px;
+   line-height: 1.2;
+    
+}
+.user_dashboard_sec .recent_order_box:not(:last-child) {
+    margin-bottom: 30px;
+}
+.recent_order_box .your_order_choice {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.recent_order_box .your_order_choice h6 {
+    font-size: 20px;
+    line-height: 1.2;
+    
+}
+.user_dashboard_sec .edit_detail {
+     gap: 12px;
+ 
+}
+.btnSet {
+    margin-top: 40px;
+}
+.user_dashboard_sec .profl_tabs {
+    margin: 50px 0px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input#phone {
+    margin-bottom: 25px;
+}
+.user_dashboard_sec .profl_tabs ul {
+    margin-bottom: 50px;
+}
+.user_dashboard_sec .profl_tabs ul li.nav-item button {
+    font-size: 20px;
+    line-height: 1.2;
+    padding-bottom: 18px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input.form-control {
+    padding: 18px 15px;
+   }
+   .user_dashboard_sec .profl_tabs .profile_edit .formGroupBox {
+    margin-bottom: 20px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox select.form-select {
+    padding: 18px 15px;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.aply_btn a {
+    padding: 16px 45px;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.remv_btn a {
+    padding: 16px 30px;
+
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_oner {
+    gap: 15px;
+}
+.user_dashboard_sec .seved_cards .savd_card_content {
+     padding: 20px;
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_img {
+   padding: 20px 10px;
+    
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_detail p {
+    gap: 12px;
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_detail p span {
+    line-height: 1.2;
+    
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.aply_btn a {
+    padding: 15px 50px!important;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.remv_btn a {
+    padding: 15px 30px!important;
+}
+.user_dashboard_sec .seved_cards .apply_cards {
+    margin-top: 20px;
+}
+}
+
+@media only screen and (max-width: 1199px){
+   .user_dashboard_sec .user_dashboard_content .lft_side {
+    padding: 50px 0px;
+    padding-left: 30px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a {
+    gap: 12px;
+    padding: 15px 0px 15px 20px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menuIcons i {
+    font-size: 18px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt .shop_img {
+    padding: 15px 15px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul li {
+    padding: 12px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span {
+    padding: 18px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
+    font-size: 22px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p.subItile a {
+  font-size: 15px;
+   line-height: 1.2;
+  
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt h6 {
+    font-size: 18px;
+   
+}
+.recent_order_box .your_order_choice h6 {
+    font-size: 18px;
+}
+.user_dashboard_sec .recent_order_box p {
+  font-size: 15px;
+  line-height: 1.2;
+    
+}
+.user_dashboard_sec .recent_order_box:not(:last-child) {
+    margin-bottom: 25px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.user_dashboard_sec .edit_detail {
+    gap: 10px;
+}
+.user_dashboard_sec .edit_detail span {
+     font-size: 15px;
+   line-height: 1.2;
+   
+}
+.user_dashboard_sec .profl_tabs {
+    margin: 40px 0px;
+}
+.user_dashboard_sec .profl_tabs ul {
+    margin-bottom: 40px;
+}
+.btnSet button {
+    padding: 18px 90px;
+  
+}
+.user_dashboard_sec .seved_cards .savd_card_content .card_oner {
+    flex-direction: column;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.aply_btn a {
+    padding: 12px 30px!important;
+}
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn.remv_btn a {
+    padding: 12px 20px!important;
+}
+}
+
+
+@media only screen and (max-width: 991px){
+.user_dashboard_sec .user_dashboard_content .ryt_side_contnt {
+    padding-left: 0;
+    padding-top: 40px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox {
+    margin: 35px 0px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side {
+    padding: 40px 0px;
+    padding-left: 25px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul li {
+    width: 100%;
+}
+.user_dashboard_sec .profl_tabs ul li.nav-item button {
+    font-size: 18px;
+    line-height: 1.2;
+    padding-bottom: 15px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox input.form-control {
+    padding: 15px 15px;
+}
+.btnSet {
+    margin-top: 35px;
+}
+.user_dashboard_sec .profl_tabs {
+    margin: 35px 0px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox select.form-select {
+    padding: 15px 15px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox select.form-select {
+    padding: 15px 15px;
+}
+.user_dashboard_sec .seved_cards .apply_cards {
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn {
+    width: 100%;
+    display: block;
+}
+
+
+.user_dashboard_sec .seved_cards .apply_cards .apply_cards_btn a {
+    display: block;
+    text-align: center;
+}
+}
+
+@media only screen and (max-width: 767px){
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox.frmgrp {
+    gap: 20px;
+    flex-direction: column;
+}
+.sml_text {
+    font-size: 15px;
+    line-height: 1.2;
+}
+.btnSet {
+    margin-top: 30px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox label {
+    gap: 10px;
+}
+.user_dashboard_sec .profl_tabs ul {
+   gap: 30px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit .formGroupBox .checkbox {
+    margin-bottom: 10px;
+}
+}
+
+@media only screen and (max-width: 575px){
+ .user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a span.menu_text {
+    font-size: 16px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span {
+    padding: 15px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
+    font-size: 20px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side .lft_menubox ul li a {
+    gap: 12px;
+    padding: 12px 0px 12px 15px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt .shop_img {
+    padding: 12px 12px;
+}
+.user_dashboard_sec .ryt_side_contnt .complt_orderbox ul a.ordr_shop .lft_txt h6 {
+    font-size: 16px;
+}
+.recent_order_box .your_order_choice h6 {
+    font-size: 16px;
+}
+.user_dashboard_sec .recent_order_box p {
+    font-size: 14px;
+}
+.user_dashboard_sec .recent_order_box:not(:last-child) {
+    margin-bottom: 20px;
+}
+.recent_order_box .your_order_choice {
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.user_dashboard_sec .edit_detail {
+    gap: 5px;
+}
+.user_dashboard_sec .edit_detail span {
+    font-size: 14px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p.subItile a {
+    font-size: 14px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_dtal p.subItile a {
+    margin: 0;
+}
+.sml_text {
+    font-size: 14px;
+    line-height: 1.2;
+    
+}
+.btnSet {
+    margin-top: 20px;
+}
+.btnSet button {
+    padding: 15px 65px;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side {
+    padding: 30px 0px;
+    padding-left: 20px;
+}
+}
+

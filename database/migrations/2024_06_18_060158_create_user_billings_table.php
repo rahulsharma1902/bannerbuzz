@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->json('additional_info')->nullable();
+            $table->boolean('is_default')->nullable()->default(false);
             $table->timestamps();
         });
     }

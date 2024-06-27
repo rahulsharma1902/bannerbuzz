@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use App\Models\Blogs;
 use App\Models\Product;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use App\Models\HomeContent;
 use App\Models\Testimonial;
 use App\Models\AboutUsContent;
 use App\Models\ProductAccessories;
+use App\Mail\MailToAdmin;
+use Illuminate\Support\Facades\Validator;
 class ViewController extends Controller
 {
     //::::::::::: Home page ::::::::::::::::::://
@@ -93,4 +96,44 @@ class ViewController extends Controller
         $products = $products->merge($accessories);
         return view('front.shop.search',compact('products'));
     }
+
+public function emailnotify(Request $request)
+{
+    $request->validate([
+        'email' =>'required',
+    ]);
+    $user = new Visitor();
+    $user->user_email = $request->email;
+    $user->save();
+
+    return response()->json($user);
+
+}
+
+public function ContactProcess(Request $request)
+{
+    // dd($request->all());
+    $validator = Validator::make($request->all(), [
+        'name'        =>    'required',
+        'email'       =>    'required|email|unique',
+        'number'      =>    'required',
+        'company_name'=>    'required',
+        'address'     =>    'required',
+        'state'       =>    'required',
+        'city'        =>    'required',
+        'email_topic' =>    'required',
+        'subject'     =>    'required',
+        'inquiry'     =>    'required',
+        // Add more validation rules as needed
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422); // Return validation errors
+    }
+
+    // $email = $request->email;
+
+}
+
+
 }

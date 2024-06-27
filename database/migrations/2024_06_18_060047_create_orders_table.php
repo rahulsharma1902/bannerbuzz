@@ -25,9 +25,10 @@ return new class extends Migration
             $table->decimal('additional_charges',10,2)->nullable();
             $table->decimal('total_price', 10, 2);
             $table->string('payment_method')->nullable();
-            $table->string('currency')->default('usd'); 
+            $table->string('currency')->default('GBP'); 
             $table->json('basket_data')->nullable(); 
-            $table->string('status')->default('pending'); 
+            $table->string('order_status')->default('pending');
+            $table->string('status')->default('false'); 
             $table->timestamps();
         });
     }

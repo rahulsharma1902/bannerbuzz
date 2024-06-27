@@ -6,6 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('front/img/clogo.svg') }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
@@ -24,10 +26,12 @@
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" /> -->
 
     <!-- Toaster -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- end toaster -->
 
     {{-- jquery CDN --}}
@@ -54,19 +58,24 @@
 </head>
 
 <body class="bodyMainWrap">
+<div style="display: none;" id="overlay">
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+</div>
 <?php $home_data = App\Models\HomeContent::first(); ?> 
     <header>
         @if($home_data && $home_data->display_offer == 1)
-        <div class="topbar" style="background-color: #fadc38;">
-            <div class="container-fluid">
-                <div class="topbar-content">
-                    <span>{{$home_data->offer_text ?? ''}}</span>&nbsp;<span id="countdown"></span>
-                    <div class="toggl">
-                        <i class="fa-solid fa-xmark"></i>
+            <div class="topbar" style="background-color: #fadc38;">
+                <div class="container-fluid">
+                    <div class="topbar-content">
+                        <span>{{$home_data->offer_text ?? ''}}</span>&nbsp;<span id="countdown"></span>
+                        <div class="toggl">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         @endif
         <div class="free-exp-wrap">
             <div class="container-fluid">
@@ -82,38 +91,40 @@
                             </a>
                         </li>
                         <li class="new_loginup">
-                            <a href="{{ url('login') ?? '' }}">
+                            <a href="javascript:void(0)">
                                 <img src="{{ asset('front/img/account.svg') }}" alt="" />
                                 <span>Account</span>
                             </a>
                             
                             <ul class="dropDown popupLogin">
-                            @if(!Auth::check())
-                                <li class="dontAccount">
-                                    <a href="{{ url('login') ?? '' }}" class="btn lgin_btn" aria-label="Login">Login</a>
-                                    <p>Don't Have An Account?</p>
-                                    <a href="{{ url('register') ?? '' }}" class="btn rgstr_btn" aria-label="Register">Register</a>
-                                </li>
-                             @else   
-                                <li>
-                                    <a href="#">
-                                        <span><i class="fa-regular fa-user"></i></span>
-                                        <span>My Account</span>
-                                    </a>
-                                </li>
-                               
-                                <li class="logd_out">
-                                    <a title="Logout" href="{{ url('logout') ?? '' }}" class="lg_out">
-                                     <span><i class="fa-regular fa-user"></i></span>
-                                     <span>Logout</span>
-                                  </a>
-                              </li>
-                            @endif
+                                @if(!Auth::check())
+                                    <li class="dontAccount">
+                                        <a href="{{ url('login') ?? '' }}" class="btn lgin_btn" aria-label="Login">Login</a>
+                                        <p>Don't Have An Account?</p>
+                                        <a href="{{ url('register') ?? '' }}" class="btn rgstr_btn" aria-label="Register">Register</a>
+                                    </li>
+                                @else   
+                                    <li>
+                                        <a href="{{ route('user.dashboard') }}">
+                                            <span><i class="fa-regular fa-user"></i></span>
+                                            <span>My Account</span>
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
                                     <a href="{{ url('my-saved-designs') ?? '' }}">
                                         <span><i class="fa-regular fa-user"></i></span>
-                                        <span>My Designs</span></a>
-                                </li>  
+                                        <span>My Designs</span>
+                                    </a>
+                                </li> 
+                                @if(Auth::check()) 
+                                    <li class="logd_out">
+                                        <a title="Logout" href="{{ url('logout') ?? '' }}" class="lg_out">
+                                            <span><i class="fa-regular fa-user"></i></span>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                         <?php 
@@ -133,7 +144,7 @@
                         <li class="mainBasketData">
                             <a href="javascript:void(0)">
                                 <img src="{{ asset('front/img/item.svg') }}" alt="" />
-                                <span>Item(s) <span id="item-price" style="color: #e4004e;">$0.00</span></span> 
+                                <span>Item(s) <span id="item-price" style="color: #e4004e;">£0.00</span></span> 
                                  <!-- dc288a -->
                             </a>
                             <div id="cart-preview-dropdown" class="cart-preview-dropdown">
@@ -483,13 +494,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:012345678910">
+                                <a href="tel:{{ $home_content->phone ?? '0161 5327799' }}">
                                     <div class="con-img">
                                         <img src="{{ asset('front/img/call.svg') }}" alt="" />
                                     </div>
                                     <span>
                                         Call Us <br />
-                                        012345678910
+                                        {{ $home_content->phone ?? '0161 5327799' }}
                                     </span>
                                 </a>
                             </li>
@@ -1011,9 +1022,9 @@
                         <div class="footer_contnt">
                             <h6>Follow on</h6>
                             <ul>
-                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
-                                <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-                                <li><a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                                <li><a href="{{ $home_content->facebook ?? '' }}"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
+                                <li><a href="{{ $home_content->instagram ?? '' }}"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                                <li><a href="{{ $home_content->twitter ?? '' }}"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1024,12 +1035,11 @@
                         <ul>
                             <li>
                                 <span>Address:</span>
-                                8975 W Charleston Blvd. Suite 190
-                                Las Vegas, NV 89117
+                                {{ $home_content->address ?? 'Henfold Road, Astley, Manchester, M29 7FX' }}
                             </li>
-                            <li><span>Phone:</span> <a href="tel:0 123 4567 890">0 123 4567 890</a></li>
+                            <li><span>Phone:</span> <a href="tel:{{ $home_content->phone ?? '0161 5327799' }}">{{ $home_content->phone ?? '0161 5327799' }}</a></li>
                             <li><span>Email:</span> <a
-                                    href="mailto:contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></li>
+                                    href="mailto:{{ $home_content->email ?? 'info@cre8iveprinter.co.uk' }}">{{ $home_content->email ?? 'info@cre8iveprinter.co.uk' }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1261,7 +1271,6 @@
     }
 </script>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
     integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1317,36 +1326,36 @@
 
 <script>
     // counter
-//     var counted = 0;
-//     $(document).ready(function(){
-//     $(window).scroll(function() {
+    var counted = 0;
+    $(document).ready(function(){
+        $(window).scroll(function() {
 
-//         var oTop = $('.counter').offset().top - window.innerHeight;
-//         if (counted == 0 && $(window).scrollTop() > oTop) {
-//             $('.count').each(function() {
-//                 var $this = $(this),
-//                     countTo = $this.attr('data-count');
-//                 $({
-//                     countNum: $this.text()
-//                 }).animate({
-//                     countNum: countTo
-//                 }, {
-//                     duration: 2000,
-//                     easing: 'swing',
-//                     step: function() {
-//                         $this.text(Math.floor(this.countNum));
-//                     },
-//                     complete: function() {
-//                         $this.text(this.countNum);
-//                     }
+            var oTop = $('.counter').offset().top - window.innerHeight;
+            if (counted == 0 && $(window).scrollTop() > oTop) {
+                $('.count').each(function() {
+                    var $this = $(this),
+                        countTo = $this.attr('data-count');
+                    $({
+                        countNum: $this.text()
+                    }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum);
+                        }
 
-//                 });
-//             });
-//             counted = 1;
-//         }
+                    });
+                });
+                counted = 1;
+            }
 
-//     });
-// });
+        });
+    }); 
     // brand-slider
     $(document).ready(function() {
         $('.brand-slider').slick({
@@ -1409,6 +1418,11 @@
             position: 'topRight' 
         });
     }
+</script>
+<script>
+    $(window).on('beforeunload', function () {
+        $('#overlay').show();
+    });
 </script>
 </body>
 

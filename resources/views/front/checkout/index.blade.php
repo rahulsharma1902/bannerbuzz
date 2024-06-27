@@ -1180,6 +1180,7 @@
 
         $('#final-btn').on('click',async function(){
 
+            $('#overlay').show();
             payment_method = $('input[name=payment_method]:checked').val();
             var form = $('#checkout_form');
             cardHolderName = $('#card_holder_name').val();
@@ -1206,6 +1207,7 @@
                         $("#card-error-message").html(error.message);
                     }
                     action = false;
+                    $('#overlay').hide();
                 }else{
                     let token = document.createElement('input')
                     token.setAttribute('type', 'hidden')

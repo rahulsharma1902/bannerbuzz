@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Front;
-
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
+use App\Mail\OrderMail;
 use Illuminate\Http\Request;
 use App\Models\Basket;
 use App\Models\UserMeta;
@@ -71,7 +72,7 @@ class CheckoutController extends Controller
             return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket'));
         } else {
             $total = 0;
-            return view('front.checkout.cart',compact('allbasket','total'));
+            return redirect('/checkout/cart');
         }
     }
 
@@ -124,23 +125,23 @@ class CheckoutController extends Controller
         $order_details = new Order();
         $order_details->user_id = Auth::user()->id;
         $order_details->order_number = $orderNum;
-        // $order_details->confirmation_email = $request->confirmation_email;
+        $order_details->confirmation_email = $request->confirmation_email;
         $order_details->billing_address_id = $save_billing_address['billing_id'];
-        // $order_details->shipping_address_id = $save_billing_address['shipping_id'];
+        $order_details->shipping_address_id = $save_billing_address['shipping_id'];
         $order_details->user_order_data = json_encode($order_data);
         $order_details->product_price = array_sum($total_price);
         $order_details->shipping_charges = $ship_amount;
         $order_details->additional_charges = null;
         $order_details->total_price = array_sum($total_price) + $ship_amount;
         $order_details->currency = 'GBP';
-        $order_details->status = 'pending';
+        $order_details->order_status = 'pending';
         $order_details->payment_method = $request->payment_method;
-        // $order_details->basket_data = json_encode($basket_ids);
+        $order_details->basket_data = json_encode($basket_ids);
         $order_details->save();
 
         $products_price = array_sum($total_price);
         $amount = array_sum($total_price) + $ship_amount;
-        $currency = 'USD';
+        $currency = 'GBP';
 
         $paymentdata = [];
         $paymentdata['order_id'] = $order_details->id;
@@ -200,8 +201,9 @@ class CheckoutController extends Controller
                     $order->status = $paymentObj->status;
                     $order->save();
 
-                    $mail_data = $this->SendOrderMail($payment_data->id,$order->id);
-
+                    $confirmation_email = $request->confirmation_email;
+                    $mail_data = $this->SendOrderMail($payment_data->id,$order->order_number,$confirmation_email);
+                  
                     return redirect('/order-received/'.$order->order_number)->with('success','payment success');
                 } else {
                     // $payment_data->status = false;
@@ -443,6 +445,7 @@ class CheckoutController extends Controller
                     $userOrderDesign->accessorie_id = $basket->accessorie_id;
                     $userOrderDesign->product_type = $basket->product_type;
                     $userOrderDesign->design_id = $basket->design_id;
+                    $userOrderDesign->basket_id = $basket->id;
                     $userOrderDesign->design_method = $basket->design_method;
                     $userOrderDesign->images = $basket->images;
                     $userOrderDesign->size_id = $basket->size_id;
@@ -537,9 +540,24 @@ class CheckoutController extends Controller
     {
         $order_num = $request->order_num;
         // dd($order_num);
+        
         $order = Order::where('order_number',$order_num)->first();
+        
         if($order){
-            return view('front.checkout.order_received',compact('order_num'));
+            $order_data = json_decode($order->user_order_data);
+            foreach($order_data as $id){
+                $userDesign = UserOrderDesign::where('id',$id)->first(); 
+                $design_method = $userDesign->design_method;
+
+                if($design_method ?? ''){
+                    if($design_method == 'hireDesigner'){
+                        $isHireDesigner = true;
+                    }else{
+                        $isHireDesigner = false;
+                    }
+                }
+            }
+            return view('front.checkout.order_received',compact('order_num','isHireDesigner'));
         } else {
             abort(404);
         }
@@ -547,8 +565,22 @@ class CheckoutController extends Controller
     }
 
     // order confirmation mail
-    function SendOrderMail($payment_id,$order_id) 
+    function SendOrderMail($payment_id,$order_num,$email) 
     {
-        
+        // $email = 'test@gmail.com';
+        $first_name = auth()->user()->first_name;
+        $last_name = auth()->user()->last_name;
+        $full_name = $first_name . $last_name;
+
+        $mailData = [
+            'payment_id' => $payment_id,
+            'order_num' => $order_num,
+            'full_name' => $full_name,
+            'status' => 'sent your order'
+        ];
+
+        Mail::to($email)->send(new OrderMail($mailData));
+
+        return true;
     }
 }

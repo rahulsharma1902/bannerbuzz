@@ -27,6 +27,7 @@ return new class extends Migration
             $table->longText('image')->nullable();
             $table->longText('variations')->nullable();
             $table->longText('template_data')->nullable();
+            $table->longText('additional_info')->nullable();
             $table->string('design_method')->default('template')->nullable();  //tempalte  artwork ArtworkLater hireDesigner
             $table->tinyInteger('status')->default(0)->nullable();
             $table->timestamps();

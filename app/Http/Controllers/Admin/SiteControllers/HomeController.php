@@ -13,7 +13,8 @@ class HomeController extends Controller
         return view('admin.site_content.home_page.home_content',compact('home_content'));
     }
 
-    public function Updateprocc(Request $request){
+    public function Updateprocc(Request $request)
+    {
         // echo "<pre>";
         // print_r($request->all());
         // die();
@@ -53,6 +54,13 @@ class HomeController extends Controller
             $data->ads_image_2_url = $request->ads_image_2_url;
             $data->bottom_title = $request->bottom_title;
             $data->bottom_description = $request->bottom_description;
+            $data->email = $request->email;
+            $data->phone = $request->number;
+            $data->address = $request->address;
+            $data->facebook = $request->facebook;
+            $data->instagram = $request->instagram;
+            $data->twitter = $request->twitter;
+
             $data->save();
             return redirect()->back()->with('success','data updated successfully');
         } else {
@@ -94,6 +102,12 @@ class HomeController extends Controller
             $data->ads_image_2_url = $request->ads_image_2_url;
             $data->bottom_title = $request->bottom_title;
             $data->bottom_description = $request->bottom_description;
+            $data->email = $request->email;
+            $data->phone = $request->number;
+            $data->address = $request->address;
+            $data->facebook = $request->facebook;
+            $data->instagram = $request->instagram;
+            $data->twitter = $request->twitter;
             $data->save();
             return redirect()->back()->with('success','data added successfully');
         }

@@ -190,6 +190,92 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-12 p-3 d-flex">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="email">Contact Email</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->email ?? ''}}" name="email" placeholder="Contact Email"
+                                        id="email">
+                                    @error('email')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="number">Contact Number</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->phone ?? ''}}" name="number" placeholder="Contact Number"
+                                        id="number">
+                                    @error('number')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 p-3 d-flex">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="address">Address</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->address ?? ''}}" name="address" placeholder="Contact Address"
+                                        id="address">
+                                    @error('address')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 p-3 d-flex">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="instagram">Instagram</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->instagram ?? ''}}" name="instagram" placeholder="Instagram"
+                                        id="instagram">
+                                    @error('instagram')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="facebook">Facebook</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->facebook ?? ''}}" name="facebook" placeholder="Facebook"
+                                        id="facebook">
+                                    @error('facebook')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 p-3 d-flex">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="twitter">Twitter</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->twitter ?? ''}}" name="twitter" placeholder="Twitter"
+                                        id="twitter">
+                                    @error('twitter')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-lg btn-primary">Update</button>
                     </div>

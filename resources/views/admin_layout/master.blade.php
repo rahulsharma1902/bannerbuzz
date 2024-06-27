@@ -47,7 +47,7 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="{{ url('/admin-dashboard') }}" class="logo-link nk-sidebar-logo">
-                            <h4 class="text-light">Bannerbuzz</h4>
+                            <h4 class="text-light">Cre8ive</h4>
                              {{-- <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
                             <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark">  --}}
                         </a>
@@ -272,13 +272,36 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Designers</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/designers') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">
+                                                    list</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/create-designer') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">
+                                                    New Designer</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li class="nk-menu-item">
                                     <a href="{{url('admin-dashboard/testimonials')}}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                         <span class="nk-menu-text">Testimonials</span>
                                     </a>
                                 </li>
-
+                                <li class="nk-menu-item">
+                                    <a href="{{route('orders.list')}}" class="nk-menu-link ">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Orders</span>
+                                    </a>
+                                </li>
 
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
