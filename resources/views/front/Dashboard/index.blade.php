@@ -45,112 +45,59 @@
         </div>
     </section>
 
+@if(isset($loved_products) && !empty($loved_products) && $loved_products->isNotEmpty())
     <section class="loved-prdct_sec p_100">
         <div class="container">
             <div class="loved-prdct_content">
                 <h3>Most Loved Products</h3>
                 <div class="product-slider">
-                    <div class="card">
-                        <div class="card-wrap">
-                            <div class="card-img">
-                                <img src="{{ asset('front/img/cardprdt1.png') }}" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                <div class="rating">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div> 
-                                    <span>9’321</span>
+                    @foreach($loved_products as $product)
+                        <div class="card">
+                            <div class="card-wrap">
+                                <div class="card-img">
+                                    @foreach (json_decode($product->images) as $index => $image)
+                                        @if ($index == 0)
+                                            @if(isset($product->accessories_type))
+                                                <img 
+                                                    src="{{ asset('accessories_Images') }}/{{ $image }}">
+                                            @else
+                                                <img 
+                                                    src="{{ asset('product_Images') }}/{{ $image }}">
+                                            @endif
+                                            @break
+                                        @endif
+                                    @endforeach
                                 </div>
-                                <span>Starts at: £3.99</span>
-                                <div class="view">
-                                    <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-wrap">
-                            <div class="card-img">
-                                <img src="{{ asset('front/img/cardprdt2.png') }}" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                <div class="rating">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
+                                <div class="card-body">
+                                    <p>{{ $product->name ?? '' }}</p>
+                                    <div class="rating">
+                                        <div class="star">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div> 
+                                        <span>9’321</span>
                                     </div>
-                                    <span>9’321</span>
-                                </div>
-                                <span>Starts at: £3.99</span>
-                                <div class="view">
-                                    <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-wrap">
-                            <div class="card-img">
-                                <img src="{{ asset('front/img/cardprdt3.png') }}" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                <div class="rating">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
+                                    @if ($product->sizes->isNotEmpty())
+                                        <span>Starts at: £{{ $product->sizes->first()->price ?? '' }}</span>
+                                    @else
+                                        <span>Starts at: £{{ $product->price ?? '' }}</span>
+                                    @endif
+                                    
+                                    <div class="view">
+                                        <a href="{{ url('details') }}/{{ $product->slug ?? '' }}">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                     </div>
-                                    <span>9’321</span>
-                                </div>
-                                <span>Starts at: £3.99</span>
-                                <div class="view">
-                                    <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-wrap">
-                            <div class="card-img">
-                                <img src="{{ asset('front/img/cardprdt1.png') }}" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <p>Lorem Ipsum is simply dummy text of the printing</p>
-                                <div class="rating">
-                                    <div class="star">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                    <span>9’321</span>
-                                </div>
-                                <span>Starts at: £3.99</span>
-                                <div class="view">
-                                    <a href="javascript:void(0)">View Details <i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </section>
-
+@endif
     <section class="custom-sec p_100" style="background-color: #141414;">
         <div class="container">
             <div class="custom-content">
@@ -269,7 +216,7 @@
             </div>
         </div>
     </section>
-
+@if(isset($loved_products) && !empty($loved_products) && $loved_products->isNotEmpty())
     <section class="custom-sec picks_wreap p_100">
         <div class="container">
             <div class="custom-content">
@@ -278,71 +225,43 @@
                     <p>Explore Our Most Popular Products</p>
                 </div>
                 <div class="busines_slider">
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_1.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn">Customize </a>
+                    @foreach($loved_products as $c_product)
+                        <div class="card">
+                            <div class="busines_img">
+                                @foreach (json_decode($c_product->images) as $index => $image)
+                                    @if ($index == 0)
+                                        @if(isset($c_product->accessories_type))
+                                            <img 
+                                                src="{{ asset('accessories_Images') }}/{{ $image }}">
+                                        @else
+                                            <img 
+                                                src="{{ asset('product_Images') }}/{{ $image }}">
+                                        @endif
+                                        @break
+                                    @endif
+                                @endforeach
+                                <div class="cust_btn_wreap">
+                                    <a href="{{ url('details') }}/{{ $c_product->slug ?? '' }}" class="btn cust_btn">Customize </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5>{{ $c_product->name ?? '' }}</h5>
+                                @if ($c_product->sizes->isNotEmpty())
+                                    <p>
+                                        <span>£{{ $c_product->sizes->first()->price + 5 ?? '' }}</span>
+                                        <strong>£{{ $c_product->sizes->first()->price  ?? '' }}</strong>
+                                    </p>
+                                @else
+                                    <p><span>£{{ ($c_product->price + 5 ) ?? '' }}</span> <strong>£{{ $c_product->price ?? '' }}</strong></p>
+                                @endif
                             </div>
                         </div>
-                        <div class="card-body">
-                            <h5>Product Name 01</h5>
-                            <p><span>£187.00</span> <strong>£150.00</strong></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_2.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 02</h5>
-                            <p><span>£187.00</span> <strong>£150.00</strong></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_3.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 03</h5>
-                            <p><span>£187.00</span> <strong>£150.00</strong></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_4.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 04</h5>
-                            <p><span>£187.00</span> <strong>£150.00</strong></p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="busines_img">
-                            <img src="{{ asset('front/img/busin_2.png') }}">
-                            <div class="cust_btn_wreap">
-                                <a href="#" class="btn cust_btn">Customize </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>Product Name 03</h5>
-                            <p><span>£187.00</span> <strong>£150.00</strong></p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </section>
-
+@endif
     <section class="arrivals_wreap p_100" style="background-color: #DC288A24;">
         <div class="container">
             <div class="busine_select mt-0">

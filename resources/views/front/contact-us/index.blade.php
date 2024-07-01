@@ -36,17 +36,17 @@
             </div>
             <div class="inquiry-form">
                 <div class="form_rw d-flex align-items-start">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <!-- <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
                             Inquiry Form <span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
                         </button>
-                        <!-- <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                       <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
                             Contact Address<span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
                         </button>
                         <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
                             Send Us a Message<span><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
-                        </button> -->
-                    </div>
+                        </button> 
+                    </div> -->
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <h5>Inquiry Form</h5>
@@ -90,10 +90,9 @@
                                             <?php
                                                 $country_array = CountryArray();
                                             ?>
-                                            <select name="country" id="country">
-                                               
+                                            <select class="form-control form-control-lg" name="country" id="country">
                                                 @foreach($country_array as $key => $country_name)
-                                                <option value="{{$key}}">{{ $country_name}}</option>
+                                                    <option value="{{$key}}">{{ $country_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -110,7 +109,7 @@
                                             <input type="text" class="form-control form-control-lg" id="city" name="city" />
                                         </div>
                                     </div>
-                                    <h5>Send Us a Message </h5>
+                                    <h5>Message </h5>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">Email Topic*</label>
@@ -123,14 +122,14 @@
                                             <input type="text" class="form-control form-control-lg" id="subject" name="subject" />
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Inquiry</label>
                                             <textarea type="text" class="form-control" rows="2" cols="30" id="inquiry" name="inquiry"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                               <button type="submit" class="btn light_dark submit-btn">Submit Your Inquiry</button></div>
+                               <button type="submit" class="btn light_dark submit-btn">Submit Your Inquiry</button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>

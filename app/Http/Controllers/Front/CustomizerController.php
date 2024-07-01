@@ -107,7 +107,7 @@ class CustomizerController extends Controller
 
                         // $imageIndex = count($imageArray) - 1;
                       
-                        return response()->json(['template' => $template,'imageName'=> $imageName ,'imgIndex'=> $imageName], 201);
+                        // return response()->json(['template' => $template,'imageName'=> $imageName ,'imgIndex'=> $imageName], 201);
                     }
                     if($request->images){
                         $template->image = $request->images; 

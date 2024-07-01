@@ -1,7 +1,7 @@
 @extends('user_dashboard_layout.master')
 @section('content')
 
-<div class="col-lg-8">
+<div class="col-lg-9">
     <div class="ryt_side_contnt">
         <div class="user_main_info">
             <div class="user_info">
@@ -70,15 +70,11 @@
                             </div>
                             <div class="formGroupBox">
                                 <div class="checkbox">
-                                    <label for="option1">
-                                        <input type="checkbox" value="option1" />
-                                        <span class="sml_text"> I’d like to be updated via SMS/TEXT</span>
-                                    </label>
+                                    <input type="checkbox" value="option1" id="option1"/>
+                                    <label for="option1" class="sml_text">I’d like to be updated via SMS/TEXT</label>
                                 </div>
 
-                                <div class="checkbox">
-                                    <label for="change_email"> <input type="checkbox" name="change_email" id="change_email" value="changeEmail" /> <span class="sml_text">Change Email</span></label>
-                                </div>
+                                <div class="checkbox"><input type="checkbox" name="change_email" id="change_email" value="changeEmail" /> <label for="change_email" class="sml_text">Change Email</label></div>
                             </div>
                             <div id="otp_div" style="display:none">
                                 <div class="formGroupBox">

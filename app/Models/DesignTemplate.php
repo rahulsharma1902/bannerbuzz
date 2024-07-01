@@ -9,6 +9,9 @@ class DesignTemplate extends Model
 {
     use HasFactory;
 
+    protected $fillable =[
+        'image'
+    ];
 
 
     public function product(){

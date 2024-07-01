@@ -30,12 +30,14 @@ class UserDashboardController extends Controller
         return view('user_dashboard.orders.index',compact('orders')); 
     }
 
-    public function OrderDetail() 
+    public function OrderDetail($order_num) 
     {
-        // $order = Order::where('order_number',$order_num)->first();
-        // if($order){
-            return view('user_dashboard.orders.order_detail');
-        // }
+        $order = Order::where('order_number',$order_num)->first();
+        if($order){
+            return view('user_dashboard.orders.order_detail',compact('order'));
+        } else {
+            abort(404);
+        }
     }
 
     public function MyCards()
@@ -120,15 +122,15 @@ class UserDashboardController extends Controller
 
                 $card = PaymentMethod::retrieve($oldMethod->id, []);
 
-                if($card->card->card_number == $paymentMethod->card->card_number && $card->card->brand == $paymentMethod->card->brand) {
-
-                    $card->detach();
+                if($card->card->fingerprint == $paymentMethod->card->fingerprint) {
+                    $isAttached = true;
                 }
             }
 
-            $paymentMethod->attach(['customer' => $stripe_customer_id]);
-
-
+            if(!$isAttached) {
+                $paymentMethod->attach(['customer' => $stripe_customer_id]);
+            }
+            
             return response(true);
         } catch (Execption $e){
             return resposne(false);

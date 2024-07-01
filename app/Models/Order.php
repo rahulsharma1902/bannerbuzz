@@ -12,4 +12,16 @@ class Order extends Model
     public function payment(){
         return $this->hasOne(Payment::class,'order_id','id');
     }
+
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    public function BillingAddress(){
+        return $this->hasOne(UserMeta::class,'id','billing_address_id');
+    }
+
+    public function ShipingAddress(){
+        return $this->hasOne(UserBilling::class,'id','shipping_address_id');
+    }
 }

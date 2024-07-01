@@ -202,69 +202,69 @@ Route::group(['middleware' => ['admin']], function () {
 //:::::::::::::::::::::: Front Routes ::::::::::::::::::::::::::::::::::::://
 
 //:::::::::::::::   ViewController Routes ::::::::::::::::::::::::://
+Route::group(['middleware' => ['check.guest']], function () {
+    Route::get('/', [ViewController::class, 'index'])->name('home');
+    Route::get('about-us', [ViewController::class, 'aboutUs'])->name('about-us');
+    Route::get('contact-us', [ViewController::class, 'contactUs'])->name('contact-us');
+    Route::get('customer-reviews', [ViewController::class, 'customerReviews'])->name('customer-reviews');
+    Route::get('privacy-policy', [ViewController::class, 'privacyPolicy'])->name('privacy-policy');
+    Route::get('upload-artwork', [ViewController::class, 'uploadArtwork'])->name('upload-artwork');
+    Route::get('order-tracking', [ViewController::class, 'ordertracking'])->name('order-tracking');
+    Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');
+    Route::get('blog/{slug}', [ViewController::class, 'blogDetails'])->name('blog');
+    Route::get('search',[ViewController::class,'searchProduct'])->name('search');
 
-Route::get('/', [ViewController::class, 'index'])->name('home');
-Route::get('about-us', [ViewController::class, 'aboutUs'])->name('about-us');
-Route::get('contact-us', [ViewController::class, 'contactUs'])->name('contact-us');
-Route::get('customer-reviews', [ViewController::class, 'customerReviews'])->name('customer-reviews');
-Route::get('privacy-policy', [ViewController::class, 'privacyPolicy'])->name('privacy-policy');
-Route::get('upload-artwork', [ViewController::class, 'uploadArtwork'])->name('upload-artwork');
-Route::get('order-tracking', [ViewController::class, 'ordertracking'])->name('order-tracking');
-Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');
-Route::get('blog/{slug}', [ViewController::class, 'blogDetails'])->name('blog');
-Route::get('search',[ViewController::class,'searchProduct'])->name('search');
+    Route::post('contact-send-process', [ViewController::class, 'ContactProcess'])->name('contact.send.process');
+    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
-Route::post('contact-send-process', [ViewController::class, 'ContactProcess'])->name('contact.send.process');
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+    //:::::::::::::::::::;:: ShopController Routes ::::::::::::::::::::::::::::::::://
+    Route::get('shop/{slug}', [ShopController::class, 'shop'])->name('shop');
+    Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('special-offers');
+    Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
+    // Accessories Routes //
+    Route::get('accessories', [ShopController::class, 'accessories']);
+    Route::get('accessories/{slug}', [ShopController::class, 'AccessoriesDetails']);
+    Route::get('accessories/sizes/{id}', [ShopController::class, 'getaccessoriessizes']);
 
-//:::::::::::::::::::;:: ShopController Routes ::::::::::::::::::::::::::::::::://
-Route::get('shop/{slug}', [ShopController::class, 'shop'])->name('shop');
-Route::get('special-offers', [ShopController::class, 'specialoffers'])->name('special-offers');
-Route::get('details/{slug}', [ShopController::class, 'ProductDetails'])->name('product');
-// Accessories Routes //
-Route::get('accessories', [ShopController::class, 'accessories']);
-Route::get('accessories/{slug}', [ShopController::class, 'AccessoriesDetails']);
-Route::get('accessories/sizes/{id}', [ShopController::class, 'getaccessoriessizes']);
+    // Ajax Routes //
+    Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildCategories']);
+    Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
+    Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
 
-// Ajax Routes //
-Route::get('categories/children/{parent_id}', [ShopController::class, 'getChildCategories']);
-Route::get('/categories/products/{category_id}', [ShopController::class, 'getCategoryProducts']);
-Route::get('product/sizes/{id}', [ShopController::class, 'getsizes']);
-
-// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+    // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 
-// :::::::::::::::::::::::::: CustomizerController :::::::::::::::::::::::::::::::::::// 
+    // :::::::::::::::::::::::::: CustomizerController :::::::::::::::::::::::::::::::::::// 
 
-// Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
-Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
-Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
-Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns'])->name('saved.designs');
+    // Route::get('designtool/{productSlug}/{templateSlug}', [CustomizerController::class, 'index']);
+    Route::get('designtool/template/{id}', [CustomizerController::class, 'index']);
+    Route::get('designtool/template-delete/{id}', [CustomizerController::class, 'deleteTemplate']);
+    Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns'])->name('saved.designs');
 
-Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
-Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
+    Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
+    Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
 
-Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
-Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
-Route::post('/upload-dropbox-file',[CustomizerController::class, 'uploadFile']);
-// :::::::::::::::::::::: Customizer route end here :::::::::::::::::::::::::://
+    Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
+    Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
+    Route::post('/upload-dropbox-file',[CustomizerController::class, 'uploadFile']);
+    // :::::::::::::::::::::: Customizer route end here :::::::::::::::::::::::::://
 
-//::::::::::::::::::::::::: Add to basket ::::::::::::::::::::::::://
+    //::::::::::::::::::::::::: Add to basket ::::::::::::::::::::::::://
 
-Route::post('add-to-basket', [BasketController::class, 'AddToBasket']);
-Route::get('remove-item-from-basket', [BasketController::class, 'removeItem']);
+    Route::post('add-to-basket', [BasketController::class, 'AddToBasket']);
+    Route::get('remove-item-from-basket', [BasketController::class, 'removeItem']);
 
-// ::::::::::::::::::::::: basket Route End here :::::::::::::::::::::::::::://
+    // ::::::::::::::::::::::: basket Route End here :::::::::::::::::::::::::::://
 
-//:::::::::::::::::::::::: Checkout Route :::::::::::::::::::::::::::::::://
+    //:::::::::::::::::::::::: Checkout Route :::::::::::::::::::::::::::::::://
 
-Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
-Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('checkout/cart', [CheckoutController::class, 'cart'])->name('cart');
+    Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 
-// :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
-
+    // :::::::::::::::::::::::Checkout Route End here:::::::::::::::::::::::::::://
+});
 // ::::::::::::::::: Authenticated Routes ::::::::::::::::::::::::::::://
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','check.user']], function () {
 
     Route::post('/checkout-process',[CheckoutController::class,'checkoutProcc']);
     Route::get('checkout/success',[CheckoutController::class,'checkoutSuccess'])->name('checkout.success');
@@ -278,10 +278,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('user-dashboard/profile',[UserProfileController::class,'profile'])->name('user.profile');
     Route::post('user-dashboard/profile/update',[UserProfileController::class,'updateProfile'])->name('user.profile.update');
     Route::post('user-dashboard/password/update',[UserProfileController::class,'updatePassword'])->name('user.password.update');
-    Route::get('user-dashboard/address',[UserProfileController::class,'Address'])->name('user.address');
+    Route::get('user-dashboard/address',[UserProfileController::class,'AddressPage'])->name('user.address');
+    Route::get('user-dashboard/view-page',[UserProfileController::class,'viewUserAddress'])->name('user.view.detail');
     Route::post('user-dashboard/address/add',[UserProfileController::class,'addressAddProcess'])->name('user.address.add');
+    Route::post('user-dashboard/delete/address',[UserProfileController::class,'deleteAddress']);
     Route::get('user-dashboard/orders',[UserDashboardController::class,'Orders'])->name('user.orders');
-    Route::get('user-dashboard/order-detail/',[UserDashboardController::class,'OrderDetail'])->name('user.order.detail');
+    Route::get('user-dashboard/order-detail/{order_num}',[UserDashboardController::class,'OrderDetail'])->name('user.order.detail');
     Route::get('user-dashboard/my-cards',[UserDashboardController::class,'MyCards'])->name('user.cards');
     Route::post('user-dashboard/add-card',[UserDashboardController::class,'AddCard'])->name('user.add.card');
     Route::get('user-dashboard/remove-card/{card_id}',[UserDashboardController::class,'RemoveCard'])->name('user.remove.card');

@@ -1,6 +1,6 @@
 @extends('user_dashboard_layout.master')
 @section('content')
-    <div class="col-lg-8">
+    <div class="col-lg-9">
         <div class="ryt_side_contnt">
             <div class="user_main_info">
                 <div class="user_info">

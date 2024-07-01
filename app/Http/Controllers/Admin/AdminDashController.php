@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\UserBilling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hash;
@@ -80,5 +81,10 @@ class AdminDashController extends Controller
     {
         $order = Order::where('order_number',$order_num)->first();
         return view('admin.Orders.order_detail',compact('order'));
+    }
+
+    public function($id){
+        $user_billing = UserBilling::find($id);
+        dd($user_billing);
     }
 }

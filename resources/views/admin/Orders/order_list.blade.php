@@ -13,8 +13,9 @@
                         <tr class="nk-tb-item nk-tb-head">
                             <th class="nk-tb-col">Order Number</th>
                             <th class="nk-tb-col"><span class="sub-text">Order Date</span></th>
-                             <th class="nk-tb-col"><span class="sub-text">Amount</span></th> 
+                            <th class="nk-tb-col"><span class="sub-text">Amount</span></th> 
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Order Status</span></th>
+                            <th class="nk-tb-col"></th> 
                             <th class="tb-tnx-action">
                                 <span>Action</span>
                             </th>
@@ -42,13 +43,15 @@
                                 </td>
 
                                 <td class="nk-tb-col tb-col-md">
-                                    @if($order->status != 'succeeded' && $order->status != 'completed')
-                                        <span class="adge badge-dot bg-danger">{{ $order->status ?? '' }}</span>
+                                    @if($order->order_status != 'succeeded' && $order->order_status != 'completed')
+                                        <span class="adge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
                                     @else
                                         <span class="badge badge-dot bg-success">Completed</span>
                                     @endif
                                 </td>
-
+                                <td class="nk-tb-col tb-col-mb">
+                                    <a id="{{ $order->billing_address_id }}">Change</a>
+                                </td>
                                 <td class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">
                                         <li>

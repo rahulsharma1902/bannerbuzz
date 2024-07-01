@@ -13,6 +13,8 @@ use App\Models\HomeContent;
 use App\Models\Testimonial;
 use App\Models\AboutUsContent;
 use App\Models\ProductAccessories;
+use App\Models\Order;
+use App\Models\UserOrderDesign;
 use App\Mail\MailToAdmin;
 use Illuminate\Support\Facades\Validator;
 class ViewController extends Controller
@@ -23,9 +25,42 @@ class ViewController extends Controller
         $testimonials = Testimonial::all();
         $home_content = HomeContent::first();
         $product_categories = ProductCategories::whereNull('parent_category')->get();
+        $orders = Order::where('order_status','completed')->orWhere('order_status','succeeded')->get();
+        $userDesign_ids = [];
+
+        if ($orders) {
+            foreach ($orders as $order) {
+                $ids = json_decode($order->user_order_data);
+                
+                if (is_array($ids)) {
+                    $userDesign_ids = array_merge($userDesign_ids, $ids);
+                }
+            }
+            $userDesign_ids = array_unique($userDesign_ids);
+        }
+
+        $product_ids = [];
+        $accessorie_ids = [];
+        foreach($userDesign_ids as $id) {
+            $design = UserOrderDesign::find($id);
+            if($design->product_type != 'accessorie') {
+                $product_ids[] = $design->product_id;
+            } else {
+                $accessorie_ids[] = $design->product_id;
+            }
+        }
+        $product_ids =  array_unique($product_ids);
+        $accessorie_ids =  array_unique($accessorie_ids);
+
+        $loved_products = Product::whereIn('id', $product_ids)->get();
+        // $loved_accessories = ProductAccessories::whereIn('id', $accessorie_ids)->get();
+
+        // $loved_products->merge($loved_accessories);
+
+
         $products = Product::latest()->where('status', true)->take(10)->get();
         $blogs = Blogs::latest()->where('status', true)->take(4)->get();
-        return view('front.Dashboard.index', compact('product_categories', 'products', 'blogs','home_content','testimonials'));
+        return view('front.Dashboard.index', compact('product_categories', 'products', 'blogs','home_content','testimonials','loved_products'));
     }
 
     //:::::::::::::: site Pages ::::::::::::::::::://

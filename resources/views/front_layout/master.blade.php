@@ -177,13 +177,16 @@
                                                                                             <div class="singleSide">
                                                                                                 @if($cart->design_method == 'Artwork')
                                                                                                     <?php $count = 0; ?> 
-                                                                                                    
-                                                                                                    @foreach(json_decode($cart->design->image,true) as $index => $value)
-                                                                                                        @if($count == 0)
-                                                                                                            <img src="{{ asset('designImage/'.$value) }}">
-                                                                                                        @endif
-                                                                                                        <?php  $count++ ?>
-                                                                                                    @endforeach
+                                                                                                    @if(!empty(json_decode($cart->image,true)) && $cart->image != null)
+                                                                                                        @foreach(json_decode($cart->image,true) as $index => $value)
+                                                                                                            @if($count == 0)
+                                                                                                                <img src="{{ asset('designImage/'.$value) }}">
+                                                                                                            @endif
+                                                                                                            <?php $count++; ?>
+                                                                                                        @endforeach
+                                                                                                    @else
+                                                                                                        <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                                                    @endif
                                                                                                 @elseif($cart->design_method == 'ArtworkLater')
                                                                                                     <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                                 @elseif($cart->design_method == 'hireDesigner')
@@ -419,7 +422,7 @@
                                 @endif
                             </div>
                          </li>
-                        <li>
+                        <!-- <li>
                             <div class="btn-group">
                                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -438,7 +441,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -526,18 +529,18 @@
                                     <span>Item(s) <span style="color: #e4004e;">$0.00</span></span> 
                                      dc288a
                                 </a> -->
-                                <a href="tel:012345678910">
+                                <a >
                                     <div class="con-img">
                                         <img src="{{ asset('front/img/item.svg') }}" alt="">
                                     </div>
                                 </a>
                                 <?php 
                                     if(Auth::check()){
-                                        $basket_data = App\Models\Basket::where('user_id',Auth::user()->id)->get();
+                                        $basket_data = App\Models\Basket::where('user_id',Auth::user()->id)->where('status',false)->get();
                                     }else{
                                         $temp_id = Session::get('temporaryUserId');
                                         if($temp_id != null) {
-                                            $basket_data = App\Models\Basket::where('temporary_id',$temp_id)->get();
+                                            $basket_data = App\Models\Basket::where('temporary_id',$temp_id)->where('status',false)->get();
                                         } else {
                                             $basket_data = null;
                                         }
@@ -575,12 +578,16 @@
                                                                                             @if($basket->design_method == 'Artwork')
                                                                                                 <?php $count = 0; ?> 
                                                                                                 
-                                                                                                @foreach(json_decode($basket->design->image,true) as $index => $value)
-                                                                                                    @if($count == 0)
-                                                                                                        <img src="{{ asset('designImage/'.$value) }}">
+                                                                                                @if(!empty(json_decode($basket->image,true)) && $basket->image != null)
+                                                                                                        @foreach(json_decode($basket->image,true) as $index => $value)
+                                                                                                            @if($count == 0)
+                                                                                                                <img src="{{ asset('designImage/'.$value) }}">
+                                                                                                            @endif
+                                                                                                            <?php $count++; ?>
+                                                                                                        @endforeach
+                                                                                                    @else
+                                                                                                        <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                                     @endif
-                                                                                                    <?php  $count++ ?>
-                                                                                                @endforeach
                                                                                             @elseif($basket->design_method == 'ArtworkLater')
                                                                                                 <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                             @else
@@ -804,7 +811,6 @@
                                     @endif
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
@@ -910,7 +916,7 @@
                                 </div>
                                 <span>012345678910</span>
                             </a>
-                            <div class="btn-group">
+                            <!-- <div class="btn-group">
                                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img src="{{ asset('front/img/country.svg') }}" alt="">
@@ -926,7 +932,7 @@
                                                 src="{{ asset('front/img/country.svg') }}" alt="">
                                             IND</button></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <ul class="toggle_sub_menu">
                             @if ($categories)
@@ -1420,8 +1426,22 @@
     }
 </script>
 <script>
-    $(window).on('beforeunload', function () {
-        $('#overlay').show();
+    $(document).ready(function() {
+        $('a[href^="tel:"]').on('click', function() {
+            $('#overlay').show();
+
+            setTimeout(function() {
+                $('#overlay').hide();
+            }, 100);
+        });
+        $(window).on('beforeunload', function () {
+            $('#overlay').show();
+        });
+
+        $(window).on('load pageshow unload', function () {
+            $('#overlay').hide();
+        });
+        
     });
 </script>
 </body>

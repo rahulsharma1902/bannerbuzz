@@ -493,7 +493,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:{{ $home_content->phone ?? '0161 5327799' }}">
+                                <a class="call-us-now"  href="tel:{{ $home_content->phone ?? '0161 5327799' }}">
                                     <div class="con-img">
                                         <img src="{{ asset('front/img/call.svg') }}" alt="" />
                                     </div>
@@ -525,7 +525,7 @@
                                     <span>Item(s) <span style="color: #e4004e;">$0.00</span></span> 
                                      dc288a
                                 </a> -->
-                                <a href="tel:{{ $home_content->phone ?? '0161 5327799' }}">
+                                <a >
                                     <div class="con-img">
                                         <img src="{{ asset('front/img/item.svg') }}" alt="">
                                     </div>
@@ -909,7 +909,7 @@
                                 </div>
                                 <span>012345678910</span>
                             </a>
-                            <div class="btn-group">
+                            <!-- <div class="btn-group">
                                 <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img src="{{ asset('front/img/country.svg') }}" alt="">
@@ -925,7 +925,7 @@
                                                 src="{{ asset('front/img/country.svg') }}" alt="">
                                             IND</button></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <ul class="toggle_sub_menu">
                             @if ($categories)
@@ -963,7 +963,7 @@
     <div class="container">
         <div class="user_dashboard_content">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="lft_side">
                         <div class="lft_menubox">
                             <div class="myAccountBtn">Account Dashboard</div>
@@ -1527,8 +1527,23 @@
     }
 </script>
 <script>
-    $(window).on('beforeunload', function () {
-        $('#overlay').show();
+    $(document).ready(function() {
+      
+        $('a[href^="tel:"]').on('click', function() {
+            $('#overlay').show();
+
+            setTimeout(function() {
+                $('#overlay').hide();
+            }, 100);
+        });
+        $(window).on('beforeunload', function () {
+            $('#overlay').show();
+        });
+
+        $(window).on('load pageshow unload', function () {
+            $('#overlay').hide();
+        });
+        
     });
 </script>
 </body>

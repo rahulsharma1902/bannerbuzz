@@ -2,7 +2,7 @@
 @section('content')
 
 
-    <div class="col-lg-8">
+    <div class="col-lg-9">
         <div class="ryt_side_contnt">
             <div class="user_main_info">
                 <div class="user_info">
@@ -55,9 +55,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="apply_cards">
-                                                    <div class="apply_cards_btn aply_btn">
+                                                    <!-- <div class="apply_cards_btn aply_btn">
                                                         <a href="#" class="sml_text">Apply Now</a>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="apply_cards_btn remv_btn">
                                                         <a href="{{ route('user.remove.card',['card_id' => $card['id']]) }}" class="sml_text">Remove</a>
                                                     </div>
@@ -166,10 +166,10 @@
                 ) 
                
                 if(error){
- 
+                    $('#overlay').hide();
                     if(error.message != ''){
                         $("#card-error-message").html(error.message);
-                        $('#overlay').show();
+                        
                     }
                     action = false;
                 }else{
@@ -189,7 +189,7 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            $('#overlay').show();
+                            $('#overlay').hide();
                             console.error(xhr.responseText); 
                             alert('Error occurred while processing data');
                         }
@@ -197,9 +197,6 @@
 
                 }
             });
-        });
-        $(window).on('beforeunload', function () {
-            $('#overlay').show();
         });
     </script>
 @endsection

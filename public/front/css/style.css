@@ -3288,7 +3288,8 @@ p.up_doc {
 li.new_loginup ul.dropDown.popupLogin {
   display: block;
   background: #fff;
-  min-width: 159px;
+/*  min-width: 159px;*/
+width: 100%;
   top: 38px;
   left: 50%;
   padding: 15px 10px;
@@ -3324,7 +3325,12 @@ li.new_loginup ul.dropDown.popupLogin {
   z-index: 1;
   top: 40px;
   left: 0;
+  right: 0;
   display: none !important;
+}
+li.new_loginup:hover ul.dropDown.popupLogin li {
+    justify-content: center!important;
+    padding-bottom: 10px;
 }
 
 li.new_loginup ul.dropDown.popupLogin a.lgin_btn {
@@ -5636,7 +5642,7 @@ span.remove-image {
 
 .ship-wrap .checkout-block {
   border: 1px solid #1b1b1b;
-  padding: 30px;
+  padding: 20px;
   border-radius: 15px;
   margin-bottom: 50px;
 }
@@ -8189,6 +8195,25 @@ body.loading {
 
 /*27 june 2024*/
 /*order details css starts here*/
+.checkout-form .checkout-block div#payment-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkout-form .checkout-block .img-text-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.checkout-form .checkout-block .img-text-wrap img {
+    max-width: 80px;
+}
+
+.checkout-form .checkout-block .img-text-wrap p {
+    margin-bottom: 0;
+}
+
 
 
 .order-detail-sec {
@@ -8221,11 +8246,6 @@ body.loading {
     padding-right: 4px;
 }
 
-/*.order-products table.all-products thead tr {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}*/
 
 .order-products table.all-products thead tr th {
     padding: 15px;
@@ -8291,10 +8311,6 @@ table.all-products td {
     padding: 0;
 }
 
-.order-detail-sec .order-products table.all-products {
-    display: table;
-    width: 100%;
-}
 
 .order-detail-sec .order-products table.all-products thead {
     background: #fff;
@@ -8307,12 +8323,12 @@ table.all-products td {
 .order-detail-sec .totl-pay{
    border-top: 1px dashed #fff;
 }
-.order-detail-sec .lft-content {
+/*.order-detail-sec .lft-content {
     width: 100%;
     overflow-x: auto;
     display: block;
     background: rgba(58, 58, 58, 0.1);
-}
+}*/
 .custmer-details {
     background: rgba(58, 58, 58, 0.1);
     margin-bottom: 25px;
@@ -8386,3 +8402,179 @@ table.all-products td {
     color: #6d6968;
     font-size: 14px;
 }
+table.all-products {
+    width: 100%;
+}
+.custmer-details .custmer-info .drk-text{
+  font-weight: 600;
+}
+
+.order-detail-sec .lft-content {
+    margin-bottom: 20px!important;
+}
+/*28june css*/
+
+.edit.editAdressInfo span.edit-icon-span i {
+    color: #6d6968!important;
+}
+
+.edit.editAdressInfo span.edit-icon-span {
+    display: inline-block;
+}
+.order-detail-sec tr.totl td {
+    white-space: nowrap;
+}
+
+.user_dashboard_sec .parent-container .user_address {
+    display: block;
+    width: 100%;
+}
+.user_dashboard_sec .user_address .address {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    height: 100%;
+}
+
+.user_dashboard_sec .user_address .address .address-container {
+    border: 1px solid #2f2f2f;
+    border-radius: 15px;
+    height: 100%;
+    flex: 0 0 30%;
+    padding: 25px 30px;
+}
+
+.user_dashboard_sec .user_address .address .address-container .add-new-address p span {
+    display: block;
+    text-align: center;
+}
+
+.user_dashboard_sec .user_address .address .address-container .add-new-address p span i {
+    font-size: 18px;
+}
+
+.user_dashboard_sec .user_address .address .address-container .address-head {
+    justify-content: space-between;
+}
+
+.user_dashboard_sec .user_address .address .address-container .address-head p.icon-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 0;
+}
+
+.user_dashboard_sec .user_address .address .address-container .address-data-container {
+    display: block;
+    text-align: left;
+}
+
+.user_dashboard_sec .user_address .address .address-container .address-data-container span {
+    display: block;
+}
+
+.user_dashboard_sec .user_address .address .address-container .address-data-container h6 {
+    text-align: left;
+}
+.user_dashboard_sec .user_address .address #AddNewAddress {
+    position: relative;
+}
+
+.user_dashboard_sec .user_address .address #AddNewAddress .add-new-address {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.user_dashboard_sec .user_address .address #AddNewAddress .add-new-address p {
+    margin-bottom: 0;
+}
+.user_dashboard_sec .user_dashboard_content .lft_side {
+    height: 100%!important;
+}
+.user_dashboard_sec .edit_detail span:hover {
+    cursor: pointer;
+}
+
+
+@media only screen and (max-width: 1399px) {
+.order-detail-sec .order-products table.all-products {
+    max-width: 100%!important;
+/*    overflow-x: auto;*/
+    display: inline-block;
+}
+table.all-products td {
+    white-space: wrap;
+}
+table.all-products .product-detl .product-text {
+    max-width: 100%;
+    word-break: break-word;
+}
+}
+@media only screen and (max-width: 1199px) {
+.order-detail-sec .order-detail-content> div {
+    flex-direction: column;
+    gap: 20px;
+}
+.order-detail-sec .order-products table.all-products {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+table.all-products td {
+    white-space: nowrap!important;
+}
+table.all-products .product-detl .product-text {
+    max-width: 100%;
+    word-break: unset!mportant;
+}
+
+
+}
+
+@media only screen and (max-width: 991px) {
+
+.order-detail-sec .order-products table.all-products {
+ display: block;
+}
+.user_dashboard_sec .user_address .address {
+    flex-direction: column;
+}
+.user_dashboard_sec .user_address .address .address-container {
+    width: 100%;
+}
+}
+
+@media only screen and (max-width: 767px) {
+.custmer-details .custmer-info .pymnt-detl {
+    gap: 10px;
+    flex-wrap: wrap;
+}
+}
+
+@media only screen and (max-width: 575px) {
+table.all-products .product-detl .product-img {
+  padding: 10px;
+}
+table.all-products .product-detl .product-text h5 {
+    margin-bottom: 0;
+    font-size: 16px;
+}
+table.all-products .product-detl .product-text p {
+    font-size: 14px;
+}
+.custmer-details .custmer-info p {
+    font-size: 14px;
+}
+.custmer-details .custm-hd-text {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.custmer-details .custmer-info {
+    padding: 10px;
+}
+}
+

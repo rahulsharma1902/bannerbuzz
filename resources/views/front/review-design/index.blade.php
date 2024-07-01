@@ -18,7 +18,7 @@
                             <div class="shop_dt_img_inner">
                                 @if($template->design_method == 'Artwork')
                                     <?php $count = 0; ?>
-                                    @if(!empty(json_decode($template->image,true)))
+                                    @if(!empty(json_decode($template->image,true)) && $template->image != null)
                                         @foreach(json_decode($template->image,true) as $index => $value)
                                             @if($count == 0)
                                                 <img src="{{ asset('designImage/'.$value) }}">
@@ -312,14 +312,16 @@
                                 <div id="response-result" class="@if($template->design_method != 'Artwork') d-none @endif responseResultWrap" >
                                     <div class="custom_radio product_select ">
                                         @if($template->design_method == 'Artwork')
-                                            @foreach(json_decode($template->image,true) as $index => $value)
-                                                <div class="Upload_wrapper image-div d-flex">
-                                                    <div class="img">
-                                                        <img data-design-id="{{ $template->id  }}" src="{{ asset('designImage') }}/{{ $value }}">
+                                            @if($template->image != null && !empty(json_decode($template->image,true)))
+                                                @foreach(json_decode($template->image,true) as $index => $value)
+                                                    <div class="Upload_wrapper image-div d-flex">
+                                                        <div class="img">
+                                                            <img data-design-id="{{ $template->id  }}" src="{{ asset('designImage') }}/{{ $value }}">
+                                                        </div>
+                                                        <span data-design-id="{{ $template->id  }}"  data-img-index="{{$index}}" onclick="removeImage(this)" class="remove-image">X</span>
                                                     </div>
-                                                    <span data-design-id="{{ $template->id  }}"  data-img-index="{{$index}}" onclick="removeImage(this)" class="remove-image">X</span>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            @endif
                                         @endif
                                         <label class="label-wrap" for="featured-1">
                                             <div class="Upload_wrapper uploadIconWrap">

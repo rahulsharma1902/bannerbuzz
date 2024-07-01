@@ -153,7 +153,7 @@ class CheckoutController extends Controller
         $paymentdata['payment_method'] = $order_details->payment_method;
         $paymentdata['user_email'] = $request->confirmation_email;
         $paymentdata['basket_ids'] = $basket_ids;
-        // $paymentdata['payment_method'] = $order_details->payment_method;
+        // $paymentdata['confirmation_email'] = $request->payment_method;
 
         if($request->payment_method == 'stripe'){
 
@@ -198,7 +198,8 @@ class CheckoutController extends Controller
                     $payment_data->save();
 
                     $order = Order::find($order_details->id);
-                    $order->status = $paymentObj->status;
+                    $order->order_status = $paymentObj->status;
+                    $order->status = true;
                     $order->save();
 
                     $confirmation_email = $request->confirmation_email;
@@ -332,9 +333,11 @@ class CheckoutController extends Controller
                 // Update the order status
                 $order = Order::find($responseData->order_id);
                 if ($order) {
-                    $order->status = 'completed';
+                    $order->order_status = $response['status'];
+                    $order->status = true;
                     $order->save();
                 }
+                $mail_data = $this->SendOrderMail($payment_data->id,$order->order_number,$responseData['user_email']);
                 return redirect('/order-received/'.$order->order_number)->with('success','payment success');
             } else {
                 return redirect('checkout')->with('error', 'Payment failed');
@@ -475,10 +478,10 @@ class CheckoutController extends Controller
                                 $var_price[] = $data->price;
                             }
                         }
-
+                        $without_qty_price = round($product_price + array_sum( $var_price));
                         $total_price = round(($product_price + array_sum( $var_price)) * $basket->qty);
 
-                        $userOrderDesign->price = $product_price;
+                        $userOrderDesign->price = $without_qty_price;
                         $userOrderDesign->total_price = $total_price;
 
                     } else {
@@ -514,9 +517,10 @@ class CheckoutController extends Controller
                             }
                         }
 
+                        $without_qty_price = round($product_price + array_sum( $var_price));
                         $total_price = round(($product_price + array_sum( $var_price)) * $basket->qty);
 
-                        $userOrderDesign->price = $product_price;
+                        $userOrderDesign->price = $without_qty_price;
                         $userOrderDesign->total_price = $total_price;
                     }
 
@@ -542,7 +546,7 @@ class CheckoutController extends Controller
         // dd($order_num);
         
         $order = Order::where('order_number',$order_num)->first();
-        
+        $isHireDesigner = false;
         if($order){
             $order_data = json_decode($order->user_order_data);
             foreach($order_data as $id){
@@ -552,8 +556,6 @@ class CheckoutController extends Controller
                 if($design_method ?? ''){
                     if($design_method == 'hireDesigner'){
                         $isHireDesigner = true;
-                    }else{
-                        $isHireDesigner = false;
                     }
                 }
             }
