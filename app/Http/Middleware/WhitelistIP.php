@@ -15,6 +15,7 @@ class WhitelistIP
         '2401:4900:1c2b:4d9e:e1d7:13a:c279:c63b',   // designer shiwani
         '2401:4900:1c2b:4d9e:8c1d:a5d5:fff4:d9d2',  // developer shiwani
         '2401:4900:1c2b:4d9e:ab62:1075:5fd8:244b',   // rahul sir
+        '127.0.0.1',
         // // '2401:4900:1c2b:5887:1e2:3ebb:c29d:e1c7',
         // // '51.7.219.99',
         // '2401:4900:1c2b:573b:efd:d6b9:3a07:716c',
