@@ -11,11 +11,11 @@
                         <h1>Hey there, {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h1>
                         <p class="subItile"><a href="#">{{ auth()->user()->email ?? '' }}</a> | <a href="{{ route('logout') }}" class="lg_out">Log out</a></p>
                     </div>
-                    @if(session('success'))
+                    <!-- @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
-                    @endif
+                    @endif -->
                 </div>
                 <div class="edit_detail">
                     <span>Edit</span>
@@ -45,10 +45,10 @@
                                 @foreach($addresses as $key => $userAddress)
                                     <div class="address-container">
                                         <div class="address-head d-flex ">
-                                        <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
+                                            <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
                                             <p class="icon-container">
                                                 <span class="edit-icon edit_btn" data-id="{{ $userAddress->id }}"  ><i class="fa-solid fa-pen"></i></span>
-                                                <span class="remove-icon delete_btn" ><i class="fa-solid fa-xmark"></i></span>
+                                                <span class="remove-icon delete_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-xmark"></i></span>
                                             </p>
                                         </div>
                                         <div class="address-data-container">
@@ -74,7 +74,7 @@
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                     <div class="profile_edit">
                                         <div class="formGroupBox frmgrp">
-                                            <input type="hidden" id="id" name="id" value="" class="user_id" >
+                                            <input type="hidden" id="id" name="id" value="">
                                             <div class="formGroup">
                                                 <label for="">First Name*</label>
                                                 <input type="text" class="form-control" id="first_name" name="first_name" value=""  />
@@ -231,47 +231,47 @@
             $('#user_address_div').show();
             $('#user_address_form').hide();            // Hide the form
         });
-        
-    $('.edit_btn').on('click',function(){
-        $('#user_address_form').show();  
-        $('#user_address_div').hide();
-        let userId = $(this).data('id');
-        // console.log(userId);
-         $.ajax({
-            url: '{{route('user.view.detail')}}', 
-             type: 'GET', 
-             data: {
-                 id: userId,
-                 _token: '{{ csrf_token() }}'  
-             },
-             success: function(response) {
-                 console.log(response);
-                 var userAddress = response.userAddresses;
-                $('#id').val(userAddress.id);
-                $('#first_name').val(userAddress.first_name);
-                $('#last_name').val(userAddress.last_name);
-                $('#email').val(userAddress.email);
-                $('#company_name').val(userAddress.company_name);
-                $('#phone_number').val(userAddress.phone_number);
-                $('#address').val(userAddress.address);
-                $('#additional_address').val(userAddress.additional_address);
-                $('#zip_code').val(userAddress.zip_code);
-                $('#city').val(userAddress.city);
-                $('#state').val(userAddress.state);
-                $('#country').val(userAddress.country); 
-            },
-             error: function(xhr, status, error) {
-                 console.error(xhr.responseText);
-            }
-         });   
-    });
-    $('.btn_back').on('click',function(){
-        console.log('check bck btn');
-        $(this).closest('.profile_edit').find('input[name="id"]').val('');
-    });
+        $('.edit_btn').on('click',function(){
+            $('#user_address_form').show();  
+            $('#user_address_div').hide();
+            let userId = $(this).data('id');
+            // console.log(userId);
+            $.ajax({
+                url: '{{route('user.view.detail')}}', 
+                type: 'GET', 
+                data: {
+                    id: userId,
+                    _token: '{{ csrf_token() }}'  
+                },
+                success: function(response) {
+                    console.log(response);
+                    var userAddress = response.userAddresses;
+                    $('#id').val(userAddress.id);
+                    $('#first_name').val(userAddress.first_name);
+                    $('#last_name').val(userAddress.last_name);
+                    $('#email').val(userAddress.email);
+                    $('#company_name').val(userAddress.company_name);
+                    $('#phone_number').val(userAddress.phone_number);
+                    $('#address').val(userAddress.address);
+                    $('#additional_address').val(userAddress.additional_address);
+                    $('#zip_code').val(userAddress.zip_code);
+                    $('#city').val(userAddress.city);
+                    $('#state').val(userAddress.state);
+                    $('#country').val(userAddress.country); 
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });   
+        });
+        $('.btn_back').on('click', function() {
+            $(this).closest('#user_address_form').find('input[name="id"]').val('');
+        });
        $('.delete_btn').on('click',function(){
 
-        var userId = $(this).closest('.parent-container').find('input[name="id"]').val();
+        var userId = $(this).data('id');
+        // var userId = $(this).closest('.parent-container').find('input[name="id"]').val();
+        console.log(userId);
         if (confirm('Are you sure you want to delete this address?')) {
 
         $.ajax({
@@ -282,13 +282,8 @@
                     _token: '{{ csrf_token() }}' 
                 },
                 success: function(response) {
-                
-                    // $('#id' + userId).remove();
-                    alert('Address deleted successfully.');
-                    //   $('#overlay').show();
-                  
+                    alert('Address deleted successfully.');   
                     window.location.href = '/user-dashboard/address';
-                    // $('#user_address_form').show(); 
                 },
                 error: function(xhr, status, error) {
                     alert('Error deleting address. Please try again.');
@@ -298,7 +293,22 @@
           };
        });
     });
+
     // $('#overlay').show();
 </script>
-
+    @if(Session::has('success'))
+        <script>
+            iziToast.success({
+                message: '{{ Session::get("success") }}',
+                position: 'topRight'
+            });
+        </script>
+    @elseif(Session::has('error'))  
+        <script>
+            iziToast.error({
+                message: '{{ Session::get("success") }}',
+                position: 'topRight'
+            });
+        </script>  
+    @endif
 @endsection

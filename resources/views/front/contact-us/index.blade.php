@@ -141,7 +141,7 @@
         </div>
     </div>
 </section>
-<section class="get_in_sec">
+<section class="get_in_sec contact-us-container">
     <div class="container">
         <div class="get-in-content">
             <div class="row">

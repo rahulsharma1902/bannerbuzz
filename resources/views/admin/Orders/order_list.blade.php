@@ -1,5 +1,7 @@
 @extends('admin_layout.master')
 @section('content')
+
+<?php $order_state = array("Order Placed"=>"placed", "Packed"=>"packed", "Shipping"=>"shipping", "Out For Delivery"=>"out","Delivered"=>"delivered","Pending"=>"pending"); ?>
     <div class="nk-block nk-block-lg">
         <div class="nk-block-head d-flex justify-content-between">
             <div class="nk-block-head-content">
@@ -15,7 +17,7 @@
                             <th class="nk-tb-col"><span class="sub-text">Order Date</span></th>
                             <th class="nk-tb-col"><span class="sub-text">Amount</span></th> 
                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Order Status</span></th>
-                            <th class="nk-tb-col"></th> 
+                            <th class="nk-tb-col">Order State</th> 
                             <th class="tb-tnx-action">
                                 <span>Action</span>
                             </th>
@@ -44,13 +46,26 @@
 
                                 <td class="nk-tb-col tb-col-md">
                                     @if($order->order_status != 'succeeded' && $order->order_status != 'completed')
-                                        <span class="adge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
+                                        <span class="badge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
                                     @else
                                         <span class="badge badge-dot bg-success">Completed</span>
                                     @endif
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
-                                    <a id="{{ $order->billing_address_id }}">Change</a>
+                                    <!-- <label class="form-label">Change</label> -->
+                                    <div class="form-control-wrap">
+                                        <select class="form-select change_state" id="select_state" data-id="{{ $order->id ?? '' }}">
+                                            @if(isset($order_state))
+                                                @foreach($order_state as $key=>$value)
+                                                    @if($order->order_state === $value)
+                                                    <option value="{{ $order->order_state }}" selected>{{ $key }}</option>
+                                                    @else
+                                                    <option value="{{ $value }}">{{ $key }}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
                                 </td>
                                 <td class="nk-tb-col nk-tb-col-tools">
                                     <ul class="nk-tb-actions gx-1">
@@ -78,4 +93,29 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        $(document).ready(function(){
+            $(".change_state").change(function(){
+                var data={
+                    order_id: $(this).attr('data-id'),
+                    order_state: $(this).val(),
+                    _token: "{{ csrf_token() }}",
+                }
+                $.ajax({
+                    url: "{{ url('admin-dashboard/order/state') }}",
+                    type: "post",
+                    data: data,
+                    dataType: "json",
+                    success: function(response){
+                        if(response.success === true){
+                            NioApp.Toast('Order state is changed', 'info', { position: 'top-right'});
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection

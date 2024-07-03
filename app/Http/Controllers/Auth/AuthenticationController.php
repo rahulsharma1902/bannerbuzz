@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\DesignTemplate;
 use App\Models\Basket;
 use Session;
+use Laravel\Socialite\Facades\Socialite;
 // use App\Mail\UserRegisterMail;
 // use App\Mail\ForgottenPassword;
 use Mail;
@@ -103,9 +104,11 @@ class AuthenticationController extends Controller
         // return redirect('/')->with('success','Your account is created successfully');
         
     }
-    public function forgetPassword(){
+    public function forgetPassword()
+    {
         return view('authentication.forgottenpassword');
     }
+
     public function forgetPasswordSubmit(Request $request){
         $request->validate([
             'username' => 'required'
@@ -163,6 +166,65 @@ class AuthenticationController extends Controller
             return true;
         }
        
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleRedirect()
+    {
+        try {
+            $googleuser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Google authentication failed.');
+        }
+        $existingUser = User::where('email', $googleuser->email)->first();
+
+        if ($existingUser) {
+            Auth::login($existingUser);
+        } else {
+
+            $unique_user_name = $googleuser->name;
+            $count = 1;
+            while (User::where('user_name', $unique_user_name)->exists()) {
+                $unique_user_name =  $googleuser->name.++$count;
+            }
+
+            // $newUser = User::create([
+            //     'user_name' => $unique_user_name,
+            //     'first_name' => 'test',
+            //     'last_name' => 'user',
+            //     'email' => $googleuser->email,
+            //     'number' => null,
+            //     'is_admin' => 0,
+            //     'password' => Hash::make($googleuser->email),
+
+            // ]);
+
+            $newUser = new User();
+            $newUser->user_name =$unique_user_name;
+            $newUser->first_name = $unique_user_name;
+            // $newUser->last_name = 'user';
+            $newUser->email =$googleuser->email;
+            // $newUser->number =12321312312;
+            $newUser->password = Hash::make($googleuser->email);
+            $newUser->save();
+
+            Auth::login($newUser);
+
+        }
+
+        if(Auth::user()->is_admin == 1){
+            return redirect('/admin-dashboard')->with('success','Successfully loggedin! Welcome Come Admin');
+        }elseif(Auth::user()->is_admin == 0){
+            // $changeID =  $this->convertTemporaryIdToUserId();
+           
+            return redirect('/')->with('success','Successfully loggedin');
+        } else {
+            abort(404);
+        }
     }
     
 }

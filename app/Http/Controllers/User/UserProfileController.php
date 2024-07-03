@@ -21,6 +21,7 @@ class UserProfileController extends Controller
     }
     public function updateProfile(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'first_name' =>'required',
             'last_name' =>'required',
@@ -32,14 +33,10 @@ class UserProfileController extends Controller
         $userData->last_name = $request->last_name;
         $userData->number = $request->phone;
 
-        if(isset($request->otp)){
-            $otp_verification = OtpVerification::where('otp',$request->otp)->first();
+        if(isset($request->verified_otp)){
+            $otp_verification = OtpVerification::where('otp',$request->verified_otp)->first();
             if($otp_verification){
-                $expire_time = $otpVerfication->expires_at;
-                $current_time = Carbon::now();
-                $current_time = $current_time->toDateTimeString();
-                
-                if($expire_time > $current_time){
+                if(isset($request->email)){
                     $userData->email = $request->email;
                 }
             }
@@ -202,29 +199,20 @@ class UserProfileController extends Controller
     }
     public function deleteAddress(Request $request){
 
-        // dd($request->id);
         $address = UserBilling::find($request->id);
         if (!$address) {
             return response()->json(['error' => 'Address not found.'], 404);
         }
         $address->delete();
 
-        return response()->json(['message' => 'Address deleted successfully.']);
+        return response()->json(['success' => 'Address deleted successfully.']);
     }
     public function viewUserAddress(Request $request){
 
-        // dd($request->all());
         $userAddresses = UserBilling::find($request->id);
 
-
-        // if (!$userAddresses->isEmpty()) {
-        //     return view('user_dashboard.address.address', compact('userAddresses'));
-        // } else {
-        //     return redirect()->back()->with('error', 'User addresses not found.');
-        // }
         if(!$userAddresses){
-            return response()->json
-            (['error' => 'user not found']);
+            return response()->json(['error' => 'user not found']);
         }else{
             return response()->json(['userAddresses'=>$userAddresses]);
         }

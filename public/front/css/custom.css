@@ -564,8 +564,19 @@ table.record-table tbody {
     border-top: none;
 }
 
+.user_dashboard_sec .profl_tabs ul {
+    margin-bottom: 35px!important;
+}
+.user_dashboard_sec .btnSet p#backButton{
+    padding-right: 0;
+}
 
-
+.user_dashboard_sec .btnSet p#backButton:hover {
+    color: #909090;
+}
+.user_dashboard_sec .btnSet p#backButton:hover span.lft_icn{
+      color: #909090;
+}
 
 /*Responsive css starts here*/
 
@@ -776,7 +787,7 @@ table.record-table tbody {
     margin: 40px 0px;
 }
 .user_dashboard_sec .profl_tabs ul {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 .btnSet button {
     padding: 18px 90px;
@@ -936,7 +947,7 @@ table.record-table tbody {
     margin-top: 20px;
 }
 .btnSet button {
-    padding: 15px 65px;
+    padding: 15px 50px;
 }
 .user_dashboard_sec .user_dashboard_content .lft_side {
     padding: 30px 0px;
@@ -944,3 +955,16 @@ table.record-table tbody {
 }
 }
 
+.profl_tabs.addres_tabs #user_address_form {
+    width: 100%;
+}
+.user_dashboard_sec .profl_tabs .profile_edit {
+    max-width: 100%!important;
+}
+
+.user_dashboard_sec .edit_detail {
+    gap: 3px;
+}
+.user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
+    color: #6d6968;
+}

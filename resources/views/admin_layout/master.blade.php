@@ -270,6 +270,10 @@
                                                 class="nk-menu-link"><span class="nk-menu-text">About-us
                                                     Content</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/site-meta') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Site Key Setting</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">

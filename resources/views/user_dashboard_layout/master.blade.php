@@ -29,8 +29,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" />
 
     <!-- Toaster -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+<!-- Include iziToast CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+
+    <!-- Include iziToast JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
     <!-- end toaster -->
 
     {{-- jquery CDN --}}

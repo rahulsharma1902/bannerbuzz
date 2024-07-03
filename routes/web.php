@@ -52,6 +52,8 @@ Route::get('login', [AuthenticationController::class, 'index'])->name('login')->
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
 Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
+Route::get('google/redirect', [AuthenticationController::class, 'googleRedirect']);
+Route::get('google/login', [AuthenticationController::class, 'redirectToGoogle'])->name('login_google');
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 Route::get('/what-is-my-ip', function(){ return request()->ip();});
@@ -194,6 +196,10 @@ Route::group(['middleware' => ['admin']], function () {
     // orders 
     Route::get('admin-dashboard/orders',[AdminDashController::class,'orders'])->name('orders.list');
     Route::get('admin-dashboard/order/{order_num}',[AdminDashController::class,'orderDetail'])->name('order.detail');   
+    Route::post('admin-dashboard/order/state',[AdminDashController::class,'changeOrderState']);
+
+    Route::get('admin-dashboard/site-meta',[AdminDashController::class,'SiteKey'])->name('site.key');   
+    Route::post('admin-dashboard/site-key-update',[AdminDashController::class,'UpdateKey'])->name('update.key');
 
 });
 
@@ -271,6 +277,8 @@ Route::group(['middleware' => ['auth','check.user']], function () {
     Route::get('/paypal/payment/success',[CheckoutController::class,'paypalPaymentSuccess'])->name('payment.success');
     Route::get('/paypal/payment/fail',[CheckoutController::class,'paypalPaymentfail'])->name('payment.fail');
     Route::get('/order-received/{order_num}',[CheckoutController::class,'OrderReceived'])->name('order.received');
+    Route::get('checkout/address',[CheckoutController::class,'userAddressCheckout'])->name('address.checkout.page');
+    Route::post('checkout/billing/address',[CheckoutController::class,'userBillingAddress']);
 
 
     // userDashboard Routes

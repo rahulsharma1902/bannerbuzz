@@ -10,12 +10,12 @@
                             <div class="card-header">
                                 <div class="order-main-hd">
                                     <h5>Order #{{ $order->order_number }}</h5>
-                                    <!-- <div class="invc-bttn">
-                                        <a href="#" class="btn-ryt">
-                                            <i class="fa-solid fa-download"></i>
-                                            Invoice
+                                    <div class="invc-bttn">
+                                        <a href="{{ url('user-dashboard/orders') }}" class="btn-ryt">
+                                            <i class="fa fa-arrow-left"></i>
+                                            Back
                                         </a>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">

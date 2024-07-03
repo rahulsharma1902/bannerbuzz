@@ -97,7 +97,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{ route('login_google') }}">
                                     <i class="fa-brands fa-google"></i><br />
                                     <span>Google</span>
                                 </a>

@@ -58,6 +58,8 @@ class CheckoutController extends Controller
     }
     public function checkout()
     {
+
+        
         $setup_intent = SetupIntent::create();
         $client_secret = $setup_intent->client_secret;
         
@@ -68,20 +70,31 @@ class CheckoutController extends Controller
             $allbasket = Basket::where('temporary_id',$temp_id)->where('status',0)->get();
         }
 
-        if($allbasket->isNotEmpty()) {
+        if($allbasket->isNotEmpty()) 
+        {   
+            if(Auth::check()){
+                $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
+
+                return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket','addresses'));
+            }
+            // $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
+
             return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket'));
         } else {
             $total = 0;
             return redirect('/checkout/cart');
         }
+
+
     }
 
     public function checkoutProcc(Request $request)
     {
+
         // echo '<pre>';
         // print_r($request->all());
         // die();
-      
+     
         if($request->address != null){
 
             $save_billing_address = $this->SaveBillingAddress($request);
@@ -584,5 +597,78 @@ class CheckoutController extends Controller
         Mail::to($email)->send(new OrderMail($mailData));
 
         return true;
+    }
+    public function userAddressCheckout(Request $request)
+    {
+        $userAddress = UserBilling::find($request->id);
+        if(!$userAddress){
+            return response()->json(['error'=>'user not found'],404);
+        }else{
+            return response()->json(['userAddress'=> $userAddress],200);
+        }
+        
+    }
+    public function userBillingAddress(Request $request)
+    {
+        if($request->address['id'] != null) {
+        try {
+            
+            $userAddress = UserBilling::find($request->address['id']);
+            $userAddress->user_id = Auth::user()->id;
+            $userAddress->first_name = $request->input('address.first_name');
+            $userAddress->last_name = $request->input('address.last_name');
+            $userAddress->email = $request->input('address.email');
+            $userAddress->company_name = $request->input('address.company_name');
+            $userAddress->phone_number = $request->input('address.phone');
+            $userAddress->address = $request->input('address.address_line');
+            $userAddress->additional_address = $request->input('address.street');
+            $userAddress->zip_code = $request->input('address.zip_code');
+            $userAddress->city = $request->input('address.city');
+            $userAddress->state = $request->input('address.state');
+            $userAddress->country = $request->input('address.country');
+            $userAddress->save();
+            return response()->json(['success' => 'User address Update successfully'], 200);
+        } catch (Execption $e) {
+            return response()->json(['error' => 'something went wrong'], 404);
+        }
+    } else {
+        $request->validate([
+            'address.first_name' => 'required',
+            'address.last_name' => 'required',
+            'address.email' => 'required',
+            // 'company_name' => 'required',
+            'address.phone' => 'required',
+            'address.address_line' => 'required',
+            'address.street' => 'required',
+            'address.zip_code' => 'required',
+            'address.city' => 'required',
+            'address.state' => 'required',
+            'address.country' => 'required',
+        ]);
+        try {
+            $user_id   = auth()->user()->id;
+        
+            $userAddress = new UserBilling();
+            $userAddress->user_id = $user_id;
+            $userAddress->first_name = $request->input('address.first_name');
+            $userAddress->last_name = $request->input('address.last_name');
+            $userAddress->email = $request->input('address.email');
+            $userAddress->company_name = $request->input('address.company_name');
+            $userAddress->phone_number = $request->input('address.phone');
+            $userAddress->address = $request->input('address.address_line');
+            $userAddress->additional_address = $request->input('address.street');
+            $userAddress->zip_code = $request->input('address.zip_code');
+            $userAddress->city = $request->input('address.city');
+            $userAddress->state = $request->input('address.state');
+            $userAddress->country = $request->input('address.country');
+            $userAddress->save();
+    
+            return response()->json(['message' => 'Address saved successfully'], 200);
+        } catch (Execption $e) {
+            return response()->json(['error' => 'something went wrong'], 404);
+        }
+    }
+
+
     }
 }

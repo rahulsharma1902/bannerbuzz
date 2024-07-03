@@ -1,6 +1,6 @@
 @extends('front_layout.master')
 @section('content')
-    <section class="banner-sec">
+    <section class="banner-sec customBanner">
         <div class="container">
             <div class="banner-content">
                 <div class="banner-head">
@@ -41,7 +41,7 @@
         </div>
     </section>
 
-    <section class="vinyl_wrapper">
+    <section class="vinyl_wrapper customContainer">
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">

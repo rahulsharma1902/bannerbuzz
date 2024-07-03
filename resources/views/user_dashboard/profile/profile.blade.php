@@ -39,6 +39,7 @@
                     <form action="{{route('user.profile.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{ auth()->user()->id }}">
+                        <input type="hidden" name="verified_otp" value="">
                         <div class="profile_edit">
                             <div class="formGroupBox frmgrp">
                                 <div class="formGroup">
@@ -81,7 +82,7 @@
                                     <label for="otp" class="ltl_txt">Otp:</label>
                                     <input type="number" class="form-control" id="otp" value="" placeholder="Enter otp" name="otp"/>
                                 </div>
-                                <div class="btnSet">
+                                <div class="btnSet" id="ver-btn">
                                     <button type="button" id="verify_btn" onclick="verifyOtp()" class="btn sml_text">Verify</button>
                                 </div>
                                 <div id="myTimer"></div>
@@ -145,7 +146,6 @@
 
         $('#change_email').on('change',function(){
             if ($(this).is(':checked')) {
-                $('#otp_div').show();
                 $('#email_input').prop('disabled', false); // Enable email input
                 $('#email_input').focus();
                 var data = {
@@ -163,6 +163,7 @@
                                 message: 'Please check your gmail for verification code',
                                 position: 'topRight' 
                             });
+                            $('#otp_div').show();
                             countdown();
                         }
                     }
@@ -187,11 +188,8 @@
             setTimeout(countdown,1000);
         }else{
             $('#myTimer').html('');
-            // $('#otp_div').hide();
         }
     }
-
-    // countdown();
 
     function verifyOtp(){
         // console.log('ghhjhujhu');
@@ -208,15 +206,21 @@
                 data: data,
                 dataType: "json",
                 success: function(response){
-                    // $('#otp_div').hide();
                     if(response.code == '200'){
                         $('#email_input').prop('disabled', false);
+                        $('#ver-btn').hide();
+                        $('#otp').prop('disabled', true);
+                        $('input[name="verified_otp"]').val(otp);
+                        $('#myTimer').hide();
                         iziToast.success({
                             message: response.success,
                             position: 'topRight' 
                         });
                     }else if(response.code == '500'){
                         $('#email_input').prop('disabled', true);
+                        $('#ver-btn').hide();
+                        $('#otp').prop('disabled', true);
+                        $('#myTimer').hide();
                         iziToast.error({
                             message: response.error,
                             position: 'topRight' 

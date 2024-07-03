@@ -29,6 +29,7 @@ return new class extends Migration
             $table->json('basket_data')->nullable(); 
             $table->string('order_status')->default('pending');
             $table->string('status')->default('false'); 
+            $table->enum('order_state', ['placed', 'packed','shipping','out','delivered','pending'])->nullable()->default('placed');
             $table->timestamps();
         });
     }

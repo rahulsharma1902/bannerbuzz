@@ -3301,8 +3301,10 @@ li.new_loginup ul.dropDown.popupLogin a {
 }
 
 li.new_loginup ul.dropDown.popupLogin p {
-  color: #000;
-  white-space: nowrap;
+    color: #000;
+    white-space: normal;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 li.new_loginup ul.dropDown.popupLogin span i {
@@ -6860,6 +6862,9 @@ body.loading {
 .bodyMainWrap header .search_wrapper i {
   color: #6d6968;
 }
+.bodyMainWrap header .search_wrapper i:hover {
+    cursor: pointer;
+}
 
 .bodyMainWrap header .free-exp>ul:nth-child(2) li:first-child {
   display: flex;
@@ -8027,15 +8032,21 @@ body.loading {
 }
 
 
-.cartItemsBox .miniCartGridBox {
+/*.cartItemsBox .miniCartGridBox {
     height: 122px;
     padding: 5px;
-}
+}*/
 
 .cartItemsBox .miniCartGridBox .dataTableMain {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+.cart-preview-dropdown .buttonSet .cartSubTotal {
+    /* background: none; */
+    margin-top: 5px;
+    margin-bottom: 15px;
+    margin-right: 0px;
 }
 
 @media only screen and (max-width: 1599px) {
@@ -8430,18 +8441,16 @@ table.all-products {
     width: 100%;
 }
 .user_dashboard_sec .user_address .address {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
     gap: 30px;
-    height: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-column-gap: 30px;
 }
 
 .user_dashboard_sec .user_address .address .address-container {
     border: 1px solid #2f2f2f;
     border-radius: 15px;
     height: 100%;
-    flex: 0 0 30%;
     padding: 25px 30px;
 }
 
@@ -8499,6 +8508,64 @@ table.all-products {
     cursor: pointer;
 }
 
+.profl_tabs.addres_tabs #user_address_form {
+    width: 100%;
+}
+header .search_wrapper .search_block form.srch_txt {
+    gap: 10px;
+}
+header .search_block .form-control {
+    display: block;
+    padding: 5px;
+    font-size: 14px;
+}
+.vinyl_wrapper nav.breadcrumb_wreap {
+    margin-bottom: 20px;
+}
+.search-container .shop_wrapper.col-lg-12.p_100 {
+    padding-top: 0!important;
+}
+
+.shop_dt_cst form .shop_dt_size {
+    align-items: baseline;
+}
+
+.inquiry-form textarea.form-control {
+    background: transparent;
+    border: 1px solid #6d6968;
+    color: #6d6968;
+}
+
+.inquiry-form select#country {
+    background: transparent;
+    border: 1px solid #6d6968;
+    color: #6d6968;
+}
+
+.get_in_sec.contact-us-container .get-lft-info h1 {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 50px;
+    color: #6d6968;
+}
+
+
+.get_in_sec.contact-us-container .get-lft-info .get-lnks p a {
+    color: #6d6968;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.get_in_sec.contact-us-container .get-in-content {
+    padding: 50px 60px!important;
+}
+.inquiry_sec .inquiry_content .inquiry-form .form_rw div#v-pills-tabContent {
+    border-left: none;
+}
+
 
 @media only screen and (max-width: 1399px) {
 .order-detail-sec .order-products table.all-products {
@@ -8513,7 +8580,18 @@ table.all-products .product-detl .product-text {
     max-width: 100%;
     word-break: break-word;
 }
+header .search_block .form-control {
+    padding: 0px;
 }
+.vinyl_wrapper {
+    padding: 60px 0;
+}
+.banner-sec .banner-content {
+    padding: 50px 0px;
+    padding-bottom: 0;
+}
+}
+
 @media only screen and (max-width: 1199px) {
 .order-detail-sec .order-detail-content> div {
     flex-direction: column;
@@ -8543,8 +8621,8 @@ table.all-products .product-detl .product-text {
 .user_dashboard_sec .user_address .address {
     flex-direction: column;
 }
-.user_dashboard_sec .user_address .address .address-container {
-    width: 100%;
+.vinyl_wrapper {
+    padding: 50px 0;
 }
 }
 
@@ -8576,5 +8654,14 @@ table.all-products .product-detl .product-text p {
 .custmer-details .custmer-info {
     padding: 10px;
 }
+.user_dashboard_sec .user_address .address .address-container {
+    width: 100%;
+}
+.shop_rtl {
+    grid-template-columns: repeat(1, 1fr)!important;
+  }
+/*  .busines_slider2 .card .busines_img img, .busines_slider .card .busines_img img {
+    max-width: 100%;
+}*/
 }
 

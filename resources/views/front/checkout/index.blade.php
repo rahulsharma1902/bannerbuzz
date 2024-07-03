@@ -36,7 +36,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="cart-content">
+            <div class="cart-content" id="user_address_checkout" >
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="checkout-form">
@@ -80,49 +80,49 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="check-ship shippingAddresWrap">
+                                        <div class="check-ship shippingAddresWrap" @if(isset($addresses) && $addresses->isNotEmpty()) style="display:none;" @endif>
                                             <h5>Shipping Address</h5>
                                             <div class="checkout-block">
                                                 <div class="row checkoutFormWrap">
                                                     <div class="row checkoutFormWrap" id="shipping_details">
-                                                        <input type="hidden" name="address[id]" value="{{ auth()->user()->userMeta->id ?? '' }}" >
+                                                        <input type="hidden" name="address[id]" class="id user_id" value="" >
                                                         <div class="col-md-6">
-                                                            <input type="text" class="form-control"
-                                                                placeholder="First Name" name="address[first_name]" value="{{ auth()->user()->userMeta->first_name ?? '' }}" id="first_name" data-required="required">
+                                                            <input type="text" class="form-control first_name"
+                                                                placeholder="First Name" name="address[first_name]" value="" id="first_name" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="first_name"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <input type="text" class="form-control" placeholder="Last Name" name="address[last_name]" id="last_name" value="{{ auth()->user()->userMeta->last_name ?? '' }}" data-required="required">
+                                                            <input type="text" class="form-control last_name" placeholder="Last Name" name="address[last_name]" id="last_name" value="" data-required="required">
                                                             <span class="text-danger validation_error" error-for="last_name"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <input type="number" class="form-control phnNumberCng"
-                                                                placeholder="Phone Number" data-to="phnNumberData"  name="address[phone]" id="phone"  value="{{ auth()->user()->userMeta->phone_number ?? '' }}" data-required="required">
+                                                            <input type="number" class="form-control phnNumberCng phone_number"
+                                                                placeholder="Phone Number" data-to="phnNumberData"  name="address[phone]" id="phone"  value="" data-required="required">
                                                             <span class="text-danger validation_error" error-for="phone"></span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <input type="email" class="form-control"
-                                                                placeholder="Email Address" data-to="mailAddrData" name="address[email]" id="email" value="{{ auth()->user()->userMeta->email ?? '' }}"  data-required="required">
+                                                            <input type="email" class="form-control email"
+                                                                placeholder="Email Address" data-to="mailAddrData" name="address[email]" id="email" value=""  data-required="required">
                                                             <span class="text-danger validation_error" error-for="email"></span>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Company Name"  name="address[company_name]" id="company_name" value="{{ auth()->user()->userMeta->company_name ?? ''}}" data-required="required">
+                                                            <input type="text" class="form-control company_name"
+                                                                placeholder="Company Name"  name="address[company_name]" id="company_name" value="" data-required="required">
                                                             <span class="text-danger validation_error" error-for="company_name"></span>
                                                         </div>
                                                         <div class="col-md-12">
                                                     
-                                                            <input type="text" class="form-control"
-                                                                placeholder="Address Line" data-to="addressData" value="{{ auth()->user()->userMeta->address ?? ''}}" name="address[address_line]" id="address_line" data-required="required"> 
+                                                            <input type="text" class="form-control address"
+                                                                placeholder="Address Line" data-to="addressData" value="" name="address[address_line]" id="address_line" data-required="required"> 
                                                             <span class="text-danger validation_error" error-for="address_line"></span>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <input type="text" class="form-control" id="street_addr"
-                                                                placeholder="Street/Road" name="address[street]" value="{{ auth()->user()->userMeta->additional_address ?? '' }}" data-required="required">
+                                                            <input type="text" class="form-control additional_address" id="street_addr"
+                                                                placeholder="Street/Road" name="address[street]" value="" data-required="required">
                                                             <span class="text-danger validation_error" error-for="street"></span>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control" data-to="cityData" placeholder="City" value="{{ auth()->user()->userMeta->city ?? '' }}" name="address[city]" id="city" data-required="required">
+                                                            <input type="text" class="form-control city" data-to="cityData" placeholder="City" value="" name="address[city]" id="city" data-required="required">
                                                             <span class="text-danger validation_error" error-for="city"></span>
                                                         </div>
                                                         <!-- <div class="col-md-4">
@@ -133,16 +133,16 @@
                                                             </select>
                                                         </div> -->
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control" data-to="stateData" value="{{ auth()->user()->userMeta->state ?? '' }}" placeholder="State" name="address[state]" id="state" data-required="required">
+                                                            <input type="text" class="form-control state" data-to="stateData" value="" placeholder="State" name="address[state]" id="state" data-required="required">
                                                             <span class="text-danger validation_error" error-for="state"></span>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control" data-to="zipCodeData" value="{{ auth()->user()->userMeta->zip_code ?? '' }}" placeholder="Zip Code" name="address[zip_code]" id="zip_code" data-required="required">
+                                                            <input type="text" class="form-control zip_code" data-to="zipCodeData" value="" placeholder="Zip Code" name="address[zip_code]" id="zip_code" data-required="required">
                                                             <span class="text-danger validation_error" error-for="zip_code"></span>
                                                         </div>
                                                         <?php  $countries = CountryArray(); ?>
                                                         <div class="col-md-12">
-                                                            <select class="form-control" data-to="countryData" name="address[country]" id="country">
+                                                            <select class="form-control country" data-to="countryData" name="address[country]" id="country">
                                                                 @foreach($countries as $c_code => $c_name)
                                                                     @if(isset(auth()->user()->userMeta->country))
                                                                     <?php $userCountry = auth()->user()->userMeta->country; 
@@ -225,43 +225,43 @@
                                                         </div>
                                                         <div id="additional_billing_address" class="additional_billing_address row checkoutFormWrap" style="display:none;" >
                                                             <div class="col-md-6">
-                                                                <input type="hidden" name="ship_addr[id]" >
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="First Name" name="ship_addr[first_name]" value="{{ auth()->user()->billingAddr->first_name ?? '' }}" id="billing_first_name" data-required="required">
+                                                                <input type="hidden" name="ship_addr[id]" value="" class="id" >
+                                                                <input type="text" class="form-control first_name"
+                                                                    placeholder="First Name" name="ship_addr[first_name]" value=""  data-required="required">
                                                                     <span class="text-danger validation_error" error-for="first_name"></span>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <input type="text" class="form-control" placeholder="Last Name" name="ship_addr[last_name]" id="billing_last_name" value="{{ auth()->user()->billingAddr->last_name ?? '' }}" data-required="required">
+                                                                <input type="text" class="form-control last_name" placeholder="Last Name" name="ship_addr[last_name]"  value="" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="last_name"></span>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <input type="number" class="form-control phnNumberCng"
-                                                                    placeholder="Phone Number" data-to="phnNumberData"  name="ship_addr[phone]" id="billing_phone"  value="{{ auth()->user()->billingAddr->phone_number ?? '' }}" data-required="required">
+                                                                <input type="number" class="form-control phnNumberCng phone_number"
+                                                                    placeholder="Phone Number" data-to="phnNumberData"  name="ship_addr[phone]" id="billing_phone"  value="" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="phone"></span>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <input type="email" class="form-control"
-                                                                    placeholder="Email Address" data-to="mailAddrData" name="ship_addr[email]" id="billing_email" value="{{ auth()->user()->billingAddr->email ?? '' }}"  data-required="required">
+                                                                <input type="email" class="form-control email"
+                                                                    placeholder="Email Address" data-to="mailAddrData" name="ship_addr[email]" id="billing_email" value=""  data-required="required">
                                                                 <span class="text-danger validation_error" error-for="email"></span>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Company Name"  name="ship_addr[company_name]" id="billing_company_name" value="{{ auth()->user()->billingAddr->company_name ?? '' }}" data-required="required">
+                                                                <input type="text" class="form-control company_name"
+                                                                    placeholder="Company Name"  name="ship_addr[company_name]" id="billing_company_name" value="" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="company_name"></span>
                                                             </div>
                                                             <div class="col-md-12">
                                                         
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Address Line" data-to="addressData" value="{{ auth()->user()->billingAddr->address ?? '' }}" name="ship_addr[address_line]" id="billing_address_line" data-required="required"> 
+                                                                <input type="text" class="form-control address"
+                                                                    placeholder="Address Line" data-to="addressData" value="" name="ship_addr[address_line]" id="billing_address_line" data-required="required"> 
                                                                 <span class="text-danger validation_error" error-for="address_line"></span>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" id="billing_street_addr"
-                                                                    placeholder="Street/Road" name="ship_addr[street]" value="{{ auth()->user()->billingAddr->additional_address ?? '' }}" data-required="required">
+                                                                <input type="text" class="form-control additional_address" id="billing_street_addr"
+                                                                    placeholder="Street/Road" name="ship_addr[street]" value="" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="street"></span>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input type="text" class="form-control" data-to="cityData" placeholder="City" value="{{ auth()->user()->billingAddr->city ?? '' }}" name="ship_addr[city]" id="billing_city" data-required="required">
+                                                                <input type="text" class="form-control city" data-to="cityData" placeholder="City" value="" name="ship_addr[city]" id="billing_city" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="city"></span>
                                                             </div>
                                                             <!-- <div class="col-md-4">
@@ -272,16 +272,16 @@
                                                                 </select>
                                                             </div> -->
                                                             <div class="col-md-4">
-                                                                <input type="text" class="form-control" data-to="stateData" value="{{ auth()->user()->billingAddr->state ?? '' }}" placeholder="State" name="ship_addr[state]" id="billing_state" data-required="required">
+                                                                <input type="text" class="form-control state" data-to="stateData" value="" placeholder="State" name="ship_addr[state]" id="billing_state" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="state"></span>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input type="text" class="form-control" data-to="zipCodeData" value="{{ auth()->user()->billingAddr->zip_code ?? '' }}" placeholder="Zip Code" name="ship_addr[zip_code]" id="billing_zip_code" data-required="required">
+                                                                <input type="text" class="form-control zip_code" data-to="zipCodeData" value="" placeholder="Zip Code" name="ship_addr[zip_code]" id="billing_zip_code" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="zip_code"></span>
                                                             </div>
                                                             <?php  $countries = CountryArray(); ?>
                                                             <div class="col-md-12">
-                                                                <select class="form-control" data-to="countryData" name="ship_addr[country]" id="billing_country">
+                                                                <select class="form-control country" data-to="countryData" name="ship_addr[country]" id="billing_country">
                                                                     @foreach($countries as $c_code => $c_name)
                                                                         @if(isset(auth()->user()->billingAddr->country))
                                                                             <?php $user_billing_Country = auth()->user()->billingAddr->country; 
@@ -302,13 +302,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <button id="submitFormBtn" class="btn btn-primary">Submit</button>
                                         </div>
                                         <div class="check_btn">
+                                            <p class="cancel_btn">cancel</p>
                                             <a href="{{ url('/checkout/cart') }}" class="back_button btn light_dark">Back</a>
                                             <!-- <button type="button" disabled class="next_button btn light_dark">Continue</button> -->
                                             <button type="button" class="next_button btn light_dark first_next_btn">Continue</button>
-
-                                        </div>
+                                        </div>                                     
                                     </div>
                                 </div>
                                 <div class="tab d-none">
@@ -513,13 +514,158 @@
                                         <div class="dilv ship-add">
                                             <div class="check_btn">
                                                 <button type="button" class="back_button btn light_dark">Back</button>
-                                                <button type="button" id="final-btn" class="next_button btn light_dark ">Place Your
-                                                    Order</button>
+                                                <button type="button" id="final-btn" class="next_button btn light_dark ">Place Your Order</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            <div id="user_address_div" class="user_address" @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif >
+                                <div class="address">
+                                    @if(isset($addresses) && $addresses->isNotEmpty())
+                                        @foreach($addresses as $key => $userAddress)
+                                            <div class="address-container">
+                                                <div class="address-head d-flex ">
+                                                    <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
+                                                    <p class="icon-container">
+                                                        <span class="edit-icon edit_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
+                                                        <!-- <span class="remove-icon delete_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-xmark"></i></span> -->
+                                                    </p>
+                                                </div>
+                                                <div class="address-data-container">
+                                                <input type="radio" name="address_check" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
+                                                <!-- <input type="checkbox" class="onoffswitch-checkbox" id="inline"  checked>  -->
+                                                    <p> 
+                                                        <span>{{ $userAddress->email }}</span>
+                                                        <span>{{ $userAddress->phone_number }}</span>
+                                                        <span>{{ $userAddress->company_name }}</span>
+                                                        <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
+                                                        <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
+                                                        <span>{{ countryName($userAddress->country) }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="check_user_ship_addre"  @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
+                                <input type="checkbox" id="check_box" name="ship_add" value="address" checked  >
+                                <label for="ad">Use same address for billing</label>
+                                <div id="user_address" class="user_addre"  style="display:none;"  >
+                                    <div class="address">
+                                        @if(isset($addresses) && $addresses->isNotEmpty())
+                                            @foreach($addresses as $key => $userAddress)
+                                                <div class="address-container">
+                                                    <div class="address-head d-flex ">
+                                                        <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
+                                                        <p class="icon-container">
+                                                            <span class="edit-icon edit_btn_billing_address" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
+                                                            <!-- <span class="remove-icon delete_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-xmark"></i></span> -->
+                                                        </p>
+                                                    </div>
+                                                    <div class="address-data-container">
+                                                    <input type="radio" name="imgsel" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
+                                                    <!-- <input type="checkbox" class="onoffswitch-checkbox" id="inline"  checked>  -->
+                                                        <p> 
+                                                            <span>{{ $userAddress->email }}</span>
+                                                            <span>{{ $userAddress->phone_number }}</span>
+                                                            <span>{{ $userAddress->company_name }}</span>
+                                                            <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
+                                                            <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
+                                                            <span>{{ countryName($userAddress->country) }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="additional_billing_address_user" class="additional_billing_address row checkoutFormWrap" style="display:none;" >
+                                <div class="col-md-6">
+                                    <input type="hidden" name="ship_addr[id]" value="" class="id" >
+                                    <input type="text" class="form-control first_name"
+                                        placeholder="First Name" name="ship_addr[first_name]" value=""  data-required="required">
+                                        <span class="text-danger validation_error" error-for="first_name"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control last_name" placeholder="Last Name" name="ship_addr[last_name]"  value="" data-required="required">
+                                    <span class="text-danger validation_error" error-for="last_name"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control phnNumberCng phone_number"
+                                        placeholder="Phone Number" data-to="phnNumberData"  name="ship_addr[phone]" id="billing_phone"  value="" data-required="required">
+                                    <span class="text-danger validation_error" error-for="phone"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control email"
+                                        placeholder="Email Address" data-to="mailAddrData" name="ship_addr[email]" id="billing_email" value=""  data-required="required">
+                                    <span class="text-danger validation_error" error-for="email"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control company_name"
+                                        placeholder="Company Name"  name="ship_addr[company_name]" id="billing_company_name" value="" data-required="required">
+                                    <span class="text-danger validation_error" error-for="company_name"></span>
+                                </div>
+                                <div class="col-md-12">
+                            
+                                    <input type="text" class="form-control address"
+                                        placeholder="Address Line" data-to="addressData" value="" name="ship_addr[address_line]" id="billing_address_line" data-required="required"> 
+                                    <span class="text-danger validation_error" error-for="address_line"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control additional_address" id="billing_street_addr"
+                                        placeholder="Street/Road" name="ship_addr[street]" value="" data-required="required">
+                                    <span class="text-danger validation_error" error-for="street"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control city" data-to="cityData" placeholder="City" value="" name="ship_addr[city]" id="billing_city" data-required="required">
+                                    <span class="text-danger validation_error" error-for="city"></span>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <select class="form-control" name="state" data-to="stateData">
+                                        <option value="">State</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </div> -->
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control state" data-to="stateData" value="" placeholder="State" name="ship_addr[state]" id="billing_state" data-required="required">
+                                    <span class="text-danger validation_error" error-for="state"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control zip_code" data-to="zipCodeData" value="" placeholder="Zip Code" name="ship_addr[zip_code]" id="billing_zip_code" data-required="required">
+                                    <span class="text-danger validation_error" error-for="zip_code"></span>
+                                </div>
+                                <?php  $countries = CountryArray(); ?>
+                                <div class="col-md-12">
+                                    <select class="form-control country" data-to="countryData" name="ship_addr[country]" id="billing_country">
+                                        @foreach($countries as $c_code => $c_name)
+                                            @if(isset(auth()->user()->billingAddr->country))
+                                                <?php $user_billing_Country = auth()->user()->billingAddr->country; 
+                                                    // print_r($userCountry);
+                                                ?>
+                                                @if($user_billing_Country == $c_code)
+                                                    <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}" selected>{{ $c_name ?? '' }}</option>
+                                                @else
+                                                    <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                                @endif
+                                            @else
+                                                <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="AddNewAddress" class="address-container " @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
+                                <div class="add-new-address">
+                                    <p>
+                                        <span class="add-icon" ><i class="fa-solid fa-plus"></i></span>
+                                        <span>Add new address</span>
+                                    </p>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -802,6 +948,7 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
     $(document).ready(function () {
+        $('.cancel_btn').hide();
         // :::::::: Mount Stripe Card ::::::::: //
         const stripe = Stripe("{{ env('STRIPE_KEY') }}");
 
@@ -1341,6 +1488,111 @@
     }
  
 
+</script>
+<script>
+    $(document).ready(function(){
+        // $('.shippingAddresWrap').show();
+        $('.edit_btn').on('click',function(){
+            $('.shippingAddresWrap').show();
+            $('#user_address_div').hide();
+            $('.cancel_btn').show();
+            $('#AddNewAddress').hide();
+            let userId = $(this).data('id');
+
+            $.ajax({
+                url:'{{route('address.checkout.page')}}',
+                type:'GET',
+                data:{id:userId, _token: '{{ csrf_token() }}'},
+                success:function(response){
+         
+                    var userAddress = response.userAddress;
+                    console.log(userAddress);
+                    $('.id').val(userAddress.id);
+                    $('.first_name').val(userAddress.first_name);
+                    $('.last_name').val(userAddress.last_name);
+                    $('.email').val(userAddress.email);
+                    $('.company_name').val(userAddress.company_name);
+                    $('.phone_number').val(userAddress.phone_number);
+                    $('.address').val(userAddress.address);
+                    $('.additional_address').val(userAddress.additional_address);
+                    $('.zip_code').val(userAddress.zip_code);
+                    $('.city').val(userAddress.city);
+                    $('.state').val(userAddress.state);
+                    $('.country').val(userAddress.country);  
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });    
+           
+        });
+    });
+    $('#AddNewAddress').on('click',function(){
+        $('.shippingAddresWrap').show();
+        $('#user_address_div').hide();
+        $('.check_user_ship_addre').hide();
+        $('.cancel_btn').show();
+        $('#user_address_checkout input[type="text"], #user_address_checkout input[type="email"],#user_address_checkout input[type="number"],#user_address_checkout input[type="textarea"]').val('');
+        $('#user_address_checkout select').prop('selectedIndex', 0);
+    });
+
+    $(document).ready(function() {
+        $('#check_box').change(function() {
+            if(!this.checked) {
+                $('#user_address').show();
+            }else{
+                $('#user_address').hide();
+            }    
+        });
+        $('.cancel_btn').on('click',function(){
+            $(this).closest('.ship-wrap').find('.user_id').val('');
+            $('.shippingAddresWrap').hide();
+            $('#user_address_div').show();
+            $('.check_user_ship_addre').show();
+            $('.cancel_btn').hide();
+            $('#AddNewAddress').show();
+        });
+        $('.edit_btn_billing_address').on('click',function(){
+            $('#additional_billing_address_user').show();
+
+        });
+    });
+$(document).ready(function(){
+        $('#submitFormBtn').on('click', function(e) {
+            e.preventDefault(); 
+            var formData = {
+                id:          $('.id').val(),
+                first_name: $('#first_name').val(),
+                last_name: $('#last_name').val(),
+                phone: $('#phone').val(),
+                email: $('#email').val(),
+                company_name: $('#company_name').val(),
+                address_line: $('#address_line').val(),
+                street: $('#street_addr').val(),
+                city: $('#city').val(),
+                state: $('#state').val(),
+                zip_code: $('#zip_code').val(),
+                country: $('#country').val()
+                
+            };
+
+            $.ajax({
+                url: 'checkout/billing/address',
+                type: 'POST',
+                dataType: 'json',
+                data: { address: formData ,_token: '{{ csrf_token() }}'},
+                success: function(response) {
+                    console.log(response);
+                    window.location.href = 'checkout';
+                    // Handle success response here
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    // Handle error response here
+                }
+            });
+        });
+    });
 </script>
 
 @endsection

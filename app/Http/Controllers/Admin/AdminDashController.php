@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Order;
-use App\Models\UserBilling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hash;
@@ -25,22 +24,22 @@ class AdminDashController extends Controller
     //update profile
     public function ProfileUpdateProcc(Request $request)
     {    
-        // $request->validate([
-        //     'user_name'=>'required',
-        //     'email' => 'required|email|unique:users,email,'.Auth::user()->id,
-        //     'phone' => 'required|unique:users,phone,' . Auth::user()->id,
-        // ]);
+        $request->validate([
+            'user_name'=>'required',
+            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+            'number' => 'required|unique:users,number,' . Auth::user()->id,
+        ]);
        
         $user = User::find(Auth::user()->id);
     
         $user->update([
-            'user_name' => $request->name,
+            'user_name' => $request->user_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'number' => $request->number,
         ]);
 
         
-        return redirect()->back()->with('success','profile Updated Successfully');
+        return redirect()->back()->with('success','Your profile has been updated');
     }
 
     public function updatePasswordProcc(Request $request)
@@ -83,8 +82,77 @@ class AdminDashController extends Controller
         return view('admin.Orders.order_detail',compact('order'));
     }
 
-    public function($id){
-        $user_billing = UserBilling::find($id);
-        dd($user_billing);
+    public function changeOrderState(Request $request){
+        if(isset($request->order_id)){
+            $order = Order::find($request->order_id);
+            if(isset($request->order_state)){
+                $order->order_state = $request->order_state;
+                $order->update();
+            }
+            return response()->json(['success'=>true]);
+        }
     }
+
+
+
+
+    // Code for change env file data : 
+
+        public function SiteKey()
+        {
+            $envArray = $this->parseEnvFile();
+            return view('admin.site_keys.add_key', compact('envArray'));
+        }
+    
+        public function UpdateKey(Request $request)
+        {
+            $envPath = base_path('.env');
+            $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $requestKeys = $request->except('_token');
+    
+            foreach ($lines as &$line) {
+                if (strpos(trim($line), '#') === 0 || strpos(trim($line), '=') === false) {
+                    continue; // Skip comments and lines without '='
+                }
+    
+                list($key, $value) = explode('=', $line, 2);
+                $key = trim($key);
+    
+                if (array_key_exists($key, $requestKeys)) {
+                    $line = "{$key}={$requestKeys[$key]}";
+                    unset($requestKeys[$key]);
+                }
+            }
+    
+            // Add any new keys that were in the request but not in the .env file
+            foreach ($requestKeys as $key => $value) {
+                $lines[] = "{$key}={$value}";
+            }
+    
+            file_put_contents($envPath, implode("\n", $lines) . "\n");
+    
+            return redirect()->back()->with('success', 'Settings updated successfully!');
+        }
+    
+        private function parseEnvFile()
+        {
+            $envPath = base_path('.env');
+            $envArray = [];
+    
+            if (file_exists($envPath)) {
+                $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    
+                foreach ($lines as $line) {
+                    if (strpos(trim($line), '#') === 0 || strpos(trim($line), '=') === false) {
+                        continue; // Skip comments and lines without '='
+                    }
+    
+                    list($key, $value) = explode('=', $line, 2);
+                    $envArray[trim($key)] = trim($value);
+                }
+            }
+    
+            return $envArray;
+        }
+
 }

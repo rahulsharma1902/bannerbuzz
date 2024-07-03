@@ -1,17 +1,17 @@
 @extends('front_layout.master')
 @section('content')
 
-    <section class="vinyl_wrapper">
+    <section class="vinyl_wrapper seach-vinyl-wrapper">
         <div class="container">
             <div class="">
                 <nav class="breadcrumb_wreap" aria-label="breadcrumb">
-                    <h4 style="font-size: x-large; text-align: left;">Search Result for '{{ $_GET['search'] }}' </h3>
+                    <h4 style="font-size: x-large; text-align: left;">Search Result for '{{ $_GET['search'] ?? ""  }}' </h3>
                 </nav>
             </div>
         </div>
     </section>
     @if (isset($products))
-        <section class="col-lg-12">
+        <section class="col-lg-12 search-container">
             <div class="shop_wrapper col-lg-12 p_100">
                 <div class="container col-lg-12">
                     <div class="shop_wrapper col-lg-12">
@@ -33,10 +33,17 @@
                                                     @break
                                                 @endif
                                             @endforeach
-                                            <div class="cust_btn_wreap">
-                                                <a href="{{ url('details') }}/{{ $product->slug ?? '' }}"
-                                                    class="btn cust_btn" tabindex="0">Customize </a>
-                                            </div>
+                                            @if(!isset($product->accessories_type))
+                                                <div class="cust_btn_wreap">
+                                                    <a href="{{ url('details') }}/{{ $product->slug ?? '' }}"
+                                                        class="btn cust_btn" tabindex="0">Customize </a>
+                                                </div>
+                                            @else
+                                                <div class="cust_btn_wreap">
+                                                    <a href="{{ url('accessories') }}/{{ $product->slug ?? '' }}"
+                                                        class="btn cust_btn" tabindex="0">Explore </a>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="card-body">
                                             <h5>{{ $product->name ?? '' }}</h5>

@@ -13,11 +13,11 @@
                         <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                             <div class="col-lg-6 p-3">
                                 <div class="form-group">
-                                    <label class="form-label" for="name"> Name</label>
+                                    <label class="form-label" for="user_name"> Name</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" name="name" class="form-control" id="name" value="{{ Auth::user()->user_name}}" >
+                                        <input type="text" name="user_name" class="form-control" id="user_name" value="{{ Auth::user()->user_name}}" >
                                     </div>
-                                    @error('name')
+                                    @error('user_name')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -37,9 +37,9 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name"> Number</label>
                                     <div class="form-control-wrap">
-                                        <input type="number" name="phone" class="form-control" id="phone" value="{{ Auth::user()->phone}}" >
+                                        <input type="number" name="number" class="form-control" id="number" value="{{ Auth::user()->number ?? '' }}" >
                                     </div>
-                                    @error('phone')
+                                    @error('number')
                                         <span class="text text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -50,7 +50,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="card card-bordered card-preview d-none p-3" id="changepasswordCard">
+                <div class="card card-bordered card-preview d-none p-3 my-5" id="changepasswordCard">
                     <div class="card-inner">
                         <div class="preview-block">
                             <div class="d-flex justify-content-between">
