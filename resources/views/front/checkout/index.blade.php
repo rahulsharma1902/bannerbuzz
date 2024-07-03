@@ -582,82 +582,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="additional_billing_address_user" class="additional_billing_address row checkoutFormWrap" style="display:none;" >
-                                <div class="col-md-6">
-                                    <input type="hidden" name="ship_addr[id]" value="" class="id" >
-                                    <input type="text" class="form-control first_name"
-                                        placeholder="First Name" name="ship_addr[first_name]" value=""  data-required="required">
-                                        <span class="text-danger validation_error" error-for="first_name"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control last_name" placeholder="Last Name" name="ship_addr[last_name]"  value="" data-required="required">
-                                    <span class="text-danger validation_error" error-for="last_name"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="number" class="form-control phnNumberCng phone_number"
-                                        placeholder="Phone Number" data-to="phnNumberData"  name="ship_addr[phone]" id="billing_phone"  value="" data-required="required">
-                                    <span class="text-danger validation_error" error-for="phone"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control email"
-                                        placeholder="Email Address" data-to="mailAddrData" name="ship_addr[email]" id="billing_email" value=""  data-required="required">
-                                    <span class="text-danger validation_error" error-for="email"></span>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control company_name"
-                                        placeholder="Company Name"  name="ship_addr[company_name]" id="billing_company_name" value="" data-required="required">
-                                    <span class="text-danger validation_error" error-for="company_name"></span>
-                                </div>
-                                <div class="col-md-12">
-                            
-                                    <input type="text" class="form-control address"
-                                        placeholder="Address Line" data-to="addressData" value="" name="ship_addr[address_line]" id="billing_address_line" data-required="required"> 
-                                    <span class="text-danger validation_error" error-for="address_line"></span>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control additional_address" id="billing_street_addr"
-                                        placeholder="Street/Road" name="ship_addr[street]" value="" data-required="required">
-                                    <span class="text-danger validation_error" error-for="street"></span>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control city" data-to="cityData" placeholder="City" value="" name="ship_addr[city]" id="billing_city" data-required="required">
-                                    <span class="text-danger validation_error" error-for="city"></span>
-                                </div>
-                                <!-- <div class="col-md-4">
-                                    <select class="form-control" name="state" data-to="stateData">
-                                        <option value="">State</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                    </select>
-                                </div> -->
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control state" data-to="stateData" value="" placeholder="State" name="ship_addr[state]" id="billing_state" data-required="required">
-                                    <span class="text-danger validation_error" error-for="state"></span>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control zip_code" data-to="zipCodeData" value="" placeholder="Zip Code" name="ship_addr[zip_code]" id="billing_zip_code" data-required="required">
-                                    <span class="text-danger validation_error" error-for="zip_code"></span>
-                                </div>
-                                <?php  $countries = CountryArray(); ?>
-                                <div class="col-md-12">
-                                    <select class="form-control country" data-to="countryData" name="ship_addr[country]" id="billing_country">
-                                        @foreach($countries as $c_code => $c_name)
-                                            @if(isset(auth()->user()->billingAddr->country))
-                                                <?php $user_billing_Country = auth()->user()->billingAddr->country; 
-                                                    // print_r($userCountry);
-                                                ?>
-                                                @if($user_billing_Country == $c_code)
-                                                    <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}" selected>{{ $c_name ?? '' }}</option>
-                                                @else
-                                                    <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
-                                                @endif
-                                            @else
-                                                <option data-value ="{{ $c_name ?? '' }}" value="{{ $c_code ?? '' }}">{{ $c_name ?? '' }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                             <div id="AddNewAddress" class="address-container " @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
                                 <div class="add-new-address">
                                     <p>
@@ -1553,7 +1477,7 @@
             $('#AddNewAddress').show();
         });
         $('.edit_btn_billing_address').on('click',function(){
-            $('#additional_billing_address_user').show();
+            $('.additional_billing_address_user').show();
 
         });
     });
