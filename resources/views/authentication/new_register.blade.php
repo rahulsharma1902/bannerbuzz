@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="formgroup-box">
-                    <div class="formGroup halfGroup">
+                    <!-- <div class="formGroup halfGroup">
                         <div class="countrycode_sec">
                             <div class="select_code">
                                 <select id="select_country" style="background-color: black;" >
@@ -68,7 +68,7 @@
                             </div>
                             <div class="countryinput"><input type="text" id="code"  name="code" placeholder="+44"/></div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="formGroup halfGroup"><input type="number" min="0" aria-label="Cell Phone Number" name="phone" placeholder="Mobile Number*" inputmode="numeric" value="" />
                         @if ($errors->has('phone'))
                          <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -92,24 +92,24 @@
                     <div class="social_title"><p>or sign up with</p></div>
                     <div class="social_content">
                         <ul>
-                            <li>
+                            <!-- <li>
                                 <a href="#">
                                     <i class="fa-brands fa-facebook-f"></i><br />
                                     <span>Facebook</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="{{ route('login_google') }}">
                                     <i class="fa-brands fa-google"></i><br />
                                     <span>Google</span>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#">
                                     <i class="fa-brands fa-amazon"></i><br />
                                     <span>Amazon</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <p class="alreadyAccount">Already Have An Account?<a href="{{url('/login')}}" class="linkButton">Log In</button></p>

@@ -16,7 +16,7 @@ class TestimonialController extends Controller
     public function Addprocc(Request $req){
         $req->validate([
             'name' => 'required',
-            'image' => 'required',
+            // 'image' => 'required',
             'rate' => 'required',
             'description' => 'required',
         ]);

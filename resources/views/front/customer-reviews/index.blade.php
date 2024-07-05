@@ -56,11 +56,11 @@
                         data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
                         aria-selected="true">Site Reviews</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                     <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
                         aria-selected="false">Product Reviews</button>
-                </li>
+                </li> -->
                 <div class="revw_buttn"><button type="button" class="btn light_dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Write a Review</button></div>
                 <!-- model for review  -->
                 <div class="modal fade tab-content" id="exampleModal" tabindex="-1" role="dialog"
@@ -74,7 +74,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ url('admin-dashboard/add-testimonial-procc') }}" method="POST"
+                                <form action="{{ url('customer-reviews-add') }}" method="POST"
                                  enctype="multipart/form-data" id="form-data">
                                 @csrf
                                 <div class="form-group">
@@ -93,32 +93,34 @@
                                 </div>
                                 <style>
                                     .rate {
-                                        float: left;
+                                        display: flex;
+                                        flex-direction: row-reverse;
+                                        justify-content: left;
                                         height: 46px;
                                         padding: 0 10px;
                                     }
                                     .rate:not(:checked) > input {
-                                        position:absolute;
-                                        top:-9999px;
+                                        position: absolute;
+                                        top: -9999px;
                                     }
                                     .rate:not(:checked) > label {
-                                        float:right;
-                                        width:1em;
-                                        overflow:hidden;
-                                        white-space:nowrap;
-                                        cursor:pointer;
-                                        font-size:30px;
-                                        color:#ccc;
+                                        float: right;
+                                        width: 1em;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        cursor: pointer;
+                                        font-size: 30px;
+                                        color: #ccc;
                                     }
                                     .rate:not(:checked) > label:before {
                                         content: '★ ';
                                     }
                                     .rate > input:checked ~ label {
-                                        color: #ffc700;    
+                                        color: #ffc700;
                                     }
                                     .rate:not(:checked) > label:hover,
                                     .rate:not(:checked) > label:hover ~ label {
-                                        color: #deb217;  
+                                        color: #deb217;
                                     }
                                     .rate > input:checked + label:hover,
                                     .rate > input:checked + label:hover ~ label,
@@ -127,21 +129,33 @@
                                     .rate > label:hover ~ input:checked ~ label {
                                         color: #c59b08;
                                     }
+                                    .rating {
+                                        font-size: 24px;
+                                    }
+
+                                    .rating .star {
+                                        color: #e3f0e1;
+                                    }
+
+                                    .rating .star.full {
+                                        color: #FFD700;
+                                    }
                                 </style>
                                 <div class="form-group p-3">
                                     <div class="rate">
                                         <input type="radio" id="star5" name="rate" value="5" />
-                                        <label for="star5" title="text">5 stars</label>
+                                        <label for="star5" title="5 stars">5 stars</label>
                                         <input type="radio" id="star4" name="rate" value="4" />
-                                        <label for="star4" title="text">4 stars</label>
+                                        <label for="star4" title="4 stars">4 stars</label>
                                         <input type="radio" id="star3" name="rate" value="3" />
-                                        <label for="star3" title="text">3 stars</label>
+                                        <label for="star3" title="3 stars">3 stars</label>
                                         <input type="radio" id="star2" name="rate" value="2" />
-                                        <label for="star2" title="text">2 stars</label>
+                                        <label for="star2" title="2 stars">2 stars</label>
                                         <input type="radio" id="star1" name="rate" value="1" />
-                                        <label for="star1" title="text">1 star</label>
+                                        <label for="star1" title="1 star">1 star</label>
                                     </div>
                                 </div>
+
                                 <div class="form-group p-2">
                                     <label class="" for="description">Statement</label>
                                     <div class="form-control-wrap">
@@ -169,17 +183,45 @@
                         <div class="testimonial-para">
                             <div class="test_view">
                                 <div class="test_img">
-                                    <img src="{{ asset('Site_Images') }}/{{$data->image ?? ''}}">
+                                    @if($data->image)
+                                        <img src="{{ asset('Site_Images/' . $data->image) }}" alt="Image">
+                                    @else
+                                        <span>{{ ucfirst(substr($data->name ?? '', 0, 1)) }}</span>
+                                    @endif
                                 </div>
+
                                 <div class="test_hd">
                                     <h6>{{$data->name ?? ''}}</h6>
-                                    <div class="star_wreap">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <span>{{$data->created_at->format('j F,Y')}}</span>
+                                    <!-- <p>Rating: {{$data->stars}}</p> -->
+                                    <div class="starWrap">
+                                        <div class="rating">
+                                        @php
+                                            $rating = $data->stars;
+                                            $full_stars = floor($rating);
+                                            $half_star = $rating - $full_stars >= 0.5 ? true : false;
+                                            $empty_stars = 5 - $full_stars - ($half_star ? 1 : 0);
+                                        @endphp
+
+                                        @for ($i = 0; $i < $full_stars; $i++)
+                                            <span class="star full">&#9733;</span>
+                                        @endfor
+
+                                        @if ($half_star)
+                                            <span class="star full">&#9733;&#9734;</span>
+                                        @endif
+
+                                        @for ($i = 0; $i < $empty_stars; $i++)
+                                            <span class="star">&#9734;</span>
+                                        @endfor
+                                        </div>
+                                        <div class="star_wreap">
+                                            <!-- <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i> -->
+                                            <span>{{$data->created_at->format('j F,Y')}}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -198,19 +240,52 @@
                 </div>
             </div>
         </div>
-
         <div class="paginetion_wreap">
-            <ul class="list-unstyled m-0">
-                <li>
-                    <a href="#"><i class="fa-solid fa-chevron-left"></i></a>
-                </li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li class="active">
-                    <a href="#"><i class="fa-solid fa-chevron-right"></i></a>
-                </li>
-            </ul>
+            @if ($testimonials->lastPage() > 1)
+                <ul class="list-unstyled m-0">
+                    @if ($testimonials->onFirstPage())
+                        <li>
+                            <a href=""><i class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $testimonials->lastPage(); $i++)
+                            <li class="{{ $i == $testimonials->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $testimonials->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li class="active">
+                            <a href="{{ $testimonials->nextPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @elseif ($testimonials->HasmorePages())
+                        <li class="active">
+                            <a href="{{ $testimonials->previousPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $testimonials->lastPage(); $i++)
+                            <li class="{{ $i == $testimonials->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $testimonials->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li class="active">
+                            <a href="{{ $testimonials->nextPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @else
+                        <li class="active">
+                            <a href="{{ $testimonials->previousPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $testimonials->lastPage(); $i++)
+                            <li class="{{ $i == $testimonials->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $testimonials->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li>
+                            <a href=""><i class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @endif
+                </ul>
+            @endif
         </div>
     </div>
 </section>

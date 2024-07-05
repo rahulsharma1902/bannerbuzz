@@ -48,8 +48,7 @@
                             <span  class="toggle-password" onclick="togglePasswordVisibility()">
                                 <i class="fas fa-eye-slash" id="eye"></i>
                             </span>
-                        </div>
-                       
+                        </div>                     
                         <!-- <div class="">
                             <div class="g-recaptcha" data-sitekey="6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb"></div>
                                 @if ($errors->has('g-recaptcha-response'))
@@ -57,23 +56,24 @@
                                 @endif
                             </div> 
                         </div> -->
-
                         <div class="otpbutton">
                             <a class="linkButton forgotLink otpLink">
                                 <span>Get Email OTP</span></a>
-                                <button class="linkButton forgotLink">Forgot Password?</button>
+                            <a href="forgot-password" class="linkButton forgotLink">
+                                <button class="linkButton forgotLink"></button>Forgot Password?</a>
                             </div>
                             <div class="buttonSet creat_accnt">
                                    <button type="submit" class="btn">Login</button>
                             </div>
                     </div>
-    
                      <div class="social_links">
-                    <div class="social_title"><p>or sign in with</p></div>
+                        <div class="social_title"><p>or sign in with</p></div>
                     <div class="social_content">
                         <ul>
+                        
+
                             <li>
-                                <a href="#">
+                            <a href="{{ route('facebook_google') }}" >
                                     <i class="fa-brands fa-facebook-f"></i><br />
                                     <span>Facebook</span>
                                 </a>
@@ -84,12 +84,12 @@
                                     <span>Google</span>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#">
                                     <i class="fa-brands fa-amazon"></i><br />
                                     <span>Amazon</span>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <p class="alreadyAccount">Don't have an account?<a href="{{ url('/register') }}" class="linkButton" >Sign Up</a></p>

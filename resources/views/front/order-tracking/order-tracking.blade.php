@@ -17,10 +17,24 @@
                     <h2>Order Status, the whereabouts</h2>
                     <p>Just enter a few details to get your order-status.</p>
                 </div>
-                <div class="form_info">
-                     <input type="email" id="email" name="email" placeholder="Your Email">
-                      <input type="submit" placeholder="Submit" class="light_dark m-0">
-                </div>
+                <form method="post" action="{{ url('/order-tracking-proccess') ?? ''}}"> 
+                    @csrf
+                    
+                    @if($errors->has('email'))
+                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                    @endif
+                    
+                    <div class="form_info">
+                        <input type="email" id="email" name="email" placeholder="Your Email">
+                    </div>
+                    @if($errors->has('order_number'))
+                            <span class="text-danger">{{ $errors->first('order_number') }}</span>
+                    @endif
+                    <div class="form_info">
+                        <input type="text" id="order_number" name="order_number" placeholder="Your Order Number">
+                        <input type="submit" placeholder="Submit" class="light_dark m-0">
+                    </div>
+                </form>
             </div>
         </div>
     </section>

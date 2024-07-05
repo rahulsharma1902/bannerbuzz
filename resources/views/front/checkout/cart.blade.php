@@ -304,7 +304,7 @@
                                     <div class="ylw-bar">
                                         <h6>Shop for £85.02 more and grab your free shipping now.</h6>
                                     </div>
-                                    <div class="check">
+                                    <!-- <div class="check">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                             <label class="form-check-label" for="flexCheckDefault">
@@ -337,8 +337,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="coupon">
+                                    </div> -->
+                                    <!-- <div class="coupon">
                                         <h6>Apply Discount Code</h6>
                                         <form action="">
                                             <input type="text" name="" id="" placeholder="Enter coupon code here">
@@ -390,17 +390,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="cart_shipp">
                                         <ul>
-                                            <li>
+                                            <!-- <li>
                                                 <select class="form-select" aria-label="Default select example">
                                                     <option selected="">Estimate Shipping</option>
                                                     <option value="1">One</option>
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
                                                 </select>
-                                            </li>
+                                            </li> -->
                                             <li>
                                                 <div class="shipping_content">
                                                     <p>Subtotal</p>
@@ -409,8 +409,10 @@
                                             </li>
                                             <li>
                                                 <div class="shipping_content">
-                                                    <p>Shipping <span>(Estimated delivery Thu, Feb <br> 1st 2024 -
-                                                            Express)</span></p>
+                                                    <p>Shipping 
+                                                        <!-- <span>(Estimated delivery Thu, Feb <br> 1st 2024 -
+                                                            Express)</span> -->
+                                                    </p>
                                                     <span>£00</span>
                                                 </div>
                                             </li>
@@ -430,11 +432,11 @@
                                     </div>
                                     <div class="cart-btm">
                                         <a href="{{ url('checkout') ?? '' }}" class="btn light_dark">Proceed to checkout</a>
-                                        <span>or</span>
+                                        <!-- <span>or</span>
                                         <a href="javascript:void(0)" class="img-btn"><img
                                                 src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/pwa.png" alt=""></a>
                                         <a href="javascript:void(0)" class="amz">Use Your Amazon Account <span><i
-                                                    class="fa-solid fa-circle-question"></i></a>
+                                                    class="fa-solid fa-circle-question"></i></a> -->
                                     </div>
                                 </div>
                                 <div class="secure">

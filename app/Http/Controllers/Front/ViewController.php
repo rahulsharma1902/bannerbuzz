@@ -15,7 +15,11 @@ use App\Models\AboutUsContent;
 use App\Models\ProductAccessories;
 use App\Models\Order;
 use App\Models\UserOrderDesign;
+use App\Models\Contact;
 use App\Mail\MailToAdmin;
+use App\Mail\ContactMail;
+use Mail;
+
 use Illuminate\Support\Facades\Validator;
 class ViewController extends Controller
 {
@@ -72,7 +76,8 @@ class ViewController extends Controller
 
     public function contactUs()
     {
-        return view('front.contact-us.index');
+        $homeContent = HomeContent::first();
+        return view('front.contact-us.index',compact('homeContent'));
     }
 
     public function privacyPolicy()
@@ -90,7 +95,31 @@ class ViewController extends Controller
 
     public function customerReviews(){
         $testimonials = Testimonial::paginate(9);
+        // dd($testimonials);
         return view('front.customer-reviews.index',compact('testimonials'));
+    }
+
+    public function customerReviewsAdd(Request $req)
+    {
+        // dd($req->all());
+        $req->validate([
+            'name' => 'required',
+            // 'image' => 'required',
+            'rate' => 'required',
+            'description' => 'required',
+        ]);
+        $data = new Testimonial();
+        $data->name = $req->name;
+        $data->stars = $req->rate;
+        $data->description = $req->description;
+        if ($req->hasFile('image')) {
+            $image = $req->image;
+            $filename = 'cust' .time() . '.' . $image->extension();
+            $image->move(public_path() . '/Site_Images/', $filename);
+            $data->image = $filename;
+        }
+        $data->save();
+        return redirect()->back()->with('success','data added successfully');
     }
     //:::::::::::::::::::::::::::::::::::::::::::::::://
 
@@ -147,28 +176,30 @@ public function emailnotify(Request $request)
 
 public function ContactProcess(Request $request)
 {
-    // dd($request->all());
-    $validator = Validator::make($request->all(), [
-        'name'        =>    'required',
-        'email'       =>    'required|email|unique',
-        'number'      =>    'required',
-        'company_name'=>    'required',
-        'address'     =>    'required',
-        'state'       =>    'required',
-        'city'        =>    'required',
-        'email_topic' =>    'required',
-        'subject'     =>    'required',
-        'inquiry'     =>    'required',
-        // Add more validation rules as needed
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'topic' => 'required|string|max:255',
+        'subject' => 'required|string|max:255',
+        'inquiry' => 'required|string|max:1000', 
     ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422); // Return validation errors
-    }
-
-    // $email = $request->email;
-
+    $contact = new Contact();
+    $contact->name = $request->name;
+    $contact->email = $request->email;
+    $contact->state = $request->state;
+    $contact->number = $request->number;
+    $contact->company = $request->company;
+    $contact->address = $request->address;
+    $contact->country = $request->country;
+    $contact->city = $request->city;
+    $contact->topic = $request->topic;
+    $contact->subject = $request->subject;
+    $contact->inquiry = $request->inquiry;
+    $contact->save();
+    $details = $request->all();
+    Mail::to('tecrdx@gmail.com')->send(new ContactMail($details));
+    return redirect()->back()->with('success', 'Your inquiry has been submitted successfully!');
 }
-
 
 }

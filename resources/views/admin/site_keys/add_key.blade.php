@@ -152,6 +152,67 @@
                     </div>
                 </div><!-- card -->
 
+<!-- Facebook keys -->
+                <!-- Google Settings -->
+                <div class="card card-bordered my-4">
+                    <div class="card-inner">
+                        <div class="card-head">
+                            <h5 class="card-title">Facebook Login Settings</h5>
+                        </div>
+                        <form action="{{ url('admin-dashboard/update-key') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @if(isset($envArray))
+                                @foreach ($envArray as $key => $value)
+                                    @if(in_array($key, ['FACEBOOK_CLIENT_ID', 'FACEBOOK_CLIENT_SECRET']))
+                                        <div class="row g-3 my-4 align-center">
+                                            <div class="col-lg-5">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="{{ $key }}">{{ $key }}</label>
+                                                    <span class="form-note">Specify the {{ $key }} of your website.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <textarea style="min-height: 65px" name="{{ $key }}" class="form-control" id="{{ $key }}" cols="30" rows="2">{{ $value }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                   
+                                @endforeach
+                                @if(isset($envArray) && isset($envArray['FACEBOOK_REDIRECT']))
+                                        <div class="row g-3 my-4 align-center">
+                                            <div class="col-lg-5">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="GOOGLE_REDIRECT_URI">FACEBOOK_REDIRECT URL</label>
+                                                    <span class="form-note">This is GOOGLE_REDIRECT_URI of your website.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <!-- <textarea style="min-height: 65px" name="" class="form-control" id="GOOGLE_REDIRECT_URI" cols="30" rows="2">{{ $envArray['GOOGLE_REDIRECT_URI'] }}</textarea> -->
+                                                        <input type="text" disabled class="form-control" id="FACEBOOK_REDIRECT" value="{{ $envArray['FACEBOOK_REDIRECT'] }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                            @endif
+                            <div class="row g-3">
+                                <div class="col-lg-7 offset-lg-5">
+                                    <div class="form-group mt-2">
+                                        <button type="submit" class="btn btn-lg btn-primary">Update Google Settings</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- card -->
+
+
                  <!-- DropBox Settings -->
                  <div class="card card-bordered my-4">
                     <div class="card-inner">

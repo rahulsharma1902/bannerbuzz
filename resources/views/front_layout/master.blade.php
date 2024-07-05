@@ -23,10 +23,14 @@
         integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" /> -->
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/new_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" />
-    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" />
 
     <!-- Toaster -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
@@ -488,7 +492,7 @@
                     </div>
                     <div class="contc">
                         <ul class="pro_headr_destp">
-                            <li>
+                            <li class="chatnow">
                                 <a href="javascript:void(0)">
                                     <div class="con-img">
                                         <img src="{{ asset('front/img/chat.svg') }}" alt="" />
@@ -1010,8 +1014,8 @@
                             <ul>
                                 <li><a href="{{ url('order-tracking') }}">Order Tracking</a></li>
                                 <li><a href="{{ url('customer-reviews') }}">Customer Reviews</a></li>
-                                <li><a href="{{ url('special-offers') }}">Special Offers</a></li>
-                                <li><a href="#">Sitemap</a></li>
+                                <!-- <li><a href="{{ url('special-offers') }}">Special Offers</a></li> -->
+                                <!-- <li><a href="#">Sitemap</a></li> -->
                                 <li><a href="{{ url('/blogs') }}">Blog</a></li>
                                 {{-- <li><a href="#">Safety Signs & Banners</a></li> --}}
                             </ul>
@@ -1276,6 +1280,10 @@
         });
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.iife.js"></script>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="{{ asset('front/js/chatbot.js') ?? '' }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
     integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
@@ -1412,22 +1420,30 @@
             }
         });
     });
-    function callSuccessToster(message){
-        iziToast.success({
-            message: message,
-            position: 'topRight' 
-        });
-    }
-    function callErrorToster(message){
-        iziToast.error({
-            message: message,
-            position: 'topRight' 
-        });
-    }
+    // function callSuccessToster(message){
+    //     iziToast.success({
+    //         message: message,
+    //         position: 'topRight' 
+    //     });
+    // }
+    // function callErrorToster(message){
+    //     iziToast.error({
+    //         message: message,
+    //         position: 'topRight' 
+    //     });
+    // }
 </script>
+
 <script>
     $(document).ready(function() {
         $('a[href^="tel:"]').on('click', function() {
+            $('#overlay').show();
+
+            setTimeout(function() {
+                $('#overlay').hide();
+            }, 100);
+        });
+        $('a[href^="mailto:"]').on('click', function() {
             $('#overlay').show();
 
             setTimeout(function() {
@@ -1444,6 +1460,32 @@
         
     });
 </script>
+@if(Session::get('error'))
+    <script>
+        iziToast.destroy();
+        iziToast.error({
+            message: '{{ Session::get("error") }}',
+            position: 'topRight' 
+        });
+    </script>
+    @endif
+    @if(Session::get('success'))
+    <script>
+        iziToast.destroy();
+        iziToast.success({
+            message: '{{ Session::get("success") }}',
+            position: 'topRight' 
+        });
+    </script>
+    @endif
+
+    <script>
+        $(document).ready(function (){
+            $('.chatnow').on('click',function(){
+                $('.desktop-closed-message-avatar').click();
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -1399,11 +1399,11 @@
                         <div class="ftr-size-lft">
                             <!-- <p>$8.39 <span>Incl.</span> VAT</p> -->
                         </div>
-                        <div class="ftr-lnks">
-                            <a hef="#" style="" class="btn cta applyBtn">Apply</a>
+                        <div class="ftr-lnks" style="width: 100%;">
+                            <a hef="#" style="" class="btn cta applyBtn form-control">Apply</a>
                         </div>
                     </div>
-                    <div class="ryt-view-box">
+                    <!-- <div class="ryt-view-box">
                         <div class="editing-lnks">
                             <ul class="list-unstyled m-0">
                                 <li>
@@ -1471,7 +1471,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
               
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

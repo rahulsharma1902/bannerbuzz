@@ -8665,3 +8665,146 @@ table.all-products .product-detl .product-text p {
 }*/
 }
 
+
+
+
+/* lokesh sir css */
+.desktop-closed-message-avatar img {
+  width: 100%;
+  max-width: 25px;
+}
+
+.desktop-closed-message-avatar {
+  left: 20px !important;
+}
+
+
+div#botmanWidgetRoot >div {
+  width: 100%;
+}
+
+.footer_bt_lt {
+  padding-left: 20px;
+}
+div#botmanWidgetRoot >div {
+  left: 20px !important;
+}
+
+
+/*july 5 2024*/
+div#botmanWidgetRoot > div {
+   width: 60px !important;
+/*    height: 450px !important;*/
+    min-width: 370px !important;
+}
+.testimonial-para .test_view {
+    align-items: flex-start;
+}
+.testimonial-para .test_view .test_img {
+    flex: 0 0 40px;
+}
+.testimonial-para .test_view .test_img span {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e4004e;
+    background: #e4004e;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.testimonial-para .test_view .test_hd h6 {
+    text-transform: capitalize;
+}
+.testimonial-para .test_view .test_hd {
+    width: 100%;
+}
+.testimonial-para .test_view .test_hd .starWrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.testimonial-para .test_view .test_hd .starWrap .rating {
+    /* font-size: 20px; */
+    display: flex;
+}
+.testimonial-para p {
+    color: #fff;
+    text-transform: capitalize;
+}
+.ship-wrap .user_address .address .address-container
+,.check_user_ship_addre .address .address-container{
+    border: 1px solid #1b1b1b30;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+.ship-wrap .user_address .address .address-container .address-head.d-flex
+,.check_user_ship_addre .address .address-container .address-head.d-flex{
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    color: #000;
+}
+.ship-wrap .user_address .address .address-container span
+,.check_user_ship_addre .address .address-container span{
+    display: block;
+    margin-top: 5px;
+}
+.ship-wrap .user_address .address .address-container p:empty
+,.check_user_ship_addre .address .address-container p:empty{
+    display: none;
+}
+.check_user_ship_addre .user_addre {
+    margin-top: 20px;
+}
+.ship-wrap .user_address .address .address-container p {
+    margin-bottom: 0;
+}
+.checkout-sec .cart-content {
+    position: relative;
+}
+.checkout-sec .cart-content .basket-rgt {
+    position: sticky;
+    top: 0;
+}
+.checkout-sec .cart-content .col-lg-4 {
+    /* position: sticky; */
+    /* top: 0; */
+}
+.checkout-sec .cart-content .row {
+    position: relative;
+}
+.bodyMainWrap .ship-wrap .checkout-block span#confirmation_email_error {
+    display: block;
+    margin-top: 10px;
+}
+.bodyMainWrap .ship-wrap .checkout-block span#confirmation_email_error {
+    display: block;
+    margin-top: 10px;
+}
+
+.ship-wrap .user_address .address .address-container .addressDetails {
+    border: 1px solid #1b1b1b30;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.ship-wrap .user_address .address .address-container .address-head.d-flex + p {
+    border: 1px solid #1b1b1b30;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.ship-wrap .user_address .address .address-container .address-head.d-flex .mainUserAdress, .check_user_ship_addre .address .address-container .address-head.d-flex .mainUserAdress {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}

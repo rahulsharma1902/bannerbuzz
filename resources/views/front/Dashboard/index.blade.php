@@ -356,7 +356,12 @@
                         <div class="testimonial-para">
                             <div class="test_view">
                                 <div class="test_img">
-                                    <img src="{{ asset('Site_Images') }}/{{$cust->image ?? ''}}">
+                                    @if($cust->image )
+                                        <img src="{{ asset('Site_Images') }}/{{$cust->image ?? ''}}">
+                                    @else
+                                        <span>{{ ucfirst(substr($cust->name ?? '', 0, 1)) }}</span>    
+                                    @endif
+                                       
                                 </div>
                                 <div class="test_hd">
                                     <h6>{{ $cust->name ?? ''}}</h6>

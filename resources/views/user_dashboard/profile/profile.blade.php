@@ -1,5 +1,5 @@
 @extends('user_dashboard_layout.master')
-@section('content')
+@section('usercontent')
 
 <div class="col-lg-9">
     <div class="ryt_side_contnt">
@@ -70,10 +70,10 @@
                                 </div>
                             </div>
                             <div class="formGroupBox">
-                                <div class="checkbox">
+                                <!-- <div class="checkbox">
                                     <input type="checkbox" value="option1" id="option1"/>
                                     <label for="option1" class="sml_text">I’d like to be updated via SMS/TEXT</label>
-                                </div>
+                                </div> -->
 
                                 <div class="checkbox"><input type="checkbox" name="change_email" id="change_email" value="changeEmail" /> <label for="change_email" class="sml_text">Change Email</label></div>
                             </div>
@@ -82,8 +82,9 @@
                                     <label for="otp" class="ltl_txt">Otp:</label>
                                     <input type="number" class="form-control" id="otp" value="" placeholder="Enter otp" name="otp"/>
                                 </div>
-                                <div class="btnSet" id="ver-btn">
+                                <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
                                     <button type="button" id="verify_btn" onclick="verifyOtp()" class="btn sml_text">Verify</button>
+                                    <a id="resend_otp" style="display:none;" type="button" onclick="sendOtp()" >resend otp</a>
                                 </div>
                                 <div id="myTimer"></div>
                             </div>
@@ -146,53 +147,63 @@
 
         $('#change_email').on('change',function(){
             if ($(this).is(':checked')) {
-                $('#email_input').prop('disabled', false); // Enable email input
-                $('#email_input').focus();
-                var data = {
-                    email: $('#email_input').val(),
-                    _token :"{{ csrf_token() }}",
-                }
-                $.ajax({
-                    url: "{{ url('user-dashboard/change/email') }}",
-                    type: "post",
-                    data: data,
-                    dataType: "json",
-                    success: function(response){
-                        if(response){
-                            iziToast.success({
-                                message: 'Please check your gmail for verification code',
-                                position: 'topRight' 
-                            });
-                            $('#otp_div').show();
-                            countdown();
-                        }
-                    }
-                })
-                
+                sendOtp();
             } else {
-                $('#email_input').prop('disabled', true); // Disable email input
+                $('#otp_div').hide();
+                $('#email_input').prop('disabled', true); 
             }
         });
 
+        
+
     });
 
-    var timer = 60;
+     
+    function sendOtp()
+    {
+        var data = {
+            email: $('#email_input').val(),
+            _token :"{{ csrf_token() }}",
+        }
+        $.ajax({
+            url: "{{ url('user-dashboard/change/email') }}",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function(response){
+                if(response){
+                    iziToast.success({
+                        message: 'Please check your gmail for verification code',
+                        position: 'topRight' 
+                    });
+                    countdown();
+                    $('#otp_div').show();
+                    
+                }
+            }
+        });
+    }
+
+    timer = 60;
     function countdown(){
         timer-- ;
 
         if(timer > 0){
+            $('#myTimer').html('');
             minutes = Math.floor(timer / 60) % 60;
             seconds = Math.floor(timer) % 60;
             var time = '<p>Time left :'+minutes+':'+seconds+'</p>';
             $('#myTimer').html(time);
             setTimeout(countdown,1000);
         }else{
-            $('#myTimer').html('');
+            $('#resend_otp').show();
+            // $('#otp_div').hide();
+            // $('#change_email').prop('checked', false); 
+            $('#myTimer').html('Otp vaild for only 5 minutes');
         }
     }
 
     function verifyOtp(){
-        // console.log('ghhjhujhu');
         var otp = $('#otp').val();
         if(otp !== undefined && otp !== null && otp !== ''){
             var data = {
@@ -208,6 +219,7 @@
                 success: function(response){
                     if(response.code == '200'){
                         $('#email_input').prop('disabled', false);
+                        $('#otp_div').hide();
                         $('#ver-btn').hide();
                         $('#otp').prop('disabled', true);
                         $('input[name="verified_otp"]').val(otp);
@@ -218,9 +230,18 @@
                         });
                     }else if(response.code == '500'){
                         $('#email_input').prop('disabled', true);
+                        // $('#ver-btn').hide();
+                        // $('#otp').prop('disabled', true);
+                        // $('#myTimer').hide(); 
+                        iziToast.error({
+                            message: response.error,
+                            position: 'topRight' 
+                        });
+                    }else if(response.code == '400'){
+                        $('#email_input').prop('disabled', true);
                         $('#ver-btn').hide();
                         $('#otp').prop('disabled', true);
-                        $('#myTimer').hide();
+                        $('#myTimer').hide(); 
                         iziToast.error({
                             message: response.error,
                             position: 'topRight' 
@@ -235,23 +256,23 @@
 
 <script>
     // Disable right click 
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    // document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    function ctrlShiftKey(e, keyCode) {
-        return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
-    }
+    // function ctrlShiftKey(e, keyCode) {
+    //     return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+    // }
 
-    document.onkeydown = (e) => {
-    // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
-        if (
-            event.keyCode === 123 ||
-            ctrlShiftKey(e, 'I') ||
-            ctrlShiftKey(e, 'J') ||
-            ctrlShiftKey(e, 'C') ||
-            (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))
-        )
-        return false;
-    };
+    // document.onkeydown = (e) => {
+    // // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
+    //     if (
+    //         event.keyCode === 123 ||
+    //         ctrlShiftKey(e, 'I') ||
+    //         ctrlShiftKey(e, 'J') ||
+    //         ctrlShiftKey(e, 'C') ||
+    //         (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))
+    //     )
+    //     return false;
+    // };
 </script>
 
 @endsection

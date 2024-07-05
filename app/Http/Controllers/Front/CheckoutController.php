@@ -58,192 +58,208 @@ class CheckoutController extends Controller
     }
     public function checkout()
     {
+        try{
 
-        
-        $setup_intent = SetupIntent::create();
-        $client_secret = $setup_intent->client_secret;
-        
-        if(Auth::check()){
-            $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
-        } else {
-            $temp_id = Session::get('temporaryUserId');
-            $allbasket = Basket::where('temporary_id',$temp_id)->where('status',0)->get();
-        }
-
-        if($allbasket->isNotEmpty()) 
-        {   
+            $setup_intent = SetupIntent::create();
+            $client_secret = $setup_intent->client_secret;
+            
             if(Auth::check()){
-                $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
-
-                return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket','addresses'));
+                $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
+            } else {
+                $temp_id = Session::get('temporaryUserId');
+                $allbasket = Basket::where('temporary_id',$temp_id)->where('status',0)->get();
             }
-            // $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
 
-            return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket'));
-        } else {
-            $total = 0;
-            return redirect('/checkout/cart');
-        }
+            if($allbasket->isNotEmpty()) 
+            {   
+                if(Auth::check()){
+                    $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
 
+                    return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket','addresses'));
+                }
+                // $addresses = UserBilling::where('user_id',Auth::user()->id)->get();
+
+                return view('front.checkout.index', compact('setup_intent', 'client_secret','allbasket'));
+            } else {
+                $total = 0;
+                return redirect('/checkout/cart');
+            }
+        } catch (Exception $e) {
+        return redirect()->back()->with('error' , "Oooops! Something went wrong...");
+    }
 
     }
 
     public function checkoutProcc(Request $request)
     {
 
-        // echo '<pre>';
-        // print_r($request->all());
-        // die();
-     
-        if($request->address != null){
+        try {
+            // echo '<pre>';
+            // print_r($request->all());
+            // die();
 
-            $save_billing_address = $this->SaveBillingAddress($request);
+            if($request->address_type != 'new') {
+                $save_billing_address['billing_id'] = $request->billing_id ;
+                $save_billing_address['shipping_id'] = $request->shipping_id ;
+            } else {
 
-            if($save_billing_address == false) {
-                
-               return redirect()->back()->with('error','something went wrong please try again later!');
+                $save_billing_address = $this->SaveBillingAddress($request);
+
+                if($save_billing_address == false) {
+                    
+                    return redirect()->back()->with('error','something went wrong please try again later!');
+                }
             }
-        }
 
-        $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
-        // dd($allbasket);
-        $basket_ids = [];
-        if($allbasket) {
-            $order_data = $this->SaveUserDesignData($request,$allbasket);
-            if($order_data == false){
-               
+            $allbasket = Basket::where('user_id',Auth::user()->id)->where('status',0)->get();
+            // dd($allbasket);
+            $basket_ids = [];
+            if($allbasket) {
+                $order_data = $this->SaveUserDesignData($request,$allbasket);
+                if($order_data == false){
+                
+                    return redirect()->back()->with('error','something went wrong please try again later!');
+                } 
+                $total_price = [];
+                foreach($order_data as $id){
+                    $order_design = UserOrderDesign::find($id);
+                    $total_price[] =  $order_design->total_price;
+                }
+            
+                foreach($allbasket as $basket_data){
+                    $basket_ids[] =  $basket_data->id;
+                }
+            } else {
                 return redirect()->back()->with('error','something went wrong please try again later!');
-            } 
-            $total_price = [];
-            foreach($order_data as $id){
-               $order_design = UserOrderDesign::find($id);
-               $total_price[] =  $order_design->total_price;
             }
-           
-            foreach($allbasket as $basket_data){
-                $basket_ids[] =  $basket_data->id;
+
+            if($request->delivery_type == 'express') {
+                $ship_amount = 5;
+            } else {
+                $ship_amount = 8;
             }
-        } else {
-            return redirect()->back()->with('error','something went wrong please try again later!');
-        }
 
-        if($request->delivery_type == 'express') {
-            $ship_amount = 5;
-        } else {
-            $ship_amount = 8;
-        }
+            $orderNum = 'Ord_'.strtoupper(Str::random(10));
 
-        $orderNum = 'Ord_'.strtoupper(Str::random(10));
+            $order_details = new Order();
+            $order_details->user_id = Auth::user()->id;
+            $order_details->order_number = $orderNum;
+            $order_details->confirmation_email = $request->confirmation_email;
+            $order_details->billing_address_id = $save_billing_address['billing_id'];
+            $order_details->shipping_address_id = $save_billing_address['shipping_id'];
+            $order_details->user_order_data = json_encode($order_data);
+            $order_details->product_price = array_sum($total_price);
+            $order_details->shipping_charges = $ship_amount;
+            $order_details->additional_charges = null;
+            $order_details->total_price = array_sum($total_price) + $ship_amount;
+            $order_details->currency = 'GBP';
+            $order_details->order_status = 'pending';
+            $order_details->payment_method = $request->payment_method;
+            $order_details->basket_data = json_encode($basket_ids);
+            $order_details->save();
 
-        $order_details = new Order();
-        $order_details->user_id = Auth::user()->id;
-        $order_details->order_number = $orderNum;
-        $order_details->confirmation_email = $request->confirmation_email;
-        $order_details->billing_address_id = $save_billing_address['billing_id'];
-        $order_details->shipping_address_id = $save_billing_address['shipping_id'];
-        $order_details->user_order_data = json_encode($order_data);
-        $order_details->product_price = array_sum($total_price);
-        $order_details->shipping_charges = $ship_amount;
-        $order_details->additional_charges = null;
-        $order_details->total_price = array_sum($total_price) + $ship_amount;
-        $order_details->currency = 'GBP';
-        $order_details->order_status = 'pending';
-        $order_details->payment_method = $request->payment_method;
-        $order_details->basket_data = json_encode($basket_ids);
-        $order_details->save();
+            $products_price = array_sum($total_price);
+            $amount = array_sum($total_price) + $ship_amount;
+            $currency = 'GBP';
 
-        $products_price = array_sum($total_price);
-        $amount = array_sum($total_price) + $ship_amount;
-        $currency = 'GBP';
+            $paymentdata = [];
+            $paymentdata['order_id'] = $order_details->id;
+            $paymentdata['order_num'] = $order_details->order_number;
+            $paymentdata['currency'] = $currency;
+            $paymentdata['products_price'] = $products_price;
+            $paymentdata['shipping_charges'] = $ship_amount;
+            $paymentdata['total_price'] = $amount;
+            $paymentdata['payment_method'] = $order_details->payment_method;
+            $paymentdata['user_email'] = $request->confirmation_email;
+            $paymentdata['basket_ids'] = $basket_ids;
+            // $paymentdata['confirmation_email'] = $request->payment_method;
 
-        $paymentdata = [];
-        $paymentdata['order_id'] = $order_details->id;
-        $paymentdata['order_num'] = $order_details->order_number;
-        $paymentdata['currency'] = $currency;
-        $paymentdata['products_price'] = $products_price;
-        $paymentdata['shipping_charges'] = $ship_amount;
-        $paymentdata['total_price'] = $amount;
-        $paymentdata['payment_method'] = $order_details->payment_method;
-        $paymentdata['user_email'] = $request->confirmation_email;
-        $paymentdata['basket_ids'] = $basket_ids;
-        // $paymentdata['confirmation_email'] = $request->payment_method;
+            if($request->payment_method == 'stripe'){
 
-        if($request->payment_method == 'stripe'){
+                $paymentdata['stripe_payment_method'] = $request->token;
 
-            $paymentdata['stripe_payment_method'] = $request->token;
+                if(Auth::user()->stripe_customer_id != null) {
+                    
+                    $stripe_customer = Customer::retrieve(Auth::user()->stripe_customer_id, []);
+                    if($stripe_customer->id){
+                        $paymentdata['stripe_customer_id'] = Auth::user()->stripe_customer_id;
+                    } else {
+                        $stripe_customer_id = $this->CreateStripeCustomer($request);
 
-            if(Auth::user()->stripe_customer_id != null) {
-                
-                $stripe_customer = Customer::retrieve(Auth::user()->stripe_customer_id, []);
-                if($stripe_customer->id){
-                    $paymentdata['stripe_customer_id'] = Auth::user()->stripe_customer_id;
+                        Auth::user()->update(['stripe_customer_id' => $stripe_customer_id]);
+                        $paymentdata['stripe_customer_id'] = $stripe_customer_id;
+                    }
                 } else {
                     $stripe_customer_id = $this->CreateStripeCustomer($request);
 
                     Auth::user()->update(['stripe_customer_id' => $stripe_customer_id]);
                     $paymentdata['stripe_customer_id'] = $stripe_customer_id;
                 }
-            } else {
-                $stripe_customer_id = $this->CreateStripeCustomer($request);
 
-                Auth::user()->update(['stripe_customer_id' => $stripe_customer_id]);
-                $paymentdata['stripe_customer_id'] = $stripe_customer_id;
-            }
+                $paymentMethod = PaymentMethod::retrieve($request->token);
+                $paymentMethod->attach(['customer' => $paymentdata['stripe_customer_id']]);
+                $paymentObj = $this->PaymentWithStripe($paymentdata);
 
-            $paymentMethod = PaymentMethod::retrieve($request->token);
-            $paymentMethod->attach(['customer' => $paymentdata['stripe_customer_id']]);
-            $paymentObj = $this->PaymentWithStripe($paymentdata);
+                if($paymentObj != null) {
+                    $payment_data = new Payment();
+                    $payment_data->order_id = $order_details->id;
+                    $payment_data->user_id = Auth::user()->id;
+                    $payment_data->payment_method = $request->payment_method;
+                    $payment_data->amount = $paymentObj->amount;
+                    $payment_data->transaction_id = $paymentObj->id;
+                    $payment_data->currency = $paymentObj->currency;
+                    $payment_data->payment_status = $paymentObj->status;
+                
 
-            if($paymentObj != null) {
-                $payment_data = new Payment();
-                $payment_data->order_id = $order_details->id;
-                $payment_data->user_id = Auth::user()->id;
-                $payment_data->payment_method = $request->payment_method;
-                $payment_data->amount = $paymentObj->amount;
-                $payment_data->transaction_id = $paymentObj->id;
-                $payment_data->currency = $paymentObj->currency;
-                $payment_data->payment_status = $paymentObj->status;
-              
+                    if($paymentObj->status == 'succeeded') {
 
-                if($paymentObj->status == 'succeeded') {
+                        // $payment_data->status = true;
+                        $payment_data->save();
 
-                    // $payment_data->status = true;
-                    $payment_data->save();
+                        $order = Order::find($order_details->id);
+                        $order->order_status = $paymentObj->status;
+                        $order->status = true;
+                        $basket_idss = json_decode($order->basket_data);
+                        
+                        $order->save();
+                        foreach($basket_idss as $bid) {
+                            $bbasket = Basket::find($bid);
+                            $bbasket->status = 1;
+                            $bbasket->save();
+                        }
 
-                    $order = Order::find($order_details->id);
-                    $order->order_status = $paymentObj->status;
-                    $order->status = true;
-                    $order->save();
+                        $confirmation_email = $request->confirmation_email;
+                        $mail_data = $this->SendOrderMail($payment_data->id,$order->order_number,$confirmation_email);
+                    
+                        return redirect('/order-received/'.$order->order_number)->with('success','payment success');
+                    } else {
+                        // $payment_data->status = false;
+                        $payment_data->save();
 
-                    $confirmation_email = $request->confirmation_email;
-                    $mail_data = $this->SendOrderMail($payment_data->id,$order->order_number,$confirmation_email);
-                  
-                    return redirect('/order-received/'.$order->order_number)->with('success','payment success');
+                        return redirect('checkout')->with('error' , 'Something went wrong.');
+                    }
                 } else {
-                    // $payment_data->status = false;
-                    $payment_data->save();
-
                     return redirect('checkout')->with('error' , 'Something went wrong.');
                 }
-            } else {
-                return redirect('checkout')->with('error' , 'Something went wrong.');
-            }
-        } 
-        if($request->payment_method == 'paypal'){
-            
-            $paymentdata['payment_error_url'] = url('checkout');
-            $paypal = $this->PaymentWithPaypal($request,$paymentdata);
+            } 
+            if($request->payment_method == 'paypal'){
+                
+                $paymentdata['payment_error_url'] = url('checkout');
+                $paypal = $this->PaymentWithPaypal($request,$paymentdata);
 
-            if (isset($paypal['id'])) {
-                foreach ($paypal['links'] as $link) {
-                    if ($link['rel'] === 'approve') {
-                        return Redirect::away($link['href']);
+                if (isset($paypal['id'])) {
+                    foreach ($paypal['links'] as $link) {
+                        if ($link['rel'] === 'approve') {
+                            return Redirect::away($link['href']);
+                        }
                     }
+                    return redirect('checkout')->with('error' , 'Something went wrong.');
+                } else {
+                    return redirect('checkout')->with('error' , $paypal['message']);
                 }
-                return redirect('checkout')->with('error' , 'Something went wrong.');
-            } else {
-                return redirect('checkout')->with('error' , $paypal['message']);
             }
+        } catch (Exception $e) {
+            return redirect('checkout')->with('error' , "error comes");
         }
     }
 
@@ -348,15 +364,24 @@ class CheckoutController extends Controller
                 if ($order) {
                     $order->order_status = $response['status'];
                     $order->status = true;
+                    $basket_ids = json_decode($order->basket_data);
                     $order->save();
+
+                    foreach($basket_ids as $bid) {
+                        $bbasket = Basket::find($bid);
+                        $bbasket->update([
+                            'status' => 1,
+                        ]);
+                    }
                 }
-                $mail_data = $this->SendOrderMail($payment_data->id,$order->order_number,$responseData['user_email']);
+                $mail_data = $this->SendOrderMail($payment_data->id, $order->order_number, $responseData->user_email);
+
                 return redirect('/order-received/'.$order->order_number)->with('success','payment success');
             } else {
                 return redirect('checkout')->with('error', 'Payment failed');
             }
         } catch (Execption $e) {
-
+            return redirect('checkout')->with('error', 'Payment failed please try again ....');
         }
     }
 
@@ -380,24 +405,29 @@ class CheckoutController extends Controller
         try {
             $data = [];
             if($request->address['id'] != null){
-                $user_addr = UserMeta::find($request->address['id']);
+                $user_addr = UserBilling::find($request->address['id']);
                 if(!$user_addr) {
-                    $user_addr = UserMeta::where('user_id',Auth::user()->id)->first();
-                    if(!$user_addr) {
-                        $user_addr = new UserMeta();
-                    }
+                    $user_addr = new UserBilling();
                 }
+                // $user_addr = UserMeta::find($request->address['id']);
+                // if(!$user_addr) {
+                //     $user_addr = UserMeta::where('user_id',Auth::user()->id)->first();
+                //     if(!$user_addr) {
+                //         $user_addr = new UserMeta();
+                //     }
+                // }
             } else {
-                $user_addr = UserMeta::where('user_id',Auth::user()->id)->first();
-                if(!$user_addr) {
-                    $user_addr = new UserMeta();
-                }
+                // $user_addr = UserMeta::where('user_id',Auth::user()->id)->first();
+                // if(!$user_addr) {
+                //     $user_addr = new UserMeta();
+                // }
+                $user_addr = new UserMeta();
             }
             $user_addr->user_id = Auth::user()->id;
             $user_addr->first_name = $request->address['first_name'];
             $user_addr->last_name = $request->address['last_name'];
             $user_addr->email = $request->address['email'];
-            $user_addr->order_confirmation_email = $request->confirmation_email;
+            // $user_addr->order_confirmation_email = $request->confirmation_email;
             $user_addr->phone_number = $request->address['phone'];
             $user_addr->company_name = $request->address['company_name'];
             $user_addr->address = $request->address['address_line'];
@@ -414,16 +444,21 @@ class CheckoutController extends Controller
                 if($request->ship_addr['id'] != null){
                     $user_shipaddr = UserBilling::find($request->ship_addr['id']);
                     if(!$user_shipaddr) {
-                        $user_shipaddr = UserBilling::where('user_id',Auth::user()->id)->first();
-                        if(!$user_shipaddr) {
-                            $user_shipaddr = new UserBilling();
-                        }
-                    }
-                } else {
-                    $user_shipaddr = UserBilling::where('user_id',Auth::user()->id)->first();
-                    if(!$user_shipaddr) {
                         $user_shipaddr = new UserBilling();
                     }
+                    // $user_shipaddr = UserBilling::find($request->ship_addr['id']);
+                    // if(!$user_shipaddr) {
+                    //     $user_shipaddr = UserBilling::where('user_id',Auth::user()->id)->first();
+                    //     if(!$user_shipaddr) {
+                    //         $user_shipaddr = new UserBilling();
+                    //     }
+                    // }
+                } else {
+                    // $user_shipaddr = UserBilling::where('user_id',Auth::user()->id)->first();
+                    // if(!$user_shipaddr) {
+                    //     $user_shipaddr = new UserBilling();
+                    // }
+                    $user_shipaddr = new UserBilling();
                 }
                 $user_shipaddr->user_id = Auth::user()->id;
                 $user_shipaddr->first_name = $request->ship_addr['first_name'];
@@ -537,8 +572,8 @@ class CheckoutController extends Controller
                         $userOrderDesign->total_price = $total_price;
                     }
 
-                    $basket->status = 1;
-                    $basket->save();
+                    // $basket->status = 1;
+                    // $basket->save();
                     // dd($product_price,$total_price);
                     $userOrderDesign->save();
                     $orderDesign_ids[] = $userOrderDesign->id;
@@ -610,6 +645,7 @@ class CheckoutController extends Controller
     }
     public function userBillingAddress(Request $request)
     {
+
         if($request->address['id'] != null) {
         try {
             

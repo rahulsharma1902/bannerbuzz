@@ -29,6 +29,9 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\UserDashboardController;
 
 use App\Models\BlogCategory;
+use App\Http\Controllers\Front\BotManController;
+use App\Http\Controllers\Front\OrderTrackingController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,10 +53,22 @@ Route::post('notify', [ViewController::class, 'emailnotify'])->name('notify');
 
 Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
 Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
+
+Route::get('forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('forgetPassword')->middleware('guest');
+Route::post('forgotProcc', [AuthenticationController::class, 'forgotProcc'])->name('forgot.process');
+Route::post('otpConfirm', [AuthenticationController::class, 'otpConfirm'])->name('otp.confirm');
+Route::post('newPassword', [AuthenticationController::class, 'newPasswordCreate'])->name('new.password');
+
+
 Route::get('register', [AuthenticationController::class, 'register'])->middleware('guest');
 Route::post('registerProcc', [AuthenticationController::class, 'registerProcc']);
 Route::get('google/redirect', [AuthenticationController::class, 'googleRedirect']);
 Route::get('google/login', [AuthenticationController::class, 'redirectToGoogle'])->name('login_google');
+
+Route::get('facebook/redirect', [AuthenticationController::class, 'facebookRedirect'])->name('facebook_google');;
+Route::get('facebook/callback', [AdminDashController::class, 'facebookCallback']);
+
+
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 Route::get('/what-is-my-ip', function(){ return request()->ip();});
@@ -199,7 +214,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('admin-dashboard/order/state',[AdminDashController::class,'changeOrderState']);
 
     Route::get('admin-dashboard/site-meta',[AdminDashController::class,'SiteKey'])->name('site.key');   
-    Route::post('admin-dashboard/site-key-update',[AdminDashController::class,'UpdateKey'])->name('update.key');
+    Route::post('admin-dashboard/update-key',[AdminDashController::class,'UpdateKey'])->name('update.key');
 
 });
 
@@ -219,6 +234,7 @@ Route::group(['middleware' => ['check.guest']], function () {
     Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');
     Route::get('blog/{slug}', [ViewController::class, 'blogDetails'])->name('blog');
     Route::get('search',[ViewController::class,'searchProduct'])->name('search');
+    Route::post('customer-reviews-add', [ViewController::class, 'customerReviewsAdd'])->name('customer-reviews-add');
 
     Route::post('contact-send-process', [ViewController::class, 'ContactProcess'])->name('contact.send.process');
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
@@ -308,3 +324,7 @@ Route::fallback(function () {
 });
 
 
+Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+
+
+Route::post('/order-tracking-proccess', [OrderTrackingController::class, 'trackorder']);

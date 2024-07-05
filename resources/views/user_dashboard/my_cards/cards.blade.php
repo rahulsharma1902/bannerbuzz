@@ -1,5 +1,5 @@
 @extends('user_dashboard_layout.master')
-@section('content')
+@section('usercontent')
 
 
     <div class="col-lg-9">

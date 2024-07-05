@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OtpVerification extends Model
+class Contact extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'user_id', 'otp', 'expires_at','otp_type'
-    ];
 }

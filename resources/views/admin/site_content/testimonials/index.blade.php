@@ -166,6 +166,7 @@
         $(document).ready(function(){
             $('#rating').on('change',function(){
                 var value = $(this).val();
+                console.log(value);
                 if(value == '' || value < 1){
                     $('#rating_error').text('Enter a valid value');
                 } else if(value > 5){

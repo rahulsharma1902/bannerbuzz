@@ -85,7 +85,6 @@
                                             <div class="checkout-block">
                                                 <div class="row checkoutFormWrap">
                                                     <div class="row checkoutFormWrap" id="shipping_details">
-                                                        <input type="hidden" name="address[id]" class="id user_id" value="" >
                                                         <div class="col-md-6">
                                                             <input type="text" class="form-control first_name"
                                                                 placeholder="First Name" name="address[first_name]" value="" id="first_name" data-required="required">
@@ -164,7 +163,7 @@
                                                         <input type="radio" id="html" name="additional_billing" value="same" checked>
                                                         <label for="ad">Use same address for billing</label>
                                                         <div class="tool-div" style="position: relative;">
-                                                            <input type="radio" id="drop-ship2" name="additional_billing"
+                                                            <input type="radio" id="drop-ship2" name="additional_billing" 
                                                                 value="drop">
                                                             <label for="drop">Drop-ship</label>
                                                             <div class="req">
@@ -227,11 +226,11 @@
                                                             <div class="col-md-6">
                                                                 <input type="hidden" name="ship_addr[id]" value="" class="id" >
                                                                 <input type="text" class="form-control first_name"
-                                                                    placeholder="First Name" name="ship_addr[first_name]" value=""  data-required="required">
+                                                                    placeholder="First Name" name="ship_addr[first_name]" value="" id="billing_first_name" data-required="required">
                                                                     <span class="text-danger validation_error" error-for="first_name"></span>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <input type="text" class="form-control last_name" placeholder="Last Name" name="ship_addr[last_name]"  value="" data-required="required">
+                                                                <input type="text" class="form-control last_name" placeholder="Last Name" name="ship_addr[last_name]" id="billing_last_name" value="" data-required="required">
                                                                 <span class="text-danger validation_error" error-for="last_name"></span>
                                                             </div>
                                                             <div class="col-md-6">
@@ -302,10 +301,87 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button id="submitFormBtn" class="btn btn-primary">Submit</button>
+                                            <!-- <button id="submitFormBtn" class="btn btn-primary">Submit</button> -->
+                                            <p class="cancel_btn">cancel</p>
+                                        </div>
+                                        @if(isset($addresses) && $addresses->isNotEmpty()) 
+                                            <input type="hidden" id="address_type" name="address_type" value="old">
+                                        @else
+                                            <input type="hidden" id="address_type" name="address_type" value="new">
+                                        @endif
+                                       
+                                        <div id="user_address_div" class="user_address" @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif >
+                                            <div class="address">
+                                                @if(isset($addresses) && $addresses->isNotEmpty())
+                                                    @foreach($addresses as $key => $userAddress)
+                                                        <div class="address-container">
+                                                            <!-- <input type="radio" name="shipping_id" class="shipping_id" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif /> -->
+                                                            <div class="address-data-container">    
+                                                                <div class="address-head d-flex ">
+                                                                <div class="mainUserAdress">
+                                                                            <input type="radio" name="billing_id" class="billing_address" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
+
+                                                                            <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
+                                                                        </div>
+                                                                    <p class="icon-container">
+                                                                        <span style="display:none;" class="edit-icon edit_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
+                                                                    </p>
+                                                                </div>
+                                                                <p> 
+                                                                    <span class="emailAddress">{{ $userAddress->email }}</span>
+                                                                    <span class="numberAddress">{{ $userAddress->phone_number }}</span>
+                                                                    <div class="addressDetails">
+                                                                        <span>{{ $userAddress->company_name }}</span>
+                                                                        <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
+                                                                        <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
+                                                                        <span>{{ countryName($userAddress->country) }}</span>
+                                                                    </div>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="check_user_ship_addre"  @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
+                                            <input type="checkbox" id="check_box" name="same" value="same" checked  >
+                                            <label for="ad">Use same address for billing</label>
+                                            <div id="user_address" class="user_addre"  style="display:none;"  >
+                                                <div class="address">
+                                                    @if(isset($addresses) && $addresses->isNotEmpty())
+                                                        @foreach($addresses as $key => $userAddress)
+                                                            <div class="address-container">
+                                                                <!-- <input type="radio" name="billing_id" class="billing_address" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif /> -->
+                                                                <div class="address-data-container">
+                                                                    <div class="address-head d-flex ">
+                                                                        <div class="mainUserAdress">
+                                                                            <input type="radio" name="billing_id" class="billing_address" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
+
+                                                                            <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
+                                                                        </div>
+                                                                        <p class="icon-container">
+                                                                            <span style="display:none;" class="edit-icon edit_btn_billing_address" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
+                                                                        </p>
+                                                                    </div>
+                                                                    <p> 
+                                                                    <span class="emailAddress">{{ $userAddress->email }}</span>
+                                                                    <span class="numberAddress">{{ $userAddress->phone_number }}</span>
+                                                                    <div class="addressDetails">
+                                                                        <span>{{ $userAddress->company_name }}</span>
+                                                                        <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
+                                                                        <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
+                                                                        <span>{{ countryName($userAddress->country) }}</span>
+                                                                    </div>
+                                                                </p>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="check_btn">
-                                            <p class="cancel_btn">cancel</p>
+                                            
                                             <a href="{{ url('/checkout/cart') }}" class="back_button btn light_dark">Back</a>
                                             <!-- <button type="button" disabled class="next_button btn light_dark">Continue</button> -->
                                             <button type="button" class="next_button btn light_dark first_next_btn">Continue</button>
@@ -520,68 +596,6 @@
                                     </div>
                                 </div>
                             </form>
-                            <div id="user_address_div" class="user_address" @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif >
-                                <div class="address">
-                                    @if(isset($addresses) && $addresses->isNotEmpty())
-                                        @foreach($addresses as $key => $userAddress)
-                                            <div class="address-container">
-                                                <div class="address-head d-flex ">
-                                                    <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
-                                                    <p class="icon-container">
-                                                        <span class="edit-icon edit_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
-                                                        <!-- <span class="remove-icon delete_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-xmark"></i></span> -->
-                                                    </p>
-                                                </div>
-                                                <div class="address-data-container">
-                                                <input type="radio" name="address_check" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
-                                                <!-- <input type="checkbox" class="onoffswitch-checkbox" id="inline"  checked>  -->
-                                                    <p> 
-                                                        <span>{{ $userAddress->email }}</span>
-                                                        <span>{{ $userAddress->phone_number }}</span>
-                                                        <span>{{ $userAddress->company_name }}</span>
-                                                        <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
-                                                        <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
-                                                        <span>{{ countryName($userAddress->country) }}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="check_user_ship_addre"  @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
-                                <input type="checkbox" id="check_box" name="ship_add" value="address" checked  >
-                                <label for="ad">Use same address for billing</label>
-                                <div id="user_address" class="user_addre"  style="display:none;"  >
-                                    <div class="address">
-                                        @if(isset($addresses) && $addresses->isNotEmpty())
-                                            @foreach($addresses as $key => $userAddress)
-                                                <div class="address-container">
-                                                    <div class="address-head d-flex ">
-                                                        <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
-                                                        <p class="icon-container">
-                                                            <span class="edit-icon edit_btn_billing_address" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-pen"></i>Edit</span>
-                                                            <!-- <span class="remove-icon delete_btn" data-id="{{ $userAddress->id }}" ><i class="fa-solid fa-xmark"></i></span> -->
-                                                        </p>
-                                                    </div>
-                                                    <div class="address-data-container">
-                                                    <input type="radio" name="imgsel" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
-                                                    <!-- <input type="checkbox" class="onoffswitch-checkbox" id="inline"  checked>  -->
-                                                        <p> 
-                                                            <span>{{ $userAddress->email }}</span>
-                                                            <span>{{ $userAddress->phone_number }}</span>
-                                                            <span>{{ $userAddress->company_name }}</span>
-                                                            <span>{{ $userAddress->address }} {{ $userAddress->additional_address }} ,{{ $userAddress->city }}</span>
-                                                            <span>{{ $userAddress->zip_code }}-{{ $userAddress->state }}</span>
-                                                            <span>{{ countryName($userAddress->country) }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
                             <div id="AddNewAddress" class="address-container " @if(isset($addresses) && !$addresses->isNotEmpty()) style="display:none;" @endif>
                                 <div class="add-new-address">
                                     <p>
@@ -983,7 +997,7 @@
             }
         }
 
-        async function validPaymentFields(){
+        function validPaymentFields(){
             action == true;
 
             payment_method = $('input[name=payment_method]:checked').val();
@@ -991,6 +1005,8 @@
 
             if(payment_method == 'paypal') {
                 action == true;
+                next();
+                
             } else if(payment_method == 'stripe') {
                 if(cardHolderName == undefined || cardHolderName == null  || cardHolderName == '' ) {
                     isCardHolderName = false;
@@ -1031,6 +1047,7 @@
             $(tabs[n - 1]).removeClass("d-none"); // Show the current tab
 
             $(".back_button").prop("disabled", n === 1);
+            
 
             // Disable the "next" button if the user is not logged in or if it's the last tab
             // console.warn(isLoggedIn);
@@ -1046,24 +1063,33 @@
             // Update steps classes
             step();
         }
+    
 
         function next() {
             if (current < tabs.length) {
                 $(tabs[current - 1]).addClass("d-none");
                 $(tabs_pill[current - 1]).removeClass("active");
-
                 current++;
                 loadFormData(current);
+                $('#AddNewAddress').hide();
+                
             }
+                
         }
 
         function back() {
             if (current > 1) {
                 $(tabs[current - 1]).addClass("d-none");
                 $(tabs_pill[current - 1]).removeClass("active");
-
                 current--;
                 loadFormData(current);
+                if (current === 2) {
+                    $('#AddNewAddress').hide();
+                }
+                else {
+                    $('#AddNewAddress').show();
+                }
+                 
             }
         }
 
@@ -1073,6 +1099,7 @@
             $('html, body').animate({
                 scrollTop: $(".shippingAddresWrap").offset().top
             }, 500); // Scroll to the shippingAddresWrap div
+           
         }
 
         function step() {
@@ -1082,66 +1109,20 @@
             steps.each(function (index) {
                 if (index > 0 && index < current) { // Mark previous steps as completed
                     $(this).addClass("is-active completed");
+                    
                 }
                 if (index === current) {
                     $(this).addClass("is-active");
+
                 }
             });
         }
 
         function validFields(){
             action = true;
-            $('#shipping_details input[type=text]').each(function(){
-                var field_name = $(this).attr('id');
-                field_name = field_name.split('_');
-                for(i=0;i<field_name.length;i++){
-                    field_name[i] = field_name[i].charAt(0).toUpperCase() + field_name[i].slice(1);
-                }
-                name = field_name.join(' ');
-                if($(this).attr('data-required') === "required"){
-                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
-                        $(this).next('.validation_error').html(name+'&nbsp;is required');
-                        action = false;
-                    }else{
-                        $(this).next('.validation_error').html('');
-                    }
-                }
-            });
-
-            $('#shipping_details input[type=number]').each(function(){
-                var phone = $(this).attr('name');
-                if($(this).attr('data-required') === "required"){
-                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
-                        $(this).next('.validation_error').html('Phone Number is required');
-                        action = false;
-                    }else{
-                        $(this).next('.validation_error').html('');
-                    }
-                }
-            });
-
-            $('#shipping_details input[type=email]').each(function(){
-                email = $(this).attr('name');
-                if($(this).attr('data-required') === "required"){
-                    if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
-                        $(this).next('.validation_error').html('Email Address is required');
-                        action = false;
-                    }else{
-                        $(this).next('.validation_error').html('');
-                    }
-                }
-            });
-
-            confirmation_email_validate = $('#confirmation_email').val();
-
-            if(confirmation_email_validate == undefined || confirmation_email_validate == null || confirmation_email_validate == "") {
-                $('#confirmation_email_error').text('confirmation email is required');
-                action = false;
-            }
-           
-            var input_value_billing = $('input[name=additional_billing]:checked').val();
-            if(input_value_billing === 'drop'){
-                $('#additional_billing_address input[type=text]').each(function(){
+            var addressTYPE = $('#address_type').val();
+            if(addressTYPE == 'new') {
+                $('#shipping_details input[type=text]').each(function(){
                     var field_name = $(this).attr('id');
                     field_name = field_name.split('_');
                     for(i=0;i<field_name.length;i++){
@@ -1158,7 +1139,7 @@
                     }
                 });
 
-                $('#additional_billing_address input[type=number]').each(function(){
+                $('#shipping_details input[type=number]').each(function(){
                     var phone = $(this).attr('name');
                     if($(this).attr('data-required') === "required"){
                         if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
@@ -1170,7 +1151,7 @@
                     }
                 });
 
-                $('#additional_billing_address input[type=email]').each(function(){
+                $('#shipping_details input[type=email]').each(function(){
                     email = $(this).attr('name');
                     if($(this).attr('data-required') === "required"){
                         if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
@@ -1180,72 +1161,189 @@
                             $(this).next('.validation_error').html('');
                         }
                     }
-                }); 
-                
-                billing_company_name = $('#billing_company_name').val();
-                billing_address_line = $('#billing_address_line').val();
-                billing_additional_address = $('#billing_street_addr').val();
-                billing_zip_code = $('#billing_zip_code').val();
-                billing_state = $('#billing_state').val();
-                billing_city = $('#billing_city').val();
-                billing_country = $('#billing_country').val();
-                billing_email = $('#billing_email').val();
-                billing_phone = $('#billing_phone').val();
-                billing_name = $('#billing_first_name').val();
-                billing_lname = $('#billing_last_name').val();
-                var country_tag = $('#billing_country').find(':selected');
+                });
+
+                confirmation_email_validate = $('#confirmation_email').val();
+
+                if(confirmation_email_validate == undefined || confirmation_email_validate == null || confirmation_email_validate == "") {
+                    $('#confirmation_email_error').text('confirmation email is required');
+                    action = false;
+                }
+
+                var input_value_billing = $('input[name=additional_billing]:checked').val();
+                if(input_value_billing === 'drop'){
+                    $('#additional_billing_address input[type=text]').each(function(){
+                        var field_name = $(this).attr('id');
+                        field_name = field_name.split('_');
+                        for(i=0;i<field_name.length;i++){
+                            field_name[i] = field_name[i].charAt(0).toUpperCase() + field_name[i].slice(1);
+                        }
+                        name = field_name.join(' ');
+                        if($(this).attr('data-required') === "required"){
+                            if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                                $(this).next('.validation_error').html(name+'&nbsp;is required');
+                                action = false;
+                            }else{
+                                $(this).next('.validation_error').html('');
+                            }
+                        }
+                    });
+
+                    $('#additional_billing_address input[type=number]').each(function(){
+                        var phone = $(this).attr('name');
+                        if($(this).attr('data-required') === "required"){
+                            if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                                $(this).next('.validation_error').html('Phone Number is required');
+                                action = false;
+                            }else{
+                                $(this).next('.validation_error').html('');
+                            }
+                        }
+                    });
+
+                    $('#additional_billing_address input[type=email]').each(function(){
+                        email = $(this).attr('name');
+                        if($(this).attr('data-required') === "required"){
+                            if($(this).val() === undefined || $(this).val() === null || $(this).val() === ''){
+                                $(this).next('.validation_error').html('Email Address is required');
+                                action = false;
+                            }else{
+                                $(this).next('.validation_error').html('');
+                            }
+                        }
+                    }); 
+                    billing_company_name = $('#billing_company_name').val();
+                    billing_address_line = $('#billing_address_line').val();
+                    billing_additional_address = $('#billing_street_addr').val();
+                    billing_zip_code = $('#billing_zip_code').val();
+                    billing_state = $('#billing_state').val();
+                    billing_city = $('#billing_city').val();
+                    billing_country = $('#billing_country').val();
+                    billing_email = $('#billing_email').val();
+                    billing_phone = $('#billing_phone').val();
+                    billing_name = $('#billing_first_name').val();
+                    billing_lname = $('#billing_last_name').val();
+                    var country_tag = $('#billing_country').find(':selected');
+                    var country = country_tag.data('value');
+                    
+                    $('#addres_detail').show();
+                    $('#addres_detail_head').show();
+                    Billing_html = `
+                                    <span class="shippingAddressData"> 
+                                        <p><strong>Address: </strong><span class="ship_AddrData">${billing_address_line},${billing_additional_address}</span></p>
+                                        <p><strong>Name: </strong><span class="ship_nameAddrData">${billing_name} ${billing_lname}</span></p>
+                                        <p><strong>Email: </strong><span class="ship_mailAddrData">${billing_email}</span></p>
+                                        <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${billing_phone}</span></p>
+                                        <p><strong>Company Name: </strong><span class="billing_company">${billing_company_name}</span></p>
+                                        <p><strong>Zip Code: </strong><span class="zip_billing">${billing_zip_code}</span></p>
+                                        <p><strong>City: </strong><span class="city_billing">${billing_city}</span></p>
+                                        <p><strong>State: </strong><span class="state_billing">${billing_state}</span></p>
+                                        <p><strong>Country: </strong><span class="country_billing">${country}</span></p>
+                                    </span>`
+                    $('#b_address_div').html(Billing_html);
+                    
+                }
+                if(action == false){
+                    return false;
+                }
+
+                Company_name = $('#company_name').val();
+                console.log(Company_name);
+                address_line = $('#address_line').val();
+                additional_address = $('#street_addr').val();
+                zip_code = $('#zip_code').val();
+                state = $('#state').val();
+                city = $('#city').val();
+                country = $('#country').val();
+                email = $('#email').val();
+                phone_number = $('#phone').val();
+                var country_tag = $('#country').find(':selected');
                 var country = country_tag.data('value');
-                
-                $('#addres_detail').show();
-                $('#addres_detail_head').show();
-                Billing_html = `
-                                <span class="shippingAddressData"> 
-                                    <p><strong>Address: </strong><span class="ship_AddrData">${billing_address_line},${billing_additional_address}</span></p>
-                                    <p><strong>Name: </strong><span class="ship_nameAddrData">${billing_name} ${billing_lname}</span></p>
-                                    <p><strong>Email: </strong><span class="ship_mailAddrData">${billing_email}</span></p>
-                                    <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${billing_phone}</span></p>
-                                    <p><strong>Company Name: </strong><span class="billing_company">${billing_company_name}</span></p>
-                                    <p><strong>Zip Code: </strong><span class="zip_billing">${billing_zip_code}</span></p>
-                                    <p><strong>City: </strong><span class="city_billing">${billing_city}</span></p>
-                                    <p><strong>State: </strong><span class="state_billing">${billing_state}</span></p>
-                                    <p><strong>Country: </strong><span class="country_billing">${country}</span></p>
-                                </span>`
-                $('#b_address_div').html(Billing_html);
-                
+                Html_data =`
+                            <span class="shippingAddressData"> 
+                                <p><strong>Address:</strong><span class="ship_addressData"> ${address_line},${additional_address}</span></p>
+                                <p><strong>Company Name: </strong><span class="ship_addresscompanyData">${Company_name}</span></p>
+                                <p><strong>Zip Code: </strong><span class="ship_zipCodeData">${zip_code}</span></p>
+                                <p><strong>City: </strong><span class="ship_cityData">${city}</span></p>
+                                <p><strong>State: </strong><span class="ship_stateData">${state}</span></p>
+                                <p><strong>Country: </strong><span class="ship_countryData">${country}</span></p>
+                            </span>`
+                contact_html = `<h6>Contact information:</h6>
+                                    <span class="contactInfoData">
+                                        <p><strong>Email: </strong><span class="ship_mailAddrData">${email}</span></p>
+                                        <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${phone_number}</span></p>
+                                    </span>`
+
+                $('#billing_address_div').html(Html_data);
+                $('#ship-add').html(contact_html);
+            }
+            else {
+                // next();
+                var shipping_id = $('input[name="shipping_id"]:checked').val();
+                var billing_id = $('input[name="billing_id"]:checked').val();
+
+                if(!Number.isNaN(shipping_id)) {
+                    $.ajax({
+                        url:"{{ route('address.checkout.page') }}",
+                        type:'GET',
+                        data:{id:shipping_id, _token: '{{ csrf_token() }}'},
+                        success:function(response){
+                            var userAddress = response.userAddress;
+                            Html_data =`
+                                        <span class="shippingAddressData"> 
+                                            <p><strong>Address:</strong><span class="ship_addressData"> ${userAddress.address},${userAddress.additional_address}</span></p>
+                                            <p><strong>Company Name: </strong><span class="ship_addresscompanyData">${userAddress.company_name}</span></p>
+                                            <p><strong>Zip Code: </strong><span class="ship_zipCodeData">${userAddress.zip_code}</span></p>
+                                            <p><strong>City: </strong><span class="ship_cityData">${userAddress.city}</span></p>
+                                            <p><strong>State: </strong><span class="ship_stateData">${userAddress.state}</span></p>
+                                            <p><strong>Country: </strong><span class="ship_countryData">${userAddress.country}</span></p>
+                                        </span>`
+                            contact_html = `<h6>Contact information:</h6>
+                                                <span class="contactInfoData">
+                                                    <p><strong>Email: </strong><span class="ship_mailAddrData">${userAddress.email}</span></p>
+                                                    <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${userAddress.phone_number}</span></p>
+                                                </span>`
+
+                            $('#billing_address_div').html(Html_data);
+                            $('#ship-add').html(contact_html);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });   
+                    
+                }
+
+                if(!Number.isNaN(billing_id)) {
+                    $.ajax({
+                        url:"{{ route('address.checkout.page') }}",
+                        type:'GET',
+                        data:{id:billing_id, _token: '{{ csrf_token() }}'},
+                        success:function(response){
+                            $('#addres_detail').show();
+                            $('#addres_detail_head').show();
+                            var billingAddress = response.userAddress;
+                            Billing_html = `
+                                            <span class="shippingAddressData"> 
+                                               <p><strong>Address:</strong><span class="ship_addressData"> ${billingAddress.address},${billingAddress.additional_address}</span></p>
+                                                <p><strong>Name: </strong><span class="ship_nameAddrData">${billingAddress.first_name} ${billingAddress.last_name}</span></p>
+                                                <p><strong>Email: </strong><span class="ship_mailAddrData">${billingAddress.email}</span></p>
+                                                <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${billingAddress.phone_number}</span></p>
+                                                <p><strong>Company Name: </strong><span class="ship_addresscompanyData">${billingAddress.company_name}</span></p>
+                                                <p><strong>Zip Code: </strong><span class="ship_zipCodeData">${billingAddress.zip_code}</span></p>
+                                                <p><strong>City: </strong><span class="ship_cityData">${billingAddress.city}</span></p>
+                                                <p><strong>State: </strong><span class="ship_stateData">${billingAddress.state}</span></p>
+                                                <p><strong>Country: </strong><span class="ship_countryData">${billingAddress.country}</span></p>
+                                            </span>`
+                            $('#b_address_div').html(Billing_html);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });   
+                }
             }
             
-            if(action == false){
-                return false;
-            }
-
-            Company_name = $('#company_name').val();
-            address_line = $('#address_line').val();
-            additional_address = $('#street_addr').val();
-            zip_code = $('#zip_code').val();
-            state = $('#state').val();
-            city = $('#city').val();
-            country = $('#country').val();
-            email = $('#email').val();
-            phone_number = $('#phone').val();
-            var country_tag = $('#country').find(':selected');
-            var country = country_tag.data('value');
-            Html_data =`
-                        <span class="shippingAddressData"> 
-                            <p><strong>Address:</strong><span class="ship_addressData"> ${address_line},${additional_address}</span></p>
-                            <p><strong>Company Name: </strong><span class="ship_addresscompanyData">${Company_name}</span></p>
-                            <p><strong>Zip Code: </strong><span class="ship_zipCodeData">${zip_code}</span></p>
-                            <p><strong>City: </strong><span class="ship_cityData">${city}</span></p>
-                            <p><strong>State: </strong><span class="ship_stateData">${state}</span></p>
-                            <p><strong>Country: </strong><span class="ship_countryData">${country}</span></p>
-                        </span>`
-            contact_html = `<h6>Contact information:</h6>
-                                <span class="contactInfoData">
-                                    <p><strong>Email: </strong><span class="ship_mailAddrData">${email}</span></p>
-                                    <p><strong>Phone Number: </strong><span class="ship_phnNumberData">${phone_number}</span></p>
-                                </span>`
-
-            $('#billing_address_div').html(Html_data);
-            $('#ship-add').html(contact_html);
             next();
         }
 
@@ -1257,6 +1355,7 @@
             cardHolderName = $('#card_holder_name').val();
             // secret_value = $(cardBtn).data('secret');
             secret_value = "{{ $client_secret }}";
+            console.log(secret_value);
 
             if(payment_method == 'stripe'){
                 
@@ -1270,8 +1369,6 @@
                         }
                     }
                 ) 
-                
-               
                 if(error){
  
                     if(error.message != ''){
@@ -1311,7 +1408,7 @@
         $(".first_next_btn").on("click",validFields);
         $(".second_next_btn").on("click",validPaymentFields);
         $(".editAdressInfo").on("click", goToFirstTab); // Attach goToFirstTab function to click event
-       
+      
     });
     
 </script>
@@ -1430,7 +1527,6 @@
                 success:function(response){
          
                     var userAddress = response.userAddress;
-                    console.log(userAddress);
                     $('.id').val(userAddress.id);
                     $('.first_name').val(userAddress.first_name);
                     $('.last_name').val(userAddress.last_name);
@@ -1452,6 +1548,7 @@
         });
     });
     $('#AddNewAddress').on('click',function(){
+        $('#address_type').val('new');
         $('.shippingAddresWrap').show();
         $('#user_address_div').hide();
         $('.check_user_ship_addre').hide();
@@ -1469,54 +1566,63 @@
             }    
         });
         $('.cancel_btn').on('click',function(){
+            $('#address_type').val('old');
             $(this).closest('.ship-wrap').find('.user_id').val('');
             $('.shippingAddresWrap').hide();
             $('#user_address_div').show();
             $('.check_user_ship_addre').show();
             $('.cancel_btn').hide();
             $('#AddNewAddress').show();
+           
         });
         $('.edit_btn_billing_address').on('click',function(){
-            $('.additional_billing_address_user').show();
+            $('#user_billing_address_change').show();
+            // $('#additional_billing_user').show();
+            $('.cancel_btn').show();
 
         });
+        $('#cancel_btn_billing').on('click',function(){
+            $('#user_billing_address_change').hide();
+            // $('#additional_billing_user').hide();
+            // $(this).closest('#user_billing_address_change').find('.user_id').val('');
+        });
     });
-$(document).ready(function(){
-        $('#submitFormBtn').on('click', function(e) {
-            e.preventDefault(); 
-            var formData = {
-                id:          $('.id').val(),
-                first_name: $('#first_name').val(),
-                last_name: $('#last_name').val(),
-                phone: $('#phone').val(),
-                email: $('#email').val(),
-                company_name: $('#company_name').val(),
-                address_line: $('#address_line').val(),
-                street: $('#street_addr').val(),
-                city: $('#city').val(),
-                state: $('#state').val(),
-                zip_code: $('#zip_code').val(),
-                country: $('#country').val()
+    // $(document).ready(function(){
+    //     $('#submitFormBtn').on('click', function(e) {
+    //         e.preventDefault(); 
+    //         var formData = {
+    //             id:          $('.id').val(),
+    //             first_name: $('#first_name').val(),
+    //             last_name: $('#last_name').val(),
+    //             phone: $('#phone').val(),
+    //             email: $('#email').val(),
+    //             company_name: $('#company_name').val(),
+    //             address_line: $('#address_line').val(),
+    //             street: $('#street_addr').val(),
+    //             city: $('#city').val(),
+    //             state: $('#state').val(),
+    //             zip_code: $('#zip_code').val(),
+    //             country: $('#country').val()
                 
-            };
+    //         };
 
-            $.ajax({
-                url: 'checkout/billing/address',
-                type: 'POST',
-                dataType: 'json',
-                data: { address: formData ,_token: '{{ csrf_token() }}'},
-                success: function(response) {
-                    console.log(response);
-                    window.location.href = 'checkout';
-                    // Handle success response here
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    // Handle error response here
-                }
-            });
-        });
-    });
+    //         $.ajax({
+    //             url: 'checkout/billing/address',
+    //             type: 'POST',
+    //             dataType: 'json',
+    //             data: { address: formData ,_token: '{{ csrf_token() }}'},
+    //             success: function(response) {
+    //                 window.location.href = 'checkout';
+    //                 // Handle success response here
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error(xhr.responseText);
+    //                 // Handle error response here
+    //             }
+    //         });
+    //     });
+    // });
+
 </script>
 
 @endsection

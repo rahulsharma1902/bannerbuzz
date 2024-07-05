@@ -50,87 +50,119 @@
                     <div class="tab-content" id="v-pills-tabContent">
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <h5>Inquiry Form</h5>
-                            <form action="{{ url('/contact-send-process') }}" method="Post">
+                            <form action="{{ url('/contact-send-process') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Full Name*</label>
-                                            <input type="text" class="form-control form-control-lg" id="fname" name="name"  />
+                                            <label for="fname">Full Name*</label>
+                                            <input type="text" class="form-control form-control-lg" id="fname" name="name" value="{{ old('name') }}" />
+                                            @error('name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Email Address*</label>
-                                            <input type="email" class="form-control form-control-lg" id="email" name="email"  />
+                                            <label for="email">Email Address*</label>
+                                            <input type="email" class="form-control form-control-lg" id="email" name="email" value="{{ old('email') }}" />
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Phone Number</label>
-                                            <input type="text" name="number" class="form-control form-control-lg" id="member" name="Member" />
+                                            <label for="member">Phone Number</label>
+                                            <input type="text" name="number" class="form-control form-control-lg" id="member" value="{{ old('number') }}" />
+                                            @error('number')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Company Name</label>
-                                            <input type="text" class="form-control form-control-lg" placeholder="Company Name" id="company_name" name="company_name" />
+                                            <label for="company">Company Name</label>
+                                            <input type="text" class="form-control form-control-lg" id="company" name="company" value="{{ old('company') }}" />
+                                            @error('company')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <h5>Contact Address </h5>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Address</label>
-                                            <input type="text" class="form-control form-control-lg" id="address" name="address" />
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control form-control-lg" id="address" name="address" value="{{ old('address') }}" />
+                                            @error('address')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Country</label>
-                                            <?php
-                                                $country_array = CountryArray();
-                                            ?>
+                                            <label for="country">Country</label>
+                                            <?php $country_array = CountryArray(); ?>
                                             <select class="form-control form-control-lg" name="country" id="country">
                                                 @foreach($country_array as $key => $country_name)
-                                                    <option value="{{$key}}">{{ $country_name}}</option>
+                                                    <option value="{{ $key }}" {{ old('country') == $key ? 'selected' : '' }}>{{ $country_name }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('country')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">State*</label>
-                                            <input type="text" class="form-control form-control-lg" id="state" name="state" />
+                                            <label for="state">State</label>
+                                            <input type="text" class="form-control form-control-lg" id="state" name="state" value="{{ old('state') }}" />
+                                            @error('state')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">City</label>
-                                            <input type="text" class="form-control form-control-lg" id="city" name="city" />
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control form-control-lg" id="city" name="city" value="{{ old('city') }}" />
+                                            @error('city')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <h5>Message </h5>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Email Topic*</label>
-                                            <input type="text" class="form-control form-control-lg" id="email_topic" name="email_topic" />
+                                            <label for="topic">Email Topic*</label>
+                                            <input type="text" class="form-control form-control-lg" id="topic" name="topic" value="{{ old('topic') }}" />
+                                            @error('topic')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">Subject*</label>
-                                            <input type="text" class="form-control form-control-lg" id="subject" name="subject" />
+                                            <label for="subject">Subject*</label>
+                                            <input type="text" class="form-control form-control-lg" id="subject" name="subject" value="{{ old('subject') }}" />
+                                            @error('subject')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Inquiry</label>
-                                            <textarea type="text" class="form-control" rows="2" cols="30" id="inquiry" name="inquiry"></textarea>
+                                            <label for="inquiry">Inquiry</label>
+                                            <textarea class="form-control" rows="2" cols="30" id="inquiry" name="inquiry">{{ old('inquiry') }}</textarea>
+                                            @error('inquiry')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                               <button type="submit" class="btn light_dark submit-btn">Submit Your Inquiry</button>
+                                <button type="submit" class="btn light_dark submit-btn">Submit Your Inquiry</button>
                             </form>
+
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
                         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
@@ -149,13 +181,32 @@
                     <div class="get-lft-info">
                         <h1>Get in Touch!</h1>
                         <div class="get-lnks">
-                            <p><span><img src="{{ asset('front/img/ml.png') }}" class="img-fluid" alt=""></span><a href ="contact@cre8iveprinter.com">contact@cre8iveprinter.com</a></p>
-                              <p><span><img src="{{ asset('front/img/lct.png')}}" class="img-fluid" alt=""></span><a href ="">8975 W Charleston Blvd. Suite 190<br>
-Las Vegas, NV 89117</a></p>
-                                <p><span><img src="{{ asset('front/img/tel.png')}}" class="img-fluid" alt=""></span><a href="tel:0 123 4567 890"> 
-0 123 4567 890
-</a> </p>
+                            <p>
+                                <span>
+                                    <img src="{{ asset('front/img/ml.png') }}" class="img-fluid" alt="Email Icon">
+                                </span>
+                                <a href="mailto:{{ $homeContent->email ?? 'contact@cre8iveprinter.com' }}">
+                                    {{ $homeContent->email ?? 'contact@cre8iveprinter.com' }}
+                                </a>
+                            </p>
+                            <p>
+                                <span>
+                                    <img src="{{ asset('front/img/lct.png') }}" class="img-fluid" alt="Location Icon">
+                                </span>
+                                <a href="https://www.google.com/maps?q={{ urlencode($homeContent->address ?? '8975 W Charleston Blvd. Suite 190 Las Vegas, NV 89117') }}" target="_blank">
+                                    {{ $homeContent->address ?? '8975 W Charleston Blvd. Suite 190 Las Vegas, NV 89117' }}<br>
+                                </a>
+                            </p>
+                            <p>
+                                <span>
+                                    <img src="{{ asset('front/img/tel.png') }}" class="img-fluid" alt="Phone Icon">
+                                </span>
+                                <a href="tel:{{ $homeContent->phone ?? '01234567890' }}">
+                                    {{ $homeContent->phone ?? '0 123 4567 890' }}
+                                </a>
+                            </p>
                         </div>
+
                     </div>
                 </div>
                  <div class="col-lg-6">

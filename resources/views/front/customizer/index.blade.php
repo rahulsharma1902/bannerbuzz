@@ -18,6 +18,27 @@
     font-size: small;
     }
 </style>
+
+@if(isset($fonts) && is_iterable($fonts) && count($fonts) > 0)
+    @foreach ($fonts as $font)
+        @php
+            $fontFaceCss = "";
+            $fontFaceAttributes = json_decode($font->font_face ?? '[]');
+            if (json_last_error() === JSON_ERROR_NONE) {
+                foreach ($fontFaceAttributes as $attribute) {
+                    $fontFaceCss .= e($attribute->key) . ": " . e($attribute->value) . ";\n";
+                }
+            }
+        @endphp
+        <style>
+            @font-face {
+                font-family: "{{ e($font->name ?? '') }}";
+                src: url("{{ asset($font->path ?? '') }}");
+                {!! $fontFaceCss !!}
+            }
+        </style>
+    @endforeach
+@endif
 <div class="main_div"></div>
 <header class="header_wrap">
     <nav class="navbar navbar-expand-lg">
@@ -712,7 +733,7 @@
                                                 data-background="{{ asset('BannerImage') ?? ''}}/{{$background->background[$b]['image'] ?? '' }}"
                                                 class="setBackground background-{{ $background->slug ?? '' }} backgroundSection">
                                                 <img src="{{ asset('BannerImage') ?? ''}}/{{$background->background[$b]['image'] ?? '' }}"
-                                                    class="img-fluid" alt="" /></li>
+                                                    class="img-fluid" alt="" crossorigin="anonymous"/></li>
                                             @endfor
                                             @endif
                                             @endforeach
@@ -1131,7 +1152,7 @@
                                     <div class="form_group_box">
                                         <div class="select_box">
                                             <select name="select" id="select-option" class="form-control font-family">
-                                                <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
+                                                <!-- <option style="font-family: 'Mona Sans';" value="Mona Sans">Mona Sans</option>
                                                 <option style="font-family: 'Arial';" value="Arial">Arial</option>
                                                 <option style="font-family: 'Rockwell;';" value="Rockwell">Rockwell</option>
                                                 <option style="font-family: 'emoji';" value="emoji">emoji</option>
@@ -1140,8 +1161,15 @@
                                                 <option style="font-family: 'system-ui';" value="system-ui">System-ui</option>
                                                 <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
                                                 <option style="font-family: 'Open Sans';" value="Open Sans">Open Sans</option>
-                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option>
-
+                                                <option style="font-family: 'Roboto';" value="Roboto">Roboto</option> -->
+                                                <option style="font-family: 'Times New Roman';" value="Times New Roman">Times New Roman</option>
+                                                @if(isset($fonts) && is_iterable($fonts) && count($fonts) > 0)
+                                                    @foreach ($fonts as $font)
+                                                        <option style="font-family: '{{ $font->name ?? '' }}';" value="{{ $font->name ?? '' }}">
+                                                            {{ $font->name ?? 'Roboto' }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="select-size">
@@ -1553,7 +1581,7 @@
                             </ul>
                         </div>
 
-                        <div class="togls_buttn">
+                        <!-- <div class="togls_buttn">
                             <ul class="list-unstyled m-0">
                                 <li>
                                     <span class="cht_box">
@@ -1568,7 +1596,7 @@
                                     </label>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
               

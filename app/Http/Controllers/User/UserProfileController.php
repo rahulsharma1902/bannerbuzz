@@ -161,8 +161,10 @@ class UserProfileController extends Controller
             $otps->user_id = $users->id;
             $otps->otp = $otp;
             $otps->otp_type = 'email';
-            $otps->expires_at = now()->addMinutes(1);
+            $otps->expires_at = now()->addMinutes(5);
             $otps->save();
+
+            
 
             $mailData = array(
                 $users->first_name,
@@ -173,13 +175,17 @@ class UserProfileController extends Controller
 
             $mail = Mail::to($users->email)->send(new EmailUpdateMail($mailData));
 
+            $oldotps = OtpVerification::where('user_id',$users->id)->get();
+            foreach($oldotps as $OTP) {
+                $OTP->update(['status' => false]);
+            }
             return response()->json(['success']);
         }
     }
 
     public function verifyOtp(Request $request){
         if(isset($request->otp)){
-            $otpVerfication = OtpVerification::where('otp',$request->otp)->first();
+            $otpVerfication = OtpVerification::where('otp',$request->otp)->where('status' ,1)->first();
 
             if($otpVerfication){
                 $expire_time = $otpVerfication->expires_at;
@@ -189,7 +195,7 @@ class UserProfileController extends Controller
                 if($expire_time > $current_time){
                     return response()->json(['success'=>'OTP is verified','code'=>'200']);
                 }else{
-                    return response()->json(['error'=>'OTP is expired','code'=>'500']);
+                    return response()->json(['error'=>'OTP is expired','code'=>'400']);
                 }
                 
             }else{

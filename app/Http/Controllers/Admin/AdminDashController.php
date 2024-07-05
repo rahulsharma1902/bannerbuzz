@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hash;
 
+use Laravel\Socialite\Facades\Socialite;
 class AdminDashController extends Controller
 {
     public function index(){
@@ -155,4 +156,45 @@ class AdminDashController extends Controller
             return $envArray;
         }
 
+
+
+
+        public function facebookCallback()
+{
+    try {
+        $facebookUser = Socialite::driver('facebook')->user();
+    } catch (\Exception $e) {
+        return redirect('/login')->with('error', 'Facebook authentication failed.');
+    }
+
+
+    $existingUser = User::where('email', $facebookUser->email)->first();
+
+    if ($existingUser) {
+        Auth::login($existingUser);
+    } else {
+        $unique_user_name = $facebookUser->name;
+        $count = 1;
+        while (User::where('user_name', $unique_user_name)->exists()) {
+            $unique_user_name =  $facebookUser->name . $count++;
+        }
+
+        $newUser = new User();
+        $newUser->user_name = $unique_user_name;
+        $newUser->first_name = $facebookUser->name;
+        $newUser->email = $facebookUser->email;
+        $newUser->password = Hash::make($facebookUser->email);
+        $newUser->save();
+
+        Auth::login($newUser);
+    }
+
+    if (Auth::user()->is_admin == 1) {
+        return redirect('/admin-dashboard')->with('success', 'Successfully logged in! Welcome Admin');
+    } elseif (Auth::user()->is_admin == 0) {
+        return redirect('/')->with('success', 'Successfully logged in');
+    } else {
+        abort(404);
+    }
+}
 }
