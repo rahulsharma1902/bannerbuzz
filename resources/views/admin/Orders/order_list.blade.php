@@ -45,11 +45,13 @@
                                 </td>
 
                                 <td class="nk-tb-col tb-col-md">
-                                    @if($order->order_status != 'succeeded' && $order->order_status != 'completed')
-                                        <span class="badge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
+                                    @if($order->order_status != 'succeeded' && $order->order_status != 'completed' && $order->order_status != 'COMPLETED')
+                                        <span class="badge rounded-pill bg-danger">{{ $order->order_status }}</span>
+                                  
                                     @else
-                                        <span class="badge badge-dot bg-success">Completed</span>
+                                        <span class="badge rounded-pill bg-success">completed</span>
                                     @endif
+                               
                                 </td>
                                 <td class="nk-tb-col tb-col-mb">
                                     <!-- <label class="form-label">Change</label> -->

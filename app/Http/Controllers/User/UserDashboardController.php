@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\UserMeta;
 use Auth;
 use Stripe\{Stripe,SetupIntent,Customer,PaymentIntent,Charge,PaymentMethod};
+use Illuminate\Support\Facades\Log; // Add this line to use the Log facade
 
 class UserDashboardController extends Controller
 {
@@ -30,18 +31,40 @@ class UserDashboardController extends Controller
         return view('user_dashboard.orders.index',compact('orders')); 
     }
 
+    // public function OrderDetail($order_num) 
+    // {
+    //     try{
+    //         $order = Order::where('order_number',$order_num)->first();
+    //         if($order){
+    //             return view('user_dashboard.orders.order_detail',compact('order'));
+    //         } else {
+    //             abort(404);
+    //         }
+    //       } catch (Execption $e){
+    //         return resposne(false);
+    //     }
+    // }
     public function OrderDetail($order_num) 
     {
-        $order = Order::where('order_number',$order_num)->first();
-        if($order){
-            return view('user_dashboard.orders.order_detail',compact('order'));
-        } else {
-            abort(404);
+        try {
+            $order = Order::where('order_number', $order_num)->first();
+            if ($order) {
+                return view('user_dashboard.orders.order_detail', compact('order'));
+            } else {
+                abort(404);
+            }
+        } catch (Exception $e) {
+            // Log the error for debugging purposes
+            Log::error("Error fetching order details: " . $e->getMessage());
+            
+            // Provide a user-friendly error message
+            return redirect()->back()->with('error', 'Unable to retrieve order details at this time. Please try again later.');
         }
     }
-
+    
     public function MyCards()
     {
+        try{
         $setup_intent = SetupIntent::create();
         $client_secret = $setup_intent->client_secret;
 
@@ -86,6 +109,19 @@ class UserDashboardController extends Controller
         }
 
         return view('user_dashboard.my_cards.cards',compact('cards','client_secret')); 
+    } catch (\Stripe\Exception\ApiErrorException $e) {
+        // Log the error for debugging purposes
+        Log::error("Stripe API error: " . $e->getMessage());
+        
+        // Provide a user-friendly error message
+        return redirect()->back()->with('error', 'Payment service is currently unavailable. Please try again later.');
+    } catch (Exception $e) {
+        // Log the error for debugging purposes
+        Log::error("General error: " . $e->getMessage());
+        
+        // Provide a user-friendly error message
+        return redirect()->back()->with('error', 'Oops, something went wrong. Please try again later.');
+    }
     }
 
     public function AddCard(Request $request)

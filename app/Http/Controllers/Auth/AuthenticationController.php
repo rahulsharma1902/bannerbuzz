@@ -170,13 +170,13 @@ class AuthenticationController extends Controller
         $password = Hash::make($request->password);
     
         $user->password = $password;
-        $user->save(); 
+        $user->update(); 
         if (Auth::attempt($request->only('email', 'password'))) {
             if (Auth::user()->is_admin == 0) {
-        
+                session()->flash('success', 'Your new password has been created successfully');
                 return response()->json(['success' => 'Your new password has been created successfully', 'redirect' => 'admin-dashboard']);
             } else {
-           
+                session()->flash('success', 'Your new password has been created successfully');
                 return response()->json(['success' => 'Your new password has been created successfully', 'redirect' => '/']);
             }
         }

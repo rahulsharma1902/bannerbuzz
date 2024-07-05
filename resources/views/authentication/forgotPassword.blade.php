@@ -5,6 +5,8 @@
         position: relative;
     }
 
+
+
     .toggle-password {
         position: absolute;
         top: 40%;
@@ -39,37 +41,45 @@
                     <div class="email_forgot">
                         <input type="email" id="email" name="email" placeholder="Your Email">
                         @if ($errors->has('email'))
-                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                        <span class="text-danger">{{ $errors->first('email') }}</span>
                         @endif
                         <span class="text-danger email_error"></span>
+
                     </div>
                     <div class="number_container" style="display: none;">
                         <input type="number" id="otp_create" name="otp" placeholder="Enter Your OTP">
                         <span class="text-danger otp_error"></span>
                         @if ($errors->has('number'))
-                            <span class="text-danger">{{ $errors->first('number') }}</span>
+                        <span class="text-danger">{{ $errors->first('number') }}</span>
                         @endif
                     </div>
+
+                    <!-- password hidden -->
                     <div class="new_confirm_pass_div" style="display: none;">
-                        <div class="new_password">
+                        <div class="password-container">
                             <input type="password" id="new_password" name="password" placeholder="Enter Your New Password">
                             <span class="text-danger new_pass_error"></span>
                             @error('password')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                        </div>
-
-                        <div class="confirm_new_pass">
-                            <input type="password" id="password_confirm" name="password_confirmation" placeholder="Enter Your Confirm Password">
-                            <span class="text-danger " id="confirm_pass_error"></span>
-                             @if ($errors->has('password_confirmation'))
-                                <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
-                             @endif
-                            <span  class="toggle-password" onclick="togglePasswordVisibility()">
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
                                 <i class="fas fa-eye-slash" id="eye"></i>
                             </span>
                         </div>
+                        <div class="password-container">
+                            <input type="password" id="password_confirm" name="password_confirmation" placeholder="Enter Your Confirm Password">
+                            <span class="text-danger " id="confirm_pass_error"></span>
+                            @if ($errors->has('password_confirmation'))
+                            <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                            @endif
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye-slash" id="eye-confirm"></i>
+                            </span>
+                        </div>
                     </div>
+
+                    <!-- end password hidden -->
+
 
                     <!-- <div class="">
                             <div class="g-recaptcha" data-sitekey="6LfWkd0mAAAAAHjVHtaMeA34uKJ-0SLcd33sUoqb"></div>
@@ -102,7 +112,7 @@
                     <div class="social_content">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="{{route('facebook_google')}}">
                                     <i class="fa-brands fa-facebook-f"></i><br />
                                     <span>Facebook</span>
                                 </a>
@@ -178,7 +188,7 @@
 
                 $(this).addClass('fa-eye');
 
-                $('#password').attr('type', 'text');
+                $('#new_password').attr('type', 'text');
 
             } else {
 
@@ -186,17 +196,37 @@
 
                 $(this).addClass('fa-eye-slash');
 
-                $('#password').attr('type', 'password');
+                $('#new_password').attr('type', 'password');
+            }
+        });
+    });
+    $(function() {
+
+        $('#eye-confirm').click(function() {
+
+            if ($(this).hasClass('fa-eye-slash')) {
+
+                $(this).removeClass('fa-eye-slash');
+
+                $(this).addClass('fa-eye');
+
+                $('#password_confirm').attr('type', 'text');
+
+            } else {
+
+                $(this).removeClass('fa-eye');
+
+                $(this).addClass('fa-eye-slash');
+
+                $('#password_confirm').attr('type', 'password');
             }
         });
     });
     $(document).ready(function() {
         $('.send_otp').click(function(e) {
             e.preventDefault();
-
             var email = $('#email').val();
             console.log(email);
-
             if (email == null || email == undefined || email == '') {
                 $('.email_error').text('Email field is required');
             } else {
@@ -257,63 +287,64 @@
                     }
                 });
             }
-
         });
     });
 
     $(document).ready(function() {
-    $('.create_new_password').click(function(e) {
-        e.preventDefault();
-
-        var email = $('#email').val();
-        var password = $('#new_password').val(); 
-        var confirmPass = $('#password_confirm').val(); 
-        console.log(confirmPass);
-
-        $('.new_pass_error').text('');
-        $('#confirm_pass_error').text('');
-
-        if (password == null || password.trim() === '') {
-            $('.new_pass_error').text('New password field is required');
-            return;
-        }
-
-
-        if (confirmPass == null || confirmPass.trim() === '') {
-            $('#confirm_pass_error').text('Confirm password field is required');
-            return; 
-        }
-
- 
-        if (password !== confirmPass) {
-            $('#confirm_pass_error').text('New password and Confirm password do not match');
-            return; 
-        }
-         else {
-            $.ajax({
-                url: "{{ route('new.password') }}",
-                type: 'post',
-                data: {
-                    email:email,
-                    password: password,
-                    confirmPass: confirmPass,
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                    // Redirect based on role
-                    window.location.href = response.redirect;
-                }
-                },
-                error: function(xhr, status, error) {
-                    $('.new_pass_error').text(JSON.parse(xhr.responseText).error);
-                }
-            });
-        }
+        $('.create_new_password').click(function(e) {
+            e.preventDefault();
+            var email = $('#email').val();
+            var password = $('#new_password').val();
+            var confirmPass = $('#password_confirm').val();
+            $('.new_pass_error').text('');
+            $('#confirm_pass_error').text('');
+            if (password == null || password.trim() === '') {
+                $('.new_pass_error').text('New password field is required');
+                return;
+            }
+            if (confirmPass == null || confirmPass.trim() === '') {
+                $('#confirm_pass_error').text('Confirm password field is required');
+                return;
+            }
+            if (password !== confirmPass) {
+                $('#confirm_pass_error').text('New password and Confirm password do not match');
+                return;
+            }
+            if (password.length < 6) {
+            $('.new_pass_error').text('Password must be at least 6 characters long.');
+            } 
+            else {
+                $.ajax({
+                    url: "{{ route('new.password') }}",
+                    type: 'post',
+                    data: {
+                        email: email,
+                        password: password,
+                        confirmPass: confirmPass,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            iziToast.success({
+                                message: response.success,
+                                position: 'topRight'
+                            });
+                            window.location.href = response.redirect;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('.new_pass_error').text(JSON.parse(xhr.responseText).error);
+                        var errorMessage = xhr.responseJSON.error;
+                        iziToast.error({
+                            message: errorMessage,
+                            position: 'topRight'
+                        });
+                    }
+                });
+            }
+        });
     });
-});
-
 </script>
 @if(Session::has('error'))
 <script>

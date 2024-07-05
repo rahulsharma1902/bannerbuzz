@@ -1478,7 +1478,6 @@
         });
     </script>
     @endif
-
     <script>
         $(document).ready(function (){
             $('.chatnow').on('click',function(){
@@ -1486,6 +1485,13 @@
             });
         });
     </script>
+    <script>
+    $(document).ready(function(){
+        $('.edit_detail').on('click',function(){
+            window.location.href = "{{ route('user.profile') }}";
+        });
+    });
+</script>
 </body>
 
 </html>

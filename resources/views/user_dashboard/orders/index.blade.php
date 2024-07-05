@@ -68,7 +68,7 @@
 
                                                 <td class="nk-tb-col tb-col-md">
                                                     @if(strtolower($order->order_status) != 'succeeded' && strtolower($order->order_status) != 'completed')
-                                                        <span class="adge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
+                                                        <span class="badge badge-dot bg-danger">{{ $order->order_status ?? '' }}</span>
                                                     @else
                                                         <span class="badge badge-dot bg-success">Completed</span>
                                                     @endif

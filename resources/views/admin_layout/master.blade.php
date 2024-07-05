@@ -154,6 +154,22 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Fonts</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/font-view') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Fonts</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/font-add') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Add Fonts</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                         <span class="nk-menu-text">Product Category & Type </span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -215,22 +231,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                        <span class="nk-menu-text">Fonts</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/font-view') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Fonts</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/font-add') }}"
-                                                class="nk-menu-link"><span class="nk-menu-text">Add Fonts</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
+                               
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
@@ -276,7 +277,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nk-menu-item has-sub">
+                                <!-- <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                         <span class="nk-menu-text">Designers</span>
@@ -293,13 +294,13 @@
                                                     New Designer</span></a>
                                         </li>
                                     </ul>
-                                </li>
-                                <li class="nk-menu-item">
+                                </li> -->
+                                <!-- <li class="nk-menu-item">
                                     <a href="{{url('admin-dashboard/testimonials')}}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
                                         <span class="nk-menu-text">Testimonials</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nk-menu-item">
                                     <a href="{{route('orders.list')}}" class="nk-menu-link ">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
@@ -384,11 +385,11 @@
                                         </div>
                                     </li><!-- .dropdown -->
                                     <li class="dropdown notification-dropdown me-n1">
-                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon"
+                                        <!-- <a href="#" class="dropdown-toggle nk-quick-nav-icon"
                                             data-bs-toggle="dropdown">
                                             <div class="icon-status icon-status-info"><em
                                                     class="icon ni ni-bell"></em></div>
-                                        </a>
+                                        </a> -->
                                         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end dropdown-menu-s1">
                                             <div class="dropdown-head">
                                                 <span class="sub-title nk-dropdown-title">Notifications</span>
@@ -471,7 +472,7 @@
                                                 <a href="#">View All</a>
                                             </div>
                                         </div>
-                                    </li><!-- .dropdown -->
+                                    </li>
                                 </ul><!-- .nk-quick-nav -->
                             </div><!-- .nk-header-tools -->
                         </div><!-- .nk-header-wrap -->

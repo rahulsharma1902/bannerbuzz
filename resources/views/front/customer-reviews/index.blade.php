@@ -41,7 +41,14 @@
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                 </ul>
-                <span class="b_text">All 3430 Reviews</span>
+                <span class="b_text">
+                    @if($testimonials->count() > 0)
+                        All {{ $testimonials->count() }} Reviews
+                    @else
+                        No Reviews Yet
+                    @endif
+                </span>
+
             </div>
         </div>
     </div>

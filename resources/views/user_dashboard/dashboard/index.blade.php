@@ -30,7 +30,7 @@
                             <span><i class="fa-solid fa-chevron-right"></i></span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#" class="ordr_shop">
                             <div class="lft_txt">
                                 <div class="shop_img">
@@ -40,7 +40,7 @@
                             </div>
                             <span><i class="fa-solid fa-chevron-right"></i></span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- <div class="recent_order_box">

@@ -8808,3 +8808,26 @@ div#botmanWidgetRoot > div {
     justify-content: space-between;
     gap: 20px;
 }
+.bodyMainWrap .register_form form .form_info a.linkButton.forgotLink {
+    color: #e4004e;
+}
+.bodyMainWrap .register_form form p.alreadyAccount a.linkButton {
+    color: #e4004e;
+    margin-left: 5px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit div#otp_div .formGroupBox.frmgrp .btnSet {
+    margin-top: 0;
+}
+.user_dashboard_sec .profl_tabs .profile_edit div#otp_div .formGroupBox.frmgrp .formGroup div#myTimer {
+    margin-top: 5px;
+}
+.bodyMainWrap .register_form form .form_info a.linkButton.forgotLink {
+    color: #e4004e;
+}
+.bodyMainWrap .register_form form p.alreadyAccount a.linkButton {
+    color: #e4004e;
+    margin-left: 5px;
+}
+footer .footer_bt ul.footer_bt_rt li a {
+    color: #6d6968;
+}

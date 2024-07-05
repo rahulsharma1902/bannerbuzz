@@ -78,15 +78,24 @@
                                 <div class="checkbox"><input type="checkbox" name="change_email" id="change_email" value="changeEmail" /> <label for="change_email" class="sml_text">Change Email</label></div>
                             </div>
                             <div id="otp_div" style="display:none">
-                                <div class="formGroupBox">
-                                    <label for="otp" class="ltl_txt">Otp:</label>
-                                    <input type="number" class="form-control" id="otp" value="" placeholder="Enter otp" name="otp"/>
+                                <div class="formGroupBox frmgrp">
+                                    <div class="formGroup ">
+                                        <label for="otp" class="ltl_txt">Otp:</label>
+                                        <input type="number" class="form-control" id="otp" value="" placeholder="Enter otp" name="otp"/>
+                                        <div id="myTimer"></div>
+                                    </div>
+                                    <div class="formGroup">
+                                        <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
+                                            <button type="button" id="verify_btn" onclick="verifyOtp()" class="verifyBtn btn sml_text"><i class="fa-solid fa-check"></i></button>
+                                            <a id="resend_otp" style="display:none;" type="button" class="resendOtpBtn" onclick="sendOtp()" ><i class="fa-solid fa-rotate-right"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
+                                <!-- <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
                                     <button type="button" id="verify_btn" onclick="verifyOtp()" class="btn sml_text">Verify</button>
                                     <a id="resend_otp" style="display:none;" type="button" onclick="sendOtp()" >resend otp</a>
-                                </div>
-                                <div id="myTimer"></div>
+                                </div> -->
+                                <!-- <div id="myTimer"></div> -->
                             </div>
                             <div class="formGroupBox">
                                 <label for="email_input" class="ltl_txt">Email:</label>

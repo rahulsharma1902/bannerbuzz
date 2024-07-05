@@ -26,18 +26,23 @@
 <section class="loyal-sec p_100">
     <div class="container">
         <div class="loyal-content">
-            <h2>{{$about_content->header1_title ?? ''}}</h2>
+            <h2>{{ $about_content->header1_title ?? '' }}</h2>
             <div class="reasons">
-                @foreach(json_decode($about_content->header1_images) as $image => $text)
-                    <div class="rsn">
-                        <img src="{{ asset('Site_Images')}}/{{ $image ?? ''}}" alt="">
-                        <p>{{$text ?? ''}}</p>
-                    </div>
-                @endforeach
+                @if($about_content && $about_content->header1_images)
+                    @foreach(json_decode($about_content->header1_images) as $image => $text)
+                        <div class="rsn">
+                            <img src="{{ asset('Site_Images') }}/{{ $image ?? '' }}" alt="">
+                            <p>{{ $text ?? '' }}</p>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No content available.</p>
+                @endif
             </div>
         </div>
     </div>
 </section>
+
 
 <section class="create-sec p_100 pt-0">
     <div class="container">
@@ -118,61 +123,53 @@
 <section class="empowering-sec p_100" style="background-color: rgba(20, 20, 20, 1);">
     <div class="container">
         <div class="empowering-content">
-            <h2>{{$about_content->bottom1_title ?? '' }}</h2>
+            <h2>{{ $about_content->bottom1_title ?? '' }}</h2>
             <p>{!! $about_content->bottom1_description ?? '' !!}</p>
             <div class="brand-slider">
-                @foreach(json_decode($about_content->bottom_logos) as $logo)
-                    <div class="brand">
-                        <img src="{{ asset('Site_Images')}}/{{ $logo ?? ''}}" alt="">
-                    </div>
-                @endforeach
+                @if($about_content && $about_content->bottom_logos)
+                    @foreach(json_decode($about_content->bottom_logos) as $logo)
+                        <div class="brand">
+                            <img src="{{ asset('Site_Images') }}/{{ $logo ?? '' }}" alt="">
+                        </div>
+                    @endforeach
+                @else
+                    <p>No logos available.</p>
+                @endif
             </div>
         </div>
     </div>
 </section>
 
+
 <section class="imagine-sec p_100">
     <div class="container">
         <div class="imagine-content">
-            <h2>{{ $about_content->bottom2_title ?? ''}}</h2>
-            <p>{{$about_content->bottom2_subtitle ?? ''}}</p>
+            <h2>{{ $about_content->bottom2_title ?? '' }}</h2>
+            <p>{{ $about_content->bottom2_subtitle ?? '' }}</p>
             <div class="imagine-card">
-                @php 
-                $images = json_decode($about_content->bottom2_images,true);
-                $title = json_decode($about_content->bottom2_image_title,true);
-                $text = json_decode($about_content->bottom2_image_text,true);
+                @php
+                    $images = json_decode($about_content->bottom2_images ?? '[]', true);
+                    $titles = json_decode($about_content->bottom2_image_title ?? '[]', true);
+                    $texts = json_decode($about_content->bottom2_image_text ?? '[]', true);
                 @endphp
-                @for($i = 0; $i < count($title); $i++)
-                <div class="card">
-                    <div class="card_img">
-                        <img src="{{ asset('Site_Images')}}/{{$images[$i] ?? ''}}" alt="">
-                    </div>
-                        <div class="card_body">
-                            <h5>{{$title[$i] ?? ''}}</h5>
-                            <p>{{$text[$i] ?? ''}}</p>
+                @if(count($titles) === count($images) && count($titles) === count($texts))
+                    @for($i = 0; $i < count($titles); $i++)
+                        <div class="card">
+                            <div class="card_img">
+                                <img src="{{ asset('Site_Images') }}/{{ $images[$i] ?? '' }}" alt="">
+                            </div>
+                            <div class="card_body">
+                                <h5>{{ $titles[$i] ?? '' }}</h5>
+                                <p>{{ $texts[$i] ?? '' }}</p>
+                            </div>
                         </div>
-                </div>
-                @endfor 
-                <!-- <div class="card">
-                    <div class="card_img">
-                        <img src="{{ asset('front/img/cr8card2.png')}}" alt="">
-                    </div>
-                        <div class="card_body">
-                            <h5>Priority shipping</h5>
-                            <p>For FasterDelivery</p>
-                        </div>
-                </div>
-                <div class="card">
-                    <div class="card_img">
-                        <img src="{{ asset('front/img/cr8card3.png')}}" alt="">
-                    </div>
-                        <div class="card_body">
-                            <h5>24x7 Customer Support</h5>
-                            <p>Quick & EfficientIssue Resolving</p>
-                        </div>
-                </div> -->
+                    @endfor
+                @else
+                    <p>Some content is missing or misconfigured.</p>
+                @endif
             </div>
         </div>
     </div>
 </section>
+
 @endsection
