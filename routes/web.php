@@ -22,6 +22,11 @@ use App\Http\Controllers\Admin\DesignerController;
 use App\Http\Controllers\Admin\SiteControllers\HomeController;
 use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
 use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
+use App\Http\Controllers\Admin\SiteControllers\PrivacyPolicyController;
+
+use App\Http\Controllers\Admin\AdminChatController;
+
+
 use App\Http\Controllers\Front\ViewController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\BasketController;
@@ -77,6 +82,23 @@ Route::get('logout',[AuthenticationController::class,'logout'])->name('logout');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
+
+    // Chat setting
+    Route::get('admin-dashboard/chats', [AdminChatController::class, 'chats']);
+    Route::get('admin-dashboard/chats-active', [AdminChatController::class, 'chats']);
+    Route::get('admin-dashboard/chats-closed', [AdminChatController::class, 'chats']);
+
+    Route::get('admin-dashboard/chat-with/{chat_id}', [AdminChatController::class, 'chatWith']);
+
+
+    // Privacy Policy
+    Route::get('admin-dashboard/privacy-policy', [PrivacyPolicyController::class, 'privacyPolicy']);
+    Route::post('admin-dashboard/privacy-policy', [PrivacyPolicyController::class, 'processPrivacyPolicy']);
+
+
+    Route::get('admin-dashboard/terms-and-conditions', [PrivacyPolicyController::class, 'termsAndConditions']);
+    Route::post('admin-dashboard/terms-and-conditions', [PrivacyPolicyController::class, 'processTermsAndConditions']);
+
 
     // profile settings 
     Route::get('admin-dashboard/setting', [AdminDashController::class, 'profile']);
@@ -213,6 +235,9 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/order/{order_num}',[AdminDashController::class,'orderDetail'])->name('order.detail');   
     Route::post('admin-dashboard/order/state',[AdminDashController::class,'changeOrderState']);
 
+    Route::get('admin-dashboard/order/{order_num}/print',[AdminDashController::class,'orderPrint'])->name('order.print');   
+
+
     Route::get('admin-dashboard/site-meta',[AdminDashController::class,'SiteKey'])->name('site.key');   
     Route::post('admin-dashboard/update-key',[AdminDashController::class,'UpdateKey'])->name('update.key');
 
@@ -229,6 +254,7 @@ Route::group(['middleware' => ['check.guest']], function () {
     Route::get('contact-us', [ViewController::class, 'contactUs'])->name('contact-us');
     Route::get('customer-reviews', [ViewController::class, 'customerReviews'])->name('customer-reviews');
     Route::get('privacy-policy', [ViewController::class, 'privacyPolicy'])->name('privacy-policy');
+    Route::get('terms-and-conditions', [ViewController::class, 'termsAndConditions'])->name('terms-and-conditions');
     Route::get('upload-artwork', [ViewController::class, 'uploadArtwork'])->name('upload-artwork');
     Route::get('order-tracking', [ViewController::class, 'ordertracking'])->name('order-tracking');
     Route::get('blogs/{slug?}', [ViewController::class, 'blogs'])->name('blog.category');

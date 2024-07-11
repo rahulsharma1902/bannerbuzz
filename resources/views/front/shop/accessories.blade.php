@@ -71,15 +71,21 @@
                                 @endif
                             </select>
                         </div>
-                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif id="select_size_div"
-                            class="select_wrap">
-                            <select id="select_size" class="form-select" name="product_size"
-                                aria-label="Default select example">
+                       @if ($product_accessories && $product_accessories->isNotEmpty() && $product_accessories->first()->sizes->isNotEmpty())
+                            <div style="display:none;" id="select_size_div" class="select_wrap">
+                        @else
+                            <div id="select_size_div" class="select_wrap">
+                            @endif
+                                <select id="select_size" class="form-select" name="product_size" aria-label="Default select example">
 
-                            </select>
-                        </div>
+                                </select>
+                            </div>
 
-                        <div @if ($product_accessories->first()->sizes->isNotEmpty()) style="display:none;" @endif class="select_wrap"
+                            <div 
+                            @if ($product_accessories && $product_accessories->isNotEmpty() && $product_accessories->first() && $product_accessories->first()->sizes && $product_accessories->first()->sizes->isNotEmpty()) 
+                                style="display:none;" 
+                            @endif 
+                            class="select_wrap" 
                             id="size_unit_div">
                             <select class="form-select" id="size_unit" name="size_unit" aria-label="Default select example">
                                 <option selected value="Ft">Ft</option>
@@ -88,6 +94,7 @@
                                 <option value="Cm">Cm</option>
                             </select>
                         </div>
+
                         <div class="select_wrap">
                             <input type="number" min="1" max="999" id="product_qty" name="quantity"
                                 value="1" class="form-select" aria-label="Default select example">
@@ -204,14 +211,14 @@
                                         </div>
                                         <div class="card-body">
                                             <h5>{{ $product->name ?? '' }}</h5>
-                                            <div class="star_wreap">
+                                            <!-- <div class="star_wreap">
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
                                                 <span>4.54/5</span>
-                                            </div>
+                                            </div> -->
                                             @if ($product->sizes->isNotEmpty())
                                                 <p>{{ $product->sizes->first()->size_value ?? '' }} Starts at
                                                     <span>£{{ $product->sizes->first()->price ?? '' }}</span>

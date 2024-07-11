@@ -27,7 +27,7 @@ class UserDashboardController extends Controller
 
     public function Orders()
     {
-        $orders = Order::where('user_id',Auth::user()->id)->get();
+        $orders = Order::where('user_id',Auth::user()->id)->paginate(8);
         return view('user_dashboard.orders.index',compact('orders')); 
     }
 
@@ -47,7 +47,7 @@ class UserDashboardController extends Controller
     public function OrderDetail($order_num) 
     {
         try {
-            $order = Order::where('order_number', $order_num)->first();
+            $order = Order::where([ ['order_number',$order_num],['user_id',auth()->user()->id] ])->first();
             if ($order) {
                 return view('user_dashboard.orders.order_detail', compact('order'));
             } else {

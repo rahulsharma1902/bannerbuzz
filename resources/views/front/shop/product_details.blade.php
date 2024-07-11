@@ -36,14 +36,14 @@
                             <div class="shop_dt_view">
                                 <h3>{{ $product->name ?? '' }}</h3>
                                 <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
-                                <p>
+                                <!-- <p>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     9724 Reviews | Product Specifications | 1 Answered questions | SKU : BBVBCB00
-                                </p>
+                                </p> -->
                             </div>
                             <div class="shop_dt_list">
                                 <ul>
@@ -340,7 +340,7 @@
                                                                     <label for="file" class="btn-1">Browse File</label>
                                                                         <div class="upload_img">
                                                                             <img id="dropboxChooserButton" src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
-                                                                            <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png">
+                                                                            <!-- <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png"> -->
                                                                         </div>
                                                                         <p>For file(s) bigger than 400MB <br> upload them right here</p>
                                                                     </div>
@@ -703,7 +703,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5>{{ $r_product->name }}</h5>
-                                    <div class="star_wreap">
+                                    <div class="star_wreap d-none">
                                         <i class="fa-solid fa-star"></i>
                                         <i class="fa-solid fa-star"></i>
                                         <i class="fa-solid fa-star"></i>

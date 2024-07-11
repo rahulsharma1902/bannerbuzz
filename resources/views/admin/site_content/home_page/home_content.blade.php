@@ -275,6 +275,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-label" for="whatsapp">WhatsApp</label>
+                                <div class="form-control-wrap p-2">
+                                    <input type="text" class="form-control"
+                                        value="{{$home_content->whatsapp ?? ''}}" name="whatsapp" placeholder="whatsapp"
+                                        id="whatsapp">
+                                    @error('whatsapp')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 p-3 d-flex">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="chatScript">Chat Script</label>
+                                <div class="form-control-wrap p-2">
+                                    <textarea name="chatScript" class="form-control" id="chatScript" cols="30" rows="10" value="{{$home_content->chatScript ?? ''}}" placeholder="Chat Script">{{$home_content->chatScript ?? ''}}</textarea>
+                                    <!-- <input type="text" class="form-control"
+                                        value="{{$home_content->chatScript ?? ''}}" 
+                                        id="chatScript"> -->
+                                    @error('chatScript')
+                                    <span class="text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
                     </div>
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-lg btn-primary">Update</button>

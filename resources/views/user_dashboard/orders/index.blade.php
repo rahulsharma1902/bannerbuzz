@@ -75,7 +75,7 @@
                                                 </td>
 
                                                 <td class="nk-tb-col nk-tb-col-tools">
-                                                    <a href="{{ route('user.order.detail',['order_num'=> $order->order_number]) }}">View Order</a>
+                                                    <a href="{{ route('user.order.detail',['order_num'=> $order->order_number]) }}" class="badge badge-dot bg-info">View Order</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -86,6 +86,53 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="paginetion_wreap">
+            @if ($orders->lastPage() > 1)
+                <ul class="list-unstyled m-0">
+                    @if ($orders->onFirstPage())
+                        <li>
+                            <a href=""><i class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $orders->lastPage(); $i++)
+                            <li class="{{ $i == $orders->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $orders->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li class="active">
+                            <a href="{{ $orders->nextPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @elseif ($orders->HasmorePages())
+                        <li class="active">
+                            <a href="{{ $orders->previousPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $orders->lastPage(); $i++)
+                            <li class="{{ $i == $orders->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $orders->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li class="active">
+                            <a href="{{ $orders->nextPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @else
+                        <li class="active">
+                            <a href="{{ $orders->previousPageUrl() }}"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+                        </li>
+                        @for ($i = 1; $i <= $orders->lastPage(); $i++)
+                            <li class="{{ $i == $orders->currentPage() ? 'active' : '' }}">
+                                <a href="{{ $orders->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+                        <li>
+                            <a href=""><i class="fa-solid fa-chevron-right"></i></a>
+                        </li>
+                    @endif
+                </ul>
+            @endif
         </div>
     </div>
 @endsection

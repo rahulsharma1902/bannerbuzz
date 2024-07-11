@@ -13,7 +13,7 @@
     </div>
 </section>
 
-<section class="banner-sec">
+<!-- <section class="banner-sec">
     <div class="container-fluid">
         <div class="banner-content">
             <div class="banner-img">
@@ -22,7 +22,7 @@
            
         </div>
     </div>
-</section>
+</section> -->
 
 <section class="inquiry_sec p_100">
     <div class="container">

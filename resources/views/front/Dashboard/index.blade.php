@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="card-body">
                                     <p>{{ $product->name ?? '' }}</p>
-                                    <div class="rating">
+                                    <!-- <div class="rating">
                                         <div class="star">
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>
@@ -79,7 +79,7 @@
                                             <i class="fa-solid fa-star"></i>
                                         </div> 
                                         <span>9’321</span>
-                                    </div>
+                                    </div> -->
                                     @if ($product->sizes->isNotEmpty())
                                         <span>Starts at: £{{ $product->sizes->first()->price ?? '' }}</span>
                                     @else
@@ -329,7 +329,7 @@
                             <div class="multi_shop_cont"style="background: linear-gradient(90deg, #FEF9DC 0.15%, #EDFBFF 99.8%)">
                                 <div class="multi_shop_txt">
                                     <h5>{{ $category->name ?? '' }}</h5>
-                                    <p>Starting at <strong>${{ $minPriceProduct->price ?? '0' }}</strong></p>
+                                    <p>Starting at <strong>£{{ $minPriceProduct->price ?? '0' }}</strong></p>
                                     <a href="{{ url('shop') }}/{{ $category->slug ?? '' }}" class="btn btn_dark">Explore
                                         Now</a>
                                 </div>
@@ -557,7 +557,7 @@
                                     </div>
                                     <div class="card-body">
                                         <h6>${product.name}</h6>
-                                        <div class="star_wreap">
+                                        <div class="star_wreap d-none">
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>

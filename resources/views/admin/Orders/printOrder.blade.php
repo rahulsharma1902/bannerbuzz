@@ -1,33 +1,5 @@
 @extends('admin_layout.master')
 @section('content')
-<style>
-    span.downloadIcon {
-    display: none;
-}
-
-.imageWrapIcon:hover span.downloadIcon {
-    display: block;
-}
-
-.imageWrapIcon {
-    width: fit-content;
-}
-
-span.downloadIcon {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    margin: auto;
-    text-align: center;
-    transform: translateY(-50%);
-}
-
-.imageWrapIcon {
-    position: relative;
-    cursor: pointer;
-}
-</style>
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -55,11 +27,7 @@ span.downloadIcon {
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
                     <div class="invoice">
-                        <div class="invoice-action">
-                            <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary printBtn"
-                                href="#" target="_blank"><em
-                                    class="icon ni ni-printer-fill"></em></a>
-                        </div><!-- .invoice-actions -->
+                    
                         <div class="invoice-wrap">
                             <!-- <div class="invoice-brand text-center">
                                 <img src="{{ asset('front/img/clogo.svg') ?? '' }}" srcset="{{ asset('front/img/clogo.svg') ?? '' }} 2x" alt="">
@@ -79,7 +47,6 @@ span.downloadIcon {
                                                     </span>
                                                 </li>
                                                 <li><em class="icon ni ni-call-fill"></em><span>{{ $order->BillingAddress->phone_number ?? '' }}</span></li>
-                                                <li><em class="icon ni ni-mail-fill"></em><span>{{ $order->BillingAddress->email ?? '' }}</span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -98,7 +65,6 @@ span.downloadIcon {
                                                     </span>
                                                 </li>
                                                 <li><em class="icon ni ni-call-fill"></em><span>{{ $order->ShipingAddress->phone_number ?? '' }}</span></li>
-                                                <li><em class="icon ni ni-mail-fill"></em><span>{{ $order->ShipingAddress->email ?? '' }}</span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -134,7 +100,7 @@ span.downloadIcon {
                                         @if($data->product_type != 'accessories')
                                         <tr>
                                             <!-- Item Column: Display Image -->
-                                            <td class="imageWrapTd">
+                                            <td>
                                                 <!-- <div class="d-flex">
                                                     <div class="flex-shrink-0 avatar-md bg-light rounded p-1 image-container"> -->
                                                         @if($data->design_method == 'Artwork')
@@ -154,10 +120,8 @@ span.downloadIcon {
                                                             @endif
                                                         @endforeach
                                                         @else
-                                                        <div class="imageWrapIcon">
-                                                            <img width="100px" height="100px" class="downloadImage img-fluid d-block" src="{{ asset('designImage/'.$data->images) }}">
-                                                            <span class="downloadIcon" download-img="{{ asset('designImage/'.$data->images) }}"><i class="fas fa-download"></i></span>
-                                                        </div>
+                                                        <img width="100px" height="100px" class="downloadImage img-fluid d-block" src="{{ asset('designImage/'.$data->images) }}">
+                                                        <span class="downloadIcon" download-img="{{ asset('designImage/'.$data->images) }}"><i class="fas fa-download"></i></span>
                                                         @endif
                                                     <!-- </div>
                                                 </div> -->
@@ -365,87 +329,9 @@ span.downloadIcon {
 </div>
 
 <script>
-$('.downloadIcon').on('click', function() {
-        // Get the image URL from the custom attribute
-        var imageUrl = $(this).attr('download-img');
-        
-        if (imageUrl) {
-            var link = document.createElement('a');
-            link.href = imageUrl;
-            link.download = ''; // Optional: You can specify a default filename here if needed
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else {
-            console.error('Download image URL is undefined');
-        }
-    });
-</script>
-<script>
-    // $(document).ready(function (){
-    //     $('.printBtn').on('click', function(e) {
-    //         e.preventDefault(); // Corrected method name
-    //         console.log('clicked');
-    //         window.print();
-    //     });
-    // });
-
-
-   
-//     $(document).ready(function() {
-//     $('.printBtn').on('click', function(e) {
-//         e.preventDefault(); 
-
-//         var printWindow = window.open('', '', 'height=600,width=800');
-
-//         var printContent = $('.invoice').html();
-
-//         printWindow.document.open();
-//         printWindow.document.write('<html><head><title>Print</title>');
-
-//         printWindow.document.write('<link rel="stylesheet" href="{{ asset("admin-theme/assets/css/dashlite.css?ver=3.1.2") }}">');
-//         printWindow.document.write('<link rel="stylesheet" href="{{ asset("admin-theme/coustam.css?ver=3.1.2") }}">');
-//         printWindow.document.write('<link id="skin-default" rel="stylesheet" href="{{ asset("admin-theme/assets/css/theme.css?ver=3.1.2") }}">');
-//         printWindow.document.write('<style> .printBtn{ display:none; }</style>');
-        
-//         printWindow.document.write('</head><body><div class="nk-wrap">');
-//         printWindow.document.write(printContent);
-//         printWindow.document.write('</div></body></html>');
-
-//         printWindow.document.close();
-//         printWindow.focus();
-
-//         // Trigger the print dialog
-//         printWindow.print();
-//     });
-// });
-
-$(document).ready(function () {
-    $('.printBtn').on('click', function(e) {
-        e.preventDefault(); // Prevent default action
-        console.log('clicked');
-
-        // Elements to hide before printing
-        var elementsToHide = [
-            '.nk-sidebar.nk-sidebar-fixed.is-dark',
-            '.nk-header.nk-header-fixed.is-light',
-            '.invoice-action',
-            '.nk-block-head',
-            '.nk-footer'
-        ];
-
-        // Hide the specified elements
-        $(elementsToHide.join(', ')).hide();
-
-        // Trigger the print dialog
+    // Automatically trigger the print dialog
+    window.onload = function() {
         window.print();
-
-        // Show the elements again after printing
-        setTimeout(function() {
-            $(elementsToHide.join(', ')).show();
-        }, 1000); // Adjust the timeout as needed
-    });
-});
-
-</script>
+    }
+    </script>
 @endsection

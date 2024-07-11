@@ -95,7 +95,7 @@
                             </a>
                         </li>
                         <li class="new_loginup">
-                            <a href="javascript:void(0)">
+                            <a href="{{ url('login') ?? '' }}">
                                 <img src="{{ asset('front/img/account.svg') }}" alt="" />
                                 <span>Account</span>
                             </a>
@@ -513,13 +513,43 @@
                             </li>
                         </ul>
                         <ul class="pro_headr_mb">
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <div class="con-img">
-                                        <img src="{{ asset('front/img/account.svg') }}" alt="">
-                                    </div>
-                                </a>
-                            </li>
+                        <li class="new_loginup">
+                            <a href="{{ url('login') ?? '' }}">
+                                <div class="con-img">
+                                    <img src="{{ asset('front/img/account.svg') }}" alt="">
+                                </div>
+                            </a>
+                            <ul class="dropDown popupLogin">
+                                @if(!Auth::check())
+                                    <li class="dontAccount">
+                                        <a href="{{ url('login') ?? '' }}" class="btn lgin_btn" aria-label="Login">Login</a>
+                                        <p>Don't Have An Account?</p>
+                                        <a href="{{ url('register') ?? '' }}" class="btn rgstr_btn" aria-label="Register">Register</a>
+                                    </li>
+                                @else   
+                                    <li>
+                                        <a href="{{ route('user.dashboard') }}">
+                                            <span><i class="fa-regular fa-user"></i></span>
+                                            <span>My Account</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                <li>
+                                    <a href="{{ url('my-saved-designs') ?? '' }}">
+                                        <span><i class="fa-regular fa-user"></i></span>
+                                        <span>My Designs</span>
+                                    </a>
+                                </li> 
+                                @if(Auth::check()) 
+                                    <li class="logd_out">
+                                        <a title="Logout" href="{{ url('logout') ?? '' }}" class="lg_out">
+                                            <span><i class="fa-regular fa-user"></i></span>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
                             <!-- <li>
                                 <a href="tel:012345678910">
                                     <div class="con-img">
@@ -975,7 +1005,7 @@
 
 
 <footer>
-    <div class="footer_top">
+    <div class="footer_top d-none">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5">
@@ -1026,15 +1056,26 @@
                                 <li><a href="{{ url('about-us') }}">About Us</a></li>
                                 <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                 <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
-                                <li><a href="{{ url('privacy-policy') }}">Terms of Use</a></li>
+                                <li><a href="{{ url('terms-and-conditions') }}">Terms of Use</a></li>
                             </ul>
                         </div>
                         <div class="footer_contnt">
                             <h6>Follow on</h6>
                             <ul>
-                                <li><a href="{{ $home_content->facebook ?? '' }}"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
-                                <li><a href="{{ $home_content->instagram ?? '' }}"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                            @if($home_content->facebook ?? '')
+                                <li><a href="{{ $home_content->facebook ?? ''}}"><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
+                            @endif
+
+                            @if($home_content->instagram ?? '')
+                                <li><a href="{{ $home_content->instagram ?? ''}}"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                            @endif
+
+                            @if($home_content->twitter ?? '')
                                 <li><a href="{{ $home_content->twitter ?? '' }}"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                            @endif
+
+                            <li><a href="https://wa.me/{{ $home_content->whatsapp ?? '03303800898' }}" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -1058,7 +1099,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="card_imgs">
-                        <img src="{{ asset('front/img/card_img.png') }}">
+                        <img src="{{ asset('front/img/allcards.png') }}">
                     </div>
                 </div>
             </div>
@@ -1071,7 +1112,7 @@
             </div>
             <ul class="footer_bt_rt">
                 <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="{{ url('terms-and-conditions') }}">Terms & Conditions</a></li>
             </ul>
         </div>
     </div>
@@ -1280,10 +1321,33 @@
         });
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.iife.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+
+<script src="https://wchat.freshchat.com/js/widget.js"></script>
+
 <script src="{{ asset('front/js/chatbot.js') ?? '' }}"></script>
+
+@if($home_content->chatScript ?? '')
+    {!! $home_content->chatScript ?? '' !!}
+@endif
+<!--Start of Tawk.to Script-->
+<!-- <script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/668cf92f7a36f5aaec9631a6/1i2baqp3j';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script> -->
+<!--End of Tawk.to Script-->
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
     integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
@@ -1481,7 +1545,10 @@
     <script>
         $(document).ready(function (){
             $('.chatnow').on('click',function(){
-                $('.desktop-closed-message-avatar').click();
+                console.log('chat now working..');
+                // $('.desktop-closed-message-avatar').click();
+                $('.tawk-icon-right').click();
+                $('.tawk-min-chat-icon').click();
             });
         });
     </script>
@@ -1492,6 +1559,22 @@
         });
     });
 </script>
+<script>
+        $(document).ready(function() {
+            // Click event for mobile screens
+            $('.new_loginup > a').on('click', function(e) {
+                e.preventDefault();
+                $(this).siblings('.popupLogin').toggle();
+            });
+
+            // Close the dropdown if clicking outside of it
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.new_loginup').length) {
+                    $('.popupLogin').hide();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

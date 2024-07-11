@@ -10,6 +10,8 @@ use App\Models\Visitor;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use App\Models\HomeContent;
+use App\Models\PrivacyPolicy;
+use App\Models\TermsAndConditions;
 use App\Models\Testimonial;
 use App\Models\AboutUsContent;
 use App\Models\ProductAccessories;
@@ -82,7 +84,13 @@ class ViewController extends Controller
 
     public function privacyPolicy()
     {
-        return view('front.privacy-policy.index');
+        $privacyPolicy = PrivacyPolicy::first();
+        return view('front.privacy-policy.index',compact('privacyPolicy'));
+    }
+    public function termsAndConditions()
+    {
+        $termsAndConditions = TermsAndConditions::first();
+        return view('front.privacy-policy.termsAndConditions',compact('termsAndConditions'));
     }
 
     public function uploadArtwork(){

@@ -26,6 +26,11 @@ Breadcrumbs::for('special-offers',function(Generator $trail){
     $trail->push('Special Offers',route('special-offers'));
 });
 
+Breadcrumbs::for('terms-and-conditions',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Terms & Conditions',route('terms-and-conditions'));
+});
+
 Breadcrumbs::for('privacy-policy',function(Generator $trail){
     $trail->parent('home');
     $trail->push('Privacy Policy',route('privacy-policy'));

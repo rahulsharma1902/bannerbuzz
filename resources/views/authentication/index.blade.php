@@ -13,7 +13,7 @@
   font-size: 15px; 
 }
 </style>
-    <section class="banner-sec">
+    <!-- <section class="banner-sec">
         <div class="container-fluid">
             <div class="banner-content">
                 <div class="banner-img">
@@ -21,14 +21,14 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
  
     <section class="order_track_sec register_form p_100 pb-0">
         <div class="container">
             <div class="order_track_content">
                 <div class="hd_txt text-center">
-                    <h2>Login</h2>
+                    <h2>LOGIN</h2>
                     <!-- <p>Just enter a few details to get your order-status.</p> -->
                 </div>
                 <form action="{{ url('loginProcc') }}" method="post">
@@ -58,7 +58,8 @@
                         </div> -->
                         <div class="otpbutton">
                             <a class="linkButton forgotLink otpLink">
-                                <span>Get Email OTP</span></a>
+                                <!-- <span>Get Email OTP&nbsp;</span></a> -->
+                                <span></span></a>
                             <a href="forgot-password" class="linkButton forgotLink">
                                 <button class="linkButton forgotLink"></button>Forgot Password?</a>
                             </div>

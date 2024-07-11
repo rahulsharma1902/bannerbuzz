@@ -82,15 +82,17 @@
                                     <div class="formGroup ">
                                         <label for="otp" class="ltl_txt">Otp:</label>
                                         <input type="number" class="form-control" id="otp" value="" placeholder="Enter otp" name="otp"/>
-                                        <div id="myTimer"></div>
+                                        
                                     </div>
                                     <div class="formGroup">
                                         <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
                                             <button type="button" id="verify_btn" onclick="verifyOtp()" class="verifyBtn btn sml_text"><i class="fa-solid fa-check"></i></button>
-                                            <a id="resend_otp" style="display:none;" type="button" class="resendOtpBtn" onclick="sendOtp()" ><i class="fa-solid fa-rotate-right"></i></a>
+                                            <button type="button" id="resend_otp" style="display:none;" onclick="sendOtp()" class="resendOtpBtn btn sml_text"><i class="fa-solid fa-rotate-right"></i></button>
+                                            <!-- <a id="resend_otp" style="display:none;" type="button" class="resendOtpBtn" onclick="sendOtp()" ><i class="fa-solid fa-rotate-right"></i></a> -->
                                         </div>
                                     </div>
                                 </div>
+                                <div id="myTimer"></div>
                                 <!-- <div class="btnSet justify-content-between" id="ver-btn" style="display:flex;">
                                     <button type="button" id="verify_btn" onclick="verifyOtp()" class="btn sml_text">Verify</button>
                                     <a id="resend_otp" style="display:none;" type="button" onclick="sendOtp()" >resend otp</a>
@@ -203,7 +205,9 @@
             seconds = Math.floor(timer) % 60;
             var time = '<p>Time left :'+minutes+':'+seconds+'</p>';
             $('#myTimer').html(time);
+            $('#change_email').prop('disabled', true);
             setTimeout(countdown,1000);
+
         }else{
             $('#resend_otp').show();
             // $('#otp_div').hide();

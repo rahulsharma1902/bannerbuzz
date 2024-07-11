@@ -1,5 +1,5 @@
 @extends('front_layout.master') @section('content')
-<section class="banner-sec">
+<!-- <section class="banner-sec">
     <div class="container-fluid">
         <div class="banner-content">
             <div class="banner-img">
@@ -7,13 +7,13 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <section class="order_track_sec register_form p_100 pb-0">
     <div class="container">
         <div class="order_track_content">
             <div class="hd_txt text-center">
-                <h2>Register</h2>
+                <h2>REGISTER</h2>
                 <!-- <p>Just enter a few details to get your order-status.</p> -->
             </div>
             @if (session('error'))
@@ -85,25 +85,27 @@
                     </div>
                 </div>
                 <div class="buttonSet">
-                    <button type="submit" class="btn">Create an Account</button>
+                    <button type="submit" class="btn form-control my-4">Create an Account</button>
                 </div>
 
                 <div class="social_links">
                     <div class="social_title"><p>or sign up with</p></div>
                     <div class="social_content">
                         <ul>
-                            <!-- <li>
-                                <a href="#">
+                            <li>
+                                <a href="{{ route('facebook_google') ?? '' }}">
                                     <i class="fa-brands fa-facebook-f"></i><br />
                                     <span>Facebook</span>
                                 </a>
-                            </li> -->
+                            </li>
+                            
                             <li>
-                                <a href="{{ route('login_google') }}">
+                                <a href="{{ route('login_google') ?? '' }}">
                                     <i class="fa-brands fa-google"></i><br />
                                     <span>Google</span>
                                 </a>
                             </li>
+                            
                             <!-- <li>
                                 <a href="#">
                                     <i class="fa-brands fa-amazon"></i><br />

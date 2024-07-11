@@ -290,16 +290,33 @@ class CheckoutController extends Controller
     }
     function CreateStripeCustomer($request)        // create stripe customer
     {
+       if(isset($request->billing_id) && $request->billing_id != null) {
+            $user_addr = UserBilling::find($request->billing_id); 
+            if(!$user_addr) {
+                $user_addr = UserBilling::where('user_id',Auth::user()->id)->first(); 
+            }
+            $address = $user_addr->address;
+            $zipcode =  $user_addr->zip_code;
+            $city =  $user_addr->city;
+            $state  =  $user_addr->state;
+            $country =  $user_addr->country;
+       } else {
+            $address = $request->address['address_line'];
+            $zipcode = $request->address['zip_code'];
+            $city = $request->address['city'];
+            $state  = $request->address['state'];
+            $country = $request->address['country'];
+       }
 
         $stripeCustomer = Customer::create([
             'name' => $request['name_on_card'],
             'email' => Auth::user()->email,
             'address' => [
-                'line1' => $request->address['address_line'],
-                'city' => $request->address['zip_code'],
-                'postal_code' => $request->address['zip_code'],
-                'state' => $request->address['state'],
-                'country' => $request->address['country']
+                'line1' =>$address,
+                'city' => $city,
+                'postal_code' => $zipcode,
+                'state' => $state,
+                'country' => $country
             ],
             'payment_method' => $request['token'],
         ]);
@@ -404,7 +421,7 @@ class CheckoutController extends Controller
     {
         try {
             $data = [];
-            if($request->address['id'] != null){
+            if( isset($request->address['id']) && $request->address['id'] != null){
                 $user_addr = UserBilling::find($request->address['id']);
                 if(!$user_addr) {
                     $user_addr = new UserBilling();
@@ -441,7 +458,7 @@ class CheckoutController extends Controller
             $data['billing_id'] = $user_addr->id;
 
             if($request->additional_billing != 'same'){
-                if($request->ship_addr['id'] != null){
+                if(isset($request->ship_addr['id']) && $request->ship_addr['id'] != null){
                     $user_shipaddr = UserBilling::find($request->ship_addr['id']);
                     if(!$user_shipaddr) {
                         $user_shipaddr = new UserBilling();
@@ -480,7 +497,8 @@ class CheckoutController extends Controller
 
             return $data;
         } catch (Exception $e) {
-            return false;
+            dd($e);
+            return $e;
         }
     }
 

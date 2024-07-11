@@ -74,13 +74,19 @@ class AdminDashController extends Controller
 
     public function orders()
     {
-        $orders = Order::all();
-        return view('admin.Orders.order_list',compact('orders'));
+        $orders = Order::latest()->get();
+
+        return view('admin.Orders.order_list', compact('orders'));
     }
+    
     public function orderDetail($order_num)
     {
         $order = Order::where('order_number',$order_num)->first();
         return view('admin.Orders.order_detail',compact('order'));
+    }
+    public function orderPrint($order_num){
+        $order = Order::where('order_number',$order_num)->first();
+        return view('admin.Orders.printOrder',compact('order'));
     }
 
     public function changeOrderState(Request $request){

@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Basket extends Model
 {
+    
     use HasFactory;
 
+    protected $fillable = ['status'];
     public function design()
     {
         return $this->hasOne(DesignTemplate::class,'id','design_id'); 

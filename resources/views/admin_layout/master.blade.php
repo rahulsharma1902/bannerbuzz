@@ -272,6 +272,14 @@
                                                     Content</span></a>
                                         </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/privacy-policy') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Privacy Policy</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/terms-and-conditions') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Terms & Conditions</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('admin-dashboard/site-meta') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Site Key Setting</span></a>
                                         </li>
@@ -307,6 +315,19 @@
                                         <span class="nk-menu-text">Orders</span>
                                     </a>
                                 </li>
+                                <!-- <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Support Chat</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/chats') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Chats</span></a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li> -->
 
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->

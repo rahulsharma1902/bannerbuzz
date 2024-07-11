@@ -60,6 +60,8 @@ class HomeController extends Controller
             $data->facebook = $request->facebook;
             $data->instagram = $request->instagram;
             $data->twitter = $request->twitter;
+            $data->whatsapp = $request->whatsapp;
+            $data->chatScript = $request->chatScript;
 
             $data->save();
             return redirect()->back()->with('success','data updated successfully');
@@ -108,6 +110,9 @@ class HomeController extends Controller
             $data->facebook = $request->facebook;
             $data->instagram = $request->instagram;
             $data->twitter = $request->twitter;
+            $data->whatsapp = $request->whatsapp;
+            $data->chatScript = $request->chatScript;
+
             $data->save();
             return redirect()->back()->with('success','data added successfully');
         }

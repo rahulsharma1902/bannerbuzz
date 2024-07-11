@@ -6799,12 +6799,21 @@ body.loading {
 .bodyMainWrap .design_tool a {
   background: #e4004e;
   color: #fff;
+  text-align: center;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block;
+}
+button#hireDesigner-btn {
+  width: 100%;
 }
 
 .bodyMainWrap .design_tool a:hover {
   background: #000;
 }
-
+.design_tool {
+  width: 100%;
+}
 .bodyMainWrap .design-img {
   background: #e4004e;
 }
@@ -8830,4 +8839,47 @@ div#botmanWidgetRoot > div {
 }
 footer .footer_bt ul.footer_bt_rt li a {
     color: #6d6968;
+}
+
+
+.user_dashboard_sec .profl_tabs .profile_edit div#otp_div .formGroupBox.frmgrp {
+  align-items: end;
+}
+.user_dashboard_sec .profl_tabs .profile_edit div#otp_div .formGroupBox.frmgrp .formGroup .btnSet {
+  gap: 20px;
+}
+.user_dashboard_sec .profl_tabs .profile_edit div#otp_div .formGroupBox.frmgrp .formGroup .btnSet button {
+  padding: 20px;
+  flex: 1;
+  text-align: center;
+}
+
+
+a#b4turovhl0ig1720521083847 {
+  display: none;
+}
+
+
+@media only screen and (max-width: 1199px) {
+
+  header .search_content ul.dropDown.popupLogin {
+    width: 200px !important;
+    right: -0 !important;
+    left: auto !important;
+}
+}
+
+@media only screen and (max-width: 575px) {
+
+  .related_slider.busines_slider.d-flex {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  section.related_wrapper .card.col-lg-3 {
+    margin: 0 !important;
+  }
+  .save_data {
+    text-align: center;
+}
 }

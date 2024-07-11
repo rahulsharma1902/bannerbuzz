@@ -319,7 +319,7 @@
                                                             <div class="address-data-container">    
                                                                 <div class="address-head d-flex ">
                                                                 <div class="mainUserAdress">
-                                                                            <input type="radio" name="billing_id" class="billing_address" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
+                                                                            <input type="radio" name="shipping_id" class="billing_address" value="{{ $userAddress->id }}" @if($key === 0) checked="checked" @endif />
 
                                                                             <h6>{{ $userAddress->first_name }} {{ $userAddress->last_name }}</h6>
                                                                         </div>
@@ -1525,7 +1525,6 @@
                 type:'GET',
                 data:{id:userId, _token: '{{ csrf_token() }}'},
                 success:function(response){
-         
                     var userAddress = response.userAddress;
                     $('.id').val(userAddress.id);
                     $('.first_name').val(userAddress.first_name);
@@ -1556,7 +1555,6 @@
         $('#user_address_checkout input[type="text"], #user_address_checkout input[type="email"],#user_address_checkout input[type="number"],#user_address_checkout input[type="textarea"]').val('');
         $('#user_address_checkout select').prop('selectedIndex', 0);
     });
-
     $(document).ready(function() {
         $('#check_box').change(function() {
             if(!this.checked) {
@@ -1572,14 +1570,12 @@
             $('#user_address_div').show();
             $('.check_user_ship_addre').show();
             $('.cancel_btn').hide();
-            $('#AddNewAddress').show();
-           
+            $('#AddNewAddress').show();   
         });
         $('.edit_btn_billing_address').on('click',function(){
             $('#user_billing_address_change').show();
             // $('#additional_billing_user').show();
             $('.cancel_btn').show();
-
         });
         $('#cancel_btn_billing').on('click',function(){
             $('#user_billing_address_change').hide();
