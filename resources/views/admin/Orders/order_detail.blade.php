@@ -4,11 +4,15 @@
     span.downloadIcon {
     display: none;
 }
-
+a.downloadIcon {
+    display: none;
+}
 .imageWrapIcon:hover span.downloadIcon {
     display: block;
 }
-
+.imageWrapIcon:hover a.downloadIcon {
+    display: block;
+}
 .imageWrapIcon {
     width: fit-content;
 }
@@ -22,10 +26,25 @@ span.downloadIcon {
     text-align: center;
     transform: translateY(-50%);
 }
-
+a.downloadIcon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    transform: translateY(-50%);
+}
 .imageWrapIcon {
     position: relative;
     cursor: pointer;
+}
+i.fas.fa-download {
+    color: #2e2e2ee6;
+    border: 1px solid white;
+    border-radius: 10px;
+    background: white;
+    padding: 3px;
 }
 </style>
 <div class="nk-content ">
@@ -138,15 +157,60 @@ span.downloadIcon {
                                                 <!-- <div class="d-flex">
                                                     <div class="flex-shrink-0 avatar-md bg-light rounded p-1 image-container"> -->
                                                         @if($data->design_method == 'Artwork')
-                                                        <?php $count = 0; ?> 
-                                                        @foreach(json_decode($data->images,true) as $index => $value)
-                                                            @if($count == 0)
-                                                            <img width="100px" height="100px" class="downloadImage img-fluid d-block" src="{{ asset('designImage/'.$value) }}">
+                                                                                
+                                                            <?php $count = 0;
+                                                                $is_image = false;
+                                                            ?> 
+                                                            @php 
+                                                                $validExt = ['png','jpg','jpeg','svg'];
+                                                                $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                                                $audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+                                                            @endphp
+                                                            
+                                                            @if(!empty(json_decode($data->images,true)) && $data->images != null)
+                                                            
+                                                                @foreach(json_decode($data->images,true) as $index => $value)
+                                                                    @php 
+                                                                        $ext = pathinfo($value, PATHINFO_EXTENSION); 
+
+                                                                        if(in_array($ext, $validExt) && !$is_image) {
+                                                                            $imageName = $value;
+                                                                            $is_image = true;
+                                                                        }
+                                                                    @endphp
+                                                                @endforeach
+                                                                @if(!$is_image) 
+                                                                    @foreach(json_decode($data->images,true) as $index => $value)
+                                                                        @php
+                                                                            if($loop->iteration == 1){
+                                                                                $ext = pathinfo($value, PATHINFO_EXTENSION); 
+                                                                                if($ext == 'pdf') {
+                                                                                    $imageName = 'pdf.jpeg';
+                                                                                } elseif(in_array($ext, $videoExtensions)) {
+                                                                                    $imageName = 'video.png';
+                                                                                } elseif(in_array($ext, $audioExtensions)) {
+                                                                                    $imageName = 'audio.png';
+                                                                                } else {
+                                                                                    $imageName = 'imgIN.png';
+                                                                                }
+                                                                            }
+                                                                        @endphp
+                                                                    @endforeach
+                                                                @endif
+                                                                
+                                                                @if(isset($imageName) || $imageName != null)
+                                                                <div class="imageWrapIcon">
+                                                                    <img width="100px" height="100px" class="downloadImage img-fluid d-block" src="{{ asset('designImage/'.$imageName) }}">
+                                                                    <!-- <span class="downloadIcon"> -->
+                                                                         <a class="downloadIcon" href="{{ url('admin-dashboard/download-image') }}/{{ $data->id }}"><i class="fas fa-download"></i></a>
+                                                                        <!-- </span> -->
+                                                                </div>
+                                                                        @endif
+                                                            @else
+                                                                <img width="100px" height="100px" class="downloadImage img-fluid d-block" src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                             @endif
-                                                            <?php $count++ ?>
-                                                        @endforeach
                                                         @elseif($data->design_method == 'ArtworkLater')
-                                                        <img width="100px" height="100px" class="img-fluid d-block" src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                            <img width="100px" height="100px" class="img-fluid d-block" src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                         @elseif($data->design_method == 'hireDesigner')
                                                         @foreach (json_decode($data->product->images) as $index => $image)
                                                             @if ($index == 0)
@@ -431,7 +495,8 @@ $(document).ready(function () {
             '.nk-header.nk-header-fixed.is-light',
             '.invoice-action',
             '.nk-block-head',
-            '.nk-footer'
+            '.nk-footer',
+            '.downloadIcon',
         ];
 
         // Hide the specified elements

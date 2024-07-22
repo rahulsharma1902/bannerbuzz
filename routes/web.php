@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Front\ShopController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Admin\AdminMailsController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\BackgroundCategoryController;
 use App\Http\Controllers\Admin\BackgroundController;
@@ -82,6 +83,14 @@ Route::get('logout',[AuthenticationController::class,'logout'])->name('logout');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
+
+
+    // Contact us  
+    Route::get('admin-dashboard/contact-us', [AdminMailsController::class, 'contactUs']);
+    Route::get('admin-dashboard/contact-us/markDone/{id}', [AdminMailsController::class, 'markDone']);
+
+    Route::get('admin-dashboard/artwork-later', [AdminMailsController::class, 'contactUs']);
+
 
     // Chat setting
     Route::get('admin-dashboard/chats', [AdminChatController::class, 'chats']);
@@ -234,7 +243,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard/orders',[AdminDashController::class,'orders'])->name('orders.list');
     Route::get('admin-dashboard/order/{order_num}',[AdminDashController::class,'orderDetail'])->name('order.detail');   
     Route::post('admin-dashboard/order/state',[AdminDashController::class,'changeOrderState']);
-
+    Route::get('admin-dashboard/download-image/{id}',[AdminDashController::class,'downloadImages'])->name('download.images'); 
     Route::get('admin-dashboard/order/{order_num}/print',[AdminDashController::class,'orderPrint'])->name('order.print');   
 
 
@@ -252,6 +261,9 @@ Route::group(['middleware' => ['check.guest']], function () {
     Route::get('/', [ViewController::class, 'index'])->name('home');
     Route::get('about-us', [ViewController::class, 'aboutUs'])->name('about-us');
     Route::get('contact-us', [ViewController::class, 'contactUs'])->name('contact-us');
+    Route::get('artwork-upload-form', [ViewController::class, 'uploadArtworkForm'])->name('artwork-upload-form');
+    Route::post('artwork-send-process', [ViewController::class, 'uploadArtworkFormProcess'])->name('artwork.send.process');
+
     Route::get('customer-reviews', [ViewController::class, 'customerReviews'])->name('customer-reviews');
     Route::get('privacy-policy', [ViewController::class, 'privacyPolicy'])->name('privacy-policy');
     Route::get('terms-and-conditions', [ViewController::class, 'termsAndConditions'])->name('terms-and-conditions');
@@ -290,7 +302,8 @@ Route::group(['middleware' => ['check.guest']], function () {
     Route::get('my-saved-designs', [CustomizerController::class, 'mySavedDesigns'])->name('saved.designs');
 
     Route::post('saveDesign', [CustomizerController::class, 'saveTemplate']);
-    Route::any('updateDesign', [CustomizerController::class, 'updateDesign']);
+    Route::post('upload-artwork-data', [CustomizerController::class, 'uploadWrtworkData']);
+    Route::post('updateDesign', [CustomizerController::class, 'updateDesign']);
 
     Route::post('shareArtwork', [CustomizerController::class, 'shareArtwork']);
     Route::get('review/designtool/{id}', [CustomizerController::class, 'OverViewPage']);
@@ -354,3 +367,12 @@ Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 
 
 Route::post('/order-tracking-proccess', [OrderTrackingController::class, 'trackorder']);
+
+
+Route::any('/companion/dropbox/redirect', [CustomizerController::class, 'companionDropbox']);
+
+Route::get('/companion', [CustomizerController::class, 'companionDropbox']);
+Route::get('/companion/auth', [CustomizerController::class, 'companionDropboxAuth']);
+Route::get('/companion/callback', [CustomizerController::class, 'companionDropboxCallBack']);
+
+Route::post('/upload', [CustomizerController::class, 'upload']);

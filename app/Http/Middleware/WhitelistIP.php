@@ -11,15 +11,9 @@ class WhitelistIP
      * List of allowed IP addresses.
      */
     protected $allowedIps = [
-        '2401:4900:1c2b:4d9e:c9a6:f310:1b18:3009',  //hitesh
-        '2401:4900:1c2b:4d9e:e1d7:13a:c279:c63b',   // designer shiwani
-        '2401:4900:1c2b:4d9e:8c1d:a5d5:fff4:d9d2',  // developer shiwani
-        '2401:4900:1c2b:4d9e:ab62:1075:5fd8:244b',   // rahul sir 
-        // // '2401:4900:1c2b:5887:1e2:3ebb:c29d:e1c7',
-        // // '51.7.219.99',
-        // '2401:4900:1c2b:573b:efd:d6b9:3a07:716c',
-        // '2401:4900:1c2b:573b:c997:197f:177e:6975',
-        // '49.43.97.239',
+        '2405:201:5023:4020:b586:d117:f65d:c472',  //hitesh
+        '2405:201:5023:4020:4e5f:bf9e:5a6b:2467',   // rahul  
+        '2405:201:5023:4020:3ec:2698:8465:2547', //nikita designer
         
     ];
 

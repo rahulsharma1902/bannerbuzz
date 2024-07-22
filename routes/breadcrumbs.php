@@ -51,6 +51,12 @@ Breadcrumbs::for('contact-us',function(Generator $trail){
     $trail->push('Contact Us',url('/contact-us'));
 });
 
+Breadcrumbs::for('artwork-upload-form',function(Generator $trail){
+    $trail->parent('home');
+    $trail->push('Upload Artwork Form',url('/artwork-upload-form'));
+});
+
+
 Breadcrumbs::for('Blogs',function(Generator $trail){
     $trail->parent('home');
     $trail->push('Blogs',url('/blogs'));

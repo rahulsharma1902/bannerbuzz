@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>503</title>
-    <style>
+    <title>Cre8ive Coming Soon!</title>
+    <!-- <style>
         .hmode_sec .hmode_content {
             max-width: 827px;
             margin: auto;
@@ -117,10 +117,46 @@
             }
         }
 
+    </style> -->
+    <style>
+        body {
+            /* background-image: url('{{ asset('front/img/websiteMentainence.jpg') }}');
+            background-color: #dc8a05; */
+            /* background-image: url(https://cre8iveprinter.co.uk/front/img/websiteMentainence.jpg); */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            margin: 0px;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        .mainContainer{
+            background-image: url('{{ asset('front/img/bgpattern.svg') }}');
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px;
+            background-size: cover;
+            background-color: transparent;
+           
+        }
+
+        .mainContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-width: 100%;
+}
+
     </style>
 </head>
 <body>
-    <section class="hmode_sec">
+    <div class="mainContainer">
+        <img src="{{ asset('front/img/websiteMentainence.jpg') }}" alt="">
+    </div>
+    <!-- <section class="hmode_sec" style="display:none;">
         <div class="container">
             <div class="hmode_content">
                 <div class="main_logs">
@@ -171,6 +207,6 @@
         });
     });
 
-    </script>
+    </script> -->
 </body>
 </html>

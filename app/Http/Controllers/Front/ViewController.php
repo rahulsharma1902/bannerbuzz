@@ -18,8 +18,10 @@ use App\Models\ProductAccessories;
 use App\Models\Order;
 use App\Models\UserOrderDesign;
 use App\Models\Contact;
+use App\Models\ContactUs;
 use App\Mail\MailToAdmin;
 use App\Mail\ContactMail;
+use App\Mail\ContactUsMail;
 use Mail;
 
 use Illuminate\Support\Facades\Validator;
@@ -76,11 +78,7 @@ class ViewController extends Controller
         return view('front.about-us.index',compact('about_content'));
     }
 
-    public function contactUs()
-    {
-        $homeContent = HomeContent::first();
-        return view('front.contact-us.index',compact('homeContent'));
-    }
+ 
 
     public function privacyPolicy()
     {
@@ -182,6 +180,72 @@ public function emailnotify(Request $request)
 
 }
 
+
+
+// Upload ArtWork Form Page
+
+
+public function uploadArtworkForm()
+{
+    $homeContent = HomeContent::first();
+    return view('front.contact-us.contact-us',compact('homeContent'));
+}
+
+public function uploadArtworkFormProcess(Request $request)
+{
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:255',
+        'orderplace' => 'required|in:ebay,etsy,website', 
+        'files.*' => 'nullable|file|max:2048' // Note the 'files.*' for multiple files
+    ]);
+
+    $contact = new ContactUs();
+    $contact->name = $request->name;
+    $contact->email = $request->email;
+    $contact->phone = $request->phone;
+    $contact->orderplace = $request->orderplace;
+    $contact->orderNumber = $request->orderNumber;
+
+    // Handle multiple files
+    if ($request->hasFile('files')) {
+        $files = $request->file('files');
+        $fileNames = [];
+
+        foreach ($files as $file) {
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'report_' . rand(0, 1000) . time() . '.' . $extension;
+            $file->move(public_path('ContactReport'), $fileName);
+            $fileNames[] = $fileName;
+        }
+
+        // Store the file names as a JSON encoded string
+        $contact->images = json_encode($fileNames);
+    }
+
+    $contact->save();
+
+    $homeContent = HomeContent::first();
+    if ($homeContent) {
+        $mail = $homeContent->email;
+        if ($mail) {
+            // Mail::to($mail)->send(new ContactUsMail($contact));
+            Mail::to('tecrdx@gmail.com')->send(new ContactUsMail($contact));
+        }
+    }
+
+    return redirect()->back()->with('success', 'Your inquiry has been submitted successfully!');
+}
+
+// contact us page view and form submit 
+public function contactUs()
+{
+    $homeContent = HomeContent::first();
+    return view('front.contact-us.index',compact('homeContent'));
+    // return view('front.contact-us.contact-us',compact('homeContent'));
+}
 public function ContactProcess(Request $request)
 {
     $request->validate([
@@ -206,8 +270,17 @@ public function ContactProcess(Request $request)
     $contact->inquiry = $request->inquiry;
     $contact->save();
     $details = $request->all();
-    Mail::to('tecrdx@gmail.com')->send(new ContactMail($details));
+    // Mail::to('tecrdx@gmail.com')->send(new ContactMail($details));
+    $homeContent = HomeContent::first();
+    if ($homeContent) {
+        $mail = $homeContent->email;
+        if ($mail) {
+            Mail::to($mail)->send(new ContactMail($contact));
+            // Mail::to('tecrdx@gmail.com')->send(new ContactMail($contact));
+        }
+    }
     return redirect()->back()->with('success', 'Your inquiry has been submitted successfully!');
 }
+
 
 }

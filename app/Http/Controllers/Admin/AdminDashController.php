@@ -5,9 +5,14 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\UserOrderDesign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Hash;
+use ZipArchive;
 
 use Laravel\Socialite\Facades\Socialite;
 class AdminDashController extends Controller
@@ -98,6 +103,61 @@ class AdminDashController extends Controller
             }
             return response()->json(['success'=>true]);
         }
+    }
+
+    public function downloadImages($id) {
+        $data = UserOrderDesign::find($id);
+        $images = json_decode($data->images, true);
+
+        $downloadDir = public_path('downloaded_images'); 
+
+        if (!file_exists($downloadDir)) {
+            mkdir($downloadDir, 0777, true);
+        }
+
+        foreach ($images as $index => $image) {
+            $imageUrl = asset('designImage/'.$image);
+            $filename = Str::random(10) . '.' . pathinfo($imageUrl, PATHINFO_EXTENSION);
+
+            $imageData = file_get_contents($imageUrl);
+            file_put_contents($downloadDir . '/' . $filename, $imageData);
+        }
+
+        $zipFile = public_path('downloaded_images.zip');
+        $files = glob($downloadDir . '/*');
+
+        $zip = new ZipArchive;
+        $zip->open($zipFile, ZipArchive::CREATE);
+        foreach ($files as $file) {
+            $zip->addFile($file, basename($file));
+        }
+        $zip->close();
+
+        $this->deleteDirectory($downloadDir);
+
+        return response()->download($zipFile)->deleteFileAfterSend(true);
+    }
+
+    private function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+    
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+    
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+    
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+        }
+    
+        return rmdir($dir);
     }
 
 

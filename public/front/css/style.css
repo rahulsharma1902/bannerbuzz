@@ -3187,7 +3187,7 @@ p.up_doc {
 }
 
 .inquiry_sec .inquiry_content .inquiry-form .form_rw button {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
@@ -5854,7 +5854,7 @@ span.remove-image {
   padding: 15px;
 }
 
-.Upload_wrapper span {
+.Upload_wrapper .remove-image {
   position: absolute;
   top: 25px;
   right: 25px;
@@ -8882,4 +8882,258 @@ a#b4turovhl0ig1720521083847 {
   .save_data {
     text-align: center;
 }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.bodyMainWrap .inquiry_sec .inquiry_content .inquiry-form .fileIMgArea {
+  border: 1px solid #6d6968;
+  border-radius: 10px;
+  /* min-width: 350px; */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.bodyMainWrap .inquiry_sec .inquiry_content .inquiry-form .fileIMgArea img {
+  width: 100%;
+  margin-top: 0 !important;
+  border-bottom: 1px solid #6d6968;
+  border-radius: 0;
+  max-height: 200px;
+  min-width: 100%;
+  border-radius: 0;
+}
+
+.bodyMainWrap .inquiry_sec .inquiry_content .inquiry-form .form_rw button.remove-btn {
+  margin: 0;
+  background: transparent;
+  border-radius: 10px;
+  width: auto;
+  padding: 10px;
+  text-align: right;
+  border: 0;
+}
+
+
+
+
+@media only screen and (max-width: 1199px) {
+
+  .bodyMainWrap .inquiry_sec .file-upload-info {
+    padding-left: 0px !important;
+  }
+  
+
+}
+
+
+.bodyMainWrap .inquiry_sec .file-upload-info {
+  padding-left: 50px;
+}
+
+.bodyMainWrap .inquiry_sec .file-upload-info h3 {
+  margin: 20px 0px 0px;
+  text-align: left;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.bodyMainWrap .inquiry_sec .file-upload-info ul li a {
+  color: #e4004e;;
+  font-weight: 600;
+}
+
+
+
+.bodyMainWrap .inquiry_sec .file-upload-info li, .file-upload-info p {
+  color: #0a0a0a;
+  width: 100%;
+}
+
+
+.bodyMainWrap .inquiry_sec .file-upload-info li {
+  position: relative;
+  padding-left: 10px;
+}
+
+.bodyMainWrap .inquiry_sec .file-upload-info li::after {
+  position: absolute;
+  content: "-";
+  top: 0;
+  left: 0;
+}
+
+.QueryContactInfo{
+
+  margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+/* rajeev sir css */
+
+.file-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 5px;
+  width: 100%;
+  position: relative;
+  padding-right: 40px;
+  margin-bottom: 5px;
+}
+.file-item i.fa-file {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  min-width: 40px;
+  margin-right: 7px;
+}
+
+.file-item .file-name {
+  color: #dc288a;
+}
+
+.file-item span.file-size {
+  font-weight: 700;
+  color: #000000;
+}
+
+.file-item button.remove-btn {
+  position: absolute;
+  right: 0px;
+  top: 10px;
+  padding: 0px !important;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #cccccc !important;
+  min-width: 25px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+  text-align: center;
+  font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* nikita css */
+
+.bodyMainWrap .Upload_wrapper span.uppy-ProviderBrowser-user {
+  color: #000;
+  font-size: 14px;
+}
+
+
+.bodyMainWrap .Upload_wrapper .uppy-ProviderBrowser-list span {
+  position: static;
+  color: #000;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+}
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem {
+  padding: 15px !important;
+  margin: 5px 15px;
+}
+
+
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem:first-child {
+  margin: 0;
+}
+
+
+
+
+.Upload_wrapper.uploadArtworkMainWrap .uppy-DashboardContent-addMoreCaption {
+  position: inherit;
+  right: 0;
+  left: 0;
+  color: #fff;
+}
+
+/* .Upload_wrapper.uploadArtworkMainWrap .uppy-c-icon {
+  fill: #fff;
+} */
+
+
+
+
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem {
+  margin: 0 !important;
+  padding: 5px 10px !important;
+  border-radius: 5px;
+  color: #000 !important;
+  gap: 0px;
+  background-color: transparent !important;
+}
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem input {
+  margin-right: 5px;
+}
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem img {
+  min-width: 16px;
+  margin-top: 0;
+}
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem span {
+  color: #fff;
+}
+
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem span {
+  color: #000;
+}
+
+
+button.uppy-DashboardContent-addMore svg.uppy-c-icon {
+  color: #fff;
+}
+
+.bodyMainWrap .shp_dt_art ul .uppy-ProviderBrowserItem input {
+  appearance: auto;
+}
+
+
+.productSpecificationClick{
+  cursor: pointer;
 }

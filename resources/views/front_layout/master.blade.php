@@ -56,6 +56,8 @@
             -moz-appearance: textfield;
         }
     </style>
+<link href="https://releases.transloadit.com/uppy/v4.0.4/uppy.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" rel="stylesheet">
 
     <title>Home page</title>
 
@@ -180,14 +182,48 @@
                                                                                         <div class="proImage">
                                                                                             <div class="singleSide">
                                                                                                 @if($cart->design_method == 'Artwork')
-                                                                                                    <?php $count = 0; ?> 
-                                                                                                    @if(!empty(json_decode($cart->image,true)) && $cart->image != null)
-                                                                                                        @foreach(json_decode($cart->image,true) as $index => $value)
-                                                                                                            @if($count == 0)
-                                                                                                                <img src="{{ asset('designImage/'.$value) }}">
-                                                                                                            @endif
-                                                                                                            <?php $count++; ?>
+
+                                                                                                    <?php $count = 0;
+                                                                                                       $is_image = false;
+                                                                                                    ?> 
+                                                                                                    @php 
+                                                                                                        $validExt = ['png','jpg','jpeg','svg'];
+                                                                                                        $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                                                                                        $audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+                                                                                                    @endphp
+                                                                                                    @if(!empty(json_decode($cart->images,true)) && $cart->images != null)
+                                                                                                        @foreach(json_decode($cart->images,true) as $index => $value)
+                                                                                                            @php 
+                                                                                                                $ext = pathinfo($value, PATHINFO_EXTENSION); 
+
+                                                                                                                if(in_array($ext, $validExt) && !$is_image) {
+                                                                                                                    $imageName = $value;
+                                                                                                                    $is_image = true;
+                                                                                                                }
+                                                                                                            @endphp
                                                                                                         @endforeach
+                                                                                                        @if(!$is_image) 
+                                                                                                            @foreach(json_decode($cart->images,true) as $index => $value)
+                                                                                                                @php
+                                                                                                                    if($loop->iteration == 1){
+                                                                                                                        $ext = pathinfo($value, PATHINFO_EXTENSION); 
+                                                                                                                        if($ext == 'pdf') {
+                                                                                                                            $imageName = 'pdf.jpeg';
+                                                                                                                        } elseif(in_array($ext, $videoExtensions)) {
+                                                                                                                            $imageName = 'video.png';
+                                                                                                                        } elseif(in_array($ext, $audioExtensions)) {
+                                                                                                                            $imageName = 'audio.png';
+                                                                                                                        } else {
+                                                                                                                            $imageName = 'imgIN.png';
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                @endphp
+                                                                                                            @endforeach
+                                                                                                        @endif
+                                                                                                        
+                                                                                                        @if(isset($imageName) || $imageName != null)
+                                                                                                            <img src="{{ asset('designImage/'.$imageName) }}">
+                                                                                                        @endif
                                                                                                     @else
                                                                                                         <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                                     @endif
@@ -610,18 +646,51 @@
                                                                                         <div class="proImage">
                                                                                             <div class="singleSide">
                                                                                             @if($basket->design_method == 'Artwork')
-                                                                                                <?php $count = 0; ?> 
-                                                                                                
-                                                                                                @if(!empty(json_decode($basket->image,true)) && $basket->image != null)
-                                                                                                        @foreach(json_decode($basket->image,true) as $index => $value)
-                                                                                                            @if($count == 0)
-                                                                                                                <img src="{{ asset('designImage/'.$value) }}">
-                                                                                                            @endif
-                                                                                                            <?php $count++; ?>
+                                                                                                <?php $count = 0;
+                                                                                                    $is_image = false;
+                                                                                                ?> 
+                                                                                                @php 
+                                                                                                    $validExt = ['png','jpg','jpeg','svg'];
+                                                                                                    $invalidExt = ['eps','webp','heic','ai'];
+                                                                                                    $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                                                                                    $audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+                                                                                                @endphp
+                                                                                                @if(!empty(json_decode($basket->images,true)) && $basket->images != null)
+                                                                                                    @foreach(json_decode($basket->images,true) as $index => $value)
+                                                                                                        @php 
+                                                                                                            $ext = pathinfo($value, PATHINFO_EXTENSION); 
+
+                                                                                                            if(in_array($ext, $validExt) && !$is_image) {
+                                                                                                                $imageName = $value;
+                                                                                                                $is_image = true;
+                                                                                                            }
+                                                                                                        @endphp
+                                                                                                    @endforeach
+                                                                                                    @if(!$is_image) 
+                                                                                                        @foreach(json_decode($basket->images,true) as $index => $value)
+                                                                                                            @php
+                                                                                                                if($loop->iteration == 1){
+                                                                                                                    $ext = pathinfo($value, PATHINFO_EXTENSION); 
+                                                                                                                    if($ext == 'pdf') {
+                                                                                                                        $imageName = 'pdf.jpeg';
+                                                                                                                    } elseif(in_array($ext, $videoExtensions)) {
+                                                                                                                        $imageName = 'video.png';
+                                                                                                                    } elseif(in_array($ext, $audioExtensions)) {
+                                                                                                                        $imageName = 'audio.png';
+                                                                                                                    } else {
+                                                                                                                        $imageName = 'imgIN.png';
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            @endphp
                                                                                                         @endforeach
-                                                                                                    @else
-                                                                                                        <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                                     @endif
+                                                                                                    
+                                                                                                    @if(isset($imageName) || $imageName != null)
+                                                                                                        <img src="{{ asset('designImage/'.$imageName) }}">
+                                                                                                    @endif
+                                                                                                @else
+                                                                                                    <img src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                                                @endif
                                                                                             @elseif($basket->design_method == 'ArtworkLater')
                                                                                                 <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                                             @else
@@ -934,6 +1003,9 @@
                         @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about-us') }}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('artwork-upload-form') }}">Upload Artwork</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('contact-us') }}">Contact Us</a>
@@ -1405,35 +1477,36 @@ s0.parentNode.insertBefore(s1,s0);
 <script>
     // counter
     var counted = 0;
-    $(document).ready(function(){
-        $(window).scroll(function() {
-
-            var oTop = $('.counter').offset().top - window.innerHeight;
-            if (counted == 0 && $(window).scrollTop() > oTop) {
-                $('.count').each(function() {
-                    var $this = $(this),
-                        countTo = $this.attr('data-count');
-                    $({
-                        countNum: $this.text()
-                    }).animate({
-                        countNum: countTo
-                    }, {
-                        duration: 2000,
-                        easing: 'swing',
-                        step: function() {
-                            $this.text(Math.floor(this.countNum));
-                        },
-                        complete: function() {
-                            $this.text(this.countNum);
-                        }
-
+    $(document).ready(function() {
+    // Check if the element with class 'counter' exists
+    if ($('.counter').length > 0) {
+            $(window).scroll(function() {
+                var oTop = $('.counter').offset().top - window.innerHeight;
+                if (counted == 0 && $(window).scrollTop() > oTop) {
+                    $('.count').each(function() {
+                        var $this = $(this),
+                            countTo = $this.attr('data-count');
+                        $({
+                            countNum: $this.text()
+                        }).animate({
+                            countNum: countTo
+                        }, {
+                            duration: 2000,
+                            easing: 'swing',
+                            step: function() {
+                                $this.text(Math.floor(this.countNum));
+                            },
+                            complete: function() {
+                                $this.text(this.countNum);
+                            }
+                        });
                     });
-                });
-                counted = 1;
-            }
+                    counted = 1;
+                }
+            });
+        }
+    });
 
-        });
-    }); 
     // brand-slider
     $(document).ready(function() {
         $('.brand-slider').slick({
@@ -1545,7 +1618,9 @@ s0.parentNode.insertBefore(s1,s0);
     <script>
         $(document).ready(function (){
             $('.chatnow').on('click',function(){
-                console.log('chat now working..');
+                console.log('chat now working..');  
+                $('button .tawk-custom-color').click();
+                $('.tawk-icon-right img').click();
                 // $('.desktop-closed-message-avatar').click();
                 $('.tawk-icon-right').click();
                 $('.tawk-min-chat-icon').click();

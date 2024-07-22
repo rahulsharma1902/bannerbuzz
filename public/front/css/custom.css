@@ -968,3 +968,50 @@ table.record-table tbody {
 .user_dashboard_sec .ryt_side_contnt .user_main_info .user_info .user_img span i {
     color: #6d6968;
 }
+
+
+
+
+
+
+
+
+/* uppy css update  */
+
+
+div#uppy {
+    margin-top: 13px;
+  }
+  
+  .product_select input[type="radio"]+label {
+    width: 100%;
+  }
+  
+  div#upload-image-div {
+    flex-direction: column;
+  }
+  
+  .Upload_wrapper.uploadArtworkMainWrap {
+    margin-bottom: 13px;
+  }
+  
+  
+  
+  
+  .uppy-Dashboard-AddFiles-info {
+    display: none !important;
+  }
+  
+  /* .Upload_wrapper span {
+    top:0px !important;
+    position: relative !important;
+  }
+   */
+  .uppy-Dashboard-inner {
+    height: 300px !important;
+  }
+  button.uppy-DashboardContent-addMore {
+    background: #e4004e;
+  }
+  
+  /* end uppy css code here */

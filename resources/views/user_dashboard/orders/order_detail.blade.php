@@ -40,13 +40,52 @@
                                                             <div class="product-detl">
                                                                 <div class="product-img">
                                                                     @if($data->design_method == 'Artwork')
-                                                                        <?php $count = 0; ?> 
-                                                                        @foreach(json_decode($data->images,true) as $index => $value)
-                                                                            @if($count == 0)
-                                                                                <img class="img-fluid" src="{{ asset('designImage/'.$value) }}">
+                                                                        <?php $count = 0;
+                                                                            $is_image = false;
+                                                                        ?> 
+                                                                        @php 
+                                                                            $validExt = ['png','jpg','jpeg','svg'];
+                                                                            $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                                                            $audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+                                                                        @endphp
+                                                                        
+                                                                        @if(!empty(json_decode($data->images,true)) && $data->images != null)
+                                                                        
+                                                                            @foreach(json_decode($data->images,true) as $index => $value)
+                                                                                @php 
+                                                                                    $ext = pathinfo($value, PATHINFO_EXTENSION); 
+            
+                                                                                    if(in_array($ext, $validExt) && !$is_image) {
+                                                                                        $imageName = $value;
+                                                                                        $is_image = true;
+                                                                                    }
+                                                                                @endphp
+                                                                            @endforeach
+                                                                            @if(!$is_image) 
+                                                                                @foreach(json_decode($data->images,true) as $index => $value)
+                                                                                    @php
+                                                                                        if($loop->iteration == 1){
+                                                                                            $ext = pathinfo($value, PATHINFO_EXTENSION); 
+                                                                                            if($ext == 'pdf') {
+                                                                                                $imageName = 'pdf.jpeg';
+                                                                                            } elseif(in_array($ext, $videoExtensions)) {
+                                                                                                $imageName = 'video.png';
+                                                                                            } elseif(in_array($ext, $audioExtensions)) {
+                                                                                                $imageName = 'audio.png';
+                                                                                            } else {
+                                                                                                $imageName = 'imgIN.png';
+                                                                                            }
+                                                                                        }
+                                                                                    @endphp
+                                                                                @endforeach
                                                                             @endif
-                                                                            <?php  $count++ ?>
-                                                                        @endforeach
+                                                                            
+                                                                            @if(isset($imageName) || $imageName != null)
+                                                                                <img  class="img-fluid" src="{{ asset('designImage/'.$imageName) }}">
+                                                                            @endif
+                                                                        @else
+                                                                            <img class="img-fluid" src="{{ asset('Site_Images/sendartworklater.png') }}">
+                                                                        @endif
                                                                     @elseif($data->design_method == 'ArtworkLater')
                                                                         <img class="img-fluid" src="{{ asset('Site_Images/sendartworklater.png') }}">
                                                                     @elseif($data->design_method == 'hireDesigner')

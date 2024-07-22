@@ -36,14 +36,14 @@
                             <div class="shop_dt_view">
                                 <h3>{{ $product->name ?? '' }}</h3>
                                 <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
-                                <!-- <p>
+                                <p>
+                                    <!-- <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    9724 Reviews | Product Specifications | 1 Answered questions | SKU : BBVBCB00
-                                </p> -->
+                                    <i class="fa-solid fa-star"></i> -->
+                                    <span scrollTo="tab-content" data-click="nav-profile-tab" class="productSpecificationClick">Product Specifications </span>| <span>SKU : {{ $product->slug ?? '' }}</span>
+                                </p>
                             </div>
                             <div class="shop_dt_list">
                                 <ul>
@@ -195,7 +195,7 @@
                                 </label>
                             </div>
                             <div class="form-check three-modal" >
-                                <input class="form-check-input flexRadioDefault"  type="radio" value="#HireDesignerModel" name="flexRadioDefault"
+                                <input  data-type="HireDesigner"  class="form-check-input flexRadioDefault"  type="radio" value="#HireDesignerModel" name="flexRadioDefault"
                                     id="flexRadioDefault3" checked>
                                 <label class="form-check-label" for="flexRadioDefault3">
                                     <strong>Hire a Designer @ £9.99</strong>
@@ -214,7 +214,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">
                                                 Select Preferred Design Method
                                             </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" id="DesignOnlineModelBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body template-modal">
                                             <div class="tab-teaser">
@@ -301,20 +301,34 @@
                                                                     Value
                                                                 </h6>
                                                                 <span><b>above £500.00</b></span>
-                                                                <a href="">Click here to Hire</a>
+                                                                <a style="cursor:pointer;" id="GoToHireDesigner" class="link-primary">Click here to Hire</a>
                                                             </div>
                                                         </div>
 
                                                         <div class="price_box">
                                                             <div class="design_tool">
-                                                                <div class="design_tool_data">
+                                                            <div class="design_tool_data">
+                                                                <h6 class="ModelPrice">£{{ $total }}</h6>
+                                                                <span>(Incl.VAT)</span>
+                                                            </div>
+                                                            <div class="save_data">
+                                                                @php
+                                                                    $discountPercentage = 40;
+                                                                    $originalPrice = $total / (1 - $discountPercentage / 100);
+                                                                    $savedAmount = $originalPrice - $total;
+                                                                @endphp
+                                                                <del>£{{ number_format($originalPrice, 2) }}</del>
+                                                                <a href="">Save £{{ number_format($savedAmount, 2) }} ({{ $discountPercentage }}%)</a>
+                                                            </div>
+
+                                                                <!-- <div class="design_tool_data">
                                                                     <h6 class="ModelPrice" >£{{ $total }}</h6>
                                                                     <span>(Incl.VAT)</span>
                                                                 </div>
                                                                 <div class="save_data">
                                                                     <del>£11.75</del>
                                                                     <a href="">Save 40% </a>
-                                                                </div>
+                                                                </div> -->
                                                                 <div class="quantity-field">
                                                                     <button class="value-button decrease-button" onclick="decreaseValue(this)" title="Azalt">-</button>
                                                                     <input class="number model-qty" type="number" name="qtyqty" min="1" value="1">
@@ -336,13 +350,15 @@
                                                                     </div>
                                                                     <div class="Upload_wrapper-txt">
                                                                         <h6>Upload Artwork Now</h6>
-                                                                    <input type="file" class="file" name="imageInput" id="file"  />
+                                                                        <div class="">
+                                                                            <div id="uppy"></div>
+                                                                        </div>
+                                                                    <!-- <input type="file" class="file" name="imageInput" id="file"  />
                                                                     <label for="file" class="btn-1">Browse File</label>
                                                                         <div class="upload_img">
                                                                             <img id="dropboxChooserButton" src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
-                                                                            <!-- <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png"> -->
                                                                         </div>
-                                                                        <p>For file(s) bigger than 400MB <br> upload them right here</p>
+                                                                        <p>For file(s) bigger than 400MB <br> upload them right here</p> -->
                                                                     </div>
                                                                 </div>
                                                             </label>
@@ -397,9 +413,18 @@
                                                                     <h6 class="ModelPrice" >£{{ $total }}</h6>
                                                                     <span>(Incl.VAT)</span>
                                                                 </div>
-                                                                <div class="save_data">
+                                                                <!-- <div class="save_data">
                                                                     <del>£11.75</del>
                                                                     <a href="">Save 40% </a>
+                                                                </div> -->
+                                                                <div class="save_data">
+                                                                    @php
+                                                                        $discountPercentage = 40;
+                                                                        $originalPrice = $total / (1 - $discountPercentage / 100);
+                                                                        $savedAmount = $originalPrice - $total;
+                                                                    @endphp
+                                                                    <del>£{{ number_format($originalPrice, 2) }}</del>
+                                                                    <a href="">Save £{{ number_format($savedAmount, 2) }} ({{ $discountPercentage }}%)</a>
                                                                 </div>
                                                                 <div class="quantity-field">
                                                                     <button class="value-button decrease-button" onclick="decreaseValue(this)" title="Azalt">-</button>
@@ -432,14 +457,15 @@
                                         <div class="modal-body">
                                             <div class="print_box_wrapp">
                                                 <ul>
-                                                    <li> <span><img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/print.png"></span>
+                                                    <!-- <li> <span><img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/print.png"></span> -->
+                                                    <li> <span><img src="{{ asset('front/img/HADCall.svg') ?? '' }}"></span>
+                                                    <span>Call with Expert</span></li>
+                                                        <li> <span><img src="{{ asset('front/img/HADPrint.svg') ?? '' }}"></span>
                                                     <span>Print after your approval</span></li>
-                                                        <li> <span><img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/print.png"></span>
-                                                    <span>Print after your approval</span></li>
-                                                    <li> <span><img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/print.png"></span>
-                                                    <span>Print after your approval</span></li>
-                                                    <li> <span><img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/print.png"></span>
-                                                    <span>Print after your approval</span></li>
+                                                    <li> <span><img src="{{ asset('front/img/HADRevision.svg') ?? '' }}"></span>
+                                                    <span>Unlimited revisions</span></li>
+                                                    <li> <span><img src="{{ asset('front/img/HADProvision.svg') ?? '' }}"></span>
+                                                    <span>Provision to buy assets</span></li>
                                                 </ul>
                                             </div>
 
@@ -525,13 +551,16 @@
                                             <div class="price_box">
                                                 <div class="design_tool">
                                                     <div class="design_tool_data">
-                                                        <h6 class="ModelPrice" >£{{ $total }}</h6>
-                                                        <span>(Incl.VAT)</span>
+                                                        <h6 class="ModelPrice" style="text-align: left;">£{{ $total + 9.99 }} </h6>
+                                                        <span>(Incl.VAT)</span> <br>
+                                                        <!-- <span style="font-size:smaller;"> (Incl. £9.99 designer fee)  </span> -->
                                                     </div>
+                                                   
                                                     <div class="save_data">
-                                                        <del>£11.75</del>
-                                                        <a href="">Save 40% </a>
+                                                        <del>£{{ $total }}</del>
+                                                        <a href="#" style="text-align: left !important;">£9.99 fee </a>
                                                     </div>
+                                                    
                                                     <div class="quantity-field">
                                                         <button class="value-button decrease-button" onclick="decreaseValue(this)" title="Azalt">-</button>
                                                         <input class="number model-qty" type="number" min="1" value="1">
@@ -720,7 +749,12 @@
             @endif
         </div>
     </section>
-    <script type="text/javascript">
+   
+    <script src="https://releases.transloadit.com/uppy/v2.1.2/uppy.min.js"></script>
+    <script type="module">
+
+        var images = [];
+
         $(document).ready(function(){
 
             // $('.list-image').on('click',function() {  // change product image 
@@ -749,7 +783,7 @@
             $('#hireDesigner-btn').on('click',async function(){
                 $('#overlay').show();
                 try {
-                    Qty = $('#product_quantity').val();
+                    let Qty = $('#product_quantity').val();
                     var desc_data = $('#w3review').val();
                     const formData = new FormData();
 
@@ -757,13 +791,13 @@
                     formData.append('design_description', desc_data);
                     formData.append('design_method', 'hireDesigner');
 
-                    saveData = await saveDesignAjax(formData);
+                    const saveData = await saveDesignAjax(formData);
                     if(saveData.template.id != null){
-                        addTobasket = await addTObasket(saveData.template.id,Qty);
+                    var    addTobasket = await addTObasket(saveData.template.id,Qty);
                         if(addTobasket.id !== null && addTobasket.id !== 0){
 
                             console.log(addTobasket.id );
-                            url = "{{ url('checkout/cart') }}";
+                           var url = "{{ url('checkout/cart') }}";
                             window.location.href = url;
                         }
                     }
@@ -778,9 +812,9 @@
 
             $('.add-to-basket').on('click', async function() {      // add design to basket
 
-                design_id = $(this).data('design-id');
-                Qty = $('#product_quantity').val();
-                design_method =$('input[name="featured"]:checked').val();
+                const design_id = $(this).data('design-id');
+                const Qty = $('#product_quantity').val();
+                var design_method =$('input[name="featured"]:checked').val();
 
                 $('#overlay').show();
 
@@ -793,25 +827,25 @@
                     
                         formData.append('design_method', design_method);
 
-                        saveData = await saveDesignAjax(formData);
+                        const saveData = await saveDesignAjax(formData);
                         if(saveData.template.id != null){
-                            addTobasket = await addTObasket(saveData.template.id,Qty);
+                            const addTobasket = await addTObasket(saveData.template.id,Qty);
                             if(addTobasket.id !== null && addTobasket.id !== 0){
 
                                 console.log(addTobasket.id );
-                                url = "{{ url('checkout/cart') }}";
+                                const url = "{{ url('checkout/cart') }}";
                                 window.location.href = url;
                             }
                         }
 
                     } else {
                         if(design_id != null && design_id != undefined){
-                            addTobasket = await addTObasket(design_id,Qty);
+                            const addTobasket = await addTObasket(design_id,Qty);
                             console.log(addTobasket);
                             if(addTobasket.id !== null && addTobasket.id !== 0){
 
                                 console.log(addTobasket.id );
-                                url = "{{ url('checkout/cart') }}";
+                                const url = "{{ url('checkout/cart') }}";
                                 window.location.href = url;
                             }
                         }
@@ -851,6 +885,15 @@
                 $('#proceedButton').attr('data-type', newType);
             });
 
+            $('#GoToHireDesigner').on('click',function(){
+                $('#UploadArtworkModel').modal('hide');
+        
+                // $('#UploadArtworkModel').on('hidden.bs.modal', function () {
+                    $('#HireDesignerModel').modal('show');
+                // });
+            });
+
+
             $('.flexRadioDefault').trigger('change');
 
             $('.template-category').on('click',function() {
@@ -878,80 +921,80 @@
                 $(this).addClass('selected');
             });
 
-            $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
-                // var design_id = $(this).data('design-id');
+            // $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
+            //     // var design_id = $(this).data('design-id');
             
-                try{
-                    var formData = new FormData();
+            //     try{
+            //         var formData = new FormData();
 
-                    getFormData(formData);
-                    formData.append('design_method', 'Artwork');
-                    Dropbox.choose({
-                        success: async function(files) {
-                            $('#overlay').show();
-                            files.forEach(file => {
-                                let link = file.link;
-                                let directLink = link.replace("dl=0", "raw=1");
-                                file.link=directLink;
-                            });
+            //         getFormData(formData);
+            //         formData.append('design_method', 'Artwork');
+            //         Dropbox.choose({
+            //             success: async function(files) {
+            //                 $('#overlay').show();
+            //                 files.forEach(file => {
+            //                     let link = file.link;
+            //                     let directLink = link.replace("dl=0", "raw=1");
+            //                     file.link=directLink;
+            //                 });
 
-                            $.ajax({
-                                url: '/upload-dropbox-file',
-                                type: 'POST',
-                                dataType: 'json',
-                                contentType: 'application/json',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                data: JSON.stringify({ files: files }), 
-                                success: async function(data) {
-                                    console.log(data);
-                                    if (data.files != null) {
+            //                 $.ajax({
+            //                     url: '/upload-dropbox-file',
+            //                     type: 'POST',
+            //                     dataType: 'json',
+            //                     contentType: 'application/json',
+            //                     headers: {
+            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                     },
+            //                     data: JSON.stringify({ files: files }), 
+            //                     success: async function(data) {
+            //                         console.log(data);
+            //                         if (data.files != null) {
 
-                                        formData.append('images', JSON.stringify(data.files) );
-                                        saveData = await saveDesignAjax(formData);
+            //                             formData.append('images', JSON.stringify(data.files) );
+            //                             saveData = await saveDesignAjax(formData);
 
-                                        if (saveData.imageArray != null) {
-                                            $('#upload-image-div').addClass('d-none');
-                                            $('#response-result').removeClass('d-none');
+            //                             if (saveData.imageArray != null) {
+            //                                 $('#upload-image-div').addClass('d-none');
+            //                                 $('#response-result').removeClass('d-none');
                                             
-                                            var HTML_data = '';
-                                            Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
-                                            HTML_data += `<div class="Upload_wrapper image-div d-flex">
-                                                            <div class="img">
-                                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
-                                                            </div>
-                                                            <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
-                                                        </div>`;
-                                            });
+            //                                 var HTML_data = '';
+            //                                 Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+            //                                 HTML_data += `<div class="Upload_wrapper image-div d-flex">
+            //                                                 <div class="img">
+            //                                                     <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+            //                                                 </div>
+            //                                                 <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
+            //                                             </div>`;
+            //                                 });
 
-                                            // $('#Upload_wrapper').append(HTML_data);
-                                            $(HTML_data).insertBefore('.label-wrap');
-                                            $('#file2').attr('data-design-id', saveData.template.id);
-                                            $('.add-to-basket').attr('data-design-id', saveData.template.id);
-                                            $('#overlay').hide();
-                                        }
-                                    } 
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-                            }); 
-                        },
-                        cancel: function() {
-                            console.log('User canceled the chooser.');
-                        },
-                        linkType: 'preview',
-                        multiselect: true, 
-                        extensions: ['.jpg', '.jpeg', '.png'],
-                    });
-                } catch (error) {
-                    console.error('An error occurred:', error);
+            //                                 // $('#Upload_wrapper').append(HTML_data);
+            //                                 $(HTML_data).insertBefore('.label-wrap');
+            //                                 $('#file2').attr('data-design-id', saveData.template.id);
+            //                                 $('.add-to-basket').attr('data-design-id', saveData.template.id);
+            //                                 $('#overlay').hide();
+            //                             }
+            //                         } 
+            //                     },
+            //                     error: function(xhr, status, error) {
+            //                         console.error('Error:', error);
+            //                     }
+            //                 }); 
+            //             },
+            //             cancel: function() {
+            //                 console.log('User canceled the chooser.');
+            //             },
+            //             linkType: 'preview',
+            //             multiselect: true, 
+            //             extensions: ['.jpg', '.jpeg', '.png'],
+            //         });
+            //     } catch (error) {
+            //         console.error('An error occurred:', error);
                     
-                } finally {
-                    $('#overlay').hide();
-                }
-            });
+            //     } finally {
+            //         $('#overlay').hide();
+            //     }
+            // });
 
             $('#file, #file2').on('change',async function() {         // Browse Files from system  
 
@@ -963,7 +1006,7 @@
                     if(design_id == undefined || design_id == null || design_id == '') {
                 
                         const formData = new FormData();
-                        design_method = "Artwork";
+                        let design_method = "Artwork";
 
                         var fileInput = $(this)[0];
                         if (fileInput.files.length === 0) {
@@ -974,16 +1017,34 @@
                         formData.append('image', fileInput.files[0]);
                         formData.append('design_method', design_method);
 
-                        saveData = await saveDesignAjax(formData);
+                        const saveData = await saveDesignAjax(formData);
                         if(saveData.imageName != null){
                         
                             $('#upload-image-div').addClass('d-none');
                             $('#response-result').removeClass('d-none');
+                            let image = saveData.imageName;
+                            let ext = image.split('.').pop().toLowerCase();
+
+                            const validImageExtensions = ['png', 'jpg', 'jpeg', 'svg'];
+                            const VideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                            const AudioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+
+                            if(ext == 'pdf'){
+                                image = 'pdf.jpeg';
+                            } else if(VideoExtensions.includes(ext)) {
+                                image = 'video.png';
+                            } else if(AudioExtensions.includes(ext)) {
+                                image = 'audio.png';
+                            } else if(validImageExtensions.includes(ext)) {
+                                image = image;
+                            } else {
+                                image = 'imgIN.png';
+                            }
                             var HTML_data = `<div class="Upload_wrapper image-div d-flex">
                                                 <div class="img">
-                                                    <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                                    <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
                                                 </div>
-                                                <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                                <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}"  class="remove-image">X</span>
                                             </div>`;
                             // $('#Upload_wrapper').append(HTML_data);
                             $(HTML_data).insertBefore('.label-wrap');
@@ -1002,15 +1063,36 @@
 
                         formData.append('image', fileInput.files[0]);
                         formData.append('design_id',design_id );
-                        saveData = await saveDesignAjax(formData);
+                        const saveData = await saveDesignAjax(formData);
                         if(saveData.imageName != null){
+
                             $('#upload-image-div').addClass('d-none');
                             $('#response-result').removeClass('d-none');
+
+                            let image = saveData.imageName;
+                            let ext = image.split('.').pop().toLowerCase();
+
+                            const validImageExtensions = ['png', 'jpg', 'jpeg', 'svg'];
+                            const VideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                            const AudioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+
+                            if(ext == 'pdf'){
+                                image = 'pdf.jpeg';
+                            } else if(VideoExtensions.includes(ext)) {
+                                image = 'video.png';
+                            } else if(AudioExtensions.includes(ext)) {
+                                image = 'audio.png';
+                            } else if(validImageExtensions.includes(ext)) {
+                                image = image;
+                            } else {
+                                image = 'imgIN.png';
+                            }
+
                             var HTML_data = `<div class="Upload_wrapper image-div d-flex">
                                                 <div class="img">
-                                            <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${saveData.imageName}">
+                                            <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
                                         </div>
-                                        <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}" onclick="removeImage(this)" class="remove-image">X</span>
+                                        <span data-design-id="${saveData.template.id}"  data-img-index="${saveData.imgIndex}"  class="remove-image">X</span>
                                         </div>`;
                             // $('#Upload_wrapper').append(HTML_data);
                             $(HTML_data).insertBefore('.label-wrap');
@@ -1062,7 +1144,7 @@
                     formData.append('template_id', templateID);
                     formData.append('design_method', design_method);
 
-                    saveData = await saveDesignAjax(formData);          
+                    const saveData = await saveDesignAjax(formData);          
 
                     if(saveData != null ){
                         window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
@@ -1077,6 +1159,8 @@
             $('#custom_width, #custom_height').on('input', function() {
                 ensurePositiveInteger($(this));
             });
+
+            
         });
         async function addTObasket(designID,Qty) {            // Add to Basket Ajax request 
             return new Promise((resolve, reject) => {
@@ -1135,50 +1219,16 @@
             input.val(numericValue);
         }
 
-        function removeImage(button) {          // Removing uploaded images 
-            designID = $(button).data('design-id');
-            ImageIndex = $(button).data('img-index');
-            console.log(designID,ImageIndex);
-            if(designID != undefined && ImageIndex != undefined){
-                var formData = new FormData();
-
-                formData.append('ImageIndex',ImageIndex);
-                formData.append('design_id',designID );
-                formData.append('is_saved',false );
-
-                var $parentDiv = $(button).closest('.Upload_wrapper');
-
-                $.ajax({
-                    url: "{{ url('updateDesign') }}",
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    success: function(data) {
-                        if(data.arrayCount < 1){
-                            $('#upload-image-div').removeClass('d-none');
-                            $('#response-result').addClass('d-none');
-                            $parentDiv.remove();
-                        } else {
-                            $parentDiv.remove();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error saving data', status, error);
-                    }
-                });
-            }
-        }
+        
         async function getFormData(formData)    // getting form data
         {
 
+            var var_data;
             var ProductID = "{{ $product->id ?? '' }}";
             var size_unit = $('#size_unit').val();
             var qty = $('#product_quantity').val();
             var variations = {};
+            // var variations = [];
             $('.product_variation').each(function() {
                 var var_slug = $(this).data('slug');
                 var selectedoption = parseInt($(this).find('option:selected').data('id'));
@@ -1202,339 +1252,581 @@
                 formData.append('size_id', size_id);
             }
             // var_data =  JSON.stringify(variations);
-            var_data =  variations;
+
+            var_data = variations;
 
             formData.append('product_id', ProductID);
             formData.append('dimension', size_unit);
             formData.append('qty', qty);
             formData.append('variations', JSON.stringify(var_data)); 
         }
-    </script>
-    <script>
-        $(document).ready(function() {
-            @if ($selected_size_unit != null && $selected_size_unit != 'Ft')
-                var size_unit = "{{ $selected_size_unit }}";
-                var selectedSize = "{{ $selected_size }}";
-                var productID = "{{ $product->id }}";
-                updateSize(productID, size_unit, selectedSize);
-            @endif
-            var size_prices = [];
-            @if ($product->sizes->isNotEmpty())
-                size_prices.push({
-                    value: "{{ $product->sizes->first()->id }}",
-                    price: "{{ $product->sizes->first()->price }}"
-                });
-            @endif
 
-            $('#custom_width, #custom_height').on('change', customSize);  // on chnage Custom height and width 
 
-            // changing size 
-            $('#select_size').on('change', async function() {
+    // uppy code start from here :: 
 
-                var size_value = $(this).val();
-                var size_unit = $('#size_unit').val();
-                if(size_value == 'custom'){
-                    // $('#select_size').hide();
-                    var UpdateSize = await UpdateCustomSize(size_unit);
-                    
-                    if(UpdateSize == true){
-                        customSize();
-                    }
-                   
-                } else {
-                    $('#select_size').show();
-                    $('#custom_size_div').hide();
-                    var Qty = parseFloat($('#product_quantity').val());
 
-                    var selectedOption = this.options[this.selectedIndex];
-                    var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
-                    var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
-                    var totalPrice = 0;
-                    $('.product_variation').each(function() {
-                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                        totalPrice += selectedPrice;
-                    });
-                    $('#product_price_input').val(selectedprice);
-                    $('#product_price_main').text('£' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
-                    $('#product_price').text('£' + (selectedprice + totalPrice )* Qty);
-                    $('.ModelPrice').text('£' + (selectedprice + totalPrice )* Qty);
-                }
-            });
 
-            $('#product_quantity').on('change', function() {
-                var value = $(this).val();
-                $('.model-qty').val(value);
-                if (value < 1 || value > 999) {
-                    value = 1;
-                    $('#product_quantity').val(1);
-                    $('.model-qty').val(1);
-                }
-                var size_value = $('#select_size').val();
-                if(size_value == 'custom'){
-                   customSize();
-                } else {
-                    var totalPrice = 0;
-                    $('.product_variation').each(function() {
-                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                        totalPrice += selectedPrice;
-                    });
-                    var price = $('#product_price_input').val();
-                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
-                    $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
-                    $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
-                }
-            });
+    import { Uppy, Dashboard,RemoteSources, GoogleDrive, Transloadit, Dropbox, Url, ScreenCapture, Audio, Box, Instagram, Unsplash, XHRUpload } from "https://releases.transloadit.com/uppy/v3.21.0/uppy.min.mjs"
 
-            $('.model-qty').on('change', function() {
-                var value = $(this).val();
-                $('#product_quantity').val(value);
-                $('.model-qty').val(value);
-                if (value < 1 || value > 999) {
-                    value = 1;
-                    $('#product_quantity').val(1);
-                    $('.model-qty').val(1);
-                }
-                var size_value = $('#select_size').val();
-                if(size_value == 'custom'){
-                   customSize();
-                } else {
-                    var totalPrice = 0;
-                    $('.product_variation').each(function() {
-                        var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                        totalPrice += selectedPrice;
-                    });
-                    var price = $('#product_price_input').val();
-                    $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
-                    $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
-                    $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
-                }
-            });
+    const uppy = new Uppy({
+    debug: true, // Enable debugging
+    logger: console, // Log messages to the browser console
+    
+    })
+    .use(Transloadit, {
+		assemblyOptions: {
+			params: {
+				auth: { key: 'k8UKeyHwpdv3tVFYNjHVTA2he7J4i1rV' },
+				template_id: 'e5aba32a2af4430cb95a2bd9c2c9a477',
+			},
+		},
+    })
+    .use(Dashboard, { target: '#uppy', inline: true })
+    .use(ScreenCapture, { target: Dashboard })
+    .use(Audio, { target: Dashboard })
+    .use(RemoteSources, {
+            target: Uppy.Dashboard,
+            companionUrl: Transloadit.COMPANION_URL,
+            companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS, 
+        })
+    // .use(GoogleDrive, {companionUrl: Transloadit.COMPANION_URL,companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS,})
+    // .use(Dropbox, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS,})
+    // .use(Url, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Box, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Instagram, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Unsplash, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(XHRUpload, {
+    //     endpoint: '{{ url('/upload') }}',
+    //     headers: {
+    //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //     }
+    // })
 
-            // converting size units
-            $('#size_unit').on('change',async function() {
-                var size_value = $('#select_size').val();
-                var unit_value = $(this).val();
-                var productID = "{{ $product->id }}";
-                if(size_value == 'custom'){
-                    var UpdateSize = await  UpdateCustomSize(unit_value);
+
+    // uppy.on('file-added', (file) => {
+        
+    // console.log(file)
+    // console.log(Dropbox);
+    // console.log(Transloadit.COMPANION_URL);
+    // console.log(Transloadit.COMPANION_ALLOWED_HOSTS);
+    // console.log(file.preview);
+    // })
+
+
+    // uppy.on('upload-success', (file, response) => {
+    // console.log(`File uploaded successfully: ${file.name}`)
+    // console.log(response)
+    // })
+
+    // uppy.on('upload-error', (file, error) => {
+    // console.log(`Error uploading file: ${file.name}`)
+    // console.log(error)
+    // })
+
+
+
+
+    var $AllImages = [];
+    uppy.on('complete', async function(result) {
+        result.successful.forEach(function(file){
+            if(file.response.uploadURL != undefined) {
+                    $AllImages.push(file.response.uploadURL);
                 } 
-                updateSize(productID, unit_value, size_value);
-            
+        });
+    });
+
+    // $(document).on('click','.uppy-StatusBar-actionBtn--done', function() {
+    //     $('#overlay').show();
+    //     document.getElementById('overlay').style.display = 'block';
+    //     saveDesignAjaxA($AllImages);
+    //     $AllImages = [];
+    // });
+    $(document).on('click', '.uppy-StatusBar-actionBtn--done', function(event) {
+    event.preventDefault();
+    saveDesignAjaxA($AllImages);
+    $('#overlay').show();
+    $AllImages = [];
+
+    setTimeout(function() {
+        $('.uppy-StatusBar-actionBtn--done').off('click').click();
+        
+        $AllImages = [];
+
+        $(document).on('click', '.uppy-StatusBar-actionBtn--done', function(event) {
+            $('#overlay').show();
+        });
+    }, 1000);
+});
+
+    async function saveDesignAjaxA(uploadedFiles) {
+        return new Promise((resolve, reject) => {
+            $AllImages = [];
+            console.log($AllImages);
+            console.log(uploadedFiles);
+            try {
+                $.ajax({
+                    url: '/upload-dropbox-file',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data: JSON.stringify({ files: uploadedFiles }), 
+
+                    success: async function(data) {
+                        
+                        if (data.files != null) {
+                            const formData = new FormData();
+
+                            getFormData(formData);
+                            formData.append('design_method', 'Artwork');
+                            formData.append('images', JSON.stringify(data.files));
+
+                            try {
+                                const saveData = await saveDesignAjax(formData);
+
+                                if (saveData.imageArray != null) {
+                                    $('#upload-image-div').addClass('d-none');
+                                    $('#response-result').removeClass('d-none');
+
+                                    let HTML_data = '';
+                                    Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+                                        let ext = image.split('.').pop().toLowerCase();
+
+                                        const validImageExtensions = ['png', 'jpg', 'jpeg', 'svg'];
+                                        const VideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                        const AudioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+
+                                        if(ext == 'pdf'){
+                                            image = 'pdf.jpeg';
+                                        } else if(VideoExtensions.includes(ext)) {
+                                            image = 'video.png';
+                                        } else if(AudioExtensions.includes(ext)) {
+                                            image = 'audio.png';
+                                        } else if(validImageExtensions.includes(ext)) {
+                                            image = image;
+                                        } else {
+                                            image = 'imgIN.png';
+                                        }
+                                        HTML_data += `<div class="Upload_wrapper image-div d-flex">
+                                                            <div class="img">
+                                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+                                                            </div>
+                                                            <span data-design-id="${saveData.template.id}"  data-img-index="${key}"  class="remove-image">X</span>
+                                                        </div>`;
+                                    });
+
+                                    $(HTML_data).insertBefore('.label-wrap');
+                                    $('#file2').attr('data-design-id', saveData.template.id);
+                                    $('.add-to-basket').attr('data-design-id', saveData.template.id);
+                                    $('#overlay').hide();
+                                }
+                            } catch (error) {
+                                console.error('Error saving design:', error);
+                                $('#overlay').hide();
+                            }
+                        } 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        $AllImages = [];
+                        $('#overlay').hide();
+                    }
+                }); 
+
+            } catch (error) {
+                console.error('Error saving design:', error);
+                $('#overlay').hide();
+            }
+            $('#overlay').hide();
+        });
+    }
+
+    $(document).on('click', '.remove-image', function() {
+
+        const designID = $(this).data('design-id');
+        const ImageIndex = $(this).data('img-index');
+
+        if(designID != undefined && ImageIndex != undefined){
+            $('#overlay').show();
+            var formData = new FormData();
+
+            formData.append('ImageIndex',ImageIndex);
+            formData.append('design_id',designID );
+            formData.append('is_saved',false );
+
+            var $parentDiv = $(this).closest('.Upload_wrapper');
+
+            $.ajax({
+                url: "{{ url('updateDesign') }}",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    if(data.arrayCount < 1){
+                        $('#upload-image-div').removeClass('d-none');
+                        $('#response-result').addClass('d-none');
+                        $parentDiv.remove();
+                    } else {
+                        $parentDiv.remove();
+                    }
+                    $('#overlay').hide();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving data', status, error);
+                    $('#overlay').hide();
+                }
             });
+        }
+        $('#overlay').hide();
+    });
+</script>
 
-            // adding and removing variation data 
-            var selectedOptions = [];
-            $('.product_variation').on('change', function() {
-                var totalPrice = parseFloat($('#product_price_input').val());
-                var selectElement = $(this);
+<!-- uppy code end here -->
 
+
+<script>
+    $(document).ready(function() {
+        @if ($selected_size_unit != null && $selected_size_unit != 'Ft')
+            var size_unit = "{{ $selected_size_unit }}";
+            var selectedSize = "{{ $selected_size }}";
+            var productID = "{{ $product->id }}";
+            updateSize(productID, size_unit, selectedSize);
+        @endif
+        var size_prices = [];
+        @if ($product->sizes->isNotEmpty())
+            size_prices.push({
+                value: "{{ $product->sizes->first()->id }}",
+                price: "{{ $product->sizes->first()->price }}"
+            });
+        @endif
+
+        $('#custom_width, #custom_height').on('change', customSize);  // on chnage Custom height and width 
+
+     
+        // changing size 
+        $('#select_size').on('change', async function() {
+
+            var size_value = $(this).val();
+            var size_unit = $('#size_unit').val();
+            if(size_value == 'custom'){
+                // $('#select_size').hide();
+                var UpdateSize = await UpdateCustomSize(size_unit);
+                
+                if(UpdateSize == true){
+                    customSize();
+                }
+                
+            } else {
+                $('#select_size').show();
+                $('#custom_size_div').hide();
+                var Qty = parseFloat($('#product_quantity').val());
+
+                var selectedOption = this.options[this.selectedIndex];
+                var selectedprice = parseFloat(selectedOption.getAttribute('data-price'));
+                var selectedid = parseFloat(selectedOption.getAttribute('data-id'));
+                var totalPrice = 0;
                 $('.product_variation').each(function() {
                     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
                     totalPrice += selectedPrice;
                 });
+                $('#product_price_input').val(selectedprice);
+                $('#product_price_main').text('£' + (parseFloat(selectedprice) + 5 + totalPrice) * Qty);
+                $('#product_price').text('£' + (selectedprice + totalPrice )* Qty);
+                $('.ModelPrice').text('£' + (selectedprice + totalPrice )* Qty);
+            }
+        });
 
-                // $('#product_price_input').val(totalPrice.toFixed(2));
-                
-                var value = $('#product_quantity').val();
-                $('#product_price_main').text('£' + (totalPrice + 5) * value);
-                $('#product_price').text('£' + value * totalPrice);
-                $('.ModelPrice').text('£' + value * totalPrice);
-            });
-
-            //  Custom size function 
-            async function customSize(){
-                $('#custom_size_div').show();
-                var pricePerUnit = await priceratio();
-
-                var width =parseFloat($('#custom_width').val());
-                var height = parseFloat($('#custom_height').val());
-                var newprice = Math.round(pricePerUnit *( width + height)); 
-
-                var Qty = parseFloat($('#product_quantity').val());
-                var variation_total_price = 0;
+        $('#product_quantity').on('change', function() {
+            var value = $(this).val();
+            $('.model-qty').val(value);
+            if (value < 1 || value > 999) {
+                value = 1;
+                $('#product_quantity').val(1);
+                $('.model-qty').val(1);
+            }
+            var size_value = $('#select_size').val();
+            if(size_value == 'custom'){
+                customSize();
+            } else {
+                var totalPrice = 0;
                 $('.product_variation').each(function() {
                     var selectedPrice = parseInt($(this).find('option:selected').data('price'));
-                    variation_total_price += selectedPrice;
+                    totalPrice += selectedPrice;
                 });
-                var totalPrice = (newprice + variation_total_price) * Qty;
-                if(formatPrice(totalPrice) !== true){
-                    var totalPrice = Math.round(totalPrice);
-                }
-
-                $('#product_price').text('£' + totalPrice);
-                $('#product_price_input').val(newprice);
-                $('#product_price_main').text('£' + (totalPrice + 5));
-                $('.ModelPrice').text('£' + totalPrice);
-            }
-
-            function formatPrice(price) {
-                if (Number.isInteger(price)) {
-                    return true; 
-                } else {
-                    return false; 
-                }
-            }
-
-            // Finding price ratio 
-            async function priceratio() {
-                var main_price = parseFloat($('#product_default_price').val());
-                var value =  $('#size_unit').val(); 
-                var unit_value = await getUnitValue(value);
-
-                PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
-                return PriceperUnit;
-            }
-
-            // Update Custom size on size unit change
-            async function UpdateCustomSize(value) {
-                var last_unit = $('#custom_width').data('unit');
-                var unit_value = await getUnitValue(last_unit);
-
-                var width = parseFloat($('#custom_width').val());
-                var height = parseFloat($('#custom_height').val());
-
-                var width_in_inches = width / unit_value;
-                var height_in_inches = height / unit_value;
-
-                var new_unit_value = await getUnitValue(value);
-                    
-
-                var new_width = Math.round( width_in_inches * new_unit_value);
-                var new_height = Math.round(height_in_inches * new_unit_value);
-
-                $('#custom_width').val(new_width);
-                $('#custom_height').val(new_height);
-
-                $('#custom_width').data('unit', value);
-                $('#custom_height').data('unit', value);
-
-                return true;
-            }
-
-            async function updateSize(id, value, selectedSize) {
-                $.ajax({
-                    url: "{{ url('/product/sizes/') }}" + "/" + id,
-                    type: 'GET',
-                    success: async function(data) {
-                        var sizeSelect = $('#select_size');
-                        if (data.length > 0) {
-                            sizeSelect.show();
-                            sizeSelect.empty();
-
-                            var unit_value = await getUnitValue(value);
-
-                            $.each(data, function(index, size) {
-                                if (size.size_type == 'wh' || size.size_type == 'DH') {
-                                    if (selectedSize == size.size_value) {
-                                        size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
-                                            size
-                                            .size_type + '" data-price="' + size.price +
-                                            '" value="' + size.size_value + '">' +
-                                            +parseFloat(size_values[0]) * unit_value +
-                                            ' X ' +
-                                            parseFloat(size_values[1]) * unit_value +
-                                            '</option>');
-                                    } else {
-                                        size_values = size.size_value.split('X');
-                                        sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
-                                            .size_type + '" data-price="' + size.price +
-                                            '" value="' + size.size_value + '">' +
-                                            +parseFloat(size_values[0]) * unit_value +
-                                            ' X ' +
-                                            parseFloat(size_values[1]) * unit_value +
-                                            '</option>');
-                                    }
-
-                                } else {
-                                    if (selectedSize == size.size_value) {
-                                        sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
-                                            size
-                                            .size_type + '" data-price="' + size.price +
-                                            '" value="' + size.size_value + '">' +
-                                            parseFloat(size.size_value) * unit_value +
-                                            '</option>');
-                                    } else {
-                                        sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
-                                            .size_type + '" data-price="' + size.price +
-                                            '" value="' + size.size_value + '">' +
-                                            parseFloat(size.size_value) * unit_value +
-                                            '</option>');
-                                    }
-                                }
-                            });
-                            if(selectedSize == 'custom'){
-                                sizeSelect.append('<option selected value="custom">Custom</option>');
-                            } else {
-                                sizeSelect.append('<option value="custom">Custom</option>');
-                            }
-                            // $('#custom_width').data('unit', value);
-                        } else {
-                            sizeSelect.hide();
-                        }
-                    },
-                });
+                var price = $('#product_price_input').val();
+                $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+                $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+                $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
             }
         });
 
-        $(function() {
-            $('.multiple-items').slick({
-                infinite: false,
-                variableWidth: true,
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                swipe: true,
-                prevArrow: '<span class="slide-arrow prev-arrow"><i class="fa-solid fa-angle-left"></i></span>',
-                nextArrow: '<span class="slide-arrow next-arrow"><i class="fa-solid fa-angle-right"></i></span>',
-            });
+        $('.model-qty').on('change', function() {
+            var value = $(this).val();
+            $('#product_quantity').val(value);
+            $('.model-qty').val(value);
+            if (value < 1 || value > 999) {
+                value = 1;
+                $('#product_quantity').val(1);
+                $('.model-qty').val(1);
+            }
+            var size_value = $('#select_size').val();
+            if(size_value == 'custom'){
+                customSize();
+            } else {
+                var totalPrice = 0;
+                $('.product_variation').each(function() {
+                    var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                    totalPrice += selectedPrice;
+                });
+                var price = $('#product_price_input').val();
+                $('#product_price_main').text('£' + (parseFloat(price) +totalPrice + 5) * value);
+                $('#product_price').text('£' + (parseFloat(price) + totalPrice) * value);
+                $('.ModelPrice').text('£' + (parseFloat(price) + totalPrice) * value);
+            }
+        });
+
+        // converting size units
+        $('#size_unit').on('change',async function() {
+            var size_value = $('#select_size').val();
+            var unit_value = $(this).val();
+            var productID = "{{ $product->id }}";
+            if(size_value == 'custom'){
+                var UpdateSize = await  UpdateCustomSize(unit_value);
+            } 
+            updateSize(productID, unit_value, size_value);
         
-        // $('.multiple-items').on('afterChange', function(event, slick, currentSlide, nextSlide){
-        //   console.log(currentSlide);
-        // });
-
         });
 
-        async function getUnitValue(value){
-            return new Promise((resolve, reject) => {
-                var unit_value;
-                if (value == 'In') {
-                    unit_value = 12;
-                } else if (value == 'Cm') {
-                    unit_value = 30;
-                } else if (value == 'Mm') {
-                    unit_value = 304;
-                } else if (value == 'Ft') {
-                    unit_value = 1;
-                }
+        // adding and removing variation data 
+        var selectedOptions = [];
+        $('.product_variation').on('change', function() {
+            var totalPrice = parseFloat($('#product_price_input').val());
+            var selectElement = $(this);
 
-                resolve(unit_value);
+            $('.product_variation').each(function() {
+                var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                totalPrice += selectedPrice;
+            });
+
+            // $('#product_price_input').val(totalPrice.toFixed(2));
+            
+            var value = $('#product_quantity').val();
+            $('#product_price_main').text('£' + (totalPrice + 5) * value);
+            $('#product_price').text('£' + value * totalPrice);
+            $('.ModelPrice').text('£' + value * totalPrice);
+        });
+
+        //  Custom size function 
+        async function customSize(){
+            $('#custom_size_div').show();
+            var pricePerUnit = await priceratio();
+
+            var width =parseFloat($('#custom_width').val());
+            var height = parseFloat($('#custom_height').val());
+            var newprice = Math.round(pricePerUnit *( width + height)); 
+
+            var Qty = parseFloat($('#product_quantity').val());
+            var variation_total_price = 0;
+            $('.product_variation').each(function() {
+                var selectedPrice = parseInt($(this).find('option:selected').data('price'));
+                variation_total_price += selectedPrice;
+            });
+            var totalPrice = (newprice + variation_total_price) * Qty;
+            if(formatPrice(totalPrice) !== true){
+                var totalPrice = Math.round(totalPrice);
+            }
+
+            $('#product_price').text('£' + totalPrice);
+            $('#product_price_input').val(newprice);
+            $('#product_price_main').text('£' + (totalPrice + 5));
+            $('.ModelPrice').text('£' + totalPrice);
+        }
+
+        function formatPrice(price) {
+            if (Number.isInteger(price)) {
+                return true; 
+            } else {
+                return false; 
+            }
+        }
+
+        // Finding price ratio 
+        async function priceratio() {
+            var main_price = parseFloat($('#product_default_price').val());
+            var value =  $('#size_unit').val(); 
+            var unit_value = await getUnitValue(value);
+
+            PriceperUnit = (main_price / parseFloat(unit_value)) / 2;
+            return PriceperUnit;
+        }
+
+        // Update Custom size on size unit change
+        async function UpdateCustomSize(value) {
+            var last_unit = $('#custom_width').data('unit');
+            var unit_value = await getUnitValue(last_unit);
+
+            var width = parseFloat($('#custom_width').val());
+            var height = parseFloat($('#custom_height').val());
+
+            var width_in_inches = width / unit_value;
+            var height_in_inches = height / unit_value;
+
+            var new_unit_value = await getUnitValue(value);
+                
+
+            var new_width = Math.round( width_in_inches * new_unit_value);
+            var new_height = Math.round(height_in_inches * new_unit_value);
+
+            $('#custom_width').val(new_width);
+            $('#custom_height').val(new_height);
+
+            $('#custom_width').data('unit', value);
+            $('#custom_height').data('unit', value);
+
+            return true;
+        }
+
+        async function updateSize(id, value, selectedSize) {
+            $.ajax({
+                url: "{{ url('/product/sizes/') }}" + "/" + id,
+                type: 'GET',
+                success: async function(data) {
+                    var sizeSelect = $('#select_size');
+                    if (data.length > 0) {
+                        sizeSelect.show();
+                        sizeSelect.empty();
+
+                        var unit_value = await getUnitValue(value);
+
+                        $.each(data, function(index, size) {
+                            if (size.size_type == 'wh' || size.size_type == 'DH') {
+                                if (selectedSize == size.size_value) {
+                                    size_values = size.size_value.split('X');
+                                    sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
+                                        size
+                                        .size_type + '" data-price="' + size.price +
+                                        '" value="' + size.size_value + '">' +
+                                        +parseFloat(size_values[0]) * unit_value +
+                                        ' X ' +
+                                        parseFloat(size_values[1]) * unit_value +
+                                        '</option>');
+                                } else {
+                                    size_values = size.size_value.split('X');
+                                    sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
+                                        .size_type + '" data-price="' + size.price +
+                                        '" value="' + size.size_value + '">' +
+                                        +parseFloat(size_values[0]) * unit_value +
+                                        ' X ' +
+                                        parseFloat(size_values[1]) * unit_value +
+                                        '</option>');
+                                }
+
+                            } else {
+                                if (selectedSize == size.size_value) {
+                                    sizeSelect.append('<option selected data-id="'+ size.id +'" data-sizeType="' +
+                                        size
+                                        .size_type + '" data-price="' + size.price +
+                                        '" value="' + size.size_value + '">' +
+                                        parseFloat(size.size_value) * unit_value +
+                                        '</option>');
+                                } else {
+                                    sizeSelect.append('<option data-id="'+ size.id +'" data-sizeType="' + size
+                                        .size_type + '" data-price="' + size.price +
+                                        '" value="' + size.size_value + '">' +
+                                        parseFloat(size.size_value) * unit_value +
+                                        '</option>');
+                                }
+                            }
+                        });
+                        if(selectedSize == 'custom'){
+                            sizeSelect.append('<option selected value="custom">Custom</option>');
+                        } else {
+                            sizeSelect.append('<option value="custom">Custom</option>');
+                        }
+                        // $('#custom_width').data('unit', value);
+                    } else {
+                        sizeSelect.hide();
+                    }
+                },
             });
         }
-    </script>
+    });
 
-    <script>
-        $(document).ready(function(){
-            $('.template_slider').slick({
-                infinite: true,
-                slidesToShow:4,
-                slidesToScroll: 1,
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1
-                        }
-                    },
-                    {
-                        breakpoint: 576,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        }
+    $(function() {
+        $('.multiple-items').slick({
+            infinite: false,
+            variableWidth: true,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            swipe: true,
+            prevArrow: '<span class="slide-arrow prev-arrow"><i class="fa-solid fa-angle-left"></i></span>',
+            nextArrow: '<span class="slide-arrow next-arrow"><i class="fa-solid fa-angle-right"></i></span>',
+        });
+    
+    // $('.multiple-items').on('afterChange', function(event, slick, currentSlide, nextSlide){
+    //   console.log(currentSlide);
+    // });
+
+    });
+
+    async function getUnitValue(value){
+        return new Promise((resolve, reject) => {
+            var unit_value;
+            if (value == 'In') {
+                unit_value = 12;
+            } else if (value == 'Cm') {
+                unit_value = 30;
+            } else if (value == 'Mm') {
+                unit_value = 304;
+            } else if (value == 'Ft') {
+                unit_value = 1;
+            }
+
+            resolve(unit_value);
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.template_slider').slick({
+            infinite: true,
+            slidesToShow:4,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
                     }
-                ]
-            });
-        });    
-    </script>
+                },
+                {
+                    breakpoint: 576,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });    
+</script>
+<script>
+    $(document).ready(function() {
+        $('.productSpecificationClick').on('click', function() {
+            $('#nav-profile-tab').click();
+            $('html, body').animate({
+                scrollTop: $('.descript_wrapper').offset().top
+            }, 100); 
+        });
+    });
+
+</script>
 @endsection

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-
 use App\Models\Template;
 use App\Models\Clipart;
 use App\Models\ClipArtCategory;
@@ -18,7 +17,6 @@ use App\Models\DesignTemplate;
 use App\Models\shareArtwork;
 use App\Models\UploadImageTemplate;
 use App\Models\Font;
-
 use App\Mail\ShareArtworkMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +24,8 @@ use Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Session;
+
+use GuzzleHttp\Client;
 
 class CustomizerController extends Controller
 {
@@ -69,6 +69,9 @@ class CustomizerController extends Controller
         return abort(404, 'Page Not Found');
     }
 
+    public function uploadWrtworkData(Request $request){
+        return response()->json($request->all());
+    }
     public function saveTemplate(Request $request)
     {
         $design_id = $request->design_id;
@@ -365,25 +368,185 @@ class CustomizerController extends Controller
     }
     
     // dropbox upload files
+    // public function uploadFile(Request $request)
+    // {
+    //     $files = $request->input('files');
+    //     $fileNames=[];
+    //     foreach ($files as $file) {
+    //         $fileName = time() . '_' . basename($file['name']);
+
+    //         $fileNames[$fileName]= $fileName;
+
+    //         $fileUrl = $file['link'];
+    //         $response = Http::get($fileUrl);
+
+    //         if ($response->successful()) {
+    //             $fileContent = (string) $response->getBody();
+
+    //             // return file_get_contents($fileUrl);
+    //             file_put_contents(public_path('designImage/'.$fileName),  $fileContent);
+    //         } 
+    //     }
+    //     return response()->json(['message' => 'Files uploaded successfully', 'files' => $fileNames]);
+    // }
+
+  
     public function uploadFile(Request $request)
     {
         $files = $request->input('files');
         $fileNames=[];
         foreach ($files as $file) {
-            $fileName = time() . '_' . basename($file['name']);
-
-            $fileNames[$fileName]= $fileName;
-
-            $fileUrl = $file['link'];
+       
+            $fileUrl = $file;
             $response = Http::get($fileUrl);
+            // return $response;
+            if ($response->ok()) {
+                $fileContent = $response->body();
+                
+                $contentType = $response->header('Content-Type');
+                // if ($contentType) {
+                //     $mimeParts = explode('/', $contentType);
+                //     $ext = explode('+', end($mimeParts))[0];
+                // }
+                $urlPath = parse_url($fileUrl, PHP_URL_PATH);
+                $ext = pathinfo($urlPath, PATHINFO_EXTENSION);
+        
+                if (!$ext) {
+                    $contentDisposition = $response->header('Content-Disposition');
+                    if ($contentDisposition) {
+                        preg_match('/filename="([^"]+)"/', $contentDisposition, $matches);
+                        if (isset($matches[1])) {
+                            $ext = pathinfo($matches[1], PATHINFO_EXTENSION);
+                        }
+                    }
+                }
+        
+                if (!$ext && $contentType) {
+                    $mimeParts = explode('/', $contentType);
+                    $ext = explode('+', end($mimeParts))[0];
+                }
+        
+                if (!$ext) {
+                    $ext = 'bin';
+                }
 
-            if ($response->successful()) {
-                $fileContent = (string) $response->getBody();
+                $fileName = 'img_'.rand().'_' . time().'.'.$ext;
+
+                $fileNames[$fileName]= $fileName;
 
                 // return file_get_contents($fileUrl);
                 file_put_contents(public_path('designImage/'.$fileName),  $fileContent);
             } 
         }
         return response()->json(['message' => 'Files uploaded successfully', 'files' => $fileNames]);
+    }
+
+
+
+    public function companionDropbox(Request $request)
+    {
+      if (!$request->has('code')) {
+        $clientId = 'jybb2475agaci2j';
+        $redirectUri = 'https://cre8iveprinter.co.uk/companion/dropbox/redirect';
+        $scopes = ['files_metadata_read', 'files_metadata_write', 'files_read', 'files_write'];
+    
+        $authUrl = 'https://www.dropbox.com/oauth2/authorize?' .
+          'client_id=' . $clientId .
+          '&redirect_uri=' . urlencode($redirectUri) .
+          '&response_type=code' .
+          '&scope=' . implode(' ', $scopes);
+    
+        return redirect($authUrl);
+      } else {
+        // Handle the redirect from Dropbox with the authorization code
+        $code = $request->input('code');
+        $clientId = 'jybb2475agaci2j';
+        $clientSecret = 'pqqxnouyqco0cpm';
+        $redirectUri = 'https://cre8iveprinter.co.uk/companion/dropbox/redirect';
+    
+        $tokenUrl = 'https://www.dropbox.com/oauth2/token';
+        $headers = [
+          'Content-Type' => 'application/x-www-form-urlencoded',
+        ];
+        $data = [
+          'grant_type' => 'authorization_code',
+          'code' => $code,
+          'redirect_uri' => $redirectUri,
+          'client_id' => $clientId,
+          'client_secret' => $clientSecret,
+        ];
+    
+        $response = json_decode(Http::post($tokenUrl, $headers, $data), true);
+        $accessToken = $response['access_token'];
+    
+        // Store the access token securely
+        // ...
+    
+        return redirect()->route('uppy_dashboard');
+      }
+    }
+
+
+
+// CompanionController.php
+
+public function companionDropboxAuth(Request $request)
+{
+    // Redirect the user to the Dropbox authorization URL
+    $clientId = env('DROPBOX_CLIENT_ID');
+    $redirectUri = url('/companion/callback');
+    $state = Str::random(40); // Generate a random state token
+    session(['dropbox_state' => $state]);
+    $authUrl = "https://www.dropbox.com/oauth2/authorize?client_id=$clientId&redirect_uri=$redirectUri&response_type=code&state=$state";
+    return redirect($authUrl);
+}
+
+public function companionDropboxCallBack(Request $request)
+{
+    // Handle the redirect back from Dropbox
+    $code = $request->input('code');
+    $state = $request->input('state');
+    if (!session()->has('dropbox_state') || $state !== session('dropbox_state')) {
+        // CSRF attack detected, abort
+        return response()->json(['error' => 'Invalid state'], 401);
+    }
+    $clientId = env('DROPBOX_CLIENT_ID');
+    $clientSecret = env('DROPBOX_CLIENT_SECRET');
+    $redirectUri = url('/companion/callback');
+
+    $client = new Client();
+    $response = $client->post('https://www.dropbox.com/oauth2/token', [
+        'form_params' => [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => $redirectUri,
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+        ],
+    ]);
+
+    $accessToken = json_decode($response->getBody()->getContents(), true)['access_token'];
+
+    // Store the access token in a secure manner (e.g., in a session or a secure storage)
+    session(['dropbox_access_token' => $accessToken]);
+
+    // Return a success response to Uppy
+    return response()->json(['success' => true]);
+}
+    
+
+
+public function upload(Request $request)
+
+    {
+        // return $request->all();
+        // Get the uploaded file
+        $file = $request->file('file');
+
+        // Store the file in the default storage disk (e.g. public/uploads)
+        $filename = $file->store('uploads', 'public');
+
+        // Return the uploaded file URL
+        return response()->json(['url' => Storage::url($filename)]);
     }
 }

@@ -9,6 +9,11 @@
             </div>
         </div>
     </section>
+    <!-- <style>
+        .uppy-StatusBar-actionBtn--upload {
+            display: none !important;
+        }
+    </style> -->
     @if (isset($product))
         <section class="shop_dt_wrapper p_100 pt-0 custom_buy_wrapper">
             <div class="container">
@@ -17,14 +22,47 @@
                         <div class="shop_dt_img">
                             <div class="shop_dt_img_inner">
                                 @if($template->design_method == 'Artwork')
-                                    <?php $count = 0; ?>
+                                    <?php $count = 0;
+                                        $is_image = false;
+                                    ?> 
+                                    @php 
+                                        $validExt = ['png','jpg','jpeg','svg'];
+                                        $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                        $audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+                                    @endphp
                                     @if(!empty(json_decode($template->image,true)) && $template->image != null)
                                         @foreach(json_decode($template->image,true) as $index => $value)
-                                            @if($count == 0)
-                                                <img src="{{ asset('designImage/'.$value) }}">
-                                            @endif
-                                            <?php $count++; ?>
+                                            @php 
+                                                $ext = pathinfo($value, PATHINFO_EXTENSION); 
+
+                                                if(in_array($ext, $validExt) && !$is_image) {
+                                                    $imageName = $value;
+                                                    $is_image = true;
+                                                }
+                                            @endphp
                                         @endforeach
+                                        @if(!$is_image) 
+                                            @foreach(json_decode($template->image,true) as $index => $value)
+                                                @php
+                                                    if($loop->iteration == 1){
+                                                        $ext = pathinfo($value, PATHINFO_EXTENSION); 
+                                                        if($ext == 'pdf') {
+                                                            $imageName = 'pdf.jpeg';
+                                                        } elseif(in_array($ext, $videoExtensions)) {
+                                                            $imageName = 'video.png';
+                                                        } elseif(in_array($ext, $audioExtensions)) {
+                                                            $imageName = 'audio.png';
+                                                        } else {
+                                                            $imageName = 'imgIN.png';
+                                                        }
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                        @endif
+                                        
+                                        @if(isset($imageName) || $imageName != null)
+                                            <img src="{{ asset('designImage/'.$imageName) }}">
+                                        @endif
                                     @else
                                         <img src="{{ asset('Site_Images/sendartworklater.png') }}">
                                     @endif
@@ -231,7 +269,7 @@
                                 </div>
                                 <div class="buttonSet">
                                     <div class="formGroup">
-                                        <button type="button" id="add-to-basket" data-design-id ="{{ $template->id }}" class="btn light_dark">Add To Basket</button>
+                                        <button type="button" id="add-to-basket" data-design-id ="{{ $template->id }}" class="btn light_dark add-to-basket">Add To Basket</button>
                                     </div>
                                 </div>
                             </div>
@@ -283,13 +321,15 @@
                                             </div>
                                             <div class="Upload_wrapper-txt">
                                                 <h6>Upload Artwork Now</h6>
-                                            <input type="file" data-design-id="{{ $template->id ?? '' }}" class="file" name="imageInput" id="file"  />
+                                                <div class="">
+                                                    <div id="uppy"></div>
+                                                </div>
+                                            <!-- <input type="file" class="file" name="imageInput" id="file"  />
                                             <label for="file" class="btn-1">Browse File</label>
                                                 <div class="upload_img">
-                                                    <img data-design-id="{{ $template->id ?? '' }}" id="dropboxChooserButton" src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
-                                                    <img src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/round-img.png">
+                                                    <img id="dropboxChooserButton" src="https://cre8iveprinter.cre8iveprinter.co.uk/front/img/file.png">
                                                 </div>
-                                                <p>For file(s) bigger than 400MB <br> upload them right here</p>
+                                                <p>For file(s) bigger than 400MB <br> upload them right here</p> -->
                                             </div>
                                         </div>
                                     </label>
@@ -314,6 +354,7 @@
                                         @if($template->design_method == 'Artwork')
                                             @if($template->image != null && !empty(json_decode($template->image,true)))
                                                 @foreach(json_decode($template->image,true) as $index => $value)
+                                                
                                                     <div class="Upload_wrapper image-div d-flex">
                                                         <div class="img">
                                                             <img data-design-id="{{ $template->id  }}" src="{{ asset('designImage') }}/{{ $value }}">
@@ -358,7 +399,7 @@
                                         </div>
                                     </div>
                                     <div class="design_tool">
-                                        <button id="SaveDesign" class="btn light_dark" data-design-id="{{ $template->id ?? '' }}" type="button" >Add to basket</button>
+                                        <button id="SaveDesign" class="btn light_dark add-to-basket" data-design-id="{{ $template->id ?? '' }}" type="button" >Add to basket</button>
                                     </div>
                                 </div>
                             </div>
@@ -369,23 +410,108 @@
         </div>
     </div>
     <!-- end Model -->
-    <script>
+    <script src="https://releases.transloadit.com/uppy/v3.21.0/uppy.min.js"></script>
+    <script type="module">
+
+        import { Uppy, Dashboard,RemoteSources, GoogleDrive, Transloadit, Dropbox, Url, ScreenCapture, Audio, Box, Instagram, Unsplash, XHRUpload } from "https://releases.transloadit.com/uppy/v3.21.0/uppy.min.mjs"
+
+        const uppy = new Uppy({
+            debug: true, 
+            logger: console, 
+        })
+        .use(Transloadit, {
+            assemblyOptions: {
+                params: {
+                    auth: { key: 'k8UKeyHwpdv3tVFYNjHVTA2he7J4i1rV' },
+                    template_id: 'e5aba32a2af4430cb95a2bd9c2c9a477',
+                },
+            },
+        })
+        .use(Dashboard, { target: '#uppy', inline: true })
+        .use(ScreenCapture, { target: Dashboard })
+        .use(Audio, { target: Dashboard })
+        .use(RemoteSources, {
+            target: Uppy.Dashboard,
+            companionUrl: Transloadit.COMPANION_URL,
+            companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS, 
+        })
+    // .use(GoogleDrive, {companionUrl: Transloadit.COMPANION_URL,companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS,})
+    // .use(Dropbox, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS,})
+    // .use(Url, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Box, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Instagram, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+    // .use(Unsplash, { companionUrl: Transloadit.COMPANION_URL, companionAllowedHosts: Transloadit.COMPANION_ALLOWED_HOSTS })
+        // .use(XHRUpload, {
+        //     endpoint: "",
+        //     headers: {
+        //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        //     }
+        // })
+
+        uppy.on('file-added', (file) => {
+       
+        })
+
+
+        uppy.on('upload-success', (file, response) => {
+            // console.log(`File uploaded successfully: ${file.name}`);
+            // console.log(response);
+        })
+
+        uppy.on('upload-error', (file, error) => {
+            console.log(`Error uploading file: ${file.name}`);
+            console.log(error);
+        })
+
+       
+        // uppy.on('upload-progress', (file, progress) => {
+        //     console.log(file.id, progress.bytesUploaded, progress.bytesTotal);
+        // });
+        var $AllImages = [];
+        uppy.on('complete', async function(result) {
+            console.log(result);
+            result.successful.forEach(function(file){
+                if(file.response.uploadURL != undefined) {
+                    $AllImages.push(file.response.uploadURL);
+                } 
+                // else {
+                //     $AllImages.push(file.tus.uploadUrl);
+                // }
+               
+            });
+            console.log($AllImages);
+        });
+        $(document).on('click','.uppy-StatusBar-actionBtn--done',function(){
+            $('#overlay').show();
+            saveDesignAjaxA($AllImages);
+            $AllImages = [];
+        });
+
+
+        // $(document).on('click','.uppy-StatusBar-actionBtn--done', function() {
+        //     $('#overlay').show();
+        //     saveDesignAjaxA($AllImages);
+        //     $AllImages = [];
+        // });
+        // uppy code end
+
+
         $(document).ready(function(){
             $('input[name="featured"]').on('change',function(){
-                $value = $('input[name="featured"]:checked').val();
+                let $value = $('input[name="featured"]:checked').val();
                 const images = $('#response-result img');
-                if($value == 'Artwork' && images.length < 1){
-                    $('#add-to-basket,#SaveDesign').prop('disabled', true);
-                } else {
-                    $('#add-to-basket,#SaveDesign').prop('disabled', false);
-                }
+                // if($value == 'Artwork' && images.length < 1){
+                //     $('#add-to-basket,#SaveDesign').prop('disabled', true);
+                // } else {
+                //     $('#add-to-basket,#SaveDesign').prop('disabled', false);
+                // }
             });
 
             $('#file, #file2').on('change',async function() {         // Browse Files from system  
                 $('#overlay').show();
                 try {
                     var formData = new FormData();
-                    design_id = "{{ $template->id }}";
+                    let design_id = "{{ $template->id }}";
                     var fileInput = $(this)[0];
                     if (fileInput.files.length === 0) {
                         alert('Please select an image to upload.');
@@ -395,7 +521,7 @@
                     formData.append('image', fileInput.files[0]);
                     formData.append('design_id',design_id );
                     $('#overlay').show();
-                    saveData = await saveDesignAjax(formData);
+                    const saveData = await saveDesignAjax(formData);
                     if(saveData.imageName != null){
                         $('#overlay').hide();
                         $('#upload-image-div').addClass('d-none');
@@ -417,94 +543,97 @@
                 }
             });
 
-            $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
+            // $('#dropboxChooserButton').on('click', async function() {           // Uploading files from dropbox 
                 
-                try {
-                    var design_id =  "{{ $template->id }}";
-                    var formData = new FormData();
-                    formData.append('design_id',design_id );
+            //     try {
+            //         var design_id =  "{{ $template->id }}";
+            //         var formData = new FormData();
+            //         formData.append('design_id',design_id );
 
-                    Dropbox.choose({
-                        success: async function(files) {
-                            $('#overlay').show();
-                            files.forEach(file => {
-                                let link = file.link;
-                                let directLink = link.replace("dl=0", "raw=1");
-                                file.link=directLink;
-                            });
+            //         Dropbox.choose({
+            //             success: async function(files) {
+            //                 $('#overlay').show();
+            //                 files.forEach(file => {
+            //                     let link = file.link;
+            //                     let directLink = link.replace("dl=0", "raw=1");
+            //                     file.link=directLink;
+            //                 });
                             
-                            $.ajax({
-                                url: '/upload-dropbox-file',
-                                type: 'POST',
-                                dataType: 'json',
-                                contentType: 'application/json',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                data: JSON.stringify({ files: files }), 
-                                success: async function(data) {
-                                    if (data.files != null) {
+            //                 $.ajax({
+            //                     url: '/upload-dropbox-file',
+            //                     type: 'POST',
+            //                     dataType: 'json',
+            //                     contentType: 'application/json',
+            //                     headers: {
+            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                     },
+            //                     data: JSON.stringify({ files: files }), 
+            //                     success: async function(data) {
+            //                         if (data.files != null) {
 
-                                        formData.append('images', JSON.stringify(data.files) );
-                                        saveData = await saveDesignAjax(formData);
+            //                             formData.append('images', JSON.stringify(data.files) );
+            //                             saveData = await saveDesignAjax(formData);
 
-                                        if (saveData.imageArray != null) {
-                                            $('#upload-image-div').addClass('d-none');
-                                            $('#response-result').removeClass('d-none');
+            //                             if (saveData.imageArray != null) {
+            //                                 $('#upload-image-div').addClass('d-none');
+            //                                 $('#response-result').removeClass('d-none');
                                             
-                                            var HTML_data = '';
-                                            Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
-                                            HTML_data += `<div class="Upload_wrapper image-div d-flex">
-                                                            <div class="img">
-                                                                <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
-                                                            </div>
-                                                            <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
-                                                        </div>`;
-                                            });
+            //                                 var HTML_data = '';
+            //                                 Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+            //                                 HTML_data += `<div class="Upload_wrapper image-div d-flex">
+            //                                                 <div class="img">
+            //                                                     <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+            //                                                 </div>
+            //                                                 <span data-design-id="${saveData.template.id}"  data-img-index="${key}" onclick="removeImage(this)" class="remove-image">X</span>
+            //                                             </div>`;
+            //                                 });
 
-                                            $(HTML_data).insertBefore('.label-wrap');
-                                            $('#file2').attr('data-design-id', saveData.template.id);
-                                            $('.add-to-basket').attr('data-design-id', saveData.template.id);
-                                            $('input[name="featured"]').trigger('change');
-                                            $('#overlay').hide();
-                                        }
-                                    } 
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error:', error);
-                                    $('#overlay').hide();
-                                }
-                            }); 
-                        },
-                        cancel: function() {
-                            console.log('User canceled the chooser.');
-                        },
-                        linkType: 'preview',
-                        multiselect: true, 
-                        extensions: ['.jpg', '.jpeg', '.png'],
-                    });
-                } catch (error) {
-                      console.log(error);
-                } finally {
-                    $('#overlay').hide();
-                }
-            });
+            //                                 $(HTML_data).insertBefore('.label-wrap');
+            //                                 $('#file2').attr('data-design-id', saveData.template.id);
+            //                                 $('.add-to-basket').attr('data-design-id', saveData.template.id);
+            //                                 $('input[name="featured"]').trigger('change');
+            //                                 $('#overlay').hide();
+            //                             }
+            //                         } 
+            //                     },
+            //                     error: function(xhr, status, error) {
+            //                         console.error('Error:', error);
+            //                         $('#overlay').hide();
+            //                     }
+            //                 }); 
+            //             },
+            //             cancel: function() {
+            //                 console.log('User canceled the chooser.');
+            //             },
+            //             linkType: 'preview',
+            //             multiselect: true, 
+            //             extensions: ['.jpg', '.jpeg', '.png'],
+            //         });
+            //     } catch (error) {
+            //           console.log(error);
+            //     } finally {
+            //         $('#overlay').hide();
+            //     }
+            // });
 
-            $('#add-to-basket,#SaveDesign').on('click',async function(){
+            $(document).on('click','.add-to-basket',async function(){
+                console.log('enter');
                 $('#overlay').show();
                 try{
-                    $designID = "{{ $template->id }}";
-                    $qty = $('#product_quantity').val();
+                    let $designID = "{{ $template->id }}";
+                    let $qty = $('#product_quantity').val();
 
-                    current_designMethod = "{{ $template->design_method  }}";
-                    productID = "{{ $template->product_id  }}";
+                    let current_designMethod = "{{ $template->design_method  }}";
+                    let productID = "{{ $template->product_id  }}";
 
                     if(current_designMethod != 'template' && current_designMethod != 'hireDesigner'){
-                        design_method =$('input[name="featured"]:checked').val();
-                        
+                        console.log("enter");
+                        var  design_method =$('input[name="featured"]:checked').val();
                     } else {
-                        design_method = current_designMethod;
+                        var design_method = current_designMethod;
                     }
+                    // let  design_method =$('input[name="featured"]:checked').val();
+                    // console.log(design_method);
 
                     var formData = new FormData();
 
@@ -532,7 +661,7 @@
                         var size_id = selectedOption.data('id');
                         formData.append('size_id', size_id);
                     }
-                    var_data =  variations;
+                    let var_data =  variations;
                     formData.append('product_id', productID);
                     formData.append('design_id', $designID);
                     formData.append('dimension', size_unit);
@@ -542,19 +671,19 @@
                     formData.append('action', 'finalSave');
 
                 
-                    saveData = await saveDesignAjax(formData);
+                    const saveData = await saveDesignAjax(formData);
 
                     if(saveData) {
-                        addTobasket = await addTObasket($designID,$qty);
+                        const addTobasket = await addTObasket($designID,$qty);
                         if(addTobasket.id !== null && addTobasket.id !== 0){
 
-                            console.log(addTobasket.id );
-                            url = "{{ url('checkout/cart') }}";
+                            // console.log(addTobasket.id );
+                            const url = "{{ url('checkout/cart') }}";
                             window.location.href = url;
                         }
                     }
                 } catch (error){
-
+                    console.log(error);
                 } finally {
                     $('#overlay').hide();
                 }
@@ -602,6 +731,7 @@
         }
         async function saveDesignAjax(formData) {            // save Template Ajax request 
             return new Promise((resolve, reject) => {
+                console.log('Ajax');
                 $.ajax({
                     url: "{{ url('saveDesign') }}",
                     type: 'POST',
@@ -621,18 +751,108 @@
                 });
             });
         }
-        function removeImage(button) {          // Removing uploaded images 
-            designID = $(button).data('design-id');
-            ImageIndex = $(button).data('img-index');
-            console.log(designID,ImageIndex);
+
+
+        
+        async function saveDesignAjaxA(uploadedFiles) {
+            return new Promise((resolve, reject) => {
+                $AllImages = [];
+                console.log($AllImages);
+                console.log(uploadedFiles);
+                try {
+                    $.ajax({
+                        url: '/upload-dropbox-file',
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        data: JSON.stringify({ files: uploadedFiles }), 
+                        success: async function(data) {
+                            
+                            if (data.files != null) {
+                                const formData = new FormData();
+                                let $designID = "{{ $template->id ?? '' }}";
+                                getFormData(formData);
+                                formData.append('design_id', $designID);
+                                formData.append('design_method', 'Artwork');
+                                formData.append('images', JSON.stringify(data.files));
+
+                                try {
+                                    const saveData = await saveDesignAjax(formData);
+
+                                    if (saveData.imageArray != null) {
+                                        $('#upload-image-div').addClass('d-none');
+                                        $('#response-result').removeClass('d-none');
+
+                                        let HTML_data = '';
+                                        Object.entries(JSON.parse(saveData.imageArray)).forEach(([key, image]) => {
+                                            let ext = image.split('.').pop().toLowerCase();
+
+                                            const validImageExtensions = ['png', 'jpg', 'jpeg', 'svg'];
+                                            const VideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+                                            const AudioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
+
+                                            if(ext == 'pdf'){
+                                                image = 'pdf.jpeg';
+                                            } else if(VideoExtensions.includes(ext)) {
+                                                image = 'video.png';
+                                            } else if(AudioExtensions.includes(ext)) {
+                                                image = 'audio.png';
+                                            } else if(validImageExtensions.includes(ext)) {
+                                                image = image;
+                                            } else {
+                                                image = 'imgIN.png';
+                                            }
+                                            HTML_data += `<div class="Upload_wrapper image-div d-flex">
+                                                                <div class="img">
+                                                                    <img data-design-id="${saveData.template.id}" src="{{ asset('designImage') }}/${image}">
+                                                                </div>
+                                                                <span data-design-id="${saveData.template.id}"  data-img-index="${key}"  class="remove-image">X</span>
+                                                            </div>`;
+                                        });
+
+                                        $(HTML_data).insertBefore('.label-wrap');
+                                        $('#file2').attr('data-design-id', saveData.template.id);
+                                        $('.add-to-basket').attr('data-design-id', saveData.template.id);
+                                        $('#overlay').hide();
+                                    }
+                                } catch (error) {
+                                    console.error('Error saving design:', error);
+                                    $('#overlay').hide();
+                                }
+                            } 
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                            $AllImages = [];
+                            $('#overlay').hide();
+                        }
+                    }); 
+
+                } catch (error) {
+                    console.error('Error saving design:', error);
+                    $('#overlay').hide();
+                }
+                $('#overlay').hide();
+            });
+        }
+
+        $(document).on('click', '.remove-image', function() {
+
+            const designID = $(this).data('design-id');
+            const ImageIndex = $(this).data('img-index');
+
             if(designID != undefined && ImageIndex != undefined){
+                $('#overlay').show();
                 var formData = new FormData();
 
                 formData.append('ImageIndex',ImageIndex);
                 formData.append('design_id',designID );
-                formData.append('is_saved',true );
+                formData.append('is_saved',false );
 
-                var $parentDiv = $(button).closest('.Upload_wrapper');
+                var $parentDiv = $(this).closest('.Upload_wrapper');
 
                 $.ajax({
                     url: "{{ url('updateDesign') }}",
@@ -648,16 +868,59 @@
                             $('#upload-image-div').removeClass('d-none');
                             $('#response-result').addClass('d-none');
                             $parentDiv.remove();
-                            $('input[name="featured"]').trigger('change');
                         } else {
                             $parentDiv.remove();
                         }
+                        $('#overlay').hide();
                     },
                     error: function(xhr, status, error) {
                         console.error('Error saving data', status, error);
+                        $('#overlay').hide();
                     }
                 });
             }
+            $('#overlay').hide();
+        });
+        async function getFormData(formData)    // getting form data
+        {
+
+            var var_data;
+            
+            var ProductID = "{{ $product->id ?? '' }}";
+            var size_unit = $('#size_unit').val();
+            var qty = $('#product_quantity').val();
+            var variations = {};
+            // var variations = [];
+            $('.product_variation').each(function() {
+                var var_slug = $(this).data('slug');
+                var selectedoption = parseInt($(this).find('option:selected').data('id'));
+                variations[var_slug]= selectedoption;
+            });
+            var size = $('#select_size').val();
+
+            if(size == 'custom') {
+                var width = $('#custom_width').val();
+                var height = $('#custom_height').val();
+                var size_id = null;
+
+                formData.append('width', width);
+                formData.append('height', height);
+
+            } else {
+                var width = null;
+                var height = null;
+                var selectedOption = $('#select_size option:selected');
+                var size_id = selectedOption.data('id');
+                formData.append('size_id', size_id);
+            }
+            // var_data =  JSON.stringify(variations);
+
+            var_data = variations;
+
+            formData.append('product_id', ProductID);
+            formData.append('dimension', size_unit);
+            formData.append('qty', qty);
+            formData.append('variations', JSON.stringify(var_data)); 
         }
     </script>
      <!-- @if ($template->dimension != null && strtolower($template->dimension) != 'ft')
