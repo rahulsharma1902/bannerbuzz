@@ -63,7 +63,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-text-rich"></em></span>
                                         <span class="nk-menu-text">Background</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -86,7 +86,8 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                    
+                                        <span class="nk-menu-icon"><i class="icon fas fa-shapes"></i></span>
                                         <span class="nk-menu-text">Shape</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -107,7 +108,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-color-palette-fill"></em></span>
                                         <span class="nk-menu-text">Clip Art</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -130,7 +131,7 @@
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-template-fill"></em></span>
                                         <span class="nk-menu-text">Template</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -153,7 +154,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><i class="icon fas fa-font"></i></span>
                                         <span class="nk-menu-text">Fonts</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -169,7 +170,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-folder"></em></span>
                                         <span class="nk-menu-text">Product Category & Type </span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -192,7 +193,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><i class="icon fab fa-product-hunt"></i></span>
                                         <span class="nk-menu-text">Products </span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -210,7 +211,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-text-a"></em></span>
                                         <span class="nk-menu-text">Accessories </span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -234,7 +235,7 @@
                                
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-blogger"></em></span>
                                         <span class="nk-menu-text">Blogs </span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -257,7 +258,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-network"></em></span>
                                         <span class="nk-menu-text">Site Content</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -279,10 +280,10 @@
                                             <a href="{{ url('admin-dashboard/terms-and-conditions') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Terms & Conditions</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
+                                        <!-- <li class="nk-menu-item">
                                             <a href="{{ url('admin-dashboard/site-meta') }}"
                                                 class="nk-menu-link"><span class="nk-menu-text">Site Key Setting</span></a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </li>
                                 <!-- <li class="nk-menu-item has-sub">
@@ -311,14 +312,14 @@
                                 </li> -->
                                 <li class="nk-menu-item">
                                     <a href="{{route('orders.list')}}" class="nk-menu-link ">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-package"></em></span>
                                         <span class="nk-menu-text">Orders</span>
                                     </a>
                                 </li>
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-emails"></em></span>
                                         <span class="nk-menu-text">Mails</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -346,7 +347,23 @@
                                         
                                     </ul>
                                 </li> -->
-
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
+                                        <span class="nk-menu-text">Website Setting</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/maintenance-mode') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Maintenance Mode</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/site-meta') }}"
+                                                class="nk-menu-link"><span class="nk-menu-text">Site Key Setting</span></a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
@@ -380,7 +397,7 @@
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                             <div class="user-toggle">
-                                                <div class="user-avatar sm">
+                                                <div class="bg-dark user-avatar sm">
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
@@ -393,8 +410,8 @@
                                         <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
-                                                    <div class="user-avatar">
-                                                        <span>AB</span>
+                                                    <div class="bg-dark user-avatar">
+                                                        <span>A</span>
                                                     </div>
                                                     <div class="user-info">
                                                         <span class="lead-text">{{ Auth::user()->name ?? '' }}</span>

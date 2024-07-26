@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\TemplateCategoryController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\FontController;
 use App\Http\Controllers\Admin\DesignerController;
+use App\Http\Controllers\Admin\MaintenanceModeController;
+
 use App\Http\Controllers\Admin\SiteControllers\HomeController;
 use App\Http\Controllers\Admin\SiteControllers\AboutContentController;
 use App\Http\Controllers\Admin\SiteControllers\TestimonialController;
@@ -58,7 +60,7 @@ use App\Http\Controllers\Front\OrderTrackingController;
 Route::post('notify', [ViewController::class, 'emailnotify'])->name('notify');
 
 Route::get('login', [AuthenticationController::class, 'index'])->name('login')->middleware('guest');
-Route::post('loginProcc', [AuthenticationController::class, 'loginprocc']);
+Route::post('loginProcc', [AuthenticationController::class, 'loginprocc'])->name('loginProcc');
 
 Route::get('forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('forgetPassword')->middleware('guest');
 Route::post('forgotProcc', [AuthenticationController::class, 'forgotProcc'])->name('forgot.process');
@@ -77,7 +79,9 @@ Route::get('facebook/callback', [AdminDashController::class, 'facebookCallback']
 
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
-Route::get('/what-is-my-ip', function(){ return request()->ip();});
+Route::get('/what-is-my-ip', function () {
+    return request()->ip();
+})->name('ip.show');
 //logout Route 
 Route::get('logout',[AuthenticationController::class,'logout'])->name('logout');
 
@@ -85,11 +89,18 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin-dashboard', [AdminDashController::class, 'index']);
 
 
+    // Maintenance Mode
+    Route::get('admin-dashboard/maintenance-mode', [MaintenanceModeController::class, 'index']);
+    Route::post('admin-dashboard/maintenance-mode/update', [MaintenanceModeController::class, 'update'])->name('admin.maintenance.update');
+
     // Contact us  
     Route::get('admin-dashboard/contact-us', [AdminMailsController::class, 'contactUs']);
     Route::get('admin-dashboard/contact-us/markDone/{id}', [AdminMailsController::class, 'markDone']);
 
     Route::get('admin-dashboard/artwork-later', [AdminMailsController::class, 'contactUs']);
+
+    Route::get('admin-dashboard/artwork-later/download/{id}', [AdminMailsController::class, 'downloadArtwork']);
+
 
 
     // Chat setting

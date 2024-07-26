@@ -1115,12 +1115,12 @@
                     var templateID = $('.template-images.selected').data('template-id');
                     console.log(templateID);
                     
-                    design_method = "template";
+                    var design_method = "template";
                     getFormData(formData);
                     formData.append('template_id', templateID);
                     formData.append('design_method', design_method);
 
-                    saveData = await saveDesignAjax(formData);
+                    var saveData = await saveDesignAjax(formData);
                     if(saveData != null){
                         window.location.href = `{{ url('designtool/template') }}/${saveData.template.id}`;
                     }
@@ -1276,8 +1276,8 @@
     .use(Transloadit, {
 		assemblyOptions: {
 			params: {
-				auth: { key: 'k8UKeyHwpdv3tVFYNjHVTA2he7J4i1rV' },
-				template_id: 'e5aba32a2af4430cb95a2bd9c2c9a477',
+				auth: { key: "{{ env('TRANSLOADIT_KEY') ?? '' }}" },
+				template_id: "{{ env('TRANSLOADIT_TEMPLATE_ID') ?? '' }}",
 			},
 		},
     })

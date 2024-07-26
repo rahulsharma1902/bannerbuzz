@@ -231,8 +231,8 @@ public function uploadArtworkFormProcess(Request $request)
     if ($homeContent) {
         $mail = $homeContent->email;
         if ($mail) {
-            // Mail::to($mail)->send(new ContactUsMail($contact));
-            Mail::to('tecrdx@gmail.com')->send(new ContactUsMail($contact));
+            Mail::to($mail)->send(new ContactUsMail($contact));
+            // Mail::to('tecrdx@gmail.com')->send(new ContactUsMail($contact));
         }
     }
 

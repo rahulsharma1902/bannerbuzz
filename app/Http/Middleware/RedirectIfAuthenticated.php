@@ -18,11 +18,13 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
-
+        
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if(Auth::user()->is_admin == 1){
-                     return redirect()->route('home');
+                    //  return redirect()->route('home');
+                    // echo 'wokring';
+                    return redirect('/admin-dashboard');
                 }else {
                 // return redirect(RouteServiceProvider::HOME);
                 return redirect()->route('home');

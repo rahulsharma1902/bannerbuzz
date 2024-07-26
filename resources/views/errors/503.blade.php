@@ -132,7 +132,9 @@
             z-index: 1;
         }
         .mainContainer{
-            background-image: url('{{ asset('front/img/bgpattern.svg') }}');
+            /* background-image: url('{{ asset('front/img/mainBGImg.svg') }}'); */
+            background-image: url('{{ asset('front/img/mainBGImg.png') }}');
+
             height: 100vh;
             display: flex;
             align-items: center;

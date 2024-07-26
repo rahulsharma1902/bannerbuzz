@@ -45,7 +45,7 @@
                             <div class="row g-3">
                                 <div class="col-lg-7 offset-lg-5">
                                     <div class="form-group mt-2">
-                                        <button type="submit" class="btn btn-lg btn-primary">Update Stripe Settings</button>
+                                        <button type="submit" class="btn btn-lg btn-dark">Update Stripe Settings</button>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="row g-3">
                                 <div class="col-lg-7 offset-lg-5">
                                     <div class="form-group mt-2">
-                                        <button type="submit" class="btn btn-lg btn-primary">Update PayPal Settings</button>
+                                        <button type="submit" class="btn btn-lg btn-dark">Update PayPal Settings</button>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                             <div class="row g-3">
                                 <div class="col-lg-7 offset-lg-5">
                                     <div class="form-group mt-2">
-                                        <button type="submit" class="btn btn-lg btn-primary">Update Google Settings</button>
+                                        <button type="submit" class="btn btn-lg btn-dark">Update Google Settings</button>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +204,7 @@
                             <div class="row g-3">
                                 <div class="col-lg-7 offset-lg-5">
                                     <div class="form-group mt-2">
-                                        <button type="submit" class="btn btn-lg btn-primary">Update Google Settings</button>
+                                        <button type="submit" class="btn btn-lg btn-dark">Update Google Settings</button>
                                     </div>
                                 </div>
                             </div>
@@ -245,13 +245,57 @@
                             <div class="row g-3">
                                 <div class="col-lg-7 offset-lg-5">
                                     <div class="form-group mt-2">
-                                        <button type="submit" class="btn btn-lg btn-primary">Update DropBox Settings</button>
+                                        <button type="submit" class="btn btn-lg btn-dark">Update DropBox Settings</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div><!-- card -->
+
+
+
+
+                <div class="card card-bordered my-4">
+                    <div class="card-inner">
+                        <div class="card-head">
+                            <h5 class="card-title">Upload Artwork Transloadit Settings</h5>
+                        </div>
+                        <form action="{{ url('admin-dashboard/update-key') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @if(isset($envArray))
+                                @foreach ($envArray as $key => $value)
+                                    @if(in_array($key, ['TRANSLOADIT_KEY', 'TRANSLOADIT_TEMPLATE_ID']))
+                                        <div class="row g-3 my-4 align-center">
+                                            <div class="col-lg-5">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="{{ $key }}">{{ $key }}</label>
+                                                    <span class="form-note">Specify the {{ $key }} of your website.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <textarea style="min-height: 65px" name="{{ $key }}" class="form-control" id="{{ $key }}" cols="30" rows="2">{{ $value }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                   
+                                @endforeach
+                            @endif
+                            <div class="row g-3">
+                                <div class="col-lg-7 offset-lg-5">
+                                    <div class="form-group mt-2">
+                                        <button type="submit" class="btn btn-lg btn-dark">Update Transloadit Settings</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- card -->
+
             </div>
         </div>
     </div>

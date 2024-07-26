@@ -18,7 +18,7 @@
                         <th class="nk-tb-col"><span class="sub-text">Email</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Phone</span></th>
                         <th class="nk-tb-col tb-col-lg"><span class="sub-text">Order Placed From</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Image</span></th>
+                        <th class="nk-tb-col"><span class="sub-text">Images</span></th>
                         <th class="nk-tb-col"><span class="sub-text">Mail Status</span></th>
                         <th class="tb-tnx-action"><span>Action</span></th>
                     </tr>
@@ -47,8 +47,11 @@
                                 <span>{{ ucfirst($contact->orderplace) ?? '' }}</span>
                             </td>
                             <td class="nk-tb-col tb-col-md">
-                                @if ($contact->image)
-                                    <img src="{{ asset('ContactReport/' . $contact->image) }}" alt="Image" class="img-thumbnail" width="100" height="100" data-bs-toggle="modal" data-bs-target="#imageModal{{ $contact->id }}">
+                                @if ($contact->images)
+                                    <a href="{{ url('admin-dashboard/artwork-later/download') }}/{{ $contact->id ?? '' }}">
+                                        <!-- <i class="fas fa-cloud-download-alt" style="font-size: x-large; color: black;"></i> -->
+                                        <em class="icon ni ni-download" style="font-size: x-large; color: black;"></em>
+                                    </a>
                                 @else
                                 <span class="badge rounded-pill bg-danger">No Image</span>
                                 @endif
